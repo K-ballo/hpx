@@ -17,7 +17,7 @@
 #include <hpx/runtime/components/server/destroy_component.hpp>
 #include <hpx/runtime/naming/resolver_client.hpp>
 #include <hpx/util/ini.hpp>
-#include <hpx/util/pp/va_nargs.hpp>
+#include <hpx/util/pp/dispatch.hpp>
 
 #include <boost/preprocessor/cat.hpp>
 #include <boost/preprocessor/stringize.hpp>
@@ -262,7 +262,7 @@ namespace hpx { namespace components
 /// This macro is used create and to register a minimal component factory with
 /// Hpx.Plugin.
 #define HPX_REGISTER_MINIMAL_COMPONENT_FACTORY(...)                           \
-    HPX_REGISTER_MINIMAL_COMPONENT_FACTORY_(__VA_ARGS__)                      \
+    HPX_UTIL_PP_DISPATCH(HPX_REGISTER_MINIMAL_COMPONENT_FACTORY_, __VA_ARGS__)\
 /**/
 
 #define HPX_REGISTER_ENABLED_COMPONENT_FACTORY(ComponentType, componentname)  \
@@ -277,13 +277,6 @@ namespace hpx { namespace components
         HPX_DEFINE_GET_COMPONENT_TYPE(ComponentType::wrapped_type)            \
 /**/
 
-
-#define HPX_REGISTER_MINIMAL_COMPONENT_FACTORY_(...)                          \
-    HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_REGISTER_MINIMAL_COMPONENT_FACTORY_,                              \
-            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
-    )(__VA_ARGS__))                                                           \
-/**/
 #define HPX_REGISTER_MINIMAL_COMPONENT_FACTORY_1(ComponentType)               \
     HPX_REGISTER_MINIMAL_COMPONENT_FACTORY_3(                                 \
         ComponentType, ComponentType, ::hpx::components::factory_check)       \
@@ -307,7 +300,8 @@ namespace hpx { namespace components
 
 ///////////////////////////////////////////////////////////////////////////////
 #define HPX_REGISTER_MINIMAL_COMPONENT_FACTORY_DYNAMIC(...)                   \
-    HPX_REGISTER_MINIMAL_COMPONENT_FACTORY_DYNAMIC_(__VA_ARGS__)              \
+    HPX_UTIL_PP_DISPATCH(HPX_REGISTER_MINIMAL_COMPONENT_FACTORY_DYNAMIC_,     \
+        __VA_ARGS__)                                                          \
 /**/
 
 #define HPX_REGISTER_ENABLED_COMPONENT_FACTORY_DYNAMIC(ComponentType,         \
@@ -324,13 +318,6 @@ namespace hpx { namespace components
         HPX_DEFINE_GET_COMPONENT_TYPE(ComponentType::wrapped_type)            \
 /**/
 
-
-#define HPX_REGISTER_MINIMAL_COMPONENT_FACTORY_DYNAMIC_(...)                  \
-    HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_REGISTER_MINIMAL_COMPONENT_FACTORY_DYNAMIC_,                      \
-            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
-    )(__VA_ARGS__))                                                           \
-/**/
 #define HPX_REGISTER_MINIMAL_COMPONENT_FACTORY_DYNAMIC_1(ComponentType)       \
     HPX_REGISTER_MINIMAL_COMPONENT_FACTORY_DYNAMIC_3(                         \
         ComponentType, ComponentType, ::hpx::components::factory_check)       \

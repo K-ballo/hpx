@@ -17,7 +17,7 @@
 #include <hpx/runtime/components/console_error_sink.hpp>
 #include <hpx/util/unused.hpp>
 #include <hpx/util/void_cast.hpp>
-#include <hpx/util/pp/va_nargs.hpp>
+#include <hpx/util/pp/dispatch.hpp>
 #include <hpx/util/detail/pp_strip_parens.hpp>
 
 #include <boost/preprocessor/cat.hpp>
@@ -155,17 +155,10 @@ namespace hpx { namespace actions
 /// unqualified C++ type name.
 ///
 #define HPX_DEFINE_COMPONENT_ACTION(...)                                      \
-    HPX_DEFINE_COMPONENT_ACTION_(__VA_ARGS__)                                 \
+    HPX_UTIL_PP_DISPATCH(HPX_DEFINE_COMPONENT_ACTION_, __VA_ARGS__)           \
     /**/
 
 /// \cond NOINTERNAL
-#define HPX_DEFINE_COMPONENT_ACTION_(...)                                     \
-    HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_DEFINE_COMPONENT_ACTION_,                                         \
-            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
-    )(__VA_ARGS__))                                                           \
-    /**/
-
 #define HPX_DEFINE_COMPONENT_ACTION_3(component, func, name)                  \
     struct name : hpx::actions::make_action<                                  \
         decltype(&component::func), &component::func, name>::type {}          \
@@ -178,14 +171,7 @@ namespace hpx { namespace actions
 
 /// \cond NOINTERNAL
 #define HPX_DEFINE_COMPONENT_DIRECT_ACTION(...)                               \
-    HPX_DEFINE_COMPONENT_DIRECT_ACTION_(__VA_ARGS__)                          \
-    /**/
-
-#define HPX_DEFINE_COMPONENT_DIRECT_ACTION_(...)                              \
-    HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_DEFINE_COMPONENT_DIRECT_ACTION_,                                  \
-            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
-    )(__VA_ARGS__))                                                           \
+    HPX_UTIL_PP_DISPATCH(HPX_DEFINE_COMPONENT_DIRECT_ACTION_, __VA_ARGS__)    \
     /**/
 
 #define HPX_DEFINE_COMPONENT_DIRECT_ACTION_3(component, func, name)           \

@@ -14,7 +14,7 @@
 #include <hpx/runtime/components/component_registry_base.hpp>
 #include <hpx/runtime/components/component_factory_base.hpp>
 #include <hpx/util/find_prefix.hpp>
-#include <hpx/util/pp/va_nargs.hpp>
+#include <hpx/util/pp/dispatch.hpp>
 
 #include <hpx/traits/component_config_data.hpp>
 
@@ -102,14 +102,8 @@ namespace hpx { namespace components
 /// Hpx.Plugin.
 
 #define HPX_REGISTER_MINIMAL_COMPONENT_REGISTRY(...)                          \
-        HPX_REGISTER_MINIMAL_COMPONENT_REGISTRY_(__VA_ARGS__)                 \
-    /**/
-
-#define HPX_REGISTER_MINIMAL_COMPONENT_REGISTRY_(...)                         \
-    HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_REGISTER_MINIMAL_COMPONENT_REGISTRY_,                             \
-            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
-    )(__VA_ARGS__))                                                           \
+    HPX_UTIL_PP_DISPATCH(HPX_REGISTER_MINIMAL_COMPONENT_REGISTRY_,            \
+        __VA_ARGS__)                                                          \
 /**/
 
 #define HPX_REGISTER_MINIMAL_COMPONENT_REGISTRY_2(                            \
@@ -131,14 +125,8 @@ namespace hpx { namespace components
 
 ///////////////////////////////////////////////////////////////////////////////
 #define HPX_REGISTER_MINIMAL_COMPONENT_REGISTRY_DYNAMIC(...)                  \
-        HPX_REGISTER_MINIMAL_COMPONENT_REGISTRY_DYNAMIC_(__VA_ARGS__)         \
-    /**/
-
-#define HPX_REGISTER_MINIMAL_COMPONENT_REGISTRY_DYNAMIC_(...)                 \
-    HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_REGISTER_MINIMAL_COMPONENT_REGISTRY_DYNAMIC_,                     \
-            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
-    )(__VA_ARGS__))                                                           \
+    HPX_UTIL_PP_DISPATCH(HPX_REGISTER_MINIMAL_COMPONENT_REGISTRY_DYNAMIC_,    \
+        __VA_ARGS__)                                                          \
 /**/
 
 #define HPX_REGISTER_MINIMAL_COMPONENT_REGISTRY_DYNAMIC_2(                    \

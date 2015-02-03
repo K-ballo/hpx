@@ -20,7 +20,7 @@
 #include <hpx/runtime/components/server/plain_function.hpp>
 #include <hpx/util/unused.hpp>
 #include <hpx/util/void_cast.hpp>
-#include <hpx/util/pp/va_nargs.hpp>
+#include <hpx/util/pp/dispatch.hpp>
 #include <hpx/util/detail/pack.hpp>
 
 #include <boost/preprocessor/cat.hpp>
@@ -112,7 +112,7 @@ namespace hpx { namespace actions
 /// the macro \a HPX_PLAIN_ACTION is recommend.
 ///
 #define HPX_REGISTER_PLAIN_ACTION(...)                                        \
-    HPX_REGISTER_PLAIN_ACTION_(__VA_ARGS__)                                   \
+    HPX_UTIL_PP_DISPATCH(HPX_REGISTER_PLAIN_ACTION_, __VA_ARGS__)             \
 /**/
 
 /// \def HPX_REGISTER_PLAIN_ACTION_TEMPLATE(template_, action_type)
@@ -245,17 +245,17 @@ namespace hpx { namespace actions
 /// The default value for the third argument is \a hpx::components::factory_check.
 ///
 #define HPX_PLAIN_ACTION(...)                                                 \
-    HPX_PLAIN_ACTION_(__VA_ARGS__)                                            \
+    HPX_UTIL_PP_DISPATCH(HPX_PLAIN_ACTION_, __VA_ARGS__)                      \
 /**/
 
 /// \cond NOINTERNAL
 
 #define HPX_PLAIN_DIRECT_ACTION(...)                                          \
-    HPX_PLAIN_DIRECT_ACTION_(__VA_ARGS__)                                     \
+    HPX_UTIL_PP_DISPATCH(HPX_PLAIN_DIRECT_ACTION_, __VA_ARGS__)               \
 /**/
 
 #define HPX_REGISTER_PLAIN_ACTION_DYNAMIC(...)                                \
-    HPX_REGISTER_PLAIN_ACTION_DYNAMIC_(__VA_ARGS__)                           \
+    HPX_UTIL_PP_DISPATCH(HPX_REGISTER_PLAIN_ACTION_DYNAMIC_, __VA_ARGS__)     \
 /**/
 
 /// \endcond
@@ -263,12 +263,6 @@ namespace hpx { namespace actions
 /// \cond NOINTERNAL
 
 // macros for plain actions
-#define HPX_PLAIN_ACTION_(...)                                                \
-    HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_PLAIN_ACTION_,                                                    \
-            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
-    )(__VA_ARGS__))                                                           \
-/**/
 #define HPX_PLAIN_ACTION_1(func)                                              \
     HPX_DEFINE_PLAIN_ACTION(func, BOOST_PP_CAT(func, _action));               \
     HPX_REGISTER_PLAIN_ACTION_1(BOOST_PP_CAT(func, _action))                  \
@@ -283,12 +277,6 @@ namespace hpx { namespace actions
 /**/
 
 // same for direct actions
-#define HPX_PLAIN_DIRECT_ACTION_(...)                                         \
-    HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_PLAIN_DIRECT_ACTION_,                                             \
-            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
-    )(__VA_ARGS__))                                                           \
-/**/
 #define HPX_PLAIN_DIRECT_ACTION_1(func)                                       \
     HPX_DEFINE_PLAIN_DIRECT_ACTION(func, BOOST_PP_CAT(func, _action));        \
     HPX_REGISTER_PLAIN_ACTION_1(BOOST_PP_CAT(func, _action))                  \

@@ -14,7 +14,7 @@
 
 #include <hpx/util/ini.hpp>
 #include <hpx/util/find_prefix.hpp>
-#include <hpx/util/pp/va_nargs.hpp>
+#include <hpx/util/pp/dispatch.hpp>
 
 #include <hpx/traits/plugin_config_data.hpp>
 
@@ -79,14 +79,7 @@ namespace hpx { namespace plugins
 /// Hpx.Plugin.
 
 #define HPX_REGISTER_PLUGIN_REGISTRY(...)                                     \
-        HPX_REGISTER_PLUGIN_REGISTRY_(__VA_ARGS__)                            \
-    /**/
-
-#define HPX_REGISTER_PLUGIN_REGISTRY_(...)                                    \
-    HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_REGISTER_PLUGIN_REGISTRY_,                                        \
-            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
-    )(__VA_ARGS__))                                                           \
+    HPX_UTIL_PP_DISPATCH(HPX_REGISTER_PLUGIN_REGISTRY_, __VA_ARGS__)          \
 /**/
 
 #define HPX_REGISTER_PLUGIN_REGISTRY_2(PluginType, pluginname)                \

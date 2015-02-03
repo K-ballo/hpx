@@ -18,7 +18,7 @@
 #include <hpx/runtime/components/server/plain_function.hpp>
 #include <hpx/runtime/naming/resolver_client.hpp>
 #include <hpx/util/ini.hpp>
-#include <hpx/util/pp/va_nargs.hpp>
+#include <hpx/util/pp/dispatch.hpp>
 
 #include <boost/serialization/export.hpp>
 #include <boost/preprocessor/cat.hpp>
@@ -231,13 +231,6 @@ namespace hpx { namespace components
 ///////////////////////////////////////////////////////////////////////////////
 // This macro is used to create and to register a minimal factory for plain
 // actions with Hpx.Plugin.
-#define HPX_REGISTER_PLAIN_ACTION_(...)                                       \
-    HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_REGISTER_PLAIN_ACTION_,                                           \
-            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
-    )(__VA_ARGS__))                                                           \
-/**/
-
 #define HPX_REGISTER_PLAIN_ACTION_1(action_type)                              \
     HPX_REGISTER_PLAIN_ACTION_3(action_type, action_type,                     \
         ::hpx::components::factory_check)                                     \
@@ -265,13 +258,6 @@ namespace hpx { namespace components
 /**/
 
 ///////////////////////////////////////////////////////////////////////////////
-#define HPX_REGISTER_PLAIN_ACTION_DYNAMIC_(...)                               \
-    HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_REGISTER_PLAIN_ACTION_DYNAMIC_,                                   \
-            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
-    )(__VA_ARGS__))                                                           \
-/**/
-
 #define HPX_REGISTER_PLAIN_ACTION_DYNAMIC_1(action_type)                      \
     HPX_REGISTER_PLAIN_ACTION_DYNAMIC_3(action_type, action_type,             \
         ::hpx::components::factory_check)                                     \

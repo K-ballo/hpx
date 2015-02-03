@@ -143,7 +143,7 @@ namespace hpx { namespace lcos
 #include <hpx/runtime/naming/name.hpp>
 #include <hpx/util/calculate_fanout.hpp>
 #include <hpx/util/tuple.hpp>
-#include <hpx/util/pp/va_nargs.hpp>
+#include <hpx/util/pp/dispatch.hpp>
 #include <hpx/util/detail/pack.hpp>
 
 #include <boost/preprocessor/cat.hpp>
@@ -898,13 +898,8 @@ namespace hpx { namespace lcos
 
 ///////////////////////////////////////////////////////////////////////////////
 #define HPX_REGISTER_BROADCAST_APPLY_ACTION_DECLARATION(...)                  \
-    HPX_REGISTER_BROADCAST_APPLY_ACTION_DECLARATION_(__VA_ARGS__)             \
-/**/
-#define HPX_REGISTER_BROADCAST_APPLY_ACTION_DECLARATION_(...)                 \
-    HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_REGISTER_BROADCAST_APPLY_ACTION_DECLARATION_,                     \
-            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
-    )(__VA_ARGS__))                                                           \
+    HPX_UTIL_PP_DISPATCH(HPX_REGISTER_BROADCAST_APPLY_ACTION_DECLARATION_,    \
+        __VA_ARGS__)                                                          \
 /**/
 
 #define HPX_REGISTER_BROADCAST_APPLY_ACTION_DECLARATION_1(Action)             \
@@ -923,13 +918,7 @@ namespace hpx { namespace lcos
 
 ///////////////////////////////////////////////////////////////////////////////
 #define HPX_REGISTER_BROADCAST_APPLY_ACTION(...)                              \
-    HPX_REGISTER_BROADCAST_APPLY_ACTION_(__VA_ARGS__)                         \
-/**/
-#define HPX_REGISTER_BROADCAST_APPLY_ACTION_(...)                             \
-    HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_REGISTER_BROADCAST_APPLY_ACTION_,                                 \
-            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
-    )(__VA_ARGS__))                                                           \
+    HPX_UTIL_PP_DISPATCH(HPX_REGISTER_BROADCAST_APPLY_ACTION_, __VA_ARGS__)   \
 /**/
 
 #define HPX_REGISTER_BROADCAST_APPLY_ACTION_1(Action)                         \
@@ -948,13 +937,9 @@ namespace hpx { namespace lcos
 
 ///////////////////////////////////////////////////////////////////////////////
 #define HPX_REGISTER_BROADCAST_APPLY_WITH_INDEX_ACTION_DECLARATION(...)       \
-    HPX_REGISTER_BROADCAST_APPLY_WITH_INDEX_ACTION_DECLARATION_(__VA_ARGS__)  \
-/**/
-#define HPX_REGISTER_BROADCAST_APPLY_WITH_INDEX_ACTION_DECLARATION_(...)      \
-    HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
+    HPX_UTIL_PP_DISPATCH(                                                     \
         HPX_REGISTER_BROADCAST_APPLY_WITH_INDEX_ACTION_DECLARATION_,          \
-            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
-    )(__VA_ARGS__))                                                           \
+        __VA_ARGS__)                                                          \
 /**/
 
 #define HPX_REGISTER_BROADCAST_APPLY_WITH_INDEX_ACTION_DECLARATION_1(Action)  \
@@ -979,13 +964,8 @@ namespace hpx { namespace lcos
 
 ///////////////////////////////////////////////////////////////////////////////
 #define HPX_REGISTER_BROADCAST_APPLY_WITH_INDEX_ACTION(...)                   \
-    HPX_REGISTER_BROADCAST_APPLY_WITH_INDEX_ACTION_(__VA_ARGS__)              \
-/**/
-#define HPX_REGISTER_BROADCAST_APPLY_WITH_INDEX_ACTION_(...)                  \
-    HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_REGISTER_BROADCAST_APPLY_WITH_INDEX_ACTION_,                      \
-            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
-    )(__VA_ARGS__))                                                           \
+    HPX_UTIL_PP_DISPATCH(HPX_REGISTER_BROADCAST_APPLY_WITH_INDEX_ACTION_,     \
+        __VA_ARGS__)                                                          \
 /**/
 
 #define HPX_REGISTER_BROADCAST_APPLY_WITH_INDEX_ACTION_1(Action)              \
@@ -1008,13 +988,8 @@ namespace hpx { namespace lcos
 
 ///////////////////////////////////////////////////////////////////////////////
 #define HPX_REGISTER_BROADCAST_ACTION_DECLARATION(...)                        \
-    HPX_REGISTER_BROADCAST_ACTION_DECLARATION_(__VA_ARGS__)                   \
-/**/
-#define HPX_REGISTER_BROADCAST_ACTION_DECLARATION_(...)                       \
-    HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_REGISTER_BROADCAST_ACTION_DECLARATION_,                           \
-            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
-    )(__VA_ARGS__))                                                           \
+    HPX_UTIL_PP_DISPATCH(HPX_REGISTER_BROADCAST_ACTION_DECLARATION_,          \
+        __VA_ARGS__)                                                          \
 /**/
 
 #define HPX_REGISTER_BROADCAST_ACTION_DECLARATION_1(Action)                   \
@@ -1033,13 +1008,7 @@ namespace hpx { namespace lcos
 
 ///////////////////////////////////////////////////////////////////////////////
 #define HPX_REGISTER_BROADCAST_ACTION(...)                                    \
-    HPX_REGISTER_BROADCAST_ACTION_(__VA_ARGS__)                               \
-/**/
-#define HPX_REGISTER_BROADCAST_ACTION_(...)                                   \
-    HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_REGISTER_BROADCAST_ACTION_,                                       \
-            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
-    )(__VA_ARGS__))                                                           \
+    HPX_UTIL_PP_DISPATCH(HPX_REGISTER_BROADCAST_ACTION_, __VA_ARGS__)         \
 /**/
 
 #define HPX_REGISTER_BROADCAST_ACTION_1(Action)                               \
@@ -1058,13 +1027,8 @@ namespace hpx { namespace lcos
 
 ///////////////////////////////////////////////////////////////////////////////
 #define HPX_REGISTER_BROADCAST_WITH_INDEX_ACTION_DECLARATION(...)             \
-    HPX_REGISTER_BROADCAST_WITH_INDEX_ACTION_DECLARATION_(__VA_ARGS__)        \
-/**/
-#define HPX_REGISTER_BROADCAST_WITH_INDEX_ACTION_DECLARATION_(...)            \
-    HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_REGISTER_BROADCAST_WITH_INDEX_ACTION_DECLARATION_,                \
-            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
-    )(__VA_ARGS__))                                                           \
+    HPX_UTIL_PP_DISPATCH(                                                     \
+        HPX_REGISTER_BROADCAST_WITH_INDEX_ACTION_DECLARATION_, __VA_ARGS__)   \
 /**/
 
 #define HPX_REGISTER_BROADCAST_WITH_INDEX_ACTION_DECLARATION_1(Action)        \
@@ -1087,13 +1051,8 @@ namespace hpx { namespace lcos
 
 ///////////////////////////////////////////////////////////////////////////////
 #define HPX_REGISTER_BROADCAST_WITH_INDEX_ACTION(...)                         \
-    HPX_REGISTER_BROADCAST_WITH_INDEX_ACTION_(__VA_ARGS__)                    \
-/**/
-#define HPX_REGISTER_BROADCAST_WITH_INDEX_ACTION_(...)                        \
-    HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_REGISTER_BROADCAST_WITH_INDEX_ACTION_,                            \
-            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
-    )(__VA_ARGS__))                                                           \
+    HPX_UTIL_PP_DISPATCH(HPX_REGISTER_BROADCAST_WITH_INDEX_ACTION_,           \
+        __VA_ARGS__)                                                          \
 /**/
 
 #define HPX_REGISTER_BROADCAST_WITH_INDEX_ACTION_1(Action)                    \

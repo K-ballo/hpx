@@ -11,7 +11,7 @@
 #include <hpx/runtime/naming/id_type.hpp>
 #include <hpx/runtime/actions/component_action.hpp>
 #include <hpx/runtime/components/server/simple_component_base.hpp>
-#include <hpx/util/pp/va_nargs.hpp>
+#include <hpx/util/pp/dispatch.hpp>
 
 #include <boost/cstdint.hpp>
 #include <boost/serialization/serialization.hpp>
@@ -54,13 +54,7 @@ namespace hpx { namespace components { namespace server
 }}}
 
 #define HPX_DISTRIBUTED_METADATA_DECLARATION(...)                             \
-    HPX_DISTRIBUTED_METADATA_DECLARATION_(__VA_ARGS__)                        \
-    /**/
-#define HPX_DISTRIBUTED_METADATA_DECLARATION_(...)                            \
-    HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_DISTRIBUTED_METADATA_DECLARATION_,                                \
-            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
-    )(__VA_ARGS__))                                                           \
+    HPX_UTIL_PP_DISPATCH(HPX_DISTRIBUTED_METADATA_DECLARATION_, __VA_ARGS__)  \
     /**/
 
 #define HPX_DISTRIBUTED_METADATA_DECLARATION_1(config)                        \
@@ -77,13 +71,7 @@ namespace hpx { namespace components { namespace server
     /**/
 
 #define HPX_DISTRIBUTED_METADATA(...)                                         \
-    HPX_DISTRIBUTED_METADATA_(__VA_ARGS__)                                    \
-    /**/
-#define HPX_DISTRIBUTED_METADATA_(...)                                        \
-    HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_DISTRIBUTED_METADATA_,                                            \
-            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
-    )(__VA_ARGS__))                                                           \
+    HPX_UTIL_PP_DISPATCH(HPX_DISTRIBUTED_METADATA_, __VA_ARGS__)              \
     /**/
 
 #define HPX_DISTRIBUTED_METADATA_1(config)                                    \

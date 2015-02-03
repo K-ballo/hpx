@@ -26,6 +26,4 @@
     HPX_UTIL_PP_VA_NARGS_E(N)                                                 \
 /**/
 
-#define HPX_UTIL_EXPAND_(X) X
-
 #endif

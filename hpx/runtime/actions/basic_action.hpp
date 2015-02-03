@@ -24,7 +24,7 @@
 #include <hpx/util/deferred_call.hpp>
 #include <hpx/util/move.hpp>
 #include <hpx/util/tuple.hpp>
-#include <hpx/util/pp/va_nargs.hpp>
+#include <hpx/util/pp/dispatch.hpp>
 #include <hpx/util/detail/pack.hpp>
 #include <hpx/util/detail/serialization_registration.hpp>
 
@@ -448,12 +448,6 @@ namespace hpx { namespace actions
         ::hpx::actions::detail::action_registration<Action>();                \
 /**/
 
-#define HPX_REGISTER_ACTION_(...)                                             \
-    HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_REGISTER_ACTION_,                                                 \
-            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
-    )(__VA_ARGS__))                                                           \
-/**/
 #define HPX_REGISTER_ACTION_1(action)                                         \
     HPX_REGISTER_ACTION_2(action, action)                                     \
 /**/
@@ -479,12 +473,6 @@ namespace hpx { namespace actions
     }}                                                                        \
 /**/
 
-#define HPX_REGISTER_ACTION_DECLARATION_(...)                                 \
-    HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_REGISTER_ACTION_DECLARATION_,                                     \
-            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
-    )(__VA_ARGS__))                                                           \
-/**/
 #define HPX_REGISTER_ACTION_DECLARATION_1(action)                             \
     HPX_REGISTER_ACTION_DECLARATION_2(action, action)                         \
 /**/
@@ -593,7 +581,7 @@ namespace hpx { namespace actions
 /// be visible in all translation units using the action, thus it is
 /// recommended to place it into the header file defining the component.
 #define HPX_REGISTER_ACTION_DECLARATION(...)                                  \
-    HPX_REGISTER_ACTION_DECLARATION_(__VA_ARGS__)                             \
+    HPX_UTIL_PP_DISPATCH(HPX_REGISTER_ACTION_DECLARATION_, __VA_ARGS__)       \
 /**/
 
 /// \def HPX_REGISTER_ACTION_DECLARATION_TEMPLATE(template, action)
@@ -682,7 +670,7 @@ namespace hpx { namespace actions
 /// to use this macro for actions which have template type arguments (see
 /// \a HPX_REGISTER_ACTION_DECLARATION_TEMPLATE)
 #define HPX_REGISTER_ACTION(...)                                              \
-    HPX_REGISTER_ACTION_(__VA_ARGS__)                                         \
+    HPX_UTIL_PP_DISPATCH(HPX_REGISTER_ACTION_, __VA_ARGS__)                   \
 /**/
 
 #endif
