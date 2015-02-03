@@ -17,7 +17,7 @@
 #include <hpx/runtime/components/server/destroy_component.hpp>
 #include <hpx/runtime/naming/resolver_client.hpp>
 #include <hpx/util/ini.hpp>
-#include <hpx/util/detail/count_num_args.hpp>
+#include <hpx/util/pp/va_nargs.hpp>
 
 #include <boost/preprocessor/cat.hpp>
 #include <boost/preprocessor/stringize.hpp>
@@ -280,7 +280,8 @@ namespace hpx { namespace components
 
 #define HPX_REGISTER_MINIMAL_COMPONENT_FACTORY_(...)                          \
     HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_REGISTER_MINIMAL_COMPONENT_FACTORY_, HPX_UTIL_PP_NARG(__VA_ARGS__)\
+        HPX_REGISTER_MINIMAL_COMPONENT_FACTORY_,                              \
+            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
     )(__VA_ARGS__))                                                           \
 /**/
 #define HPX_REGISTER_MINIMAL_COMPONENT_FACTORY_1(ComponentType)               \
@@ -327,7 +328,7 @@ namespace hpx { namespace components
 #define HPX_REGISTER_MINIMAL_COMPONENT_FACTORY_DYNAMIC_(...)                  \
     HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
         HPX_REGISTER_MINIMAL_COMPONENT_FACTORY_DYNAMIC_,                      \
-            HPX_UTIL_PP_NARG(__VA_ARGS__)                                     \
+            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
     )(__VA_ARGS__))                                                           \
 /**/
 #define HPX_REGISTER_MINIMAL_COMPONENT_FACTORY_DYNAMIC_1(ComponentType)       \

@@ -11,7 +11,7 @@
 #include <hpx/runtime/naming/id_type.hpp>
 #include <hpx/runtime/actions/component_action.hpp>
 #include <hpx/runtime/components/server/simple_component_base.hpp>
-#include <hpx/util/detail/count_num_args.hpp>
+#include <hpx/util/pp/va_nargs.hpp>
 
 #include <boost/cstdint.hpp>
 #include <boost/serialization/serialization.hpp>
@@ -58,7 +58,8 @@ namespace hpx { namespace components { namespace server
     /**/
 #define HPX_DISTRIBUTED_METADATA_DECLARATION_(...)                            \
     HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_DISTRIBUTED_METADATA_DECLARATION_, HPX_UTIL_PP_NARG(__VA_ARGS__)  \
+        HPX_DISTRIBUTED_METADATA_DECLARATION_,                                \
+            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
     )(__VA_ARGS__))                                                           \
     /**/
 
@@ -80,7 +81,8 @@ namespace hpx { namespace components { namespace server
     /**/
 #define HPX_DISTRIBUTED_METADATA_(...)                                        \
     HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_DISTRIBUTED_METADATA_, HPX_UTIL_PP_NARG(__VA_ARGS__)              \
+        HPX_DISTRIBUTED_METADATA_,                                            \
+            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
     )(__VA_ARGS__))                                                           \
     /**/
 

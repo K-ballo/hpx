@@ -18,7 +18,7 @@
 #include <hpx/runtime/components/server/plain_function.hpp>
 #include <hpx/runtime/naming/resolver_client.hpp>
 #include <hpx/util/ini.hpp>
-#include <hpx/util/detail/count_num_args.hpp>
+#include <hpx/util/pp/va_nargs.hpp>
 
 #include <boost/serialization/export.hpp>
 #include <boost/preprocessor/cat.hpp>
@@ -233,7 +233,8 @@ namespace hpx { namespace components
 // actions with Hpx.Plugin.
 #define HPX_REGISTER_PLAIN_ACTION_(...)                                       \
     HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_REGISTER_PLAIN_ACTION_, HPX_UTIL_PP_NARG(__VA_ARGS__)             \
+        HPX_REGISTER_PLAIN_ACTION_,                                           \
+            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
     )(__VA_ARGS__))                                                           \
 /**/
 
@@ -266,7 +267,8 @@ namespace hpx { namespace components
 ///////////////////////////////////////////////////////////////////////////////
 #define HPX_REGISTER_PLAIN_ACTION_DYNAMIC_(...)                               \
     HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_REGISTER_PLAIN_ACTION_DYNAMIC_, HPX_UTIL_PP_NARG(__VA_ARGS__)     \
+        HPX_REGISTER_PLAIN_ACTION_DYNAMIC_,                                   \
+            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
     )(__VA_ARGS__))                                                           \
 /**/
 

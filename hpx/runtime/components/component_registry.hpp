@@ -13,8 +13,8 @@
 #include <hpx/runtime/components/unique_component_name.hpp>
 #include <hpx/runtime/components/component_registry_base.hpp>
 #include <hpx/runtime/components/component_factory_base.hpp>
-#include <hpx/util/detail/count_num_args.hpp>
 #include <hpx/util/find_prefix.hpp>
+#include <hpx/util/pp/va_nargs.hpp>
 
 #include <hpx/traits/component_config_data.hpp>
 
@@ -107,7 +107,8 @@ namespace hpx { namespace components
 
 #define HPX_REGISTER_MINIMAL_COMPONENT_REGISTRY_(...)                         \
     HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_REGISTER_MINIMAL_COMPONENT_REGISTRY_, HPX_UTIL_PP_NARG(__VA_ARGS__)\
+        HPX_REGISTER_MINIMAL_COMPONENT_REGISTRY_,                             \
+            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
     )(__VA_ARGS__))                                                           \
 /**/
 
@@ -136,7 +137,7 @@ namespace hpx { namespace components
 #define HPX_REGISTER_MINIMAL_COMPONENT_REGISTRY_DYNAMIC_(...)                 \
     HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
         HPX_REGISTER_MINIMAL_COMPONENT_REGISTRY_DYNAMIC_,                     \
-            HPX_UTIL_PP_NARG(__VA_ARGS__)                                     \
+            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
     )(__VA_ARGS__))                                                           \
 /**/
 

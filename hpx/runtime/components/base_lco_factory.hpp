@@ -16,7 +16,6 @@
 #include <hpx/runtime/naming/resolver_client.hpp>
 #include <hpx/util/ini.hpp>
 #include <hpx/util/one_size_heap_list_base.hpp>
-#include <hpx/util/detail/count_num_args.hpp>
 
 #include <boost/preprocessor/cat.hpp>
 #include <boost/preprocessor/stringize.hpp>

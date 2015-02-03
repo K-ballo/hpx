@@ -21,7 +21,6 @@
 #include <hpx/include/util.hpp>
 #include <hpx/include/components.hpp>
 #include <hpx/include/actions.hpp>
-#include <hpx/util/detail/count_num_args.hpp>
 
 #include <iostream>
 #include <tuple>
@@ -333,7 +332,8 @@ namespace hpx { namespace server
     /**/
 #define HPX_REGISTER_VECTOR_DECLARATION_(...)                                 \
     HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_REGISTER_VECTOR_DECLARATION_, HPX_UTIL_PP_NARG(__VA_ARGS__)       \
+        HPX_REGISTER_VECTOR_DECLARATION_,                                     \
+            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
     )(__VA_ARGS__))                                                           \
     /**/
 
@@ -366,7 +366,8 @@ namespace hpx { namespace server
     /**/
 #define HPX_REGISTER_VECTOR_(...)                                             \
     HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_REGISTER_VECTOR_, HPX_UTIL_PP_NARG(__VA_ARGS__)                   \
+        HPX_REGISTER_VECTOR_,                                                 \
+            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
     )(__VA_ARGS__))                                                           \
     /**/
 

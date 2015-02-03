@@ -12,7 +12,7 @@
 
 #include <hpx/runtime/parcelset/policies/message_handler.hpp>
 #include <hpx/util/interval_timer.hpp>
-#include <hpx/util/detail/count_num_args.hpp>
+#include <hpx/util/pp/va_nargs.hpp>
 #include <hpx/lcos/local/spinlock.hpp>
 
 #include <hpx/plugins/parcel/message_buffer.hpp>
@@ -66,7 +66,8 @@ namespace hpx { namespace plugins { namespace parcel
 
 #define HPX_ACTION_USES_MESSAGE_COALESCING_(...)                              \
     HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_ACTION_USES_MESSAGE_COALESCING_, HPX_UTIL_PP_NARG(__VA_ARGS__)    \
+        HPX_ACTION_USES_MESSAGE_COALESCING_,                                  \
+            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
     )(__VA_ARGS__))                                                           \
 /**/
 

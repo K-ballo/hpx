@@ -17,7 +17,7 @@
 #include <hpx/runtime/components/console_error_sink.hpp>
 #include <hpx/util/unused.hpp>
 #include <hpx/util/void_cast.hpp>
-#include <hpx/util/detail/count_num_args.hpp>
+#include <hpx/util/pp/va_nargs.hpp>
 #include <hpx/util/detail/pp_strip_parens.hpp>
 
 #include <boost/preprocessor/cat.hpp>
@@ -161,7 +161,8 @@ namespace hpx { namespace actions
 /// \cond NOINTERNAL
 #define HPX_DEFINE_COMPONENT_ACTION_(...)                                     \
     HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_DEFINE_COMPONENT_ACTION_, HPX_UTIL_PP_NARG(__VA_ARGS__)           \
+        HPX_DEFINE_COMPONENT_ACTION_,                                         \
+            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
     )(__VA_ARGS__))                                                           \
     /**/
 
@@ -183,7 +184,7 @@ namespace hpx { namespace actions
 #define HPX_DEFINE_COMPONENT_DIRECT_ACTION_(...)                              \
     HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
         HPX_DEFINE_COMPONENT_DIRECT_ACTION_,                                  \
-            HPX_UTIL_PP_NARG(__VA_ARGS__)                                     \
+            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
     )(__VA_ARGS__))                                                           \
     /**/
 

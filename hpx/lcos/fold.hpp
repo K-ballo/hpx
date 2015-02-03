@@ -174,7 +174,7 @@ namespace hpx { namespace lcos
 #include <hpx/util/assert.hpp>
 #include <hpx/util/decay.hpp>
 #include <hpx/util/tuple.hpp>
-#include <hpx/util/detail/count_num_args.hpp>
+#include <hpx/util/pp/va_nargs.hpp>
 #include <hpx/util/detail/pack.hpp>
 
 #include <boost/preprocessor/cat.hpp>
@@ -681,7 +681,8 @@ namespace hpx { namespace lcos
 /**/
 #define HPX_REGISTER_FOLD_ACTION_DECLARATION_(...)                            \
     HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_REGISTER_FOLD_ACTION_DECLARATION_, HPX_UTIL_PP_NARG(__VA_ARGS__)  \
+        HPX_REGISTER_FOLD_ACTION_DECLARATION_,                                \
+            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
     )(__VA_ARGS__))                                                           \
 /**/
 
@@ -706,7 +707,8 @@ namespace hpx { namespace lcos
 /**/
 #define HPX_REGISTER_FOLD_ACTION_(...)                                        \
     HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_REGISTER_FOLD_ACTION_, HPX_UTIL_PP_NARG(__VA_ARGS__)              \
+        HPX_REGISTER_FOLD_ACTION_,                                            \
+            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
     )(__VA_ARGS__))                                                           \
 /**/
 
@@ -732,7 +734,7 @@ namespace hpx { namespace lcos
 #define HPX_REGISTER_FOLD_WITH_INDEX_ACTION_DECLARATION_(...)                 \
     HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
         HPX_REGISTER_FOLD_WITH_INDEX_ACTION_DECLARATION_,                     \
-            HPX_UTIL_PP_NARG(__VA_ARGS__)                                     \
+            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
     )(__VA_ARGS__))                                                           \
 /**/
 
@@ -759,7 +761,8 @@ namespace hpx { namespace lcos
 /**/
 #define HPX_REGISTER_FOLD_WITH_INDEX_ACTION_(...)                             \
     HPX_UTIL_EXPAND_(BOOST_PP_CAT(                                            \
-        HPX_REGISTER_FOLD_WITH_INDEX_ACTION_, HPX_UTIL_PP_NARG(__VA_ARGS__)   \
+        HPX_REGISTER_FOLD_WITH_INDEX_ACTION_,                                 \
+            HPX_UTIL_PP_VA_NARGS(__VA_ARGS__)                                 \
     )(__VA_ARGS__))                                                           \
 /**/
 
