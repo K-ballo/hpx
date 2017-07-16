@@ -49,6 +49,47 @@ if(HPX_WITH_PAPI)
   include_directories(${PAPI_INCLUDE_DIR})
 endif()
 
+# Use lightweight compilation mode if available
+if(CMAKE_COMPILER_IS_GNUCXX)
+  set(HPX_HAVE_SYNTAX_ONLY_FLAG TRUE)
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  set(HPX_HAVE_SYNTAX_ONLY_FLAG TRUE)
+endif()
+if(HPX_HAVE_SYNTAX_ONLY_FLAG)
+  string(TOUPPER "CMAKE_CXX_FLAGS_${CMAKE_BUILD_TYPE}" name)
+  set(GCC_FLAGS "${${name}} ${CMAKE_CXX_FLAGS} -fsyntax-only -ftime-report")
+
+  get_property(value GLOBAL PROPERTY HPX_TARGET_COMPILE_OPTIONS)
+  if (value)
+    message("COMPILE_OPTIONS: ${value}")
+    foreach(item ${value})
+      message("  - ${item}")
+      set(GCC_FLAGS "${GCC_FLAGS} ${item}")
+    endforeach()
+  endif()
+
+  get_directory_property(value COMPILE_DEFINITIONS)
+  if (value)
+    message("COMPILE_DEFINITIONS: ${value}")
+    foreach(item ${value})
+      message("  - ${item}")
+      set(GCC_FLAGS "${GCC_FLAGS} -D${item}")
+    endforeach()
+  endif()
+
+  get_directory_property(value INCLUDE_DIRECTORIES)
+  if (value)
+    message("INCLUDE_DIRECTORIES: ${value}")
+    foreach(item ${value})
+      message("  - ${item}")
+      set(GCC_FLAGS "${GCC_FLAGS} -I${item}")
+    endforeach()
+  endif()
+
+  separate_arguments(GCC_FLAGS)
+  message("With -syntax-only: ${GCC_FLAGS}")
+endif()
+
 # for each of the found headers, generate a test executable
 foreach(header ${headers})
 
@@ -60,17 +101,31 @@ foreach(header ${headers})
     # extract relative path of header
     string(REGEX REPLACE "${PROJECT_SOURCE_DIR}/hpx/" "" relpath "${header}")
 
-    # .hpp --> .cpp
-    string(REGEX REPLACE ".hpp" ".cpp" full_test_file "${relpath}")
+    # remove extension, '/' --> '_'
+    string(REGEX REPLACE ".hpp" "_hpp" test_file "${relpath}")
+    string(REGEX REPLACE "/" "_" test_name "${test_file}")
 
     # exclude marked files
     set(detail_pos -1)
     list(FIND exclude_from_headers "${relpath}" detail_pos)
     if(${detail_pos} EQUAL -1)
+      set(all_headers ${all_headers} "#include <hpx/${relpath}>\n")
+    endif()
 
-      # remove extension, '/' --> '_'
-      string(REGEX REPLACE ".hpp" "_hpp" test_file "${relpath}")
-      string(REGEX REPLACE "/" "_" test_name "${test_file}")
+    if(HPX_HAVE_SYNTAX_ONLY_FLAG)
+      # add compile only test
+      add_custom_target(
+        "tests.headers.${test_name}"
+        COMMAND ${CMAKE_CXX_COMPILER} ${GCC_FLAGS} ${header}
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        SOURCES ${header}
+        VERBATIM)
+
+      # make pseudo-targets depend on master pseudo-target
+      add_hpx_pseudo_dependencies(tests.headers tests.headers.${test_name})
+    else()
+      # .hpp --> .cpp
+      string(REGEX REPLACE ".hpp" ".cpp" full_test_file "${relpath}")
 
       # generate the test
       file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/${full_test_file}
