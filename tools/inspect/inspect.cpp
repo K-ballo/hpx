@@ -63,7 +63,6 @@ const char* hpx_no_inspect = "hpx-" "no-inspect";
 #include "ascii_check.hpp"
 #include "apple_macro_check.hpp"
 #include "assert_macro_check.hpp"
-#include "deprecated_macro_check.hpp"
 #include "minmax_check.hpp"
 #include "unnamed_namespace_check.hpp"
 #include "endline_whitespace_check.hpp"
@@ -830,7 +829,6 @@ int cpp_main( int argc_param, char * argv_param[] )
     bool ascii_ck = false;
     bool apple_ck = false;
     bool assert_ck = false;
-    bool deprecated_ck = false;
     bool minmax_ck = false;
     bool unnamed_ck = false;
     bool whitespace_ck = false;
@@ -868,9 +866,6 @@ int cpp_main( int argc_param, char * argv_param[] )
             "check for apple macro violations (default: off)")
         ("assert_macro", value<bool>(&assert_ck)->implicit_value(false),
             "check for plain assert usage violations (default: off)")
-        ("deprecated_macro", value<bool>(&deprecated_ck)->implicit_value(false),
-            "check for deprecated Boost configuration macro usage violations "
-            "(default: off)")
         ("minmax", value<bool>(&minmax_ck)->implicit_value(false),
             "check for minmax usage violations (default: off)")
         ("unnamed", value<bool>(&unnamed_ck)->implicit_value(false),
@@ -959,7 +954,6 @@ int cpp_main( int argc_param, char * argv_param[] )
         ascii_ck = true;
         apple_ck = true;
         assert_ck = true;
-        deprecated_ck = true;
         minmax_ck = true;
         unnamed_ck = true;
         whitespace_ck = true;
@@ -1008,9 +1002,6 @@ int cpp_main( int argc_param, char * argv_param[] )
   if ( assert_ck )
       inspectors.push_back( inspector_element(
           new boost::inspect::assert_macro_check ) );
-  if ( deprecated_ck )
-      inspectors.push_back( inspector_element(
-          new boost::inspect::deprecated_macro_check ) );
   if ( minmax_ck )
       inspectors.push_back( inspector_element(
           new boost::inspect::minmax_check ) );
