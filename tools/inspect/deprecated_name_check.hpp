@@ -14,10 +14,6 @@
 
 #include "inspector.hpp"
 
-#include "boost/regex.hpp"
-
-#include <vector>
-
 namespace boost
 {
   namespace inspect
@@ -28,21 +24,9 @@ namespace boost
       char const* use_instead;
     };
 
-    struct deprecated_names_regex_data
-    {
-      deprecated_names_regex_data(deprecated_names const* d,
-            std::string const& rx)
-        : data(d), pattern(rx, boost::regex::normal)
-      {}
-
-      deprecated_names const* data;
-      boost::regex pattern;
-    };
-
     class deprecated_name_check : public inspector
     {
       long m_errors;
-      std::vector<deprecated_names_regex_data> regex_data;
 
     public:
 
