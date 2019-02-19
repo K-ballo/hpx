@@ -9,8 +9,8 @@
 
 #include <hpx/util/atomic_count.hpp>
 #include <hpx/util/assert.hpp>
+#include <hpx/util/intrusive_ptr.hpp>
 
-#include <boost/intrusive_ptr.hpp>
 #include <boost/range/iterator.hpp>
 #include <boost/range/mutable_iterator.hpp>
 
@@ -67,12 +67,12 @@ namespace jacobi
         std::ptrdiff_t begin_;
         std::ptrdiff_t end_;
 
-        boost::intrusive_ptr<value_holder> values_;
+        hpx::util::intrusive_ptr<value_holder> values_;
 
         row_range()
         {}
 
-        row_range(boost::intrusive_ptr<value_holder> values,
+        row_range(hpx::util::intrusive_ptr<value_holder> values,
               std::ptrdiff_t b, std::ptrdiff_t e)
             : begin_(b)
             , end_(e)

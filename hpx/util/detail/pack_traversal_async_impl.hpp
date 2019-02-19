@@ -13,11 +13,10 @@
 #include <hpx/util/assert.hpp>
 #include <hpx/util/detail/container_category.hpp>
 #include <hpx/util/detail/pack.hpp>
+#include <hpx/util/intrusive_ptr.hpp>
 #include <hpx/util/invoke.hpp>
 #include <hpx/util/invoke_fused.hpp>
 #include <hpx/util/tuple.hpp>
-
-#include <boost/intrusive_ptr.hpp>
 
 #include <atomic>
 #include <cstddef>
@@ -165,7 +164,7 @@ namespace util {
             void async_continue(T&& value, Hierarchy&& hierarchy)
             {
                 // Create a self reference
-                boost::intrusive_ptr<async_traversal_frame> self(this);
+                util::intrusive_ptr<async_traversal_frame> self(this);
 
                 // Create a callable object which resumes the current
                 // traversal when it's called.
@@ -642,10 +641,10 @@ namespace util {
                     typename std::decay<Args>::type...>;
 
             /// The type of the frame pointer
-            using frame_pointer_type = boost::intrusive_ptr<frame_type>;
+            using frame_pointer_type = util::intrusive_ptr<frame_type>;
 
             /// The type of the demoted visitor type
-            using visitor_pointer_type = boost::intrusive_ptr<Visitor>;
+            using visitor_pointer_type = util::intrusive_ptr<Visitor>;
         };
 
         template <typename Visitor, typename VisitorArg, typename... Args>

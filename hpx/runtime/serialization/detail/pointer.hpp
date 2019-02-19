@@ -19,8 +19,6 @@
 #include <hpx/util/identity.hpp>
 #include <hpx/util/lazy_conditional.hpp>
 
-#include <boost/intrusive_ptr.hpp>
-
 #include <cstdint>
 #include <memory>
 #include <string>

@@ -18,12 +18,11 @@
 #include <hpx/util/assert.hpp>
 #include <hpx/util/bind.hpp>
 #include <hpx/util/bind_front.hpp>
+#include <hpx/util/intrusive_ptr.hpp>
 #include <hpx/util/register_locks.hpp>
 #include <hpx/util/steady_clock.hpp>
 #include <hpx/util/unique_function.hpp>
 #include <hpx/util/unlock_guard.hpp>
-
-#include <boost/intrusive_ptr.hpp>
 
 #include <cstddef>
 #include <exception>
@@ -239,7 +238,7 @@ namespace hpx
         {
         private:
             typedef lcos::detail::future_data<void>::mutex_type mutex_type;
-            typedef boost::intrusive_ptr<thread_task_base> future_base_type;
+            typedef util::intrusive_ptr<thread_task_base> future_base_type;
 
         protected:
             typedef lcos::detail::future_data<void>::result_type result_type;
@@ -303,7 +302,7 @@ namespace hpx
         }
 
         detail::thread_task_base* p = new detail::thread_task_base(id_);
-        boost::intrusive_ptr<lcos::detail::future_data<void> > base(p);
+        util::intrusive_ptr<lcos::detail::future_data<void> > base(p);
         if (!p->valid()) {
             HPX_THROWS_IF(ec, thread_resource_error, "thread::get_future",
                 "Could not create future as thread has been terminated.");

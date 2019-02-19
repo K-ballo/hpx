@@ -14,6 +14,7 @@
 #include <hpx/runtime/threads/thread_helpers.hpp>
 #include <hpx/runtime_fwd.hpp>
 #include <hpx/util/assert.hpp>
+#include <hpx/util/intrusive_ptr.hpp>
 
 #if !defined(HPX_COMPUTE_DEVICE_CODE)
 #if !defined(HPX_COMPUTE_DEVICE_CODE) && defined(HPX_HAVE_MORE_THAN_64_THREADS)
@@ -31,8 +32,6 @@
 #include <utility>
 
 #include <cuda_runtime.h>
-
-#include <boost/intrusive_ptr.hpp>
 
 namespace hpx { namespace compute { namespace cuda
 {
@@ -310,7 +309,7 @@ namespace hpx { namespace compute { namespace cuda
 
         // make sure shared state stays alive even if the callback is invoked
         // during initialization
-        boost::intrusive_ptr<shared_state_type> p(new shared_state_type());
+        util::intrusive_ptr<shared_state_type> p(new shared_state_type());
         p->init(handle_.get_stream());
         return hpx::traits::future_access<hpx::future<void> >::
             create(std::move(p));

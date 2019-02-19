@@ -19,11 +19,10 @@
 #include <hpx/util/allocator_deleter.hpp>
 #include <hpx/util/deferred_call.hpp>
 #include <hpx/util/internal_allocator.hpp>
+#include <hpx/util/intrusive_ptr.hpp>
 #include <hpx/util/thread_description.hpp>
 
 #include <hpx/parallel/executors/execution.hpp>
-
-#include <boost/intrusive_ptr.hpp>
 
 #include <cstddef>
 #include <cstdint>
@@ -446,7 +445,7 @@ namespace hpx { namespace lcos { namespace local
         struct create_task_object<Result, false, void>
         {
             typedef
-                boost::intrusive_ptr<lcos::detail::task_base<Result> >
+                util::intrusive_ptr<lcos::detail::task_base<Result> >
                 return_type;
             typedef
                 typename lcos::detail::future_data_refcnt_base::init_no_addref
@@ -532,7 +531,7 @@ namespace hpx { namespace lcos { namespace local
           : create_task_object<Result, false, void>
         {
             typedef
-                boost::intrusive_ptr<lcos::detail::task_base<Result> >
+                util::intrusive_ptr<lcos::detail::task_base<Result> >
                 return_type;
             typedef
                 typename lcos::detail::future_data_refcnt_base::init_no_addref
@@ -562,7 +561,7 @@ namespace hpx { namespace lcos { namespace local
         struct create_task_object<Result, true, void>
         {
             typedef
-                boost::intrusive_ptr<lcos::detail::task_base<Result> >
+                util::intrusive_ptr<lcos::detail::task_base<Result> >
                 return_type;
             typedef
                 typename lcos::detail::future_data_refcnt_base::init_no_addref
@@ -649,7 +648,7 @@ namespace hpx { namespace lcos { namespace local
           : create_task_object<Result, true, void>
         {
             typedef
-                boost::intrusive_ptr<lcos::detail::task_base<Result> >
+                util::intrusive_ptr<lcos::detail::task_base<Result> >
                 return_type;
             typedef
                 typename lcos::detail::future_data_refcnt_base::init_no_addref
@@ -812,7 +811,7 @@ namespace hpx { namespace lcos { namespace local
         }
 
     protected:
-        boost::intrusive_ptr<task_impl_type> task_;
+        util::intrusive_ptr<task_impl_type> task_;
         bool future_obtained_;
     };
 }}}

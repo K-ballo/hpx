@@ -76,10 +76,9 @@ namespace hpx
 #include <hpx/traits/future_traits.hpp>
 #include <hpx/util/deferred_call.hpp>
 #include <hpx/util/detail/pack.hpp>
+#include <hpx/util/intrusive_ptr.hpp>
 #include <hpx/util/tuple.hpp>
 #include <hpx/util/unused.hpp>
-
-#include <boost/intrusive_ptr.hpp>
 
 #include <array>
 #include <cstddef>
@@ -127,7 +126,7 @@ namespace hpx { namespace lcos
                 // Bind an on_completed handler to this future which will wait
                 // for the future and will transfer its result to the new
                 // future.
-                boost::intrusive_ptr<split_nth_continuation> this_(this);
+                util::intrusive_ptr<split_nth_continuation> this_(this);
                 shared_state_ptr const& state =
                     hpx::traits::detail::get_shared_state(future);
 
@@ -263,7 +262,7 @@ namespace hpx { namespace lcos
                 // Bind an on_completed handler to this future which will wait
                 // for the future and will transfer its result to the new
                 // future.
-                boost::intrusive_ptr<split_continuation> this_(this);
+                util::intrusive_ptr<split_continuation> this_(this);
                 shared_state_ptr const& state =
                     hpx::traits::detail::get_shared_state(future);
 

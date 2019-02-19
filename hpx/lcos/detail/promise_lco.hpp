@@ -19,9 +19,8 @@
 #include <hpx/traits/component_type_database.hpp>
 #include <hpx/util/assert.hpp>
 #include <hpx/util/atomic_count.hpp>
+#include <hpx/util/intrusive_ptr.hpp>
 #include <hpx/util/unused.hpp>
-
-#include <boost/intrusive_ptr.hpp>
 
 #include <exception>
 #include <utility>
@@ -58,7 +57,7 @@ namespace lcos {
         {
         protected:
             typedef lcos::detail::future_data<Result>       shared_state_type;
-            typedef boost::intrusive_ptr<shared_state_type> shared_state_ptr;
+            typedef util::intrusive_ptr<shared_state_type> shared_state_ptr;
 
             typedef lcos::base_lco_with_value<Result, RemoteResult> base_type;
 
@@ -112,7 +111,7 @@ namespace lcos {
         {
         protected:
             typedef lcos::detail::future_data<Result>       shared_state_type;
-            typedef boost::intrusive_ptr<shared_state_type> shared_state_ptr;
+            typedef util::intrusive_ptr<shared_state_type> shared_state_ptr;
 
             typedef promise_lco_base<Result, RemoteResult> base_type;
 
@@ -151,7 +150,7 @@ namespace lcos {
         {
         protected:
             typedef lcos::detail::future_data<void>         shared_state_type;
-            typedef boost::intrusive_ptr<shared_state_type> shared_state_ptr;
+            typedef util::intrusive_ptr<shared_state_type> shared_state_ptr;
             typedef promise_lco_base<void, hpx::util::unused_type> base_type;
 
         public:

@@ -113,11 +113,11 @@ namespace hpx
 #include <hpx/traits/is_future.hpp>
 #include <hpx/util/always_void.hpp>
 #include <hpx/util/decay.hpp>
+#include <hpx/util/intrusive_ptr.hpp>
 #include <hpx/util/range.hpp>
 #include <hpx/util/tuple.hpp>
 #include <hpx/util/unwrap_ref.hpp>
 
-#include <boost/intrusive_ptr.hpp>
 #include <boost/ref.hpp>
 
 #include <algorithm>
@@ -142,7 +142,7 @@ namespace hpx { namespace lcos
 
         template <typename R>
         struct is_future_or_shared_state<
-                boost::intrusive_ptr<future_data_base<R> > >
+                util::intrusive_ptr<future_data_base<R> > >
           : std::true_type
         {};
 
@@ -184,7 +184,7 @@ namespace hpx { namespace lcos
 
         template <typename R>
         struct future_or_shared_state_result<
-            boost::intrusive_ptr<future_data_base<R> > >
+            util::intrusive_ptr<future_data_base<R> > >
         {
             typedef R type;
         };

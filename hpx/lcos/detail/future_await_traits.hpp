@@ -11,14 +11,13 @@
 #include <hpx/config.hpp>
 #include <hpx/lcos/detail/future_data.hpp>
 #include <hpx/traits/future_access.hpp>
+#include <hpx/util/intrusive_ptr.hpp>
 
 #if defined(HPX_HAVE_EMULATE_COROUTINE_SUPPORT_LIBRARY)
 #include <hpx/util/await_traits.hpp>
 #else
 #include <experimental/coroutine>
 #endif
-
-#include <boost/intrusive_ptr.hpp>
 
 #include <exception>
 #include <type_traits>
@@ -128,7 +127,7 @@ namespace hpx { namespace lcos { namespace detail
 
         hpx::lcos::future<T> get_return_object()
         {
-            boost::intrusive_ptr<base_type> shared_state(this);
+            util::intrusive_ptr<base_type> shared_state(this);
             return hpx::traits::future_access<hpx::lcos::future<T> >::
                 create(std::move(shared_state));
         }

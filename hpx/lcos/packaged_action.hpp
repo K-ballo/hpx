@@ -20,9 +20,9 @@
 #include <hpx/traits/extract_action.hpp>
 #include <hpx/util/assert.hpp>
 #include <hpx/util/internal_allocator.hpp>
+#include <hpx/util/intrusive_ptr.hpp>
 
 #include <boost/asio/error.hpp>
-#include <boost/intrusive_ptr.hpp>
 
 #include <exception>
 #include <memory>
@@ -37,7 +37,7 @@ namespace lcos {
         template <typename Result>
         struct parcel_write_handler
         {
-            boost::intrusive_ptr<detail::promise_data<Result>> shared_state;
+            util::intrusive_ptr<detail::promise_data<Result>> shared_state;
 
             void operator()(
                 boost::system::error_code const& ec, parcelset::parcel const& p)
@@ -60,7 +60,7 @@ namespace lcos {
         template <typename Result, typename Callback>
         struct parcel_write_handler_cb
         {
-            boost::intrusive_ptr<detail::promise_data<Result>> shared_state;
+            util::intrusive_ptr<detail::promise_data<Result>> shared_state;
             Callback cb;
 
             void operator()(

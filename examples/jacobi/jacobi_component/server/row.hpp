@@ -11,8 +11,8 @@
 
 #include <hpx/include/components.hpp>
 #include <hpx/util/assert.hpp>
+#include <hpx/util/intrusive_ptr.hpp>
 
-#include <boost/intrusive_ptr.hpp>
 #include <boost/smart_ptr/shared_array.hpp>
 
 #include <cstddef>
@@ -32,7 +32,7 @@ namespace jacobi {
 
             void init(std::size_t nx, double value);
 
-            typedef boost::intrusive_ptr<value_holder> values_type;
+            typedef hpx::util::intrusive_ptr<value_holder> values_type;
 
             values_type values;
 

@@ -8,8 +8,7 @@
 
 #include <hpx/config.hpp>
 #include <hpx/traits/future_traits.hpp>
-
-#include <boost/intrusive_ptr.hpp>
+#include <hpx/util/intrusive_ptr.hpp>
 
 #include <type_traits>
 #include <utility>
@@ -55,7 +54,7 @@ namespace hpx { namespace traits
         struct shared_state_ptr
         {
             typedef typename shared_state_ptr_result<R>::type result_type;
-            typedef boost::intrusive_ptr<
+            typedef util::intrusive_ptr<
                 lcos::detail::future_data_base<result_type>>
                 type;
         };
@@ -101,7 +100,7 @@ namespace hpx { namespace traits
 
     template <typename R>
     struct is_shared_state<
-            boost::intrusive_ptr<lcos::detail::future_data_base<R> > >
+            util::intrusive_ptr<lcos::detail::future_data_base<R> > >
       : std::true_type
     {};
 
@@ -122,7 +121,7 @@ namespace hpx { namespace traits
     {
         template <typename SharedState>
         static lcos::future<R>
-        create(boost::intrusive_ptr<SharedState> const& shared_state)
+        create(util::intrusive_ptr<SharedState> const& shared_state)
         {
             return lcos::future<R>(shared_state);
         }
@@ -137,7 +136,7 @@ namespace hpx { namespace traits
 
         template <typename SharedState>
         static lcos::future<R> create(
-            boost::intrusive_ptr<SharedState>&& shared_state)
+            util::intrusive_ptr<SharedState>&& shared_state)
         {
             return lcos::future<R>(std::move(shared_state));
         }
@@ -154,7 +153,7 @@ namespace hpx { namespace traits
         create(SharedState* shared_state, bool addref = true)
         {
             return lcos::future<R>(
-                boost::intrusive_ptr<SharedState>(shared_state, addref));
+                util::intrusive_ptr<SharedState>(shared_state, addref));
         }
 
         HPX_FORCEINLINE static
@@ -177,7 +176,7 @@ namespace hpx { namespace traits
     {
         template <typename SharedState>
         static lcos::shared_future<R>
-        create(boost::intrusive_ptr<SharedState> const& shared_state)
+        create(util::intrusive_ptr<SharedState> const& shared_state)
         {
             return lcos::shared_future<R>(shared_state);
         }
@@ -192,7 +191,7 @@ namespace hpx { namespace traits
 
         template <typename SharedState>
         static lcos::shared_future<R>
-        create(boost::intrusive_ptr<SharedState> && shared_state)
+        create(util::intrusive_ptr<SharedState> && shared_state)
         {
             return lcos::shared_future<R>(std::move(shared_state));
         }
@@ -211,7 +210,7 @@ namespace hpx { namespace traits
         create(SharedState* shared_state, bool addref = true)
         {
             return lcos::shared_future<R>(
-                boost::intrusive_ptr<SharedState>(shared_state, addref));
+                util::intrusive_ptr<SharedState>(shared_state, addref));
         }
 
         HPX_FORCEINLINE static

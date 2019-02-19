@@ -15,8 +15,7 @@
 #include <hpx/traits/is_future.hpp>
 #include <hpx/traits/is_future_range.hpp>
 #include <hpx/traits/is_range.hpp>
-
-#include <boost/intrusive_ptr.hpp>
+#include <hpx/util/intrusive_ptr.hpp>
 
 #include <algorithm>
 #include <cstddef>
@@ -130,9 +129,9 @@ namespace hpx { namespace traits
 
         template <typename R>
         HPX_FORCEINLINE
-        boost::intrusive_ptr<lcos::detail::future_data_base<R> > const&
+        util::intrusive_ptr<lcos::detail::future_data_base<R> > const&
         get_shared_state(
-            boost::intrusive_ptr<lcos::detail::future_data_base<R> > const& t)
+            util::intrusive_ptr<lcos::detail::future_data_base<R> > const& t)
         {
             return t;
         }

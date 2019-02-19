@@ -14,9 +14,9 @@
 #include <hpx/runtime/serialization/input_archive.hpp>
 #include <hpx/runtime/serialization/output_archive.hpp>
 
+#include <hpx/util/intrusive_ptr.hpp>
 #include <hpx/util/lightweight_test.hpp>
 
-#include <boost/intrusive_ptr.hpp>
 #include <boost/shared_ptr.hpp>
 
 #include <memory>
@@ -116,9 +116,9 @@ void intrusive_ptr_release(A* a)
 
 void test_intrusive()
 {
-    boost::intrusive_ptr<A> ip(new A());
-    boost::intrusive_ptr<A> op1;
-    boost::intrusive_ptr<A> op2;
+    hpx::util::intrusive_ptr<A> ip(new A());
+    hpx::util::intrusive_ptr<A> op1;
+    hpx::util::intrusive_ptr<A> op2;
     {
         std::vector<char> buffer;
         hpx::serialization::output_archive oarchive(buffer);

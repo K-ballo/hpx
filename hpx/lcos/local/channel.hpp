@@ -17,12 +17,11 @@
 #include <hpx/util/assert.hpp>
 #include <hpx/util/assert_owns_lock.hpp>
 #include <hpx/util/atomic_count.hpp>
+#include <hpx/util/intrusive_ptr.hpp>
 #include <hpx/util/iterator_facade.hpp>
 #include <hpx/util/register_locks.hpp>
 #include <hpx/util/unlock_guard.hpp>
 #include <hpx/util/unused.hpp>
-
-#include <boost/intrusive_ptr.hpp>
 
 #include <cstddef>
 #include <cstdlib>
@@ -563,7 +562,7 @@ namespace hpx { namespace lcos { namespace local
         }
 
     private:
-        boost::intrusive_ptr<detail::channel_impl_base<T> > channel_;
+        util::intrusive_ptr<detail::channel_impl_base<T> > channel_;
         std::pair<T, bool> data_;
     };
 
@@ -619,7 +618,7 @@ namespace hpx { namespace lcos { namespace local
         }
 
     private:
-        boost::intrusive_ptr<detail::channel_impl_base<T> > channel_;
+        util::intrusive_ptr<detail::channel_impl_base<T> > channel_;
         mutable std::pair<hpx::future<T>, bool> data_;
     };
 
@@ -730,7 +729,7 @@ namespace hpx { namespace lcos { namespace local
             }
 
         protected:
-            boost::intrusive_ptr<channel_impl_base<T> > channel_;
+            util::intrusive_ptr<channel_impl_base<T> > channel_;
         };
     }
 
@@ -908,7 +907,7 @@ namespace hpx { namespace lcos { namespace local
         }
 
     private:
-        boost::intrusive_ptr<detail::channel_impl_base<util::unused_type> > channel_;
+        util::intrusive_ptr<detail::channel_impl_base<util::unused_type> > channel_;
         bool data_;
     };
 
@@ -995,7 +994,7 @@ namespace hpx { namespace lcos { namespace local
             }
 
         protected:
-            boost::intrusive_ptr<channel_impl_base<util::unused_type> > channel_;
+            util::intrusive_ptr<channel_impl_base<util::unused_type> > channel_;
         };
     }
 

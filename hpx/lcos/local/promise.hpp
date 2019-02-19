@@ -13,9 +13,9 @@
 #include <hpx/throw_exception.hpp>
 #include <hpx/traits/future_access.hpp>
 #include <hpx/util/allocator_deleter.hpp>
+#include <hpx/util/intrusive_ptr.hpp>
 #include <hpx/util/unused.hpp>
 
-#include <boost/intrusive_ptr.hpp>
 #include <boost/utility/swap.hpp>
 
 #include <exception>
@@ -63,7 +63,8 @@ namespace hpx { namespace lcos { namespace local
                     util::allocator_deleter<other_allocator>{alloc});
 
                 traits::construct(alloc, p.get(), init_no_addref{}, alloc);
-                shared_state_.reset(p.release(), false);
+                shared_state_ = util::intrusive_ptr<shared_state_type>(
+                    p.release(), false);
             }
 
             promise_base(promise_base&& other) noexcept
@@ -188,7 +189,7 @@ namespace hpx { namespace lcos { namespace local
                 }
             }
 
-            boost::intrusive_ptr<shared_state_type> shared_state_;
+            util::intrusive_ptr<shared_state_type> shared_state_;
             bool future_retrieved_;
         };
     }

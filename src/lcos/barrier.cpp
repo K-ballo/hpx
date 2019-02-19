@@ -13,10 +13,9 @@
 #include <hpx/runtime/launch_policy.hpp>
 #include <hpx/runtime/threads/run_as_hpx_thread.hpp>
 #include <hpx/util/assert.hpp>
+#include <hpx/util/intrusive_ptr.hpp>
 #include <hpx/util/runtime_configuration.hpp>
 #include <hpx/util/unused.hpp>
-
-#include <boost/intrusive_ptr.hpp>
 
 #include <cstddef>
 #include <string>
@@ -65,14 +64,14 @@ namespace hpx { namespace lcos {
     barrier::barrier(barrier&& other)
       : node_(std::move(other.node_))
     {
-        other.node_.reset();
+        other.node_ = nullptr;
     }
 
     barrier& barrier::operator=(barrier&& other)
     {
         release();
         node_ = std::move(other.node_);
-        other.node_.reset();
+        other.node_ = nullptr;
 
         return *this;
     }
@@ -116,7 +115,7 @@ namespace hpx { namespace lcos {
 
                 // we need to wait on everyone to have its name unregistered,
                 // and hold on to our node long enough...
-                boost::intrusive_ptr<wrapping_type> node = node_;
+                util::intrusive_ptr<wrapping_type> node = node_;
                 hpx::when_all(f, wait(hpx::launch::async)).then(
                     hpx::launch::sync,
                     [HPX_CAPTURE_MOVE(node)](hpx::future<void> f)
@@ -126,7 +125,7 @@ namespace hpx { namespace lcos {
                     }
                 ).get();
             }
-            node_.reset();
+            node_ = nullptr;
         }
     }
 
@@ -142,7 +141,7 @@ namespace hpx { namespace lcos {
                     hpx::unregister_with_basename(
                         (*node_)->base_name_, (*node_)->rank_);
             }
-            node_.reset();
+            node_ = nullptr;
         }
     }
 

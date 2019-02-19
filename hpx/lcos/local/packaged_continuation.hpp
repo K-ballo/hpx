@@ -18,12 +18,11 @@
 #include <hpx/util/allocator_deleter.hpp>
 #include <hpx/util/annotated_function.hpp>
 #include <hpx/util/internal_allocator.hpp>
+#include <hpx/util/intrusive_ptr.hpp>
 #include <hpx/util/thread_description.hpp>
 
 #include <hpx/parallel/executors/execution.hpp>
 #include <hpx/parallel/executors/post_policy_dispatch.hpp>
-
-#include <boost/intrusive_ptr.hpp>
 
 #include <exception>
 #include <functional>
@@ -143,7 +142,7 @@ namespace hpx { namespace lcos { namespace detail
 
             // Bind an on_completed handler to this future which will transfer
             // its result to the new future.
-            boost::intrusive_ptr<Continuation> cont_(&cont);
+            util::intrusive_ptr<Continuation> cont_(&cont);
             ptr->execute_deferred();
             ptr->set_on_completed(
                 [HPX_CAPTURE_MOVE(inner_state),
@@ -321,7 +320,7 @@ namespace hpx { namespace lcos { namespace detail
                 started_ = true;
             }
 
-            boost::intrusive_ptr<continuation> this_(this);
+            util::intrusive_ptr<continuation> this_(this);
             hpx::util::thread_description desc(
                 "hpx::parallel::execution::parallel_executor::post");
 
@@ -366,7 +365,7 @@ namespace hpx { namespace lcos { namespace detail
                 started_ = true;
             }
 
-            boost::intrusive_ptr<continuation> this_(this);
+            util::intrusive_ptr<continuation> this_(this);
             parallel::execution::post(std::forward<Executor>(exec),
                 [HPX_CAPTURE_MOVE(this_),
                     HPX_CAPTURE_MOVE(f)
@@ -439,7 +438,7 @@ namespace hpx { namespace lcos { namespace detail
 
             // bind an on_completed handler to this future which will invoke
             // the continuation
-            boost::intrusive_ptr<continuation> this_(this);
+            util::intrusive_ptr<continuation> this_(this);
 
             shared_state_ptr state = traits::detail::get_shared_state(future);
             typename shared_state_ptr::element_type* ptr = state.get();
@@ -476,7 +475,7 @@ namespace hpx { namespace lcos { namespace detail
 
             // bind an on_completed handler to this future which will invoke
             // the continuation
-            boost::intrusive_ptr<continuation> this_(this);
+            util::intrusive_ptr<continuation> this_(this);
             shared_state_ptr state = traits::detail::get_shared_state(future);
             typename shared_state_ptr::element_type* ptr = state.get();
 
@@ -509,7 +508,7 @@ namespace hpx { namespace lcos { namespace detail
 
             // bind an on_completed handler to this future which will invoke
             // the continuation
-            boost::intrusive_ptr<continuation> this_(this);
+            util::intrusive_ptr<continuation> this_(this);
             shared_state_ptr state = traits::detail::get_shared_state(future);
             typename shared_state_ptr::element_type* ptr = state.get();
 
@@ -714,7 +713,7 @@ namespace hpx { namespace lcos { namespace detail
 
             // Bind an on_completed handler to this future which will transfer
             // its result to the new future.
-            boost::intrusive_ptr<unwrap_continuation> this_(this);
+            util::intrusive_ptr<unwrap_continuation> this_(this);
             try {
                 // if we get here, this future is ready
                 Outer outer = traits::future_access<Outer>::create(
@@ -765,7 +764,7 @@ namespace hpx { namespace lcos { namespace detail
 
             // Bind an on_completed handler to this future which will wait for
             // the inner future and will transfer its result to the new future.
-            boost::intrusive_ptr<unwrap_continuation> this_(this);
+            util::intrusive_ptr<unwrap_continuation> this_(this);
 
             outer_shared_state_ptr outer_state =
                 traits::detail::get_shared_state(future);
@@ -929,14 +928,12 @@ namespace hpx { namespace lcos { namespace detail
     inline typename traits::detail::shared_state_ptr<void>::type
     downcast_to_void(Future& future, bool addref)
     {
-        typedef typename traits::detail::shared_state_ptr<void>::type
-            shared_state_type;
-        typedef typename shared_state_type::element_type element_type;
+        using result_type =
+            typename traits::detail::shared_state_ptr<void>::result_type;
+        using type = lcos::detail::future_data_base<result_type>;
 
-        // same as static_pointer_cast, but with addref option
-        return shared_state_type(static_cast<element_type*>(
-                traits::detail::get_shared_state(future).get()
-            ), addref);
+        return util::static_pointer_cast<type>(
+            traits::detail::get_shared_state(future), addref);
     }
 }}}
 

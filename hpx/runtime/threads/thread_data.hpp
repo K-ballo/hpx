@@ -28,8 +28,6 @@
 #include <hpx/util/apex.hpp>
 #endif
 
-#include <boost/intrusive_ptr.hpp>
-
 #include <atomic>
 #include <cstddef>
 #include <cstdint>

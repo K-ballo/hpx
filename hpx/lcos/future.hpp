@@ -33,6 +33,7 @@
 #include <hpx/util/function.hpp>
 #include <hpx/util/identity.hpp>
 #include <hpx/util/internal_allocator.hpp>
+#include <hpx/util/intrusive_ptr.hpp>
 #include <hpx/util/invoke.hpp>
 #include <hpx/util/lazy_enable_if.hpp>
 #include <hpx/util/result_of.hpp>
@@ -43,8 +44,6 @@
 #if defined(HPX_HAVE_AWAIT)
     #include <hpx/lcos/detail/future_await_traits.hpp>
 #endif
-
-#include <boost/intrusive_ptr.hpp>
 
 #include <exception>
 #include <iterator>
@@ -72,7 +71,7 @@ namespace hpx { namespace lcos { namespace detail
         value_type value;
         ar >> value;
 
-        boost::intrusive_ptr<shared_state> p(
+        util::intrusive_ptr<shared_state> p(
             new shared_state(init_no_addref{}, std::move(value)), false);
 
         f = hpx::traits::future_access<Future>::create(std::move(p));
@@ -88,7 +87,7 @@ namespace hpx { namespace lcos { namespace detail
         std::unique_ptr<value_type> value(
             serialization::detail::constructor_selector<value_type>::create(ar));
 
-        boost::intrusive_ptr<shared_state> p(
+        util::intrusive_ptr<shared_state> p(
             new shared_state(init_no_addref{}, std::move(*value)), false);
 
         f = hpx::traits::future_access<Future>::create(std::move(p));
@@ -114,7 +113,7 @@ namespace hpx { namespace lcos { namespace detail
             std::exception_ptr exception;
             ar >> exception;
 
-            boost::intrusive_ptr<shared_state> p(
+            util::intrusive_ptr<shared_state> p(
                 new shared_state(init_no_addref{}, std::move(exception)), false);
 
             f = hpx::traits::future_access<Future>::create(std::move(p));
@@ -139,7 +138,7 @@ namespace hpx { namespace lcos { namespace detail
         ar >> state;
         if (state == future_state::has_value)
         {
-            boost::intrusive_ptr<shared_state> p(
+            util::intrusive_ptr<shared_state> p(
                 new shared_state(init_no_addref{}, hpx::util::unused), false);
 
             f = hpx::traits::future_access<Future>::create(std::move(p));
@@ -147,7 +146,7 @@ namespace hpx { namespace lcos { namespace detail
             std::exception_ptr exception;
             ar >> exception;
 
-            boost::intrusive_ptr<shared_state> p(
+            util::intrusive_ptr<shared_state> p(
                 new shared_state(init_no_addref{}, std::move(exception)), false);
 
             f = hpx::traits::future_access<Future>::create(std::move(p));
@@ -563,12 +562,12 @@ namespace hpx { namespace lcos { namespace detail
         {}
 
         explicit future_base(
-            boost::intrusive_ptr<shared_state_type> const& p
+            util::intrusive_ptr<shared_state_type> const& p
         ) : shared_state_(p)
         {}
 
         explicit future_base(
-            boost::intrusive_ptr<shared_state_type> && p
+            util::intrusive_ptr<shared_state_type> && p
         ) : shared_state_(std::move(p))
         {}
 
@@ -830,7 +829,7 @@ namespace hpx { namespace lcos { namespace detail
 #endif
 
     protected:
-        boost::intrusive_ptr<shared_state_type> shared_state_;
+        util::intrusive_ptr<shared_state_type> shared_state_;
     };
 }}}
 
@@ -855,7 +854,7 @@ namespace hpx { namespace lcos
 
             ~invalidate()
             {
-                f_.shared_state_.reset();
+                f_.shared_state_ = nullptr;
             }
 
             future& f_;
@@ -868,20 +867,9 @@ namespace hpx { namespace lcos
         template <typename Future, typename Enable>
         friend struct hpx::traits::detail::future_access_customization_point;
 
-        // Effects: constructs a future object from an shared state
-        explicit future(
-            boost::intrusive_ptr<shared_state_type> const& state
-        ) : base_type(state)
-        {}
-
-        explicit future(
-            boost::intrusive_ptr<shared_state_type> && state
-        ) : base_type(std::move(state))
-        {}
-
-        template <typename SharedState>
-        explicit future(boost::intrusive_ptr<SharedState> const& state)
-          : base_type(boost::static_pointer_cast<shared_state_type>(state))
+        // Effects: constructs a future object from a shared state
+        explicit future(util::intrusive_ptr<shared_state_type> state)
+          : base_type(std::move(state))
         {}
 
     public:
@@ -1191,20 +1179,9 @@ namespace hpx { namespace lcos
         template <typename Future, typename Enable>
         friend struct hpx::traits::detail::future_access_customization_point;
 
-        // Effects: constructs a future object from an shared state
-        explicit shared_future(
-            boost::intrusive_ptr<shared_state_type> const& state
-        ) : base_type(state)
-        {}
-
-        explicit shared_future(
-            boost::intrusive_ptr<shared_state_type> && state
-        ) : base_type(std::move(state))
-        {}
-
-        template <typename SharedState>
-        explicit shared_future(boost::intrusive_ptr<SharedState> const& state)
-          : base_type(boost::static_pointer_cast<shared_state_type>(state))
+        // Effects: constructs a future object from a shared state
+        explicit shared_future(util::intrusive_ptr<shared_state_type> state)
+          : base_type(std::move(state))
         {}
 
     public:
@@ -1631,7 +1608,7 @@ namespace hpx { namespace lcos
         typedef lcos::detail::future_data<T> shared_state;
         typedef typename shared_state::init_no_addref init_no_addref;
 
-        boost::intrusive_ptr<shared_state> p(
+        util::intrusive_ptr<shared_state> p(
             new shared_state(init_no_addref{}, e), false);
 
         return hpx::traits::future_access<future<T> >::create(std::move(p));
@@ -1664,7 +1641,7 @@ namespace hpx { namespace lcos
         typedef typename hpx::util::decay_unwrap<T>::type result_type;
         typedef lcos::detail::timed_future_data<result_type> shared_state;
 
-        boost::intrusive_ptr<shared_state> p(
+        util::intrusive_ptr<shared_state> p(
             new shared_state(abs_time.value(), std::forward<T>(init)));
 
         return hpx::traits::future_access<future<result_type> >::create(

@@ -13,11 +13,10 @@
 #include <hpx/runtime/threads/thread_enums.hpp>
 #include <hpx/runtime/threads/topology.hpp>
 #include <hpx/util/atomic_count.hpp>
+#include <hpx/util/intrusive_ptr.hpp>
 #include <hpx/util/steady_clock.hpp>
 #include <hpx/util/thread_description.hpp>
 #include <hpx/util/unique_function.hpp>
-
-#include <boost/intrusive_ptr.hpp>
 
 #include <chrono>
 #include <cstddef>
@@ -376,7 +375,7 @@ namespace hpx { namespace threads
         }
 
     protected:
-        boost::intrusive_ptr<detail::executor_base> executor_data_;
+        util::intrusive_ptr<detail::executor_base> executor_data_;
     };
 
     ///////////////////////////////////////////////////////////////////////////
@@ -421,8 +420,9 @@ namespace hpx { namespace threads
             threads::thread_stacksize stacksize = threads::thread_stacksize_default,
             error_code& ec = throws)
         {
-            boost::static_pointer_cast<detail::scheduled_executor_base>(
-                executor_data_)->add_at(abs_time, std::move(f), desc, stacksize, ec);
+            static_cast<detail::scheduled_executor_base*>
+                    (executor_data_.get())->add_at(
+                        abs_time, std::move(f), desc, stacksize, ec);
         }
 
         void add_at(util::steady_time_point const& abs_time,
@@ -448,8 +448,9 @@ namespace hpx { namespace threads
             threads::thread_stacksize stacksize = threads::thread_stacksize_default,
             error_code& ec = throws)
         {
-            boost::static_pointer_cast<detail::scheduled_executor_base>(
-                executor_data_)->add_after(rel_time, std::move(f), desc, stacksize, ec);
+            static_cast<detail::scheduled_executor_base*>
+                    (executor_data_.get())->add_after(
+                        rel_time, std::move(f), desc, stacksize, ec);
         }
 
         void add_after(util::steady_duration const& rel_time,

@@ -157,8 +157,6 @@ namespace boost
       // atomic
       { "(\\bstd\\s*::\\s*atomic\\b)", "std::atomic", "atomic" },
       { "(\\bstd\\s*::\\s*(memory_order_*)\\b)", "std::\\2", "atomic" },
-      // boost
-      { "(\\bboost\\s*::\\s*intrusive_ptr\\b)", "boost::intrusive_ptr", "boost/intrusive_ptr.hpp" },
       // macros
       { "(\\bHPX_PP_CAT\\b)", "HPX_PP_CAT", "hpx/util/detail/pp/cat.hpp" },
       { "(\\bHPX_PP_EXPAND\\b)", "HPX_PP_EXPAND", "hpx/util/detail/pp/expand.hpp" },

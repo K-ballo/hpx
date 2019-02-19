@@ -23,11 +23,10 @@
 #include <hpx/util/atomic_count.hpp>
 #include <hpx/util/bind.hpp>
 #include <hpx/util/decay.hpp>
+#include <hpx/util/intrusive_ptr.hpp>
 #include <hpx/util/steady_clock.hpp>
 #include <hpx/util/unique_function.hpp>
 #include <hpx/util/unused.hpp>
-
-#include <boost/intrusive_ptr.hpp>
 
 // NOTE: small_vector was introduced in 1.58 but seems to be buggy in that
 // version, so use only from 1.59 onwards.
@@ -730,7 +729,7 @@ namespace detail
             util::steady_clock::time_point const& abs_time,
             Result_&& init)
         {
-            boost::intrusive_ptr<timed_future_data> this_(this);
+            util::intrusive_ptr<timed_future_data> this_(this);
 
             error_code ec;
             threads::thread_id_type id = threads::register_thread_nullary(
@@ -764,7 +763,7 @@ namespace detail
     protected:
         typedef future_data<Result> base_type;
         typedef typename future_data<Result>::mutex_type mutex_type;
-        typedef boost::intrusive_ptr<task_base> future_base_type;
+        typedef util::intrusive_ptr<task_base> future_base_type;
         typedef typename future_data<Result>::result_type result_type;
         typedef typename base_type::init_no_addref init_no_addref;
 
@@ -900,7 +899,7 @@ namespace detail
     {
     protected:
         typedef typename task_base<Result>::mutex_type mutex_type;
-        typedef boost::intrusive_ptr<cancelable_task_base> future_base_type;
+        typedef util::intrusive_ptr<cancelable_task_base> future_base_type;
         typedef typename future_data<Result>::result_type result_type;
         typedef typename task_base<Result>::init_no_addref init_no_addref;
 

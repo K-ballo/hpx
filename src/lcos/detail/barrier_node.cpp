@@ -10,9 +10,8 @@
 #include <hpx/runtime/components/component_type.hpp>
 #include <hpx/runtime/launch_policy.hpp>
 #include <hpx/util/assert.hpp>
+#include <hpx/util/intrusive_ptr.hpp>
 #include <hpx/util/unwrap.hpp>
-
-#include <boost/intrusive_ptr.hpp>
 
 #include <cstddef>
 #include <string>
@@ -86,7 +85,7 @@ namespace hpx { namespace lcos { namespace detail {
             {
                 if (async)
                 {
-                    boost::intrusive_ptr<barrier_node> this_(this);
+                    util::intrusive_ptr<barrier_node> this_(this);
                     return hpx::async(&barrier_node::set_event, this_);
                 }
                 set_event();
@@ -122,7 +121,7 @@ namespace hpx { namespace lcos { namespace detail {
 
         if (async)
         {
-            boost::intrusive_ptr<barrier_node> this_(this);
+            util::intrusive_ptr<barrier_node> this_(this);
             return do_wait(this_, std::move(result));
         }
         return do_wait(this, std::move(result));
@@ -172,7 +171,7 @@ namespace hpx { namespace lcos { namespace detail {
 
     template hpx::future<void>
         barrier_node::do_wait(
-            boost::intrusive_ptr<barrier_node>, hpx::future<void>);
+            util::intrusive_ptr<barrier_node>, hpx::future<void>);
     template hpx::future<void>
         barrier_node::do_wait(
             barrier_node*, hpx::future<void>);

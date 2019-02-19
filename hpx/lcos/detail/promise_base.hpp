@@ -20,9 +20,8 @@
 #include <hpx/traits/future_access.hpp>
 #include <hpx/traits/detail/wrap_int.hpp>
 #include <hpx/util/deferred_call.hpp>
+#include <hpx/util/intrusive_ptr.hpp>
 #include <hpx/util/unique_function.hpp>
-
-#include <boost/intrusive_ptr.hpp>
 
 #include <exception>
 #include <memory>
@@ -175,7 +174,7 @@ namespace lcos {
         protected:
             typedef Result result_type;
             typedef SharedState shared_state_type;
-            typedef boost::intrusive_ptr<shared_state_type> shared_state_ptr;
+            typedef util::intrusive_ptr<shared_state_type> shared_state_ptr;
 
             typedef promise_lco<Result, RemoteResult> wrapped_type;
             typedef components::managed_component<wrapped_type> wrapping_type;
@@ -211,7 +210,7 @@ namespace lcos {
             {
                 check_abandon_shared_state(
                     "lcos::detail::promise_base<R>::~promise_base()");
-                this->shared_state_.reset();
+                this->shared_state_ = nullptr;
             }
 
             promise_base& operator=(promise_base&& other) noexcept
