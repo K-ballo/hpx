@@ -9,6 +9,7 @@
 #define HPX_UTIL_DETAIL_VTABLE_VTABLE_HPP
 
 #include <hpx/config.hpp>
+#include <hpx/util/storage.hpp>
 
 #include <cstddef>
 #include <type_traits>
@@ -57,8 +58,7 @@ namespace hpx { namespace util { namespace detail
         template <typename T>
         static void* allocate(void* storage, std::size_t storage_size)
         {
-            using storage_t =
-                typename std::aligned_storage<sizeof(T), alignof(T)>::type;
+            using storage_t = hpx::util::storage_for<T>;
 
             if (sizeof(T) > storage_size) {
                 return new storage_t;
@@ -69,8 +69,7 @@ namespace hpx { namespace util { namespace detail
         template <typename T>
         static void _deallocate(void* obj, std::size_t storage_size, bool destroy)
         {
-            using storage_t =
-                typename std::aligned_storage<sizeof(T), alignof(T)>::type;
+            using storage_t = hpx::util::storage_for<T>;
 
             if (destroy) {
                 get<T>(obj).~T();

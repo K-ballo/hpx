@@ -7,6 +7,7 @@
 #define HPX_UTIL_STATIC_JUN_12_2008_0934AM
 
 #include <hpx/config.hpp>
+#include <hpx/util/storage.hpp>
 
 #include <type_traits>
 
@@ -152,11 +153,10 @@ namespace hpx { namespace util
 
         static pointer get_address()
         {
-            return reinterpret_cast<pointer>(data_);
+            return data_.template target<value_type>();
         }
 
-        typedef typename std::aligned_storage<sizeof(value_type),
-            std::alignment_of<value_type>::value>::type storage_type;
+        typedef hpx::util::storage_for<value_type> storage_type;
 
         static storage_type data_;
         static compat::once_flag constructed_;

@@ -206,7 +206,7 @@ namespace allocator
         HPX_STATIC_CONSTEXPR std::size_t page_size =
             PAGE_SIZE_ - sizeof(void*) - 2*sizeof(std::size_t);
 
-        typename std::aligned_storage<page_size>::type data;
+        typename hpx::util::aligned_storage<page_size>::type data;
 
         alloc_page* next;
         std::size_t allocated_blocks;

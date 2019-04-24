@@ -24,6 +24,7 @@
 #include <hpx/util/bind.hpp>
 #include <hpx/util/decay.hpp>
 #include <hpx/util/steady_clock.hpp>
+#include <hpx/util/storage.hpp>
 #include <hpx/util/unique_function.hpp>
 #include <hpx/util/unused.hpp>
 
@@ -166,19 +167,7 @@ namespace detail
         typedef typename future_data_result<R>::type value_type;
         typedef std::exception_ptr error_type;
 
-        // determine the required alignment, define aligned storage of proper
-        // size
-        HPX_STATIC_CONSTEXPR std::size_t max_alignment =
-            (std::alignment_of<value_type>::value >
-             std::alignment_of<error_type>::value) ?
-            std::alignment_of<value_type>::value
-          : std::alignment_of<error_type>::value;
-
-        HPX_STATIC_CONSTEXPR std::size_t max_size =
-                (sizeof(value_type) > sizeof(error_type)) ?
-                    sizeof(value_type) : sizeof(error_type);
-
-        typedef typename std::aligned_storage<max_size, max_alignment>::type type;
+        typedef hpx::util::storage_for<value_type, error_type> type;
     };
 
     ///////////////////////////////////////////////////////////////////////////
@@ -335,25 +324,20 @@ namespace detail
         future_data_base(init_no_addref no_addref, in_place, Ts&&... ts)
           : base_type(no_addref)
         {
-            result_type* value_ptr = reinterpret_cast<result_type*>(&storage_);
-            construct(value_ptr, std::forward<Ts>(ts)...);
+            storage_.template construct<result_type>(std::forward<Ts>(ts)...);
             state_.store(value, std::memory_order_relaxed);
         }
 
         future_data_base(init_no_addref no_addref, std::exception_ptr const& e)
           : base_type(no_addref)
         {
-            std::exception_ptr* exception_ptr =
-                reinterpret_cast<std::exception_ptr*>(&storage_);
-            ::new ((void*)exception_ptr) std::exception_ptr(e);
+            storage_.template construct<std::exception_ptr>(e);
             state_.store(exception, std::memory_order_relaxed);
         }
         future_data_base(init_no_addref no_addref, std::exception_ptr && e)
           : base_type(no_addref)
         {
-            std::exception_ptr* exception_ptr =
-                reinterpret_cast<std::exception_ptr*>(&storage_);
-            ::new ((void*)exception_ptr) std::exception_ptr(std::move(e));
+            storage_.template construct<std::exception_ptr>(std::move(e));
             state_.store(exception, std::memory_order_relaxed);
         }
 
@@ -381,7 +365,7 @@ namespace detail
         virtual result_type* get_result(error_code& ec = throws)
         {
             if (get_result_void(ec) != nullptr)
-                return reinterpret_cast<result_type*>(&storage_);
+                storage_.template target<result_type>();
             return nullptr;
         }
 
@@ -401,8 +385,7 @@ namespace detail
             //       attempting to set the value by definition.
 
             // set the data
-            result_type* value_ptr = reinterpret_cast<result_type*>(&storage_);
-            construct(value_ptr, std::forward<Ts>(ts)...);
+            storage_.template construct<result_type>(std::forward<Ts>(ts)...);
 
             // At this point the lock needs to be acquired to safely access the
             // registered continuations
@@ -456,9 +439,7 @@ namespace detail
             //       attempting to set the value by definition.
 
             // set the data
-            std::exception_ptr* exception_ptr =
-                reinterpret_cast<std::exception_ptr*>(&storage_);
-            ::new ((void*)exception_ptr) std::exception_ptr(std::move(data));
+            storage_.template construct<std::exception_ptr>(std::move(data));
 
             // At this point the lock needs to be acquired to safely access the
             // registered continuations
@@ -565,16 +546,12 @@ namespace detail
             switch (state_.exchange(empty)) {
             case value:
             {
-                result_type* value_ptr =
-                    reinterpret_cast<result_type*>(&storage_);
-                value_ptr->~result_type();
+                storage_.template destroy<result_type>();
                 break;
             }
             case exception:
             {
-                std::exception_ptr* exception_ptr =
-                    reinterpret_cast<std::exception_ptr*>(&storage_);
-                exception_ptr->~exception_ptr();
+                storage_.template destroy<std::exception_ptr>();
                 break;
             }
             default: break;
@@ -586,7 +563,7 @@ namespace detail
         std::exception_ptr get_exception_ptr() const override
         {
             HPX_ASSERT(state_.load(std::memory_order_acquire) == exception);
-            return *reinterpret_cast<std::exception_ptr const*>(&storage_);
+            return *storage_.template target<std::exception_ptr>();
         }
 
     protected:

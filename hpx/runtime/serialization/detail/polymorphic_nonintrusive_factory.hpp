@@ -21,6 +21,7 @@
 #include <hpx/util/debug/demangle_helper.hpp>
 #include <hpx/util/jenkins_hash.hpp>
 #include <hpx/util/static.hpp>
+#include <hpx/util/storage.hpp>
 
 #include <memory>
 #include <string>
@@ -93,8 +94,7 @@ namespace hpx { namespace serialization { namespace detail
         // is non-default-constructible
         static T* create(input_archive& ar, std::false_type)
         {
-            using storage_type = typename std::aligned_storage<
-                sizeof(T), alignof(T)>::type;
+            using storage_type = hpx::util::storage_for<T>;
 
             storage_type* storage = new storage_type;
             T* t = reinterpret_cast<T*>(storage);

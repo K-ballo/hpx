@@ -10,6 +10,7 @@
 #include <hpx/runtime/naming/name.hpp>
 #include <hpx/util/generate_unique_ids.hpp>
 #include <hpx/util/one_size_heap_list.hpp>
+#include <hpx/util/storage.hpp>
 #include <hpx/util/unlock_guard.hpp>
 
 #include <iostream>
@@ -26,9 +27,7 @@ namespace hpx { namespace components { namespace detail
         typedef util::one_size_heap_list base_type;
         typedef typename Heap::value_type value_type;
 
-        typedef typename std::aligned_storage<
-                sizeof(value_type), std::alignment_of<value_type>::value
-            >::type storage_type;
+        typedef hpx::util::storage_for<value_type> storage_type;
 
         enum
         {

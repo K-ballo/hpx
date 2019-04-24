@@ -7,6 +7,7 @@
 #define HPX_UTIL_OPTIONAL_HPP
 
 #include <hpx/config.hpp>
+#include <hpx/util/storage.hpp>
 
 #include <cstddef>
 #include <exception>
@@ -75,7 +76,7 @@ namespace hpx { namespace util
         {
             if (!other.empty_)
             {
-                new (&storage_) T(other.value());
+                storage_.template construct<T>(other.value());
                 empty_ = false;
             }
         }
@@ -85,7 +86,7 @@ namespace hpx { namespace util
         {
             if (!other.empty_)
             {
-                new (&storage_) T(std::move(other.value()));
+                storage_.template construct<T>(std::move(other.value()));
                 empty_ = false;
             }
         }
@@ -93,14 +94,14 @@ namespace hpx { namespace util
         optional(T const& val)
           : empty_(true)
         {
-            new (&storage_) T(val);
+            storage_.template construct<T>(val);
             empty_ = false;
         }
         optional(T && val)
                 noexcept(std::is_nothrow_move_constructible<T>::value)
           : empty_(true)
         {
-            new (&storage_) T(std::move(val));
+            storage_.template construct<T>(std::move(val));
             empty_ = false;
         }
 
@@ -108,7 +109,7 @@ namespace hpx { namespace util
         explicit optional(in_place_t, Ts &&... ts)
           : empty_(true)
         {
-            new (&storage_) T(std::forward<Ts>(ts)...);
+            storage_.template construct<T>(std::forward<Ts>(ts)...);
             empty_ = false;
         }
 
@@ -116,7 +117,7 @@ namespace hpx { namespace util
         explicit optional(in_place_t, std::initializer_list<U> il, Ts &&... ts)
           : empty_(true)
         {
-            new (&storage_) T(il, std::forward<Ts>(ts)...);
+            storage_.template construct<T>(il, std::forward<Ts>(ts)...);
             empty_ = false;
         }
 
@@ -140,7 +141,7 @@ namespace hpx { namespace util
             {
                 if (!other.empty_)
                 {
-                    new (&storage_) T(std::move(other.value()));
+                    storage_.template construct<T>(std::move(other.value()));
                     empty_ = false;
                 }
             }
@@ -148,7 +149,7 @@ namespace hpx { namespace util
             {
                 if (other.empty_)
                 {
-                    reinterpret_cast<T*>(&storage_)->~T();
+                    storage_.template destroy<T>();
                     empty_ = true;
                 }
                 else
@@ -170,11 +171,11 @@ namespace hpx { namespace util
         {
             if (!empty_)
             {
-                reinterpret_cast<T*>(&storage_)->~T();
+                storage_.template destroy<T>();
                 empty_ = true;
             }
 
-            new (&storage_) T(std::move(other));
+            storage_.template construct<T>(std::move(other));
             empty_ = false;
 
             return *this;
@@ -184,7 +185,7 @@ namespace hpx { namespace util
         {
             if (!empty_)
             {
-                reinterpret_cast<T*>(&storage_)->~T();
+                storage_.template destroy<T>();
                 empty_ = true;
             }
             return *this;
@@ -193,22 +194,22 @@ namespace hpx { namespace util
         ///////////////////////////////////////////////////////////////////////
         HPX_CONSTEXPR T const * operator->() const noexcept
         {
-            return reinterpret_cast<T const*>(&storage_);
+            return storage_.target<T>();
         }
 
         T* operator->() noexcept
         {
-            return reinterpret_cast<T*>(&storage_);
+            return storage_.target<T>();
         }
 
         HPX_CONSTEXPR T const& operator*() const noexcept
         {
-            return *reinterpret_cast<T const*>(&storage_);
+            return *storage_.target<T>();
         }
 
         T& operator*() noexcept
         {
-            return *reinterpret_cast<T*>(&storage_);
+            return *storage_.target<T>();
         }
 
         HPX_CONSTEXPR explicit operator bool() const noexcept
@@ -254,10 +255,10 @@ namespace hpx { namespace util
         {
             if (!empty_)
             {
-                reinterpret_cast<T*>(&storage_)->~T();
+                storage_.template destroy<T>();
                 empty_ = true;
             }
-            new (&storage_) T(std::forward<Ts>(ts)...);
+            storage_.template construct<T>(std::forward<Ts>(ts)...);
             empty_ = false;
         }
 
@@ -293,12 +294,12 @@ namespace hpx { namespace util
         {
             if (!empty_)
             {
-                reinterpret_cast<T*>(&storage_)->~T();
+                storage_.template destroy<T>();
             }
         }
 
     private:
-        typename std::aligned_storage<sizeof(T), alignof(T)>::type storage_;
+        hpx::util::storage_for<T> storage_;
         bool empty_;
     };
 

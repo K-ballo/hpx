@@ -11,6 +11,7 @@
 #include <hpx/lcos/local/once.hpp>
 #include <hpx/util/assert.hpp>
 #include <hpx/util/static_reinit.hpp>
+#include <hpx/util/storage.hpp>
 
 #include <cstddef>
 #include <memory>   // for placement new
@@ -134,11 +135,10 @@ namespace hpx { namespace lcos { namespace local
         static pointer get_address(std::size_t item)
         {
             HPX_ASSERT(item < N);
-            return static_cast<pointer>(data_[item].address());
+            return data_[item].target<value_type>();
         }
 
-        typedef typename std::aligned_storage<sizeof(value_type),
-            std::alignment_of<value_type>::value>::type storage_type;
+        typedef hpx::util::storage_for<value_type> storage_type;
 
         static storage_type data_[N];
         static lcos::local::once_flag constructed_;
