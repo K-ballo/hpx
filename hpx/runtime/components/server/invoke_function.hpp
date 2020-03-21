@@ -37,8 +37,7 @@ namespace hpx { namespace components { namespace server
     template <typename F, typename ...Ts>
     struct invoke_function_action
       : ::hpx::actions::action<
-            typename util::invoke_result<F, Ts...>::type(*)(F, Ts...),
-            &detail::invoke_function<F, Ts...>::call,
+            detail::invoke_function<F, Ts...>::call,
             invoke_function_action<F, Ts...> >
     {};
 }}}

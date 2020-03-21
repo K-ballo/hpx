@@ -299,8 +299,7 @@ namespace hpx { namespace lcos {
             typename std::decay<Args>::type...>;
 
         using helper_action_type =
-            typename hpx::actions::make_action<decltype(&helper_type::call),
-                &helper_type::call>::type;
+            typename hpx::actions::make_action<&helper_type::call>::type;
 
         helper_action_type act;
 

@@ -239,8 +239,7 @@ namespace hpx { namespace lcos {
 
             template <typename F>
             struct get_result_action
-              : hpx::actions::make_action<hpx::future<T> (all_reduce_server::*)(
-                                              std::size_t, T, F),
+              : hpx::actions::make_action<
                     &all_reduce_server::template get_result<F>,
                     get_result_action<F>>::type
             {

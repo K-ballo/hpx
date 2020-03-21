@@ -153,9 +153,7 @@ namespace hpx { namespace components { namespace server
     template <typename Component>
     struct migrate_to_storage_here_action
       : ::hpx::actions::action<
-            future<naming::id_type> (*)(naming::id_type const&,
-                naming::address const&, naming::id_type const&)
-          , &migrate_to_storage_here<Component>
+           &migrate_to_storage_here<Component>
           , migrate_to_storage_here_action<Component> >
     {};
 
@@ -205,9 +203,7 @@ namespace hpx { namespace components { namespace server
     template <typename Component>
     struct trigger_migrate_to_storage_here_action
       : ::hpx::actions::action<
-            future<naming::id_type> (*)(naming::id_type const&,
-                naming::id_type const&)
-          , &trigger_migrate_to_storage_here<Component>
+           &trigger_migrate_to_storage_here<Component>
           , trigger_migrate_to_storage_here_action<Component> >
     {};
 }}}

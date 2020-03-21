@@ -34,12 +34,10 @@
 #include <hpx/config/warnings_prefix.hpp>
 
 ///////////////////////////////////////////////////////////////////////////////
-namespace hpx { namespace actions
-{
+namespace hpx { namespace actions {
     /// \cond NOINTERNAL
 
-    namespace detail
-    {
+    namespace detail {
         struct plain_function
         {
             // Only localities are valid targets for a plain action
@@ -50,78 +48,64 @@ namespace hpx { namespace actions
         };
 
         ///////////////////////////////////////////////////////////////////////
-        inline std::string make_plain_action_name(
-            boost::string_ref action_name)
+        inline std::string make_plain_action_name(boost::string_ref action_name)
         {
             std::stringstream name;
             name << "plain action(" << action_name << ")";
             return name.str();
         }
-    }
+    }    // namespace detail
 
     ///////////////////////////////////////////////////////////////////////////
     //  Specialized generic plain (free) action types allowing to hold a
     //  different number of arguments
     ///////////////////////////////////////////////////////////////////////////
-    template <
-        typename R, typename ...Ps,
-        R (*F)(Ps...), typename Derived>
-    struct action<R (*)(Ps...), F, Derived>
+    template <typename R, typename... Ps, R (*F)(Ps...), typename Derived>
+    struct action<F, Derived>
       : public basic_action<detail::plain_function, R(Ps...),
-            typename detail::action_type<
-                action<R (*)(Ps...), F, Derived>,
-                Derived
-            >::type
-        >
+            typename detail::action_type<action<F, Derived>, Derived>::type>
     {
     public:
-        typedef typename detail::action_type<
-            action, Derived
-        >::type derived_type;
+        typedef
+            typename detail::action_type<action, Derived>::type derived_type;
 
-        static std::string get_action_name(naming::address::address_type /*lva*/)
+        static std::string get_action_name(
+            naming::address::address_type /*lva*/)
         {
             return detail::make_plain_action_name(
                 detail::get_action_name<derived_type>());
         }
 
-        template <typename ...Ts>
-        static R invoke(
-            naming::address::address_type /*lva*/,
+        template <typename... Ts>
+        static R invoke(naming::address::address_type /*lva*/,
             naming::address::component_type comptype, Ts&&... vs)
         {
-            basic_action<detail::plain_function, R(Ps...), derived_type>::
-                increment_invocation_count();
+            basic_action<detail::plain_function, R(Ps...),
+                derived_type>::increment_invocation_count();
             return F(std::forward<Ts>(vs)...);
         }
     };
 
 #if defined(HPX_HAVE_CXX17_NOEXCEPT_FUNCTIONS_AS_NONTYPE_TEMPLATE_ARGUMENTS)
-    template <
-        typename R, typename ...Ps,
-        R (*F)(Ps...) noexcept, typename Derived>
-    struct action<R (*)(Ps...) noexcept, F, Derived>
+    template <typename R, typename... Ps, R (*F)(Ps...) noexcept,
+        typename Derived>
+    struct action<F, Derived>
       : public basic_action<detail::plain_function, R(Ps...),
-            typename detail::action_type<
-                action<R (*)(Ps...) noexcept, F, Derived>,
-                Derived
-            >::type
-        >
+            typename detail::action_type<action<F, Derived>, Derived>::type>
     {
     public:
-        typedef typename detail::action_type<
-            action, Derived
-        >::type derived_type;
+        typedef
+            typename detail::action_type<action, Derived>::type derived_type;
 
-        static std::string get_action_name(naming::address::address_type /*lva*/)
+        static std::string get_action_name(
+            naming::address::address_type /*lva*/)
         {
             return detail::make_plain_action_name(
                 detail::get_action_name<derived_type>());
         }
 
-        template <typename ...Ts>
-        static R invoke(
-            naming::address::address_type /*lva*/,
+        template <typename... Ts>
+        static R invoke(naming::address::address_type /*lva*/,
             naming::address::component_type comptype, Ts&&... vs)
         {
             basic_action<detail::plain_function, R(Ps...),
@@ -132,27 +116,26 @@ namespace hpx { namespace actions
 #endif
 
     /// \endcond
-}}
+}}    // namespace hpx::actions
 
-namespace hpx { namespace traits
-{
+namespace hpx { namespace traits {
     /// \cond NOINTERNAL
-    template <> HPX_ALWAYS_EXPORT
-    inline components::component_type
+    template <>
+    HPX_ALWAYS_EXPORT inline components::component_type
     component_type_database<hpx::actions::detail::plain_function>::get()
     {
         return hpx::components::component_plain_function;
     }
 
-    template <> HPX_ALWAYS_EXPORT
-    inline void
-    component_type_database<hpx::actions::detail::plain_function>::set(
-        components::component_type)
+    template <>
+    HPX_ALWAYS_EXPORT inline void
+        component_type_database<hpx::actions::detail::plain_function>::set(
+            components::component_type)
     {
-        HPX_ASSERT(false);      // shouldn't be ever called
+        HPX_ASSERT(false);    // shouldn't be ever called
     }
     /// \endcond
-}}
+}}    // namespace hpx::traits
 
 /// \def HPX_DEFINE_PLAIN_ACTION(func, name)
 /// \brief Defines a plain action type
@@ -184,54 +167,50 @@ namespace hpx { namespace traits
 /// The second argument can be omitted only if the first argument with an
 /// appended suffix '_action' resolves to a valid, unqualified C++ type name.
 ///
-#define HPX_DEFINE_PLAIN_ACTION(...)                                          \
-    HPX_DEFINE_PLAIN_ACTION_(__VA_ARGS__)                                     \
+#define HPX_DEFINE_PLAIN_ACTION(...)                                           \
+    HPX_DEFINE_PLAIN_ACTION_(__VA_ARGS__)                                      \
     /**/
 
 /// \cond NOINTERNAL
 
-#define HPX_DEFINE_PLAIN_DIRECT_ACTION(...)                                   \
-    HPX_DEFINE_PLAIN_DIRECT_ACTION_(__VA_ARGS__)                              \
+#define HPX_DEFINE_PLAIN_DIRECT_ACTION(...)                                    \
+    HPX_DEFINE_PLAIN_DIRECT_ACTION_(__VA_ARGS__)                               \
     /**/
 
-#define HPX_DEFINE_PLAIN_ACTION_(...)                                         \
-    HPX_PP_EXPAND(HPX_PP_CAT(                                                 \
-        HPX_DEFINE_PLAIN_ACTION_, HPX_PP_NARGS(__VA_ARGS__)                   \
-    )(__VA_ARGS__))                                                           \
+#define HPX_DEFINE_PLAIN_ACTION_(...)                                          \
+    HPX_PP_EXPAND(HPX_PP_CAT(                                                  \
+        HPX_DEFINE_PLAIN_ACTION_, HPX_PP_NARGS(__VA_ARGS__))(__VA_ARGS__))     \
     /**/
 
-#define HPX_DEFINE_PLAIN_DIRECT_ACTION_(...)                                  \
-    HPX_PP_EXPAND(HPX_PP_CAT(                                                 \
-        HPX_DEFINE_PLAIN_DIRECT_ACTION_, HPX_PP_NARGS(__VA_ARGS__)            \
-    )(__VA_ARGS__))                                                           \
+#define HPX_DEFINE_PLAIN_DIRECT_ACTION_(...)                                   \
+    HPX_PP_EXPAND(HPX_PP_CAT(HPX_DEFINE_PLAIN_DIRECT_ACTION_,                  \
+        HPX_PP_NARGS(__VA_ARGS__))(__VA_ARGS__))                               \
     /**/
 
-#define HPX_DEFINE_PLAIN_ACTION_1(func)                                       \
-    HPX_DEFINE_PLAIN_ACTION_2(func, HPX_PP_CAT(func, _action))                \
+#define HPX_DEFINE_PLAIN_ACTION_1(func)                                        \
+    HPX_DEFINE_PLAIN_ACTION_2(func, HPX_PP_CAT(func, _action))                 \
     /**/
 
 #if defined(__NVCC__) || defined(__CUDACC__)
-#define HPX_DEFINE_PLAIN_ACTION_2(func, name)                                 \
-    struct name : hpx::actions::make_action<                                  \
-        typename std::add_pointer<                                            \
-            typename std::remove_pointer<decltype(&func)>::type               \
-        >::type, &func, name>::type {}                                        \
-    /**/
+#define HPX_DEFINE_PLAIN_ACTION_2(func, name)                                  \
+    struct name : hpx::actions::make_action<&func, name>::type                 \
+    {                                                                          \
+    } /**/
 #else
-#define HPX_DEFINE_PLAIN_ACTION_2(func, name)                                 \
-    struct name : hpx::actions::make_action<                                  \
-        decltype(&func), &func, name>::type {}                                \
-    /**/
+#define HPX_DEFINE_PLAIN_ACTION_2(func, name)                                  \
+    struct name : hpx::actions::make_action<&func, name>::type                 \
+    {                                                                          \
+    } /**/
 #endif
 
-#define HPX_DEFINE_PLAIN_DIRECT_ACTION_1(func)                                \
-    HPX_DEFINE_PLAIN_DIRECT_ACTION_2(func, HPX_PP_CAT(func, _action))         \
+#define HPX_DEFINE_PLAIN_DIRECT_ACTION_1(func)                                 \
+    HPX_DEFINE_PLAIN_DIRECT_ACTION_2(func, HPX_PP_CAT(func, _action))          \
     /**/
 
-#define HPX_DEFINE_PLAIN_DIRECT_ACTION_2(func, name)                          \
-    struct name : hpx::actions::make_direct_action<                           \
-        decltype(&func), &func, name>::type {}                                \
-    /**/
+#define HPX_DEFINE_PLAIN_DIRECT_ACTION_2(func, name)                           \
+    struct name : hpx::actions::make_direct_action<&func, name>::type          \
+    {                                                                          \
+    } /**/
 
 /// \endcond
 
@@ -239,8 +218,8 @@ namespace hpx { namespace traits
 /// \def HPX_DECLARE_PLAIN_ACTION(func, name)
 /// \brief Declares a plain action type
 ///
-#define HPX_DECLARE_PLAIN_ACTION(...)                                         \
-    HPX_DECLARE_ACTION(__VA_ARGS__)                                           \
+#define HPX_DECLARE_PLAIN_ACTION(...)                                          \
+    HPX_DECLARE_ACTION(__VA_ARGS__)                                            \
     /**/
 
 /// \def HPX_PLAIN_ACTION(func, name)
@@ -289,8 +268,8 @@ namespace hpx { namespace traits
 ///       \a HPX_PLAIN_ACTION_ID should be used for a particular action,
 ///       never both.
 ///
-#define HPX_PLAIN_ACTION(...)                                                 \
-    HPX_PLAIN_ACTION_(__VA_ARGS__)                                            \
+#define HPX_PLAIN_ACTION(...)                                                  \
+    HPX_PLAIN_ACTION_(__VA_ARGS__)                                             \
 /**/
 
 /// \def HPX_PLAIN_ACTION_ID(func, actionname, actionid)
@@ -339,16 +318,16 @@ namespace hpx { namespace traits
 ///       \a HPX_PLAIN_ACTION_ID should be used for a particular action,
 ///       never both.
 ///
-#define HPX_PLAIN_ACTION_ID(func, name, id)                                   \
-    HPX_DEFINE_PLAIN_ACTION(func, name);                                      \
-    HPX_REGISTER_ACTION_DECLARATION(name, name);                              \
-    HPX_REGISTER_ACTION_ID(name, name, id);                                   \
-/**/
+#define HPX_PLAIN_ACTION_ID(func, name, id)                                    \
+    HPX_DEFINE_PLAIN_ACTION(func, name);                                       \
+    HPX_REGISTER_ACTION_DECLARATION(name, name);                               \
+    HPX_REGISTER_ACTION_ID(name, name, id);                                    \
+    /**/
 
 /// \cond NOINTERNAL
 
-#define HPX_PLAIN_DIRECT_ACTION(...)                                          \
-    HPX_PLAIN_DIRECT_ACTION_(__VA_ARGS__)                                     \
+#define HPX_PLAIN_DIRECT_ACTION(...)                                           \
+    HPX_PLAIN_DIRECT_ACTION_(__VA_ARGS__)                                      \
 /**/
 
 /// \endcond
@@ -356,43 +335,40 @@ namespace hpx { namespace traits
 /// \cond NOINTERNAL
 
 // macros for plain actions
-#define HPX_PLAIN_ACTION_(...)                                                \
-    HPX_PP_EXPAND(HPX_PP_CAT(                                                 \
-        HPX_PLAIN_ACTION_, HPX_PP_NARGS(__VA_ARGS__)                          \
-    )(__VA_ARGS__))                                                           \
+#define HPX_PLAIN_ACTION_(...)                                                 \
+    HPX_PP_EXPAND(                                                             \
+        HPX_PP_CAT(HPX_PLAIN_ACTION_, HPX_PP_NARGS(__VA_ARGS__))(__VA_ARGS__)) \
 /**/
-#define HPX_PLAIN_ACTION_2(func, name)                                        \
-    HPX_DEFINE_PLAIN_ACTION(func, name);                                      \
-    HPX_REGISTER_ACTION_DECLARATION(name, name);                              \
-    HPX_REGISTER_ACTION(name, name);                                          \
+#define HPX_PLAIN_ACTION_2(func, name)                                         \
+    HPX_DEFINE_PLAIN_ACTION(func, name);                                       \
+    HPX_REGISTER_ACTION_DECLARATION(name, name);                               \
+    HPX_REGISTER_ACTION(name, name);                                           \
 /**/
-#define HPX_PLAIN_ACTION_1(func)                                              \
-    HPX_PLAIN_ACTION_2(func, HPX_PP_CAT(func, _action));                      \
+#define HPX_PLAIN_ACTION_1(func)                                               \
+    HPX_PLAIN_ACTION_2(func, HPX_PP_CAT(func, _action));                       \
 /**/
 
 // same for direct actions
-#define HPX_PLAIN_DIRECT_ACTION_(...)                                         \
-    HPX_PP_EXPAND(HPX_PP_CAT(                                                 \
-        HPX_PLAIN_DIRECT_ACTION_, HPX_PP_NARGS(__VA_ARGS__)                   \
-    )(__VA_ARGS__))                                                           \
+#define HPX_PLAIN_DIRECT_ACTION_(...)                                          \
+    HPX_PP_EXPAND(HPX_PP_CAT(                                                  \
+        HPX_PLAIN_DIRECT_ACTION_, HPX_PP_NARGS(__VA_ARGS__))(__VA_ARGS__))     \
 /**/
-#define HPX_PLAIN_DIRECT_ACTION_2(func, name)                                 \
-    HPX_DEFINE_PLAIN_DIRECT_ACTION(func, name);                               \
-    HPX_REGISTER_ACTION_DECLARATION(name, name);                              \
-    HPX_REGISTER_ACTION(name, name);                                          \
+#define HPX_PLAIN_DIRECT_ACTION_2(func, name)                                  \
+    HPX_DEFINE_PLAIN_DIRECT_ACTION(func, name);                                \
+    HPX_REGISTER_ACTION_DECLARATION(name, name);                               \
+    HPX_REGISTER_ACTION(name, name);                                           \
 /**/
-#define HPX_PLAIN_DIRECT_ACTION_1(func)                                       \
-    HPX_PLAIN_DIRECT_ACTION_2(func, HPX_PP_CAT(func, _action));               \
+#define HPX_PLAIN_DIRECT_ACTION_1(func)                                        \
+    HPX_PLAIN_DIRECT_ACTION_2(func, HPX_PP_CAT(func, _action));                \
 /**/
-#define HPX_PLAIN_DIRECT_ACTION_ID(func, name, id)                            \
-    HPX_DEFINE_PLAIN_DIRECT_ACTION(func, name);                               \
-    HPX_REGISTER_ACTION_DECLARATION(name, name);                              \
-    HPX_REGISTER_ACTION_ID(name, name, id);                                   \
-/**/
+#define HPX_PLAIN_DIRECT_ACTION_ID(func, name, id)                             \
+    HPX_DEFINE_PLAIN_DIRECT_ACTION(func, name);                                \
+    HPX_REGISTER_ACTION_DECLARATION(name, name);                               \
+    HPX_REGISTER_ACTION_ID(name, name, id);                                    \
+    /**/
 
 /// \endcond
 
 #include <hpx/config/warnings_suffix.hpp>
 
 #endif
-

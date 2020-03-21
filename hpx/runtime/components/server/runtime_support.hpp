@@ -608,32 +608,28 @@ namespace hpx { namespace components { namespace server
     template <typename Component, typename ...Ts>
     struct create_component_action
       : ::hpx::actions::action<
-            naming::gid_type (runtime_support::*)(Ts...)
-          , &runtime_support::create_component<Component, Ts...>
+           &runtime_support::create_component<Component, Ts...>
           , create_component_action<Component, Ts...> >
     {};
 
     template <typename Component>
     struct create_component_action<Component>
       : ::hpx::actions::action<
-            naming::gid_type (runtime_support::*)()
-          , &runtime_support::create_component<Component>
+           &runtime_support::create_component<Component>
           , create_component_action<Component> >
     {};
 
     template <typename Component, typename ...Ts>
     struct create_component_direct_action
       : ::hpx::actions::direct_action<
-            naming::gid_type (runtime_support::*)(Ts...)
-          , &runtime_support::create_component<Component, Ts...>
+           &runtime_support::create_component<Component, Ts...>
           , create_component_direct_action<Component, Ts...> >
     {};
 
     template <typename Component>
     struct create_component_direct_action<Component>
       : ::hpx::actions::direct_action<
-            naming::gid_type (runtime_support::*)()
-          , &runtime_support::create_component<Component>
+           &runtime_support::create_component<Component>
           , create_component_direct_action<Component> >
     {};
 
@@ -641,32 +637,28 @@ namespace hpx { namespace components { namespace server
     template <typename Component, typename ...Ts>
     struct bulk_create_component_action
       : ::hpx::actions::action<
-            std::vector<naming::gid_type> (runtime_support::*)(std::size_t, Ts...)
-          , &runtime_support::bulk_create_component<Component, Ts...>
+           &runtime_support::bulk_create_component<Component, Ts...>
           , bulk_create_component_action<Component, Ts...> >
     {};
 
     template <typename Component>
     struct bulk_create_component_action<Component>
       : ::hpx::actions::action<
-            std::vector<naming::gid_type> (runtime_support::*)(std::size_t)
-          , &runtime_support::bulk_create_component<Component>
+           &runtime_support::bulk_create_component<Component>
           , bulk_create_component_action<Component> >
     {};
 
     template <typename Component, typename ...Ts>
     struct bulk_create_component_direct_action
       : ::hpx::actions::direct_action<
-            std::vector<naming::gid_type> (runtime_support::*)(std::size_t, Ts...)
-          , &runtime_support::bulk_create_component<Component, Ts...>
+           &runtime_support::bulk_create_component<Component, Ts...>
           , bulk_create_component_direct_action<Component, Ts...> >
     {};
 
     template <typename Component>
     struct bulk_create_component_direct_action<Component>
       : ::hpx::actions::direct_action<
-            std::vector<naming::gid_type> (runtime_support::*)(std::size_t)
-          , &runtime_support::bulk_create_component<Component>
+           &runtime_support::bulk_create_component<Component>
           , bulk_create_component_direct_action<Component> >
     {};
 
@@ -674,17 +666,13 @@ namespace hpx { namespace components { namespace server
     template <typename Component>
     struct copy_create_component_action
       : ::hpx::actions::action<
-            naming::gid_type (runtime_support::*)(
-                std::shared_ptr<Component> const&, bool)
-          , &runtime_support::copy_create_component<Component>
+           &runtime_support::copy_create_component<Component>
           , copy_create_component_action<Component> >
     {};
     template <typename Component>
     struct migrate_component_here_action
       : ::hpx::actions::action<
-            naming::gid_type (runtime_support::*)(
-                std::shared_ptr<Component> const&, naming::id_type)
-          , &runtime_support::migrate_component_to_here<Component>
+           &runtime_support::migrate_component_to_here<Component>
           , migrate_component_here_action<Component> >
     {};
 }}}

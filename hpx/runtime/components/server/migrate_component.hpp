@@ -197,9 +197,7 @@ namespace hpx { namespace components { namespace server
     template <typename Component, typename DistPolicy>
     struct migrate_component_action
       : ::hpx::actions::action<
-            future<id_type> (*)(id_type const&,
-                naming::address const&, DistPolicy const&)
-          , &migrate_component<Component, DistPolicy>
+           &migrate_component<Component, DistPolicy>
           , migrate_component_action<Component, DistPolicy> >
     {};
 
@@ -271,9 +269,7 @@ namespace hpx { namespace components { namespace server
     template <typename Component, typename DistPolicy>
     struct trigger_migrate_component_action
       : ::hpx::actions::action<
-            future<id_type> (*)(id_type const&, DistPolicy const&,
-                naming::id_type const&, naming::address const&)
-          , &trigger_migrate_component<Component, DistPolicy>
+           &trigger_migrate_component<Component, DistPolicy>
           , trigger_migrate_component_action<Component, DistPolicy> >
     {};
 
@@ -354,8 +350,7 @@ namespace hpx { namespace components { namespace server
     template <typename Component, typename DistPolicy>
     struct perform_migrate_component_action
       : ::hpx::actions::action<
-            future<id_type> (*)(id_type const&, DistPolicy const&)
-          , &perform_migrate_component<Component, DistPolicy>
+           &perform_migrate_component<Component, DistPolicy>
           , perform_migrate_component_action<Component, DistPolicy> >
     {};
 }}}

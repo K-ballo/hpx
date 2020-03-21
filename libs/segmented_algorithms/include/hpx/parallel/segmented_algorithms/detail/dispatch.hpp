@@ -275,7 +275,7 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
     // sequential
     template <typename Algo, typename ExPolicy, typename R, typename... Args>
     struct algorithm_invoker_action<Algo, ExPolicy, std::true_type, R(Args...)>
-      : hpx::actions::make_action<R (*)(Algo const&, ExPolicy, Args...),
+      : hpx::actions::make_action<
             &dispatcher<Algo, ExPolicy, Args...>::sequential,
             algorithm_invoker_action<Algo, ExPolicy, std::true_type,
                 R(Args...)>>::type
@@ -285,7 +285,7 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
     // parallel
     template <typename Algo, typename ExPolicy, typename R, typename... Args>
     struct algorithm_invoker_action<Algo, ExPolicy, std::false_type, R(Args...)>
-      : hpx::actions::make_action<R (*)(Algo const&, ExPolicy, Args...),
+      : hpx::actions::make_action<
             &dispatcher<Algo, ExPolicy, Args...>::parallel,
             algorithm_invoker_action<Algo, ExPolicy, std::false_type,
                 R(Args...)>>::type
