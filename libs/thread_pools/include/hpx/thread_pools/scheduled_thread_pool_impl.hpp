@@ -13,6 +13,7 @@
 #include <hpx/execution_base/this_thread.hpp>
 #include <hpx/functional/deferred_call.hpp>
 #include <hpx/functional/invoke.hpp>
+#include <hpx/functional/monostate_function.hpp>
 #include <hpx/modules/errors.hpp>
 #include <hpx/modules/schedulers.hpp>
 #include <hpx/thread_pools/scheduled_thread_pool.hpp>
@@ -487,8 +488,9 @@ namespace hpx { namespace threads { namespace detail {
 
                 detail::scheduling_callbacks callbacks(
                     util::deferred_call(    //-V107
-                        &policies::scheduler_base::idle_callback, sched_.get(),
-                        thread_num),
+                        HPX_MONOSTATE_FUNCTION(
+                            &policies::scheduler_base::idle_callback),
+                        sched_.get(), thread_num),
                     nullptr, nullptr, max_background_threads_,
                     max_idle_loop_count_, max_busy_loop_count_);
 

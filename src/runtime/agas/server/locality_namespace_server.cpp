@@ -46,7 +46,7 @@ void locality_namespace::register_counter_types(
     )
 {
     performance_counters::create_counter_func creator(
-        util::bind_back(&performance_counters::agas_raw_counter_creator
+        util::bind_back(HPX_MONOSTATE_FUNCTION(&performance_counters::agas_raw_counter_creator)
       , agas::server::locality_namespace_service_name));
 
     for (std::size_t i = 0;
@@ -85,7 +85,7 @@ void locality_namespace::register_counter_types(
           , type
           , help
           , creator
-          , &performance_counters::locality0_counter_discoverer
+          , HPX_MONOSTATE_FUNCTION(&performance_counters::locality0_counter_discoverer)
           , HPX_PERFORMANCE_COUNTER_V1
           , detail::locality_namespace_services[i].uom_
           , ec
@@ -99,7 +99,7 @@ void locality_namespace::register_global_counter_types(
     )
 {
     performance_counters::create_counter_func creator(
-        util::bind_back(&performance_counters::agas_raw_counter_creator
+        util::bind_back(HPX_MONOSTATE_FUNCTION(&performance_counters::agas_raw_counter_creator)
       , agas::server::locality_namespace_service_name));
 
     for (std::size_t i = 0;
@@ -133,7 +133,7 @@ void locality_namespace::register_global_counter_types(
           , type
           , help
           , creator
-          , &performance_counters::locality0_counter_discoverer
+          , HPX_MONOSTATE_FUNCTION(&performance_counters::locality0_counter_discoverer)
           , HPX_PERFORMANCE_COUNTER_V1
           , detail::locality_namespace_services[i].uom_
           , ec
@@ -507,37 +507,37 @@ naming::gid_type locality_namespace::statistics_counter(std::string const& name)
     {
         switch (code) {
         case locality_ns_allocate:
-            get_data_func = util::bind_front(&cd::get_allocate_count,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_allocate_count),
                 &counter_data_);
             counter_data_.allocate_.enabled_ = true;
             break;
         case locality_ns_resolve_locality:
-            get_data_func = util::bind_front(&cd::get_resolve_locality_count,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_resolve_locality_count),
                 &counter_data_);
             counter_data_.resolve_locality_.enabled_ = true;
             break;
         case locality_ns_free:
-            get_data_func = util::bind_front(&cd::get_free_count,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_free_count),
                 &counter_data_);
             counter_data_.free_.enabled_ = true;
             break;
         case locality_ns_localities:
-            get_data_func = util::bind_front(&cd::get_localities_count,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_localities_count),
                 &counter_data_);
             counter_data_.localities_.enabled_ = true;
             break;
         case locality_ns_num_localities:
-            get_data_func = util::bind_front(&cd::get_num_localities_count,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_num_localities_count),
                 &counter_data_);
             counter_data_.num_localities_.enabled_ = true;
             break;
         case locality_ns_num_threads:
-            get_data_func = util::bind_front(&cd::get_num_threads_count,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_num_threads_count),
                 &counter_data_);
             counter_data_.num_threads_.enabled_ = true;
             break;
         case locality_ns_statistics_counter:
-            get_data_func = util::bind_front(&cd::get_overall_count,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_overall_count),
                 &counter_data_);
             counter_data_.enable_all();
             break;
@@ -551,37 +551,37 @@ naming::gid_type locality_namespace::statistics_counter(std::string const& name)
         HPX_ASSERT(detail::counter_target_time == target);
         switch (code) {
         case locality_ns_allocate:
-            get_data_func = util::bind_front(&cd::get_allocate_time,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_allocate_time),
                 &counter_data_);
             counter_data_.allocate_.enabled_ = true;
             break;
         case locality_ns_resolve_locality:
-            get_data_func = util::bind_front(&cd::get_resolve_locality_time,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_resolve_locality_time),
                 &counter_data_);
             counter_data_.resolve_locality_.enabled_ = true;
             break;
         case locality_ns_free:
-            get_data_func = util::bind_front(&cd::get_free_time,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_free_time),
                 &counter_data_);
             counter_data_.free_.enabled_ = true;
             break;
         case locality_ns_localities:
-            get_data_func = util::bind_front(&cd::get_localities_time,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_localities_time),
                 &counter_data_);
             counter_data_.localities_.enabled_ = true;
             break;
         case locality_ns_num_localities:
-            get_data_func = util::bind_front(&cd::get_num_localities_time,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_num_localities_time),
                 &counter_data_);
             counter_data_.num_localities_.enabled_ = true;
             break;
         case locality_ns_num_threads:
-            get_data_func = util::bind_front(&cd::get_num_threads_time,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_num_threads_time),
                 &counter_data_);
             counter_data_.num_threads_.enabled_ = true;
             break;
         case locality_ns_statistics_counter:
-            get_data_func = util::bind_front(&cd::get_overall_time,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_overall_time),
                 &counter_data_);
             counter_data_.enable_all();
             break;

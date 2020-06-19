@@ -6,6 +6,7 @@
 //  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 #include <hpx/assert.hpp>
+#include <hpx/functional/monostate_function.hpp>
 #include <hpx/modules/errors.hpp>
 #include <hpx/serialization/exception_ptr.hpp>
 #include <hpx/serialization/serialize.hpp>
@@ -279,7 +280,8 @@ namespace hpx { namespace serialization {
 
         save_custom_exception_handler_type& get_save_custom_exception_handler()
         {
-            static save_custom_exception_handler_type f = save;
+            static save_custom_exception_handler_type f =
+                HPX_MONOSTATE_FUNCTION(&save);
             return f;
         }
 
@@ -291,7 +293,8 @@ namespace hpx { namespace serialization {
 
         load_custom_exception_handler_type& get_load_custom_exception_handler()
         {
-            static load_custom_exception_handler_type f = load;
+            static load_custom_exception_handler_type f =
+                HPX_MONOSTATE_FUNCTION(&load);
             return f;
         }
 

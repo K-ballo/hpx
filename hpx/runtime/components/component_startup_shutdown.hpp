@@ -64,7 +64,7 @@ namespace hpx { namespace components
              startup_function_type& startup_func, bool& pre_startup)          \
         {                                                                     \
             util::function_nonser<bool(startup_function_type&, bool&)> tmp =  \
-                static_cast<bool(*)(startup_function_type&, bool&)>(startup_);\
+                HPX_MONOSTATE_FUNCTION(static_cast<bool(*)(startup_function_type&, bool&)>(startup_));\
             if (!!tmp) { return tmp(startup_func, pre_startup); }             \
             return false;                                                     \
         }                                                                     \
@@ -72,7 +72,7 @@ namespace hpx { namespace components
              shutdown_function_type& shutdown_func, bool& pre_shutdown)       \
         {                                                                     \
             util::function_nonser<bool(shutdown_function_type&, bool&)> tmp = \
-                static_cast<bool(*)(shutdown_function_type&, bool&)>(shutdown_);\
+                HPX_MONOSTATE_FUNCTION(static_cast<bool(*)(shutdown_function_type&, bool&)>(shutdown_));\
             if (!!tmp) { return tmp(shutdown_func, pre_shutdown); }           \
             return false;                                                     \
         }                                                                     \

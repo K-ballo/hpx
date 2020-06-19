@@ -179,7 +179,7 @@ namespace hpx { namespace detail {
         // list all counter names
         list_counter_names_header(true);
         performance_counters::discover_counter_types(
-            &list_counter, performance_counters::discover_counters_minimal);
+            HPX_MONOSTATE_FUNCTION(&list_counter), performance_counters::discover_counters_minimal);
     }
 
     void list_counter_names_full()
@@ -187,7 +187,7 @@ namespace hpx { namespace detail {
         // list all counter names
         list_counter_names_header(false);
         performance_counters::discover_counter_types(
-            &list_counter, performance_counters::discover_counters_full);
+            HPX_MONOSTATE_FUNCTION(&list_counter), performance_counters::discover_counters_full);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -230,7 +230,7 @@ namespace hpx { namespace detail {
     {
         // list all counter information
         list_counter_infos_header(true);
-        performance_counters::discover_counter_types(&list_counter_info,
+        performance_counters::discover_counter_types(HPX_MONOSTATE_FUNCTION(&list_counter_info),
             performance_counters::discover_counters_minimal);
     }
 
@@ -239,7 +239,7 @@ namespace hpx { namespace detail {
         // list all counter information
         list_counter_infos_header(false);
         performance_counters::discover_counter_types(
-            &list_counter_info, performance_counters::discover_counters_full);
+            HPX_MONOSTATE_FUNCTION(&list_counter_info), performance_counters::discover_counters_full);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -421,9 +421,9 @@ namespace hpx {
                 // Print the names of all registered performance counters.
                 std::string option(vm["hpx:list-counters"].as<std::string>());
                 if (0 == std::string("minimal").find(option))
-                    rt.add_startup_function(&list_counter_names_minimal);
+                    rt.add_startup_function(HPX_MONOSTATE_FUNCTION(&list_counter_names_minimal));
                 else if (0 == std::string("full").find(option))
-                    rt.add_startup_function(&list_counter_names_full);
+                    rt.add_startup_function(HPX_MONOSTATE_FUNCTION(&list_counter_names_full));
                 else
                 {
                     std::string msg("Invalid command line option value"
@@ -439,9 +439,9 @@ namespace hpx {
                 std::string option(
                     vm["hpx:list-counter-infos"].as<std::string>());
                 if (0 == std::string("minimal").find(option))
-                    rt.add_startup_function(&list_counter_infos_minimal);
+                    rt.add_startup_function(HPX_MONOSTATE_FUNCTION(&list_counter_infos_minimal));
                 else if (0 == std::string("full").find(option))
-                    rt.add_startup_function(&list_counter_infos_full);
+                    rt.add_startup_function(HPX_MONOSTATE_FUNCTION(&list_counter_infos_full));
                 else
                 {
                     std::string msg("Invalid command line option value"
@@ -454,12 +454,12 @@ namespace hpx {
             if (vm.count("hpx:list-symbolic-names"))
             {
                 // Print all registered symbolic names.
-                rt.add_startup_function(&list_symbolic_names);
+                rt.add_startup_function(HPX_MONOSTATE_FUNCTION(&list_symbolic_names));
             }
             if (vm.count("hpx:list-component-types"))
             {
                 // Print all registered component types.
-                rt.add_startup_function(&list_component_types);
+                rt.add_startup_function(HPX_MONOSTATE_FUNCTION(&list_component_types));
             }
 
             if (vm.count("hpx:print-counter") ||
@@ -541,12 +541,12 @@ namespace hpx {
                 {
                     // schedule to run at shutdown
                     rt.add_pre_shutdown_function(util::bind_front(
-                        &util::query_counters::evaluate, qc, true));
+                        HPX_MONOSTATE_FUNCTION(&util::query_counters::evaluate), qc, true));
                 }
 
                 // schedule to start all counters
 
-                rt.add_startup_function(util::bind_front(&start_counters, qc));
+                rt.add_startup_function(util::bind_front(HPX_MONOSTATE_FUNCTION(&start_counters), qc));
 
                 // register the query_counters object with the runtime system
                 rtd->register_query_counters(qc);
@@ -698,18 +698,18 @@ namespace hpx {
             HPX_UNUSED(hpx::filesystem::initial_path());
 
             hpx::assertion::set_assertion_handler(&detail::assertion_handler);
-            hpx::util::set_test_failure_handler(&detail::test_failure_handler);
+            hpx::util::set_test_failure_handler(HPX_MONOSTATE_FUNCTION(&detail::test_failure_handler));
 #if defined(HPX_HAVE_APEX)
             hpx::util::set_enable_parent_task_handler(
                 &detail::enable_parent_task_handler);
 #endif
             hpx::set_custom_exception_info_handler(
-                &detail::custom_exception_info);
+                HPX_MONOSTATE_FUNCTION(&detail::custom_exception_info));
             hpx::serialization::detail::set_save_custom_exception_handler(
-                &runtime_local::detail::save_custom_exception);
+                HPX_MONOSTATE_FUNCTION(&runtime_local::detail::save_custom_exception));
             hpx::serialization::detail::set_load_custom_exception_handler(
-                &runtime_local::detail::load_custom_exception);
-            hpx::set_pre_exception_handler(&detail::pre_exception_handler);
+                HPX_MONOSTATE_FUNCTION(&runtime_local::detail::load_custom_exception));
+            hpx::set_pre_exception_handler(HPX_MONOSTATE_FUNCTION(&detail::pre_exception_handler));
             hpx::set_thread_termination_handler(
                 [](std::exception_ptr const& e) { report_error(e); });
             hpx::lcos::detail::set_run_on_completed_error_handler(
@@ -718,26 +718,26 @@ namespace hpx {
                 });
 #if defined(HPX_HAVE_VERIFY_LOCKS)
             hpx::util::set_registered_locks_error_handler(
-                &detail::registered_locks_error_handler);
+                HPX_MONOSTATE_FUNCTION(&detail::registered_locks_error_handler));
             hpx::util::set_register_locks_predicate(
-                &detail::register_locks_predicate);
+                HPX_MONOSTATE_FUNCTION(&detail::register_locks_predicate));
 #endif
 #if !defined(HPX_HAVE_DISABLED_SIGNAL_EXCEPTION_HANDLERS)
             set_error_handlers();
 #endif
             hpx::threads::detail::set_get_default_pool(
-                &detail::get_default_pool);
+                HPX_MONOSTATE_FUNCTION(&detail::get_default_pool));
             hpx::threads::detail::set_get_default_timer_service(
-                &hpx::detail::get_default_timer_service);
+                HPX_MONOSTATE_FUNCTION(&hpx::detail::get_default_timer_service));
             hpx::threads::detail::set_get_locality_id(&get_locality_id);
             hpx::parallel::execution::detail::set_get_pu_mask(
-                &hpx::detail::get_pu_mask);
+                HPX_MONOSTATE_FUNCTION(&hpx::detail::get_pu_mask));
             hpx::parallel::execution::detail::set_get_os_thread_count(
                 []() { return hpx::get_os_thread_count(); });
             hpx::parallel::v1::detail::set_exception_list_termination_handler(
-                &hpx::terminate);
+                HPX_MONOSTATE_FUNCTION(&hpx::terminate));
             hpx::parallel::util::detail::
-                set_parallel_exception_termination_handler(&hpx::terminate);
+                set_parallel_exception_termination_handler(HPX_MONOSTATE_FUNCTION(&hpx::terminate));
 
 #if defined(HPX_NATIVE_MIC) || defined(__bgq__) || defined(__bgqion__)
             unsetenv("LANG");

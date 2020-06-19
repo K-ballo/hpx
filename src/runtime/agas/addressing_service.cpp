@@ -900,7 +900,7 @@ hpx::future<bool> addressing_service::bind_range_async(
     return f.then(
         hpx::launch::sync,
         util::one_shot(util::bind_front(
-            &addressing_service::bind_postproc,
+            HPX_MONOSTATE_FUNCTION(&addressing_service::bind_postproc),
             this, id, g
         )));
 }
@@ -1376,7 +1376,7 @@ hpx::future<naming::address> addressing_service::resolve_full_async(
     return f.then(
         hpx::launch::sync,
         util::one_shot(util::bind_front(
-            &addressing_service::resolve_full_postproc,
+            HPX_MONOSTATE_FUNCTION(&addressing_service::resolve_full_postproc),
             this,  gid
         )));
 }
@@ -1500,16 +1500,9 @@ void addressing_service::route(
     if (HPX_UNLIKELY(nullptr == threads::get_self_ptr()))
     {
         // reschedule this call as an HPX thread
-        void (addressing_service::*route_ptr)(
-            parcelset::parcel,
-            util::function_nonser<void(boost::system::error_code const&,
-                parcelset::parcel const&)> &&,
-            threads::thread_priority
-        ) = &addressing_service::route;
-
         threads::thread_init_data data(
             threads::make_thread_function_nullary(util::deferred_call(
-                route_ptr, this, std::move(p), std::move(f), local_priority)),
+                HPX_MONOSTATE_FUNCTION(&addressing_service::route), this, std::move(p), std::move(f), local_priority)),
             "addressing_service::route",
             threads::thread_priority_normal,
             threads::thread_schedule_hint(),
@@ -1547,14 +1540,7 @@ lcos::future<std::int64_t> addressing_service::incref_async(
     if (HPX_UNLIKELY(nullptr == threads::get_self_ptr()))
     {
         // reschedule this call as an HPX thread
-        lcos::future<std::int64_t> (
-                addressing_service::*incref_async_ptr)(
-            naming::gid_type const&
-          , std::int64_t
-          , naming::id_type const&
-        ) = &addressing_service::incref_async;
-
-        return async(incref_async_ptr, this, raw, credit, keep_alive);
+        return async(HPX_MONOSTATE_FUNCTION(static_cast<lcos::future<std::int64_t> (addressing_service::*)(naming::gid_type const&, std::int64_t, naming::id_type const&)>(&addressing_service::incref_async)), this, raw, credit, keep_alive);
     }
 
     if (HPX_UNLIKELY(0 >= credit))
@@ -1643,7 +1629,7 @@ lcos::future<std::int64_t> addressing_service::incref_async(
     return f.then(
         hpx::launch::sync,
         util::one_shot(util::bind(
-            &addressing_service::synchronize_with_async_incref,
+            HPX_MONOSTATE_FUNCTION(&addressing_service::synchronize_with_async_incref),
             this, _1, keep_alive, pending_decrefs
         )));
 } // }}}
@@ -1782,7 +1768,7 @@ lcos::future<bool> addressing_service::register_name_async(
         return f.then(
             hpx::launch::sync,
             util::one_shot(util::bind_back(
-                &correct_credit_on_failure,
+                HPX_MONOSTATE_FUNCTION(&correct_credit_on_failure),
                 id, std::int64_t(HPX_GLOBALCREDIT_INITIAL), new_credit
             )));
     }
@@ -1863,7 +1849,7 @@ future<hpx::id_type> addressing_service::on_symbol_namespace_event(
     return f.then(
         hpx::launch::sync,
         util::one_shot(util::bind_back(
-            &detail::on_register_event, std::move(result_f)
+            HPX_MONOSTATE_FUNCTION(&detail::on_register_event), std::move(result_f)
         )));
 }
 
@@ -2316,41 +2302,41 @@ void addressing_service::register_counter_types()
 { // {{{
     // install
     util::function_nonser<std::int64_t(bool)> cache_entries(
-        util::bind_front(&addressing_service::get_cache_entries, this));
+        util::bind_front(HPX_MONOSTATE_FUNCTION(&addressing_service::get_cache_entries), this));
     util::function_nonser<std::int64_t(bool)> cache_hits(
-        util::bind_front(&addressing_service::get_cache_hits, this));
+        util::bind_front(HPX_MONOSTATE_FUNCTION(&addressing_service::get_cache_hits), this));
     util::function_nonser<std::int64_t(bool)> cache_misses(
-        util::bind_front(&addressing_service::get_cache_misses, this));
+        util::bind_front(HPX_MONOSTATE_FUNCTION(&addressing_service::get_cache_misses), this));
     util::function_nonser<std::int64_t(bool)> cache_evictions(
-        util::bind_front(&addressing_service::get_cache_evictions, this));
+        util::bind_front(HPX_MONOSTATE_FUNCTION(&addressing_service::get_cache_evictions), this));
     util::function_nonser<std::int64_t(bool)> cache_insertions(
-        util::bind_front(&addressing_service::get_cache_insertions, this));
+        util::bind_front(HPX_MONOSTATE_FUNCTION(&addressing_service::get_cache_insertions), this));
 
     util::function_nonser<std::int64_t(bool)> cache_get_entry_count(
         util::bind_front(
-            &addressing_service::get_cache_get_entry_count, this));
+            HPX_MONOSTATE_FUNCTION(&addressing_service::get_cache_get_entry_count), this));
     util::function_nonser<std::int64_t(bool)> cache_insertion_count(
         util::bind_front(
-            &addressing_service::get_cache_insertion_entry_count, this));
+            HPX_MONOSTATE_FUNCTION(&addressing_service::get_cache_insertion_entry_count), this));
     util::function_nonser<std::int64_t(bool)> cache_update_entry_count(
         util::bind_front(
-            &addressing_service::get_cache_update_entry_count, this));
+            HPX_MONOSTATE_FUNCTION(&addressing_service::get_cache_update_entry_count), this));
     util::function_nonser<std::int64_t(bool)> cache_erase_entry_count(
         util::bind_front(
-            &addressing_service::get_cache_erase_entry_count, this));
+            HPX_MONOSTATE_FUNCTION(&addressing_service::get_cache_erase_entry_count), this));
 
     util::function_nonser<std::int64_t(bool)> cache_get_entry_time(
         util::bind_front(
-            &addressing_service::get_cache_get_entry_time, this));
+            HPX_MONOSTATE_FUNCTION(&addressing_service::get_cache_get_entry_time), this));
     util::function_nonser<std::int64_t(bool)> cache_insertion_time(
         util::bind_front(
-            &addressing_service::get_cache_insertion_entry_time, this));
+            HPX_MONOSTATE_FUNCTION(&addressing_service::get_cache_insertion_entry_time), this));
     util::function_nonser<std::int64_t(bool)> cache_update_entry_time(
         util::bind_front(
-            &addressing_service::get_cache_update_entry_time, this));
+            HPX_MONOSTATE_FUNCTION(&addressing_service::get_cache_update_entry_time), this));
     util::function_nonser<std::int64_t(bool)> cache_erase_entry_time(
         util::bind_front(
-            &addressing_service::get_cache_erase_entry_time, this));
+            HPX_MONOSTATE_FUNCTION(&addressing_service::get_cache_erase_entry_time), this));
 
     using util::placeholders::_1;
     using util::placeholders::_2;
@@ -2359,45 +2345,45 @@ void addressing_service::register_counter_types()
         { "/agas/count/cache/entries", performance_counters::counter_raw,
           "returns the number of cache entries in the AGAS cache",
           HPX_PERFORMANCE_COUNTER_V1,
-          util::bind(&performance_counters::locality_raw_counter_creator,
+          util::bind(HPX_MONOSTATE_FUNCTION(&performance_counters::locality_raw_counter_creator),
               _1, cache_entries, _2),
-          &performance_counters::locality_counter_discoverer,
+          HPX_MONOSTATE_FUNCTION(&performance_counters::locality_counter_discoverer),
           ""
         },
         { "/agas/count/cache/hits",
           performance_counters::counter_monotonically_increasing,
           "returns the number of cache hits while accessing the AGAS cache",
           HPX_PERFORMANCE_COUNTER_V1,
-          util::bind(&performance_counters::locality_raw_counter_creator,
+          util::bind(HPX_MONOSTATE_FUNCTION(&performance_counters::locality_raw_counter_creator),
               _1, cache_hits, _2),
-          &performance_counters::locality_counter_discoverer,
+          HPX_MONOSTATE_FUNCTION(&performance_counters::locality_counter_discoverer),
           ""
         },
         { "/agas/count/cache/misses",
           performance_counters::counter_monotonically_increasing,
           "returns the number of cache misses while accessing the AGAS cache",
           HPX_PERFORMANCE_COUNTER_V1,
-          util::bind(&performance_counters::locality_raw_counter_creator,
+          util::bind(HPX_MONOSTATE_FUNCTION(&performance_counters::locality_raw_counter_creator),
               _1, cache_misses, _2),
-          &performance_counters::locality_counter_discoverer,
+          HPX_MONOSTATE_FUNCTION(&performance_counters::locality_counter_discoverer),
           ""
         },
         { "/agas/count/cache/evictions",
             performance_counters::counter_monotonically_increasing,
           "returns the number of cache evictions from the AGAS cache",
           HPX_PERFORMANCE_COUNTER_V1,
-          util::bind(&performance_counters::locality_raw_counter_creator,
+          util::bind(HPX_MONOSTATE_FUNCTION(&performance_counters::locality_raw_counter_creator),
               _1, cache_evictions, _2),
-          &performance_counters::locality_counter_discoverer,
+          HPX_MONOSTATE_FUNCTION(&performance_counters::locality_counter_discoverer),
           ""
         },
         { "/agas/count/cache/insertions",
             performance_counters::counter_monotonically_increasing,
           "returns the number of cache insertions into the AGAS cache",
           HPX_PERFORMANCE_COUNTER_V1,
-          util::bind(&performance_counters::locality_raw_counter_creator,
+          util::bind(HPX_MONOSTATE_FUNCTION(&performance_counters::locality_raw_counter_creator),
               _1, cache_insertions, _2),
-          &performance_counters::locality_counter_discoverer,
+          HPX_MONOSTATE_FUNCTION(&performance_counters::locality_counter_discoverer),
           ""
         },
         { "/agas/count/cache/get_entry",
@@ -2405,9 +2391,9 @@ void addressing_service::register_counter_types()
           "returns the number of invocations of get_entry function of the "
                 "AGAS cache",
           HPX_PERFORMANCE_COUNTER_V1,
-          util::bind(&performance_counters::locality_raw_counter_creator,
+          util::bind(HPX_MONOSTATE_FUNCTION(&performance_counters::locality_raw_counter_creator),
               _1, cache_get_entry_count, _2),
-          &performance_counters::locality_counter_discoverer,
+          HPX_MONOSTATE_FUNCTION(&performance_counters::locality_counter_discoverer),
           ""
         },
         { "/agas/count/cache/insert_entry",
@@ -2415,9 +2401,9 @@ void addressing_service::register_counter_types()
           "returns the number of invocations of insert function of the "
                 "AGAS cache",
           HPX_PERFORMANCE_COUNTER_V1,
-          util::bind(&performance_counters::locality_raw_counter_creator,
+          util::bind(HPX_MONOSTATE_FUNCTION(&performance_counters::locality_raw_counter_creator),
               _1, cache_insertion_count, _2),
-          &performance_counters::locality_counter_discoverer,
+          HPX_MONOSTATE_FUNCTION(&performance_counters::locality_counter_discoverer),
           ""
         },
         { "/agas/count/cache/update_entry",
@@ -2425,9 +2411,9 @@ void addressing_service::register_counter_types()
           "returns the number of invocations of update_entry function of the "
                 "AGAS cache",
           HPX_PERFORMANCE_COUNTER_V1,
-          util::bind(&performance_counters::locality_raw_counter_creator,
+          util::bind(HPX_MONOSTATE_FUNCTION(&performance_counters::locality_raw_counter_creator),
               _1, cache_update_entry_count, _2),
-          &performance_counters::locality_counter_discoverer,
+          HPX_MONOSTATE_FUNCTION(&performance_counters::locality_counter_discoverer),
           ""
         },
         { "/agas/count/cache/erase_entry",
@@ -2435,9 +2421,9 @@ void addressing_service::register_counter_types()
           "returns the number of invocations of erase_entry function of the "
                 "AGAS cache",
           HPX_PERFORMANCE_COUNTER_V1,
-          util::bind(&performance_counters::locality_raw_counter_creator,
+          util::bind(HPX_MONOSTATE_FUNCTION(&performance_counters::locality_raw_counter_creator),
               _1, cache_erase_entry_count, _2),
-          &performance_counters::locality_counter_discoverer,
+          HPX_MONOSTATE_FUNCTION(&performance_counters::locality_counter_discoverer),
           ""
         },
         { "/agas/time/cache/get_entry",
@@ -2445,9 +2431,9 @@ void addressing_service::register_counter_types()
           "returns the overall time spent executing of the get_entry API "
                 "function of the AGAS cache",
           HPX_PERFORMANCE_COUNTER_V1,
-          util::bind(&performance_counters::locality_raw_counter_creator,
+          util::bind(HPX_MONOSTATE_FUNCTION(&performance_counters::locality_raw_counter_creator),
               _1, cache_get_entry_time, _2),
-          &performance_counters::locality_counter_discoverer,
+          HPX_MONOSTATE_FUNCTION(&performance_counters::locality_counter_discoverer),
           "ns"
         },
         { "/agas/time/cache/insert_entry",
@@ -2455,9 +2441,9 @@ void addressing_service::register_counter_types()
           "returns the overall time spent executing of the insert_entry API "
               "function of the AGAS cache",
           HPX_PERFORMANCE_COUNTER_V1,
-          util::bind(&performance_counters::locality_raw_counter_creator,
+          util::bind(HPX_MONOSTATE_FUNCTION(&performance_counters::locality_raw_counter_creator),
               _1, cache_insertion_time, _2),
-          &performance_counters::locality_counter_discoverer,
+          HPX_MONOSTATE_FUNCTION(&performance_counters::locality_counter_discoverer),
           ""
         },
         { "/agas/time/cache/update_entry",
@@ -2465,9 +2451,9 @@ void addressing_service::register_counter_types()
           "returns the overall time spent executing of the update_entry API "
                 "function of the AGAS cache",
           HPX_PERFORMANCE_COUNTER_V1,
-          util::bind(&performance_counters::locality_raw_counter_creator,
+          util::bind(HPX_MONOSTATE_FUNCTION(&performance_counters::locality_raw_counter_creator),
               _1, cache_update_entry_time, _2),
-          &performance_counters::locality_counter_discoverer,
+          HPX_MONOSTATE_FUNCTION(&performance_counters::locality_counter_discoverer),
           "ns"
         },
         { "/agas/time/cache/erase_entry",
@@ -2475,9 +2461,9 @@ void addressing_service::register_counter_types()
           "returns the overall time spent executing of the erase_entry API "
                 "function of the AGAS cache",
           HPX_PERFORMANCE_COUNTER_V1,
-          util::bind(&performance_counters::locality_raw_counter_creator,
+          util::bind(HPX_MONOSTATE_FUNCTION(&performance_counters::locality_raw_counter_creator),
               _1, cache_erase_entry_time, _2),
-          &performance_counters::locality_counter_discoverer,
+          HPX_MONOSTATE_FUNCTION(&performance_counters::locality_counter_discoverer),
           ""
         },
     };

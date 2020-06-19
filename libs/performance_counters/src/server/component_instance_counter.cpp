@@ -83,7 +83,7 @@ namespace hpx { namespace performance_counters { namespace detail {
             }
 
             hpx::util::function_nonser<std::int64_t()> f =
-                util::bind_front(&get_instance_count, type);
+                util::bind_front(HPX_MONOSTATE_FUNCTION(&get_instance_count), type);
             return create_raw_counter(info, std::move(f), ec);
         }
         break;

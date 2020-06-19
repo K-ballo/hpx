@@ -401,7 +401,7 @@ namespace hpx
     partitioned_vector<T, Data>::create(T const& val, DistPolicy const& policy)
     {
         create(policy, util::bind_back(
-            &partitioned_vector::create_helper2<DistPolicy>, std::ref(val)));
+            HPX_MONOSTATE_FUNCTION(&partitioned_vector::create_helper2<DistPolicy>), std::ref(val)));
     }
 
     template <typename T, typename Data /*= std::vector<T> */>

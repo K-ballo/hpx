@@ -13,6 +13,7 @@
 #include <hpx/coroutines/thread_enums.hpp>
 #include <hpx/execution_base/execution.hpp>
 #include <hpx/functional/deferred_call.hpp>
+#include <hpx/functional/monostate_function.hpp>
 #include <hpx/futures/detail/future_data.hpp>
 #include <hpx/futures/future.hpp>
 #include <hpx/futures/traits/future_access.hpp>
@@ -117,7 +118,8 @@ namespace hpx { namespace lcos { namespace local {
                     threads::thread_init_data data(
                         threads::make_thread_function_nullary(
                             util::deferred_call(
-                                &base_type::run_impl, std::move(this_))),
+                                HPX_MONOSTATE_FUNCTION(&base_type::run_impl),
+                                std::move(this_))),
                         util::thread_description(f_, annotation),
                         threads::thread_priority_boost,
                         threads::thread_schedule_hint(
@@ -129,7 +131,8 @@ namespace hpx { namespace lcos { namespace local {
 
                 threads::thread_init_data data(
                     threads::make_thread_function_nullary(util::deferred_call(
-                        &base_type::run_impl, std::move(this_))),
+                        HPX_MONOSTATE_FUNCTION(&base_type::run_impl),
+                        std::move(this_))),
                     util::thread_description(f_, annotation), priority,
                     schedulehint, stacksize, threads::pending);
 

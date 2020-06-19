@@ -12,6 +12,7 @@
 #include <hpx/async_base/launch_policy.hpp>
 #include <hpx/execution_base/this_thread.hpp>
 #include <hpx/functional/deferred_call.hpp>
+#include <hpx/functional/monostate_function.hpp>
 #include <hpx/functional/unique_function.hpp>
 #include <hpx/futures/futures_factory.hpp>
 #include <hpx/memory/intrusive_ptr.hpp>
@@ -201,12 +202,12 @@ namespace hpx { namespace lcos { namespace detail {
         else
         {
             // re-spawn continuation on a new thread
-            void (*p)(Callback &&) = &future_data_base::run_on_completed;
-
             try
             {
                 run_on_completed_on_new_thread(util::deferred_call(
-                    p, std::forward<Callback>(on_completed)));
+                    HPX_MONOSTATE_FUNCTION(static_cast<void (*)(Callback &&)>(
+                        &future_data_base::run_on_completed)),
+                    std::forward<Callback>(on_completed)));
             }
             catch (...)
             {

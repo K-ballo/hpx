@@ -51,7 +51,7 @@ std_ostream_write_function(std::vector<char> const& in, std::ostream& os)
 // Factory function
 inline write_function_type make_std_ostream_write_function(std::ostream& os)
 {
-    return util::bind_back(std_ostream_write_function, std::ref(os));
+    return util::bind_back(HPX_MONOSTATE_FUNCTION(&std_ostream_write_function), std::ref(os));
 }
 
 }}

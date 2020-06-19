@@ -227,7 +227,7 @@ namespace hpx { namespace agas {
         if (naming::get_locality_from_gid(dest.get_gid()) == hpx::get_locality())
         {
             hpx::apply(
-                &server::primary_namespace::route,
+                HPX_MONOSTATE_FUNCTION(&server::primary_namespace::route),
                 server_.get(),
                 std::move(p)
             );

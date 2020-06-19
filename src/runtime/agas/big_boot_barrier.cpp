@@ -567,7 +567,7 @@ void register_worker(registration_header const& header)
         util::unique_function_nonser<void()>* thunk =
             new util::unique_function_nonser<void()>(
                 util::one_shot(util::bind_front(
-                    &big_boot_barrier::apply_notification
+                    HPX_MONOSTATE_FUNCTION(&big_boot_barrier::apply_notification)
                   , &get_big_boot_barrier()
                   , 0
                   , naming::get_locality_id_from_gid(prefix)

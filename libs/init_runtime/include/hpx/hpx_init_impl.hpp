@@ -86,7 +86,7 @@ namespace hpx {
         char** argv, init_params const& params)
     {
         util::function_nonser<int(hpx::program_options::variables_map&)>
-            main_f = util::bind_back(detail::init_helper, f);
+            main_f = util::bind_back(HPX_MONOSTATE_FUNCTION(&detail::init_helper), f);
         if (argc == 0 || argv == nullptr)
         {
             return init(main_f, detail::dummy_argc, detail::dummy_argv, params);
@@ -103,7 +103,7 @@ namespace hpx {
     inline int init(int argc, char** argv, init_params const& params)
     {
         util::function_nonser<int(hpx::program_options::variables_map&)>
-            main_f = static_cast<hpx_main_type>(::hpx_main);
+            main_f = HPX_MONOSTATE_FUNCTION(static_cast<hpx_main_type>(::hpx_main));
         if (argc == 0 || argv == nullptr)
         {
             return init(main_f, detail::dummy_argc, detail::dummy_argv, params);
@@ -136,7 +136,7 @@ namespace hpx {
     inline int init(init_params const& params)
     {
         util::function_nonser<int(hpx::program_options::variables_map&)>
-            main_f = static_cast<hpx_main_type>(::hpx_main);
+            main_f = HPX_MONOSTATE_FUNCTION(static_cast<hpx_main_type>(::hpx_main));
         return init(main_f, detail::dummy_argc, detail::dummy_argv, params);
     }
 

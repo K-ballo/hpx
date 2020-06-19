@@ -116,7 +116,7 @@ namespace hpx { namespace performance_counters {
         using util::placeholders::_2;
 
         discover_counter_func func = util::bind(
-            &performance_counter_set::find_counter, this, _1, reset, _2);
+            HPX_MONOSTATE_FUNCTION(&performance_counter_set::find_counter), this, _1, reset, _2);
 
         // do INI expansion on counter name
         std::string n(name);
@@ -137,7 +137,7 @@ namespace hpx { namespace performance_counters {
         using util::placeholders::_2;
 
         discover_counter_func func = util::bind(
-            &performance_counter_set::find_counter, this, _1, reset, _2);
+            HPX_MONOSTATE_FUNCTION(&performance_counter_set::find_counter), this, _1, reset, _2);
 
         for (std::string const& name : names)
         {

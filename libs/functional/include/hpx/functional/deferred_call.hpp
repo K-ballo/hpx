@@ -70,6 +70,8 @@ namespace hpx { namespace util {
         template <typename F, std::size_t... Is, typename... Ts>
         class deferred<F, index_pack<Is...>, Ts...>
         {
+            //static_assert(!std::is_pointer<F>::value, "Function Pointer");
+            //static_assert(!std::is_member_pointer<F>::value, "Member Pointer");
         public:
             deferred() = default;    // needed for serialization
 

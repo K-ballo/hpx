@@ -1357,7 +1357,7 @@ namespace hpx {
         lbt_ << "(1st stage) runtime::start: launching run_helper "
                 "HPX thread";
 
-        threads::thread_init_data data(util::bind(&runtime::run_helper, this,
+        threads::thread_init_data data(util::bind(HPX_MONOSTATE_FUNCTION(&runtime::run_helper), this,
                                            func, std::ref(result_), true),
             "run_helper", threads::thread_priority_normal,
             threads::thread_schedule_hint(0), threads::thread_stacksize_large);
@@ -1449,7 +1449,7 @@ namespace hpx {
         std::condition_variable cond;
         bool running = false;
 
-        std::thread t(util::bind(&runtime::wait_helper, this, std::ref(mtx),
+        std::thread t(util::bind(HPX_MONOSTATE_FUNCTION(&runtime::wait_helper), this, std::ref(mtx),
             std::ref(cond), std::ref(running)));
 
         // wait for the thread to run
@@ -1504,7 +1504,7 @@ namespace hpx {
             std::condition_variable cond;
             std::unique_lock<std::mutex> l(mtx);
 
-            std::thread t(util::bind(&runtime::stop_helper, this, blocking,
+            std::thread t(util::bind(HPX_MONOSTATE_FUNCTION(&runtime::stop_helper), this, blocking,
                 std::ref(cond), std::ref(mtx)));
             cond.wait(l);
 
@@ -1745,12 +1745,12 @@ namespace hpx {
         notification_policy_type notifier;
 
         notifier.add_on_start_thread_callback(
-            util::bind(&runtime::init_tss_helper, This(), prefix, type, _1, _2,
+            util::bind(HPX_MONOSTATE_FUNCTION(&runtime::init_tss_helper), This(), prefix, type, _1, _2,
                 _3, _4, false));
         notifier.add_on_stop_thread_callback(
-            util::bind(&runtime::deinit_tss_helper, This(), prefix, _1));
+            util::bind(HPX_MONOSTATE_FUNCTION(&runtime::deinit_tss_helper), This(), prefix, _1));
         notifier.set_on_error_callback(
-            util::bind(static_cast<report_error_t>(&runtime::report_error),
+            util::bind(HPX_MONOSTATE_FUNCTION(static_cast<report_error_t>(&runtime::report_error)),
                 This(), _1, _2, true));
 
         return notifier;

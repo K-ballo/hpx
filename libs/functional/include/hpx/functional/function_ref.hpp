@@ -109,6 +109,8 @@ namespace hpx { namespace util {
                 typename std::enable_if<!std::is_pointer<T>::value>::type>
         void assign(F&& f)
         {
+            //static_assert(!std::is_pointer<T>::value, "Function Pointer");
+            //static_assert(!std::is_member_pointer<T>::value, "Member Pointer");
             HPX_ASSERT(!detail::is_empty_function_ptr(f));
 #if defined(HPX_HAVE_THREAD_DESCRIPTION)
             vptr = get_vtable<T>();

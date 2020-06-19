@@ -81,8 +81,8 @@ namespace hpx { namespace parallel { namespace execution { namespace detail {
                 async_execute_wrapper_helper<decltype(f_wrapper), result_type>>(
                 std::move(f_wrapper));
             pool_->get_io_service().post(hpx::util::bind_front(
-                &async_execute_wrapper_helper<decltype(f_wrapper),
-                    result_type>::invoke,
+                HPX_MONOSTATE_FUNCTION(&async_execute_wrapper_helper<decltype(f_wrapper),
+                    result_type>::invoke),
                 t));
 
             return t->p_.get_future();

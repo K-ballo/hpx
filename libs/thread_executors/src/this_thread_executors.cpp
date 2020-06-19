@@ -147,7 +147,7 @@ namespace hpx { namespace threads { namespace executors { namespace detail {
         // create a new thread
         thread_init_data data(
             util::one_shot(
-                util::bind(&this_thread_executor::thread_function_nullary, this,
+                util::bind(HPX_MONOSTATE_FUNCTION(&this_thread_executor::thread_function_nullary), this,
                     std::move(f))),
             desc, thread_priority_default, thread_schedule_hint(), stacksize,
             initial_state, run_now);
@@ -189,7 +189,7 @@ namespace hpx { namespace threads { namespace executors { namespace detail {
         // create a new suspended thread
         thread_init_data data(
             util::one_shot(
-                util::bind(&this_thread_executor::thread_function_nullary, this,
+                util::bind(HPX_MONOSTATE_FUNCTION(&this_thread_executor::thread_function_nullary), this,
                     std::move(f))),
             desc, thread_priority_default, thread_schedule_hint(), stacksize,
             suspended, true);
@@ -355,7 +355,7 @@ namespace hpx { namespace threads { namespace executors { namespace detail {
 
             threads::detail::scheduling_callbacks callbacks(nullptr,
                 util::deferred_call(    //-V107
-                    &this_thread_executor::suspend_back_into_calling_context,
+                    HPX_MONOSTATE_FUNCTION(&this_thread_executor::suspend_back_into_calling_context),
                     this));
 
             scheduler_.set_scheduler_mode(policies::fast_idle_mode);

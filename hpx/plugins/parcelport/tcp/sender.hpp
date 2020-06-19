@@ -199,7 +199,7 @@ namespace hpx { namespace parcelset { namespace policies { namespace tcp
                 // the parcel, which in turn might invoke HPX functions)
                 threads::thread_init_data data(
                     threads::make_thread_function_nullary(util::deferred_call(
-                        &sender::reset_handler, std::move(handler))),
+                        HPX_MONOSTATE_FUNCTION(&sender::reset_handler), std::move(handler))),
                     "sender::reset_handler");
                 threads::register_thread(data);
             }

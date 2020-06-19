@@ -26,7 +26,7 @@ namespace hpx { namespace util {
 
         // ... and schedule the handler to run on the first of its OS-threads.
         pool->get_io_service(0).post(
-            hpx::util::bind_front(&sample_time, std::ref(p)));
+            hpx::util::bind_front(HPX_MONOSTATE_FUNCTION(&sample_time), std::ref(p)));
         return p.get_future().get();
     }
 }}    // namespace hpx::util

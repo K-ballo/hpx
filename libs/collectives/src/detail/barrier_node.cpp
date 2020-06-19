@@ -100,7 +100,7 @@ namespace hpx { namespace lcos { namespace detail {
                 if (async)
                 {
                     hpx::intrusive_ptr<barrier_node> this_(this);
-                    return hpx::async(&barrier_node::set_event, this_);
+                    return hpx::async(HPX_MONOSTATE_FUNCTION(&barrier_node::set_event), this_);
                 }
                 set_event();
                 return hpx::make_ready_future();

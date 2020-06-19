@@ -395,7 +395,7 @@ namespace hpx { namespace naming
                     return agas::incref(new_gid, new_credit)
                         .then(
                             hpx::launch::sync,
-                            hpx::util::bind(postprocess_incref, std::ref(gid))
+                            hpx::util::bind(HPX_MONOSTATE_FUNCTION(&postprocess_incref), std::ref(gid))
                         );
                 }
 

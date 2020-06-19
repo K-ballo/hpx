@@ -64,7 +64,7 @@ namespace hpx { namespace iostreams { namespace detail
     bool get_startup(startup_function_type& startup_func, bool& pre_startup)
     {
         // return our startup-function
-        startup_func = register_ostreams;   // function to run during startup
+        startup_func = HPX_MONOSTATE_FUNCTION(&register_ostreams);   // function to run during startup
         pre_startup = true;                 // run as pre-startup function
         return true;
     }
@@ -72,7 +72,7 @@ namespace hpx { namespace iostreams { namespace detail
     bool get_shutdown(shutdown_function_type& shutdown_func, bool& pre_shutdown)
     {
         // return our startup-function
-        shutdown_func = unregister_ostreams;   // function to run during startup
+        shutdown_func = HPX_MONOSTATE_FUNCTION(&unregister_ostreams);   // function to run during startup
         pre_shutdown = false;                 // run as pre-startup function
         return true;
     }
@@ -80,5 +80,5 @@ namespace hpx { namespace iostreams { namespace detail
 
 // Note that this macro can be used not more than once in one module.
 HPX_REGISTER_STARTUP_SHUTDOWN_MODULE(
-    hpx::iostreams::detail::get_startup, hpx::iostreams::detail::get_shutdown);
+    &hpx::iostreams::detail::get_startup, &hpx::iostreams::detail::get_shutdown);
 

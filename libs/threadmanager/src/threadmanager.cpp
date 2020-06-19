@@ -100,16 +100,16 @@ namespace hpx { namespace threads {
         using util::placeholders::_3;
 
         // Add callbacks local to threadmanager.
-        notifier.add_on_start_thread_callback(
-            util::bind(&threadmanager::init_tss, this, _1));
-        notifier.add_on_stop_thread_callback(
-            util::bind(&threadmanager::deinit_tss, this));
+        notifier.add_on_start_thread_callback(util::bind(
+            HPX_MONOSTATE_FUNCTION(&threadmanager::init_tss), this, _1));
+        notifier.add_on_stop_thread_callback(util::bind(
+            HPX_MONOSTATE_FUNCTION(&threadmanager::deinit_tss), this));
 
         auto& rp = hpx::resource::get_partitioner();
         notifier.add_on_start_thread_callback(util::bind(
-            &resource::detail::partitioner::assign_pu, std::ref(rp), _3, _1));
+            HPX_MONOSTATE_FUNCTION(&resource::detail::partitioner::assign_pu), std::ref(rp), _3, _1));
         notifier.add_on_stop_thread_callback(util::bind(
-            &resource::detail::partitioner::unassign_pu, std::ref(rp), _3, _1));
+            HPX_MONOSTATE_FUNCTION(&resource::detail::partitioner::unassign_pu), std::ref(rp), _3, _1));
     }
 
     void threadmanager::create_pools()

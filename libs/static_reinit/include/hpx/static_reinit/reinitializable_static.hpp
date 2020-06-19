@@ -10,6 +10,7 @@
 #include <hpx/config.hpp>
 #include <hpx/assert.hpp>
 #include <hpx/functional/bind_front.hpp>
+#include <hpx/functional/monostate_function.hpp>
 #include <hpx/static_reinit/static_reinit.hpp>
 
 #include <cstddef>
@@ -75,8 +76,9 @@ namespace hpx { namespace util {
         static void default_constructor()
         {
             default_construct();
-            reinit_register(&reinitializable_static::default_construct,
-                &reinitializable_static::destruct);
+            reinit_register(HPX_MONOSTATE_FUNCTION(
+                                &reinitializable_static::default_construct),
+                HPX_MONOSTATE_FUNCTION(&reinitializable_static::destruct));
         }
 
         template <typename U>
@@ -85,8 +87,10 @@ namespace hpx { namespace util {
             value_construct(*pv);
             reinit_register(
                 util::bind_front(
-                    &reinitializable_static::template value_construct<U>, *pv),
-                &reinitializable_static::destruct);
+                    HPX_MONOSTATE_FUNCTION(
+                        &reinitializable_static::template value_construct<U>),
+                    *pv),
+                HPX_MONOSTATE_FUNCTION(&reinitializable_static::destruct));
         }
 
     public:
@@ -109,7 +113,8 @@ namespace hpx { namespace util {
             // do not rely on ADL to find the proper call_once
             std::call_once(constructed_,
                 util::bind_front(
-                    &reinitializable_static::template value_constructor<U>,
+                    HPX_MONOSTATE_FUNCTION(
+                        &reinitializable_static::template value_constructor<U>),
                     const_cast<U const*>(std::addressof(val))));
 #endif
         }

@@ -12,6 +12,7 @@
 #include <hpx/coroutines/coroutine.hpp>
 #include <hpx/functional/bind.hpp>
 #include <hpx/functional/bind_front.hpp>
+#include <hpx/functional/monostate_function.hpp>
 #include <hpx/modules/errors.hpp>
 #include <hpx/modules/logging.hpp>
 #include <hpx/threading_base/create_thread.hpp>
@@ -145,8 +146,9 @@ namespace hpx { namespace threads { namespace detail {
                         << ")";
 
                     thread_init_data data(
-                        util::bind(&set_active_state, thrd, new_state,
-                            new_state_ex, priority, previous_state),
+                        util::bind(HPX_MONOSTATE_FUNCTION(&set_active_state),
+                            thrd, new_state, new_state_ex, priority,
+                            previous_state),
                         "set state for active thread", priority);
 
                     create_work(get_thread_id_data(thrd)->get_scheduler_base(),
@@ -353,8 +355,9 @@ namespace hpx { namespace threads { namespace detail {
             std::make_shared<std::atomic<bool>>(false));
 
         thread_init_data data(
-            util::bind_front(&wake_timer_thread, thrd, newstate, newstate_ex,
-                priority, self_id, triggered, retry_on_active),
+            util::bind_front(HPX_MONOSTATE_FUNCTION(&wake_timer_thread), thrd,
+                newstate, newstate_ex, priority, self_id, triggered,
+                retry_on_active),
             "wake_timer", priority, thread_schedule_hint(),
             thread_stacksize_small, suspended, true);
 
@@ -429,9 +432,9 @@ namespace hpx { namespace threads { namespace detail {
         // this creates a new thread which creates the timer and handles the
         // requested actions
         thread_init_data data(
-            util::bind(&at_timer<SchedulingPolicy>, std::ref(scheduler),
-                abs_time.value(), thrd, newstate, newstate_ex, priority,
-                started, retry_on_active),
+            util::bind(HPX_MONOSTATE_FUNCTION(&at_timer<SchedulingPolicy>),
+                std::ref(scheduler), abs_time.value(), thrd, newstate,
+                newstate_ex, priority, started, retry_on_active),
             "at_timer (expire at)", priority, schedulehint,
             thread_stacksize_small, pending, true);
 

@@ -103,7 +103,7 @@ namespace hpx { namespace performance_counters {
 
         // Register the shutdown function which will clean up this counter type.
         get_runtime().add_shutdown_function(
-            util::bind_front(&counter_type_shutdown, p));
+            util::bind_front(HPX_MONOSTATE_FUNCTION(&counter_type_shutdown), p));
         return status_valid_data;
     }
 
@@ -126,7 +126,7 @@ namespace hpx { namespace performance_counters {
 
         // Register the shutdown function which will clean up this counter type.
         get_runtime().add_shutdown_function(
-            util::bind_front(&counter_type_shutdown, p));
+            util::bind_front(HPX_MONOSTATE_FUNCTION(&counter_type_shutdown), p));
         return status_valid_data;
     }
 
@@ -141,9 +141,9 @@ namespace hpx { namespace performance_counters {
         using hpx::util::placeholders::_1;
         using hpx::util::placeholders::_2;
         return install_counter_type(name, type, helptext,
-            util::bind(&hpx::performance_counters::locality_raw_counter_creator,
+            util::bind(HPX_MONOSTATE_FUNCTION(&hpx::performance_counters::locality_raw_counter_creator),
                 _1, counter_value, _2),
-            &hpx::performance_counters::locality_counter_discoverer,
+            HPX_MONOSTATE_FUNCTION(&hpx::performance_counters::locality_counter_discoverer),
             HPX_PERFORMANCE_COUNTER_V1, uom, ec);
     }
 
@@ -156,9 +156,9 @@ namespace hpx { namespace performance_counters {
         using hpx::util::placeholders::_2;
         return install_counter_type(name, counter_raw_values, helptext,
             util::bind(
-                &hpx::performance_counters::locality_raw_values_counter_creator,
+                HPX_MONOSTATE_FUNCTION(&hpx::performance_counters::locality_raw_values_counter_creator),
                 _1, counter_value, _2),
-            &hpx::performance_counters::locality_counter_discoverer,
+            HPX_MONOSTATE_FUNCTION(&hpx::performance_counters::locality_counter_discoverer),
             HPX_PERFORMANCE_COUNTER_V1, uom, ec);
     }
 

@@ -176,7 +176,7 @@ namespace hpx { namespace threads { namespace executors { namespace detail {
         // create a new thread
         thread_init_data data(
             util::one_shot(
-                util::bind(&thread_pool_os_executor::thread_function_nullary,
+                util::bind(HPX_MONOSTATE_FUNCTION(&thread_pool_os_executor::thread_function_nullary),
                     std::move(f))),
             desc, thread_priority_default, thread_schedule_hint(), stacksize,
             initial_state, run_now);
@@ -204,7 +204,7 @@ namespace hpx { namespace threads { namespace executors { namespace detail {
         // create a new suspended thread
         thread_init_data data(
             util::one_shot(
-                util::bind(&thread_pool_os_executor::thread_function_nullary,
+                util::bind(HPX_MONOSTATE_FUNCTION(&thread_pool_os_executor::thread_function_nullary),
                     std::move(f))),
             desc, thread_priority_default, thread_schedule_hint(), stacksize,
             suspended, true);

@@ -89,7 +89,7 @@ namespace hpx { namespace lcos { namespace detail {
 
         // register the communicator's id using the given basename
         return id.then(hpx::launch::sync,
-            util::bind_back(&detail::register_communicator_name,
+            util::bind_back(HPX_MONOSTATE_FUNCTION(&detail::register_communicator_name),
                 std::move(name), this_site));
     }
 }}}    // namespace hpx::lcos::detail

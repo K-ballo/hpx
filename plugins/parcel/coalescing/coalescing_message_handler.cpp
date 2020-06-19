@@ -110,8 +110,8 @@ namespace hpx { namespace plugins { namespace parcel
         interval_(detail::get_interval(interval)),
         buffer_(num_coalesced_parcels_),
         timer_(
-            util::bind_back(&coalescing_message_handler::timer_flush, this_()),
-            util::bind_back(&coalescing_message_handler::flush_terminate, this_()),
+            util::bind_back(HPX_MONOSTATE_FUNCTION(&coalescing_message_handler::timer_flush), this_()),
+            util::bind_back(HPX_MONOSTATE_FUNCTION(&coalescing_message_handler::flush_terminate), this_()),
             std::string(action_name) + "_timer"),
         stopped_(false),
         allow_background_flush_(detail::get_background_flush()),
@@ -129,22 +129,22 @@ namespace hpx { namespace plugins { namespace parcel
     {
         // register performance counter functions
         coalescing_counter_registry::instance().register_action(action_name,
-            util::bind_front(&coalescing_message_handler::get_parcels_count, this),
-            util::bind_front(&coalescing_message_handler::get_messages_count, this),
-            util::bind_front(&coalescing_message_handler::
-                get_parcels_per_message_count, this),
-            util::bind_front(&coalescing_message_handler::
-                get_average_time_between_parcels, this),
-            util::bind_front(&coalescing_message_handler::
-                get_time_between_parcels_histogram_creator, this));
+            util::bind_front(HPX_MONOSTATE_FUNCTION(&coalescing_message_handler::get_parcels_count), this),
+            util::bind_front(HPX_MONOSTATE_FUNCTION(&coalescing_message_handler::get_messages_count), this),
+            util::bind_front(HPX_MONOSTATE_FUNCTION(&coalescing_message_handler::
+                get_parcels_per_message_count), this),
+            util::bind_front(HPX_MONOSTATE_FUNCTION(&coalescing_message_handler::
+                get_average_time_between_parcels), this),
+            util::bind_front(HPX_MONOSTATE_FUNCTION(&coalescing_message_handler::
+                get_time_between_parcels_histogram_creator), this));
 
         // register parameter update callbacks
         set_config_entry_callback(
             "hpx.plugins.coalescing_message_handler.num_messages",
-            util::bind(&coalescing_message_handler::update_num_messages, this));
+            util::bind(HPX_MONOSTATE_FUNCTION(&coalescing_message_handler::update_num_messages), this));
         set_config_entry_callback(
             "hpx.plugins.coalescing_message_handler.interval",
-            util::bind(&coalescing_message_handler::update_interval, this));
+            util::bind(HPX_MONOSTATE_FUNCTION(&coalescing_message_handler::update_interval), this));
     }
 
     void coalescing_message_handler::put_parcel(
@@ -401,8 +401,8 @@ namespace hpx { namespace plugins { namespace parcel
         std::lock_guard<mutex_type> l(mtx_);
         if (time_between_parcels_)
         {
-            result = util::bind_front(&coalescing_message_handler::
-                get_time_between_parcels_histogram, this);
+            result = util::bind_front(HPX_MONOSTATE_FUNCTION(&coalescing_message_handler::
+                get_time_between_parcels_histogram), this);
             return;
         }
 
@@ -416,8 +416,8 @@ namespace hpx { namespace plugins { namespace parcel
             hpx::util::tag::histogram::max_range = double(max_boundary)));
         last_parcel_time_ = util::high_resolution_clock::now();
 
-        result = util::bind_front(&coalescing_message_handler::
-            get_time_between_parcels_histogram, this);
+        result = util::bind_front(HPX_MONOSTATE_FUNCTION(&coalescing_message_handler::
+            get_time_between_parcels_histogram), this);
     }
 
     ///////////////////////////////////////////////////////////////////////////

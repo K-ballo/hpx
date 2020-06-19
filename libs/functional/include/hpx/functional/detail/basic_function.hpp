@@ -155,6 +155,8 @@ namespace hpx { namespace util { namespace detail {
         void assign(F&& f)
         {
             using T = typename std::decay<F>::type;
+            //static_assert(!std::is_pointer<T>::value, "Function Pointer");
+            //static_assert(!std::is_member_pointer<T>::value, "Member Pointer");
             static_assert(
                 !Copyable || std::is_constructible<T, T const&>::value,
                 "F shall be CopyConstructible");

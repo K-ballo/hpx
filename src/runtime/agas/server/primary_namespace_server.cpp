@@ -67,7 +67,7 @@ void primary_namespace::register_counter_types(
     )
 {
     performance_counters::create_counter_func creator(
-        util::bind_back(&performance_counters::agas_raw_counter_creator
+        util::bind_back(HPX_MONOSTATE_FUNCTION(&performance_counters::agas_raw_counter_creator)
       , agas::server::primary_namespace_service_name));
 
     for (std::size_t i = 0;
@@ -105,7 +105,7 @@ void primary_namespace::register_counter_types(
           , type
           , help
           , creator
-          , &performance_counters::locality_counter_discoverer
+          , HPX_MONOSTATE_FUNCTION(&performance_counters::locality_counter_discoverer)
           , HPX_PERFORMANCE_COUNTER_V1
           , detail::primary_namespace_services[i].uom_
           , ec
@@ -119,7 +119,7 @@ void primary_namespace::register_global_counter_types(
     )
 {
     performance_counters::create_counter_func creator(
-        util::bind_back(&performance_counters::agas_raw_counter_creator
+        util::bind_back(HPX_MONOSTATE_FUNCTION(&performance_counters::agas_raw_counter_creator)
       , agas::server::primary_namespace_service_name));
 
     for (std::size_t i = 0;
@@ -153,7 +153,7 @@ void primary_namespace::register_global_counter_types(
           , type
           , help
           , creator
-          , &performance_counters::locality_counter_discoverer
+          , HPX_MONOSTATE_FUNCTION(&performance_counters::locality_counter_discoverer)
           , HPX_PERFORMANCE_COUNTER_V1
           , detail::primary_namespace_services[i].uom_
           , ec
@@ -1334,52 +1334,52 @@ naming::gid_type primary_namespace::statistics_counter(std::string const& name)
     {
         switch (code) {
         case primary_ns_route:
-            get_data_func = util::bind_front(&cd::get_route_count,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_route_count),
                 &counter_data_);
             counter_data_.route_.enabled_ = true;
             break;
         case primary_ns_bind_gid:
-            get_data_func = util::bind_front(&cd::get_bind_gid_count,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_bind_gid_count),
                 &counter_data_);
             counter_data_.bind_gid_.enabled_ = true;
             break;
         case primary_ns_resolve_gid:
-            get_data_func = util::bind_front(&cd::get_resolve_gid_count,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_resolve_gid_count),
                 &counter_data_);
             counter_data_.resolve_gid_.enabled_ = true;
             break;
         case primary_ns_unbind_gid:
-            get_data_func = util::bind_front(&cd::get_unbind_gid_count,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_unbind_gid_count),
                 &counter_data_);
             counter_data_.unbind_gid_.enabled_ = true;
             break;
         case primary_ns_increment_credit:
-            get_data_func = util::bind_front(&cd::get_increment_credit_count,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_increment_credit_count),
                 &counter_data_);
             counter_data_.increment_credit_.enabled_ = true;
             break;
         case primary_ns_decrement_credit:
-            get_data_func = util::bind_front(&cd::get_decrement_credit_count,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_decrement_credit_count),
                 &counter_data_);
             counter_data_.decrement_credit_.enabled_ = true;
             break;
         case primary_ns_allocate:
-            get_data_func = util::bind_front(&cd::get_allocate_count,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_allocate_count),
                 &counter_data_);
             counter_data_.allocate_.enabled_ = true;
             break;
         case primary_ns_begin_migration:
-            get_data_func = util::bind_front(&cd::get_begin_migration_count,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_begin_migration_count),
                 &counter_data_);
             counter_data_.begin_migration_.enabled_ = true;
             break;
         case primary_ns_end_migration:
-            get_data_func = util::bind_front(&cd::get_end_migration_count,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_end_migration_count),
                 &counter_data_);
             counter_data_.end_migration_.enabled_ = true;
             break;
         case primary_ns_statistics_counter:
-            get_data_func = util::bind_front(&cd::get_overall_count,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_overall_count),
                 &counter_data_);
             counter_data_.enable_all();
             break;
@@ -1393,52 +1393,52 @@ naming::gid_type primary_namespace::statistics_counter(std::string const& name)
         HPX_ASSERT(detail::counter_target_time == target);
         switch (code) {
         case primary_ns_route:
-            get_data_func = util::bind_front(&cd::get_route_time,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_route_time),
                 &counter_data_);
             counter_data_.route_.enabled_ = true;
             break;
         case primary_ns_bind_gid:
-            get_data_func = util::bind_front(&cd::get_bind_gid_time,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_bind_gid_time),
                 &counter_data_);
             counter_data_.bind_gid_.enabled_ = true;
             break;
         case primary_ns_resolve_gid:
-            get_data_func = util::bind_front(&cd::get_resolve_gid_time,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_resolve_gid_time),
                 &counter_data_);
             counter_data_.resolve_gid_.enabled_ = true;
             break;
         case primary_ns_unbind_gid:
-            get_data_func = util::bind_front(&cd::get_unbind_gid_time,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_unbind_gid_time),
                 &counter_data_);
             counter_data_.unbind_gid_.enabled_ = true;
             break;
         case primary_ns_increment_credit:
-            get_data_func = util::bind_front(&cd::get_increment_credit_time,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_increment_credit_time),
                 &counter_data_);
             counter_data_.increment_credit_.enabled_ = true;
             break;
         case primary_ns_decrement_credit:
-            get_data_func = util::bind_front(&cd::get_decrement_credit_time,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_decrement_credit_time),
                 &counter_data_);
             counter_data_.decrement_credit_.enabled_ = true;
             break;
         case primary_ns_allocate:
-            get_data_func = util::bind_front(&cd::get_allocate_time,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_allocate_time),
                 &counter_data_);
             counter_data_.allocate_.enabled_ = true;
             break;
         case primary_ns_begin_migration:
-            get_data_func = util::bind_front(&cd::get_begin_migration_time,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_begin_migration_time),
                 &counter_data_);
             counter_data_.begin_migration_.enabled_ = true;
             break;
         case primary_ns_end_migration:
-            get_data_func = util::bind_front(&cd::get_end_migration_time,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_end_migration_time),
                 &counter_data_);
             counter_data_.end_migration_.enabled_ = true;
             break;
         case primary_ns_statistics_counter:
-            get_data_func = util::bind_front(&cd::get_overall_time,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_overall_time),
                 &counter_data_);
             counter_data_.enable_all();
             break;

@@ -152,8 +152,8 @@ namespace hpx {
     {
         // Register pre-shutdown and shutdown functions to flush pending
         // reference counting operations.
-        register_pre_shutdown_function(&::garbage_collect_non_blocking);
-        register_shutdown_function(&::garbage_collect);
+        register_pre_shutdown_function(HPX_MONOSTATE_FUNCTION(&::garbage_collect_non_blocking));
+        register_shutdown_function(HPX_MONOSTATE_FUNCTION(&::garbage_collect));
 
         using components::stubs::runtime_support;
 
@@ -594,7 +594,7 @@ namespace hpx {
                 "HPX thread";
 
         threads::thread_init_data data(
-            util::bind(&runtime_distributed::run_helper, this, func,
+            util::bind(HPX_MONOSTATE_FUNCTION(&runtime_distributed::run_helper), this, func,
                 std::ref(result_)),
             "run_helper", threads::thread_priority_normal,
             threads::thread_schedule_hint(0), threads::thread_stacksize_large);
@@ -686,7 +686,7 @@ namespace hpx {
         std::condition_variable cond;
         bool running = false;
 
-        std::thread t(util::bind(&runtime_distributed::wait_helper, this,
+        std::thread t(util::bind(HPX_MONOSTATE_FUNCTION(&runtime_distributed::wait_helper), this,
             std::ref(mtx), std::ref(cond), std::ref(running)));
 
         // wait for the thread to run
@@ -736,7 +736,7 @@ namespace hpx {
             std::condition_variable cond;
             std::unique_lock<std::mutex> l(mtx);
 
-            std::thread t(util::bind(&runtime_distributed::stop_helper, this,
+            std::thread t(util::bind(HPX_MONOSTATE_FUNCTION(&runtime_distributed::stop_helper), this,
                 blocking, std::ref(cond), std::ref(mtx)));
             cond.wait(l);
 
@@ -1442,12 +1442,12 @@ namespace hpx {
         notification_policy_type notifier;
 
         notifier.add_on_start_thread_callback(
-            util::bind(&runtime_distributed::init_tss_helper, This(), prefix,
+            util::bind(HPX_MONOSTATE_FUNCTION(&runtime_distributed::init_tss_helper), This(), prefix,
                 type, _1, _2, _3, _4, false));
         notifier.add_on_stop_thread_callback(util::bind(
-            &runtime_distributed::deinit_tss_helper, This(), prefix, _1));
+            HPX_MONOSTATE_FUNCTION(&runtime_distributed::deinit_tss_helper), This(), prefix, _1));
         notifier.set_on_error_callback(util::bind(
-            static_cast<report_error_t>(&runtime_distributed::report_error),
+            HPX_MONOSTATE_FUNCTION(static_cast<report_error_t>(&runtime_distributed::report_error)),
             This(), _1, _2, true));
 
         return notifier;

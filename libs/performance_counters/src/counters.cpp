@@ -566,7 +566,7 @@ namespace hpx { namespace performance_counters {
         discover_counters_mode mode, error_code& ec)
     {
         discover_counter_func func(hpx::util::bind_front(
-            &detail::discover_counters, std::ref(counters)));
+            HPX_MONOSTATE_FUNCTION(&detail::discover_counters), std::ref(counters)));
 
         return discover_counter_types(std::move(func), mode, ec);
     }
@@ -576,7 +576,7 @@ namespace hpx { namespace performance_counters {
         error_code& ec)
     {
         discover_counter_func func(hpx::util::bind_front(
-            &detail::discover_counters, std::ref(counters)));
+            HPX_MONOSTATE_FUNCTION(&detail::discover_counters), std::ref(counters)));
 
         return discover_counter_type(name, std::move(func), mode, ec);
     }
@@ -586,7 +586,7 @@ namespace hpx { namespace performance_counters {
         error_code& ec)
     {
         discover_counter_func func(hpx::util::bind_front(
-            &detail::discover_counters, std::ref(counters)));
+            HPX_MONOSTATE_FUNCTION(&detail::discover_counters), std::ref(counters)));
 
         return discover_counter_type(info, std::move(func), mode, ec);
     }
@@ -1159,7 +1159,7 @@ namespace hpx { namespace performance_counters {
                 // attach the function which registers the id_type with AGAS
                 return f.then(hpx::launch::sync,
                     hpx::util::bind_front(
-                        &register_with_agas, complemented_info.fullname_));
+                        HPX_MONOSTATE_FUNCTION(&register_with_agas), complemented_info.fullname_));
             }
             catch (hpx::exception const& e)
             {

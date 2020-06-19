@@ -56,7 +56,7 @@ void component_namespace::register_counter_types(
     )
 {
     performance_counters::create_counter_func creator(
-        util::bind_back(&performance_counters::agas_raw_counter_creator
+        util::bind_back(HPX_MONOSTATE_FUNCTION(&performance_counters::agas_raw_counter_creator)
       , agas::server::component_namespace_service_name));
 
     for (std::size_t i = 0;
@@ -95,7 +95,7 @@ void component_namespace::register_counter_types(
             type
           , help
           , creator
-          , &performance_counters::locality0_counter_discoverer
+          , HPX_MONOSTATE_FUNCTION(&performance_counters::locality0_counter_discoverer)
           , HPX_PERFORMANCE_COUNTER_V1
           , detail::component_namespace_services[i].uom_
           , ec
@@ -109,7 +109,7 @@ void component_namespace::register_global_counter_types(
     )
 {
     performance_counters::create_counter_func creator(
-        util::bind_back(&performance_counters::agas_raw_counter_creator
+        util::bind_back(HPX_MONOSTATE_FUNCTION(&performance_counters::agas_raw_counter_creator)
       , agas::server::component_namespace_service_name));
 
     for (std::size_t i = 0;
@@ -143,7 +143,7 @@ void component_namespace::register_global_counter_types(
           , type
           , help
           , creator
-          , &performance_counters::locality0_counter_discoverer
+          , HPX_MONOSTATE_FUNCTION(&performance_counters::locality0_counter_discoverer)
           , HPX_PERFORMANCE_COUNTER_V1
           , detail::component_namespace_services[i].uom_
           , ec
@@ -592,42 +592,42 @@ naming::gid_type component_namespace::statistics_counter(
     {
         switch (code) {
         case component_ns_bind_prefix:
-            get_data_func = util::bind_front(&cd::get_bind_prefix_count,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_bind_prefix_count),
                 &counter_data_);
             counter_data_.bind_prefix_.enabled_ = true;
             break;
         case component_ns_bind_name:
-            get_data_func = util::bind_front(&cd::get_bind_name_count,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_bind_name_count),
                 &counter_data_);
             counter_data_.bind_name_.enabled_ = true;
             break;
         case component_ns_resolve_id:
-            get_data_func = util::bind_front(&cd::get_resolve_id_count,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_resolve_id_count),
                 &counter_data_);
             counter_data_.resolve_id_.enabled_ = true;
             break;
         case component_ns_unbind_name:
-            get_data_func = util::bind_front(&cd::get_unbind_name_count,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_unbind_name_count),
                 &counter_data_);
             counter_data_.unbind_name_.enabled_ = true;
             break;
         case component_ns_iterate_types:
-            get_data_func = util::bind_front(&cd::get_iterate_types_count,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_iterate_types_count),
                 &counter_data_);
             counter_data_.iterate_types_.enabled_ = true;
             break;
         case component_ns_get_component_type_name:
-            get_data_func = util::bind_front(&cd::get_component_type_name_count,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_component_type_name_count),
                 &counter_data_);
             counter_data_.get_component_type_name_.enabled_ = true;
             break;
         case component_ns_num_localities:
-            get_data_func = util::bind_front(&cd::get_num_localities_count,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_num_localities_count),
                 &counter_data_);
             counter_data_.num_localities_.enabled_ = true;
             break;
         case component_ns_statistics_counter:
-            get_data_func = util::bind_front(&cd::get_overall_count,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_overall_count),
                 &counter_data_);
             counter_data_.enable_all();
             break;
@@ -642,42 +642,42 @@ naming::gid_type component_namespace::statistics_counter(
         HPX_ASSERT(detail::counter_target_time == target);
         switch (code) {
         case component_ns_bind_prefix:
-            get_data_func = util::bind_front(&cd::get_bind_prefix_time,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_bind_prefix_time),
                 &counter_data_);
             counter_data_.bind_prefix_.enabled_ = true;
             break;
         case component_ns_bind_name:
-            get_data_func = util::bind_front(&cd::get_bind_name_time,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_bind_name_time),
                 &counter_data_);
             counter_data_.bind_name_.enabled_ = true;
             break;
         case component_ns_resolve_id:
-            get_data_func = util::bind_front(&cd::get_resolve_id_time,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_resolve_id_time),
                 &counter_data_);
             counter_data_.resolve_id_.enabled_ = true;
             break;
         case component_ns_unbind_name:
-            get_data_func = util::bind_front(&cd::get_unbind_name_time,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_unbind_name_time),
                 &counter_data_);
             counter_data_.unbind_name_.enabled_ = true;
             break;
         case component_ns_iterate_types:
-            get_data_func = util::bind_front(&cd::get_iterate_types_time,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_iterate_types_time),
                 &counter_data_);
             counter_data_.iterate_types_.enabled_ = true;
             break;
         case component_ns_get_component_type_name:
-            get_data_func = util::bind_front(&cd::get_component_type_name_time,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_component_type_name_time),
                 &counter_data_);
             counter_data_.get_component_type_name_.enabled_ = true;
             break;
         case component_ns_num_localities:
-            get_data_func = util::bind_front(&cd::get_num_localities_time,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_num_localities_time),
                 &counter_data_);
             counter_data_.num_localities_.enabled_ = true;
             break;
         case component_ns_statistics_counter:
-            get_data_func = util::bind_front(&cd::get_overall_time,
+            get_data_func = util::bind_front(HPX_MONOSTATE_FUNCTION(&cd::get_overall_time),
                 &counter_data_);
             counter_data_.enable_all();
             break;

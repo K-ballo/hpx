@@ -55,7 +55,7 @@ namespace hpx { namespace iostreams { namespace detail
                 naming::id_type::managed);
 
             return agas::register_name(cout_name, cout_id).then(
-                util::bind_back(&return_id_type, cout_id));
+                util::bind_back(HPX_MONOSTATE_FUNCTION(&return_id_type), cout_id));
         }
 
         // the console locality will create the ostream during startup

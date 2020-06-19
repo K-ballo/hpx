@@ -69,7 +69,7 @@ namespace hpx { namespace components
         decorate_action(naming::address_type lva, F && f)
         {
             return util::one_shot(util::bind_front(
-                &locking_hook::thread_function,
+                HPX_MONOSTATE_FUNCTION(&locking_hook::thread_function),
                 get_lva<this_component_type>::call(lva),
                 traits::component_decorate_function<base_type>::call(
                     lva, std::forward<F>(f))));
@@ -120,7 +120,7 @@ namespace hpx { namespace components
             {
                 // register our yield decorator
                 decorate_wrapper yield_decorator(
-                    util::bind_front(&locking_hook::yield_function, this));
+                    util::bind_front(HPX_MONOSTATE_FUNCTION(&locking_hook::yield_function), this));
 
                 result = f(state);
 

@@ -152,7 +152,7 @@ namespace hpx { namespace performance_counters {
             {
                 using hpx::util::placeholders::_1;
                 discover_counter = hpx::util::bind(
-                    &expand_counter_info, _1, discover_counter, std::ref(ec));
+                    HPX_MONOSTATE_FUNCTION(&expand_counter_info), _1, discover_counter, std::ref(ec));
             }
 
             counter_info info = (*it).second.info_;
@@ -175,7 +175,7 @@ namespace hpx { namespace performance_counters {
             {
                 using hpx::util::placeholders::_1;
                 discover_counter = hpx::util::bind(
-                    &expand_counter_info, _1, discover_counter, std::ref(ec));
+                    HPX_MONOSTATE_FUNCTION(&expand_counter_info), _1, discover_counter, std::ref(ec));
             }
 
             // split name
@@ -248,7 +248,7 @@ namespace hpx { namespace performance_counters {
         if (mode == discover_counters_full)
         {
             using hpx::util::placeholders::_1;
-            discover_counter_ = hpx::util::bind(&expand_counter_info, _1,
+            discover_counter_ = hpx::util::bind(HPX_MONOSTATE_FUNCTION(&expand_counter_info), _1,
                 std::move(discover_counter), std::ref(ec));
         }
         else
@@ -405,7 +405,7 @@ namespace hpx { namespace performance_counters {
         std::int64_t* countervalue, naming::gid_type& id, error_code& ec)
     {
         hpx::util::function_nonser<std::int64_t(bool)> func(
-            util::bind_front(wrap_counter, countervalue));
+            util::bind_front(HPX_MONOSTATE_FUNCTION(&wrap_counter), countervalue));
         return create_raw_counter(info, func, id, ec);
     }
 
@@ -426,7 +426,7 @@ namespace hpx { namespace performance_counters {
         naming::gid_type& id, error_code& ec)
     {
         hpx::util::function_nonser<std::int64_t(bool)> func(
-            util::bind_front(&wrap_raw_counter, f));
+            util::bind_front(HPX_MONOSTATE_FUNCTION(&wrap_raw_counter), f));
         return create_raw_counter(info, func, id, ec);
     }
 
@@ -509,7 +509,7 @@ namespace hpx { namespace performance_counters {
         naming::gid_type& id, error_code& ec)
     {
         hpx::util::function_nonser<std::vector<std::int64_t>(bool)> func(
-            util::bind_front(&wrap_raw_values_counter, f));
+            util::bind_front(HPX_MONOSTATE_FUNCTION(&wrap_raw_values_counter), f));
         return create_raw_counter(info, func, id, ec);
     }
 

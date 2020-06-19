@@ -173,7 +173,7 @@ namespace hpx { namespace threads { namespace executors { namespace detail {
         // create a new thread
         thread_init_data data(
             util::one_shot(util::bind(
-                &embedded_thread_pool_executor::thread_function_nullary, this,
+                HPX_MONOSTATE_FUNCTION(&embedded_thread_pool_executor::thread_function_nullary), this,
                 std::move(f))),
             desc, thread_priority_default, thread_schedule_hint(), stacksize,
             initial_state, run_now);
@@ -205,7 +205,7 @@ namespace hpx { namespace threads { namespace executors { namespace detail {
         // create a new suspended thread
         thread_init_data data(
             util::one_shot(util::bind(
-                &embedded_thread_pool_executor::thread_function_nullary, this,
+                HPX_MONOSTATE_FUNCTION(&embedded_thread_pool_executor::thread_function_nullary), this,
                 std::move(f))),
             desc, thread_priority_default, thread_schedule_hint(),
             thread_stacksize_default, suspended, true);
@@ -359,8 +359,8 @@ namespace hpx { namespace threads { namespace executors { namespace detail {
 
             threads::detail::scheduling_callbacks callbacks(nullptr,
                 util::deferred_call(    //-V107
-                    &embedded_thread_pool_executor::
-                        suspend_back_into_calling_context,
+                    HPX_MONOSTATE_FUNCTION(&embedded_thread_pool_executor::
+                        suspend_back_into_calling_context),
                     this, virt_core));
 
             scheduler_.add_scheduler_mode(policies::fast_idle_mode);
@@ -434,7 +434,7 @@ namespace hpx { namespace threads { namespace executors { namespace detail {
             ++curr_punits_;
             thread_init_data data(
                 make_thread_function_nullary(
-                    util::deferred_call(&embedded_thread_pool_executor::run,
+                    util::deferred_call(HPX_MONOSTATE_FUNCTION(&embedded_thread_pool_executor::run),
                         this, virt_core, thread_num)),
                 "embedded_thread_pool_executor thread",
                 threads::thread_priority_normal,

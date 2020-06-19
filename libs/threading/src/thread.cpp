@@ -166,8 +166,9 @@ namespace hpx {
         HPX_ASSERT(pool);
 
         threads::thread_init_data data(
-            util::one_shot(
-                util::bind(&thread::thread_function_nullary, std::move(func))),
+            util::one_shot(util::bind(
+                HPX_MONOSTATE_FUNCTION(&thread::thread_function_nullary),
+                std::move(func))),
             "thread::thread_function_nullary", threads::thread_priority_default,
             threads::thread_schedule_hint(), threads::thread_stacksize_default,
             threads::pending, true);
@@ -211,8 +212,9 @@ namespace hpx {
         this_thread::interruption_point();
 
         // register callback function to be called when thread exits
-        if (threads::add_thread_exit_callback(
-                id_, util::bind_front(&resume_thread, this_id)))
+        if (threads::add_thread_exit_callback(id_,
+                util::bind_front(
+                    HPX_MONOSTATE_FUNCTION(&resume_thread), this_id)))
         {
             // wait for thread to be terminated
             util::unlock_guard<std::unique_lock<mutex_type>> ul(l);
@@ -263,7 +265,7 @@ namespace hpx {
             {
                 if (threads::add_thread_exit_callback(id,
                         util::bind_front(
-                            &thread_task_base::thread_exit_function,
+                            HPX_MONOSTATE_FUNCTION(&thread_task_base::thread_exit_function),
                             future_base_type(this))))
                 {
                     id_ = id;

@@ -189,7 +189,7 @@ namespace hpx { namespace plugins { namespace parcel
                 "coalescing_counter_registry::"
                     "get_time_between_parcels_histogram_counter",
                 "unknown action type");
-            return &coalescing_counter_registry::empty_histogram;
+            return HPX_MONOSTATE_FUNCTION(&coalescing_counter_registry::empty_histogram);
         }
 
         if ((*it).second.time_between_parcels_histogram_creator.empty())

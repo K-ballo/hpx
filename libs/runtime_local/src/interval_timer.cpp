@@ -85,12 +85,12 @@ namespace hpx { namespace util { namespace detail {
                 if (pre_shutdown_)
                 {
                     register_pre_shutdown_function(util::deferred_call(
-                        &interval_timer::terminate, this->shared_from_this()));
+                        HPX_MONOSTATE_FUNCTION(&interval_timer::terminate), this->shared_from_this()));
                 }
                 else
                 {
                     register_shutdown_function(util::deferred_call(
-                        &interval_timer::terminate, this->shared_from_this()));
+                        HPX_MONOSTATE_FUNCTION(&interval_timer::terminate), this->shared_from_this()));
                 }
             }
 
@@ -296,7 +296,7 @@ namespace hpx { namespace util { namespace detail {
             //util::unlock_guard<std::unique_lock<mutex_type> > ul(l);
             hpx::threads::thread_init_data data(
                 hpx::threads::make_thread_function(util::bind_front(
-                    &interval_timer::evaluate, this->shared_from_this())),
+                    HPX_MONOSTATE_FUNCTION(&interval_timer::evaluate), this->shared_from_this())),
                 description_.c_str(), threads::thread_priority_boost,
                 threads::thread_schedule_hint(),
                 threads::thread_stacksize_default, threads::suspended, true);

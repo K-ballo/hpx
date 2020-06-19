@@ -476,7 +476,7 @@ namespace hpx { namespace parcelset
             naming::resolver_client& client = hpx::naming::get_agas_client();
             client.route(
                 std::move(*this),
-                &detail::parcel_route_handler,
+                HPX_MONOSTATE_FUNCTION(&detail::parcel_route_handler),
                 threads::thread_priority_normal);
             return;
         }

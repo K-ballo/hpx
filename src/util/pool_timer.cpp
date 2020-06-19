@@ -124,20 +124,20 @@ namespace hpx { namespace util { namespace detail
                 if (pre_shutdown_)
                 {
                     register_pre_shutdown_function(
-                        util::deferred_call(&pool_timer::terminate,
+                        util::deferred_call(HPX_MONOSTATE_FUNCTION(&pool_timer::terminate),
                             this->shared_from_this()));
                 }
                 else
                 {
                     register_shutdown_function(
-                        util::deferred_call(&pool_timer::terminate,
+                        util::deferred_call(HPX_MONOSTATE_FUNCTION(&pool_timer::terminate),
                             this->shared_from_this()));
                 }
             }
 
             HPX_ASSERT(timer_ != nullptr);
             timer_->expires_from_now(time_duration.value());
-            timer_->async_wait(util::bind_front(&pool_timer::timer_handler,
+            timer_->async_wait(util::bind_front(HPX_MONOSTATE_FUNCTION(&pool_timer::timer_handler),
                 this->shared_from_this()));
 
             return true;

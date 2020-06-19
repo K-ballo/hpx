@@ -322,7 +322,7 @@ namespace hpx { namespace parcelset
                 hpx::threads::thread_init_data data(
                     hpx::threads::make_thread_function_nullary(
                         util::deferred_call(
-                            &parcelport_impl::remove_from_connection_cache,
+                            HPX_MONOSTATE_FUNCTION(&parcelport_impl::remove_from_connection_cache),
                             this, loc)),
                     "remove_from_connection_cache_delayed",
                     threads::thread_priority_normal,
@@ -341,7 +341,7 @@ namespace hpx { namespace parcelset
             error_code ec(lightweight);
             hpx::threads::thread_init_data data(
                     hpx::threads::make_thread_function_nullary(util::deferred_call(
-                        &parcelport_impl::remove_from_connection_cache_delayed,
+                        HPX_MONOSTATE_FUNCTION(&parcelport_impl::remove_from_connection_cache_delayed),
                         this, loc)),
                     "remove_from_connection_cache", threads::thread_priority_normal,
                     threads::thread_schedule_hint(
@@ -926,7 +926,7 @@ namespace hpx { namespace parcelset
                 sender_connection->async_write(
                     call_for_each(
                         std::move(handled_handlers), std::move(handled_parcels)),
-                    util::bind_front(&parcelport_impl::send_pending_parcels_trampoline,
+                    util::bind_front(HPX_MONOSTATE_FUNCTION(&parcelport_impl::send_pending_parcels_trampoline),
                         this));
 
                 // give back unhandled parcels
