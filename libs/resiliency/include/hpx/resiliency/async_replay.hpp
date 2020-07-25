@@ -73,9 +73,9 @@ namespace hpx { namespace resiliency {
         {
             template <typename Pred_, typename F_, typename Tuple_>
             async_replay_helper(Pred_&& pred, F_&& f, Tuple_&& tuple)
-              : pred_(std::forward<Pred_>(pred))
-              , f_(std::forward<F_>(f))
-              , t_(std::forward<Tuple_>(tuple))
+              : pred_(HPX_FWD(pred))
+              , f_(HPX_FWD(f))
+              , t_(HPX_FWD(tuple))
             {
             }
 
@@ -158,8 +158,8 @@ namespace hpx { namespace resiliency {
                 typename std::decay<Pred>::type, typename std::decay<F>::type,
                 std::tuple<typename std::decay<Ts>::type...>>;
 
-            return std::make_shared<return_type>(std::forward<Pred>(pred),
-                std::forward<F>(f), std::make_tuple(std::forward<Ts>(ts)...));
+            return std::make_shared<return_type>(HPX_FWD(pred),
+                HPX_FWD(f), std::make_tuple(HPX_FWD(ts)...));
         }
     }    // namespace detail
 
@@ -176,8 +176,8 @@ namespace hpx { namespace resiliency {
             typename hpx::util::detail::invoke_deferred_result<F, Ts...>::type;
 
         auto helper = detail::make_async_replay_helper<result_type>(
-            std::forward<Pred>(pred), std::forward<F>(f),
-            std::forward<Ts>(ts)...);
+            HPX_FWD(pred), HPX_FWD(f),
+            HPX_FWD(ts)...);
 
         return helper->call(n);
     }
@@ -191,7 +191,7 @@ namespace hpx { namespace resiliency {
     async_replay(std::size_t n, F&& f, Ts&&... ts)
     {
         return async_replay_validate(n, detail::replay_validator{},
-            std::forward<F>(f), std::forward<Ts>(ts)...);
+            HPX_FWD(f), HPX_FWD(ts)...);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -203,12 +203,12 @@ namespace hpx { namespace resiliency {
             template <typename Pred, typename F, typename... Ts>
             auto operator()(std::size_t n, Pred&& pred, F&& f, Ts&&... ts) const
                 -> decltype(hpx::resiliency::async_replay_validate(n,
-                    std::forward<Pred>(pred), std::forward<F>(f),
-                    std::forward<Ts>(ts)...))
+                    HPX_FWD(pred), HPX_FWD(f),
+                    HPX_FWD(ts)...))
             {
                 return hpx::resiliency::async_replay_validate(n,
-                    std::forward<Pred>(pred), std::forward<F>(f),
-                    std::forward<Ts>(ts)...);
+                    HPX_FWD(pred), HPX_FWD(f),
+                    HPX_FWD(ts)...);
             }
         };
 
@@ -217,10 +217,10 @@ namespace hpx { namespace resiliency {
             template <typename F, typename... Ts>
             auto operator()(std::size_t n, F&& f, Ts&&... ts) const
                 -> decltype(hpx::resiliency::async_replay(
-                    n, std::forward<F>(f), std::forward<Ts>(ts)...))
+                    n, HPX_FWD(f), HPX_FWD(ts)...))
             {
                 return hpx::resiliency::async_replay(
-                    n, std::forward<F>(f), std::forward<Ts>(ts)...);
+                    n, HPX_FWD(f), HPX_FWD(ts)...);
             }
         };
     }    // namespace functional

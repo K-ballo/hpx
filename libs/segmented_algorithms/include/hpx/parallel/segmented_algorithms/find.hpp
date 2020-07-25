@@ -236,13 +236,13 @@ namespace hpx { namespace parallel { inline namespace v1 {
             if (first == last)
             {
                 return util::detail::algorithm_result<ExPolicy, FwdIter>::get(
-                    std::forward<FwdIter>(first));
+                    HPX_FWD(first));
             }
             typedef hpx::traits::segmented_iterator_traits<FwdIter>
                 iterator_traits;
             return segmented_find(
                 find<typename iterator_traits::local_iterator>(),
-                std::forward<ExPolicy>(policy), first, last, std::move(val),
+                HPX_FWD(policy), first, last, std::move(val),
                 is_seq());
         }
 
@@ -262,14 +262,14 @@ namespace hpx { namespace parallel { inline namespace v1 {
             if (first == last)
             {
                 return util::detail::algorithm_result<ExPolicy, FwdIter>::get(
-                    std::forward<FwdIter>(first));
+                    HPX_FWD(first));
             }
             typedef typename std::iterator_traits<FwdIter>::value_type type;
             typedef hpx::traits::segmented_iterator_traits<FwdIter>
                 iterator_traits;
             return segmented_find(
                 find_if<typename iterator_traits::local_iterator>(),
-                std::forward<ExPolicy>(policy), first, last, std::forward<F>(f),
+                HPX_FWD(policy), first, last, HPX_FWD(f),
                 is_seq());
         }
 
@@ -289,14 +289,14 @@ namespace hpx { namespace parallel { inline namespace v1 {
             if (first == last)
             {
                 return util::detail::algorithm_result<ExPolicy, FwdIter>::get(
-                    std::forward<FwdIter>(first));
+                    HPX_FWD(first));
             }
             typedef typename std::iterator_traits<FwdIter>::value_type type;
             typedef hpx::traits::segmented_iterator_traits<FwdIter>
                 iterator_traits;
             return segmented_find(
                 find_if_not<typename iterator_traits::local_iterator>(),
-                std::forward<ExPolicy>(policy), first, last, std::forward<F>(f),
+                HPX_FWD(policy), first, last, HPX_FWD(f),
                 is_seq());
         }
 

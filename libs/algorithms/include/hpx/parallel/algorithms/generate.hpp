@@ -43,7 +43,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
             template <typename ExPolicy, typename InIter, typename F>
             static InIter sequential(ExPolicy, InIter first, InIter last, F&& f)
             {
-                std::generate(first, last, std::forward<F>(f));
+                std::generate(first, last, HPX_FWD(f));
                 return last;
             }
 
@@ -55,9 +55,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 typedef typename std::iterator_traits<FwdIter>::value_type type;
 
                 return for_each_n<FwdIter>().call(
-                    std::forward<ExPolicy>(policy), std::false_type(), first,
+                    HPX_FWD(policy), std::false_type(), first,
                     std::distance(first, last),
-                    [f = std::forward<F>(f)](type& v) mutable { v = f(); },
+                    [f = HPX_FWD(f)](type& v) mutable { v = f(); },
                     util::projection_identity());
             }
         };
@@ -73,8 +73,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 is_seq;
 
             return detail::generate<FwdIter>().call(
-                std::forward<ExPolicy>(policy), is_seq(), first, last,
-                std::forward<F>(f));
+                HPX_FWD(policy), is_seq(), first, last,
+                HPX_FWD(f));
         }
 
         ///////////////////////////////////////////////////////////////////////
@@ -148,8 +148,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
         typedef hpx::traits::is_segmented_iterator<FwdIter> is_segmented;
 
-        return detail::generate_(std::forward<ExPolicy>(policy), first, last,
-            std::forward<F>(f), is_segmented());
+        return detail::generate_(HPX_FWD(policy), first, last,
+            HPX_FWD(f), is_segmented());
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -181,9 +181,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 typedef typename std::iterator_traits<FwdIter>::value_type type;
 
                 return for_each_n<FwdIter>().call(
-                    std::forward<ExPolicy>(policy), std::false_type(), first,
+                    HPX_FWD(policy), std::false_type(), first,
                     count,
-                    [f = std::forward<F>(f)](type& v) mutable { v = f(); },
+                    [f = HPX_FWD(f)](type& v) mutable { v = f(); },
                     util::projection_identity());
             }
         };
@@ -259,7 +259,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
         }
 
         return detail::generate_n<FwdIter>().call(
-            std::forward<ExPolicy>(policy), is_seq(), first, std::size_t(count),
-            std::forward<F>(f));
+            HPX_FWD(policy), is_seq(), first, std::size_t(count),
+            HPX_FWD(f));
     }
 }}}    // namespace hpx::parallel::v1

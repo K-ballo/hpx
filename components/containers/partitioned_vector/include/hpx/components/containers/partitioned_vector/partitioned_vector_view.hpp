@@ -62,10 +62,10 @@ namespace hpx
             list_type && hw_sizes = {})
         : partitioned_vector_view(
             block,
-            traits::segment(std::forward<pvector_iterator>(v_begin)),
-            traits::segment(std::forward<pvector_iterator>(v_last)),
-            std::forward<list_type>(sw_sizes),
-            std::forward<list_type>(hw_sizes))
+            traits::segment(HPX_FWD(v_begin)),
+            traits::segment(HPX_FWD(v_last)),
+            HPX_FWD(sw_sizes),
+            HPX_FWD(hw_sizes))
         {}
 
         explicit partitioned_vector_view(

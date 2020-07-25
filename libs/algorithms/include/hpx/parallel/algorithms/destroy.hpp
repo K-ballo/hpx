@@ -62,7 +62,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
             }
 
             return util::foreach_partitioner<ExPolicy>::call(
-                std::forward<ExPolicy>(policy), first, count,
+                HPX_FWD(policy), first, count,
                 [](FwdIter first, std::size_t count, std::size_t) {
                     typedef typename std::iterator_traits<FwdIter>::value_type
                         value_type;
@@ -96,7 +96,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
             {
                 return util::detail::algorithm_result<ExPolicy>::get(
                     parallel_sequential_destroy_n(
-                        std::forward<ExPolicy>(policy), first,
+                        HPX_FWD(policy), first,
                         std::distance(first, last)));
             }
         };
@@ -150,7 +150,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
         typedef execution::is_sequenced_execution_policy<ExPolicy> is_seq;
 
         return detail::destroy<FwdIter>().call(
-            std::forward<ExPolicy>(policy), is_seq(), first, last);
+            HPX_FWD(policy), is_seq(), first, last);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -195,7 +195,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 parallel(ExPolicy&& policy, FwdIter first, std::size_t count)
             {
                 return parallel_sequential_destroy_n(
-                    std::forward<ExPolicy>(policy), first, count);
+                    HPX_FWD(policy), first, count);
             }
         };
         /// \endcond
@@ -263,7 +263,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
         typedef execution::is_sequenced_execution_policy<ExPolicy> is_seq;
 
-        return detail::destroy_n<FwdIter>().call(std::forward<ExPolicy>(policy),
+        return detail::destroy_n<FwdIter>().call(HPX_FWD(policy),
             is_seq(), first, std::size_t(count));
     }
 }}}    // namespace hpx::parallel::v1

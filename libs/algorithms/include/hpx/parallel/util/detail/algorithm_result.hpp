@@ -33,7 +33,7 @@ namespace hpx { namespace parallel { namespace util { namespace detail {
         template <typename T_>
         static type get(T_&& t)
         {
-            return std::forward<T_>(t);
+            return HPX_FWD(t);
         }
 
         template <typename T_>
@@ -270,6 +270,6 @@ namespace hpx { namespace parallel { namespace util { namespace detail {
         typedef typename hpx::util::invoke_result<Conv, U>::type result_type;
 
         return lcos::make_future<result_type>(
-            std::move(f), std::forward<Conv>(conv));
+            std::move(f), HPX_FWD(conv));
     }
 }}}}    // namespace hpx::parallel::util::detail

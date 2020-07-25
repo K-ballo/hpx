@@ -181,7 +181,7 @@ namespace hpx { namespace lcos { namespace local {
                     return;
                 }
 
-                shared_state_->set_value(std::forward<Ts>(ts)...);
+                shared_state_->set_value(HPX_FWD(ts)...);
             }
 
             template <typename T>
@@ -203,7 +203,7 @@ namespace hpx { namespace lcos { namespace local {
                     return;
                 }
 
-                shared_state_->set_exception(std::forward<T>(value));
+                shared_state_->set_exception(HPX_FWD(value));
             }
 
         protected:
@@ -355,7 +355,7 @@ namespace hpx { namespace lcos { namespace local {
         template <typename... Ts>
         void set_value(Ts&&... ts)
         {
-            base_type::set_value(std::forward<Ts>(ts)...);
+            base_type::set_value(HPX_FWD(ts)...);
         }
 
         // Effects: atomically stores the exception pointer p in the shared

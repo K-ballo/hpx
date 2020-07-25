@@ -104,9 +104,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
     remove_copy(ExPolicy&& policy, Rng&& rng, OutIter dest, T const& val,
         Proj&& proj = Proj())
     {
-        return remove_copy(std::forward<ExPolicy>(policy),
+        return remove_copy(HPX_FWD(policy),
             hpx::util::begin(rng), hpx::util::end(rng), dest, val,
-            std::forward<Proj>(proj));
+            HPX_FWD(proj));
     }
 
     /////////////////////////////////////////////////////////////////////////////
@@ -203,8 +203,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
     remove_copy_if(
         ExPolicy&& policy, Rng&& rng, OutIter dest, F&& f, Proj&& proj = Proj())
     {
-        return remove_copy_if(std::forward<ExPolicy>(policy),
+        return remove_copy_if(HPX_FWD(policy),
             hpx::util::begin(rng), hpx::util::end(rng), dest,
-            std::forward<F>(f), std::forward<Proj>(proj));
+            HPX_FWD(f), HPX_FWD(proj));
     }
 }}}    // namespace hpx::parallel::v1

@@ -61,7 +61,7 @@ namespace hpx { namespace actions {
 
             template <typename... Ts>
             argument_holder(Ts&&... ts)
-              : data_(new Args(std::forward<Ts>(ts)...))
+              : data_(new Args(HPX_FWD(ts)...))
             {
             }
 
@@ -121,7 +121,7 @@ namespace hpx { namespace util {
         typename util::tuple_element<I, Args>::type&&
         get(hpx::actions::detail::argument_holder<Args>&& t)
     {
-        return std::forward<typename util::tuple_element<I, Args>::type>(
+        return HPX_FWD::type>(
             util::get<I>(t.data()));
     }
 
@@ -130,7 +130,7 @@ namespace hpx { namespace util {
         typename util::tuple_element<I, Args>::type const&&
         get(hpx::actions::detail::argument_holder<Args> const&& t)
     {
-        return std::forward<typename util::tuple_element<I, Args>::type const>(
+        return HPX_FWD::type const>(
             util::get<I>(t.data()));
     }
 }}    // namespace hpx::util
@@ -176,14 +176,14 @@ namespace hpx { namespace actions {
         explicit transfer_base_action(Ts&&... vs)
           : base_action_data(threads::thread_priority_default,
                 threads::thread_stacksize_default)
-          , arguments_(std::forward<Ts>(vs)...)
+          , arguments_(HPX_FWD(vs)...)
         {
         }
 
         template <typename... Ts>
         transfer_base_action(threads::thread_priority priority, Ts&&... vs)
           : base_action_data(priority, threads::thread_stacksize_default)
-          , arguments_(std::forward<Ts>(vs)...)
+          , arguments_(HPX_FWD(vs)...)
         {
         }
 

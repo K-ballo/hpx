@@ -47,13 +47,13 @@ namespace hpx { namespace detail {
         {
             return hpx::detail::sync_local_invoke_direct<action_type,
                 result_type>::call(id, std::move(addr),
-                std::forward<Ts>(vs)...);
+                HPX_FWD(vs)...);
         }
         else if (hpx::detail::has_async_policy(policy))
         {
             return keep_alive(
                 hpx::async(action_invoker<action_type>(), addr.address_,
-                    addr.type_, std::forward<Ts>(vs)...),
+                    addr.type_, HPX_FWD(vs)...),
                 id, std::move(r.second));
         }
 
@@ -61,7 +61,7 @@ namespace hpx { namespace detail {
 
         return keep_alive(
             hpx::async(launch::deferred, action_invoker<action_type>(),
-                addr.address_, addr.type_, std::forward<Ts>(vs)...),
+                addr.address_, addr.type_, HPX_FWD(vs)...),
             id, std::move(r.second));
     }
 
@@ -87,7 +87,7 @@ namespace hpx { namespace detail {
             if (!r.first)
             {
                 result = async_local_unwrap_impl<Action>(
-                    policy, id, addr, r, std::forward<Ts>(vs)...);
+                    policy, id, addr, r, HPX_FWD(vs)...);
 
                 return true;
             }
@@ -97,7 +97,7 @@ namespace hpx { namespace detail {
         }
 
         result = async_local_unwrap_impl<Action>(
-            policy, id, addr, r, std::forward<Ts>(vs)...);
+            policy, id, addr, r, HPX_FWD(vs)...);
 
         return true;
     }
@@ -120,15 +120,15 @@ namespace hpx { namespace detail {
         {
             result_type result;
             if (async_local_unwrap_impl_all<Action>(
-                    policy, id, addr, r, result, std::forward<Ts>(vs)...))
+                    policy, id, addr, r, result, HPX_FWD(vs)...))
             {
                 return result;
             }
         }
 
         // the asynchronous result is auto-unwrapped by the return type
-        return async_remote_impl<Action>(std::forward<Launch>(policy), id,
-            std::move(addr), std::forward<Ts>(vs)...);
+        return async_remote_impl<Action>(HPX_FWD(policy), id,
+            std::move(addr), HPX_FWD(vs)...);
     }
     /// \endcond
 }}    // namespace hpx::detail

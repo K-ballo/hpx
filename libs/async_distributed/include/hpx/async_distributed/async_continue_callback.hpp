@@ -42,8 +42,8 @@ namespace hpx {
 
             apply_cb<Action>(hpx::actions::typed_continuation<result_type,
                                  continuation_result_type>(
-                                 p.get_id(), std::forward<Cont>(cont)),
-                target, std::forward<Callback>(cb), std::forward<Ts>(vs)...);
+                                 p.get_id(), HPX_FWD(cont)),
+                target, HPX_FWD(cb), HPX_FWD(vs)...);
 
             return f;
         }
@@ -61,8 +61,8 @@ namespace hpx {
             result_type;
 
         return detail::async_continue_r_cb<Action, result_type>(
-            std::forward<Cont>(cont), gid, std::forward<Callback>(cb),
-            std::forward<Ts>(vs)...);
+            HPX_FWD(cont), gid, HPX_FWD(cb),
+            HPX_FWD(vs)...);
     }
 
     template <typename Component, typename Signature, typename Derived,
@@ -74,8 +74,8 @@ namespace hpx {
         ,
         Cont&& cont, naming::id_type const& gid, Callback&& cb, Ts&&... vs)
     {
-        return async_continue_cb<Derived>(std::forward<Cont>(cont), gid,
-            std::forward<Callback>(cb), std::forward<Ts>(vs)...);
+        return async_continue_cb<Derived>(HPX_FWD(cont), gid,
+            HPX_FWD(cb), HPX_FWD(vs)...);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -92,8 +92,8 @@ namespace hpx {
             result_type;
 
         return detail::async_continue_r_cb<Action, result_type>(
-            std::forward<Cont>(cont), policy, std::forward<Callback>(cb),
-            std::forward<Ts>(vs)...);
+            HPX_FWD(cont), policy, HPX_FWD(cb),
+            HPX_FWD(vs)...);
     }
 
     template <typename Component, typename Signature, typename Derived,
@@ -106,7 +106,7 @@ namespace hpx {
         ,
         Cont&& cont, DistPolicy const& policy, Callback&& cb, Ts&&... vs)
     {
-        return async_continue_cb<Derived>(std::forward<Cont>(cont), policy,
-            std::forward<Callback>(cb), std::forward<Ts>(vs)...);
+        return async_continue_cb<Derived>(HPX_FWD(cont), policy,
+            HPX_FWD(cb), HPX_FWD(vs)...);
     }
 }    // namespace hpx

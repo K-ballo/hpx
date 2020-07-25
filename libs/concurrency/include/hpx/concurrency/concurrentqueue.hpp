@@ -486,9 +486,9 @@ namespace details
     {
         template<typename U>
         static inline auto eval(U&& x)
-            -> decltype(std::forward<U>(x))
+            -> decltype(HPX_FWD(x))
         {
-            return std::forward<U>(x);
+            return HPX_FWD(x);
         }
     };
 
@@ -1299,14 +1299,14 @@ private:
     template<AllocationMode canAlloc, typename U>
     inline bool inner_enqueue(producer_token_t const& token, U&& element)
     {
-        return static_cast<ExplicitProducer*>(token.producer)->ConcurrentQueue::ExplicitProducer::template enqueue<canAlloc>(std::forward<U>(element));
+        return static_cast<ExplicitProducer*>(token.producer)->ConcurrentQueue::ExplicitProducer::template enqueue<canAlloc>(HPX_FWD(element));
     }
 
     template<AllocationMode canAlloc, typename U>
     inline bool inner_enqueue(U&& element)
     {
         auto producer = get_or_add_implicit_producer();
-        return producer == nullptr ? false : producer->ConcurrentQueue::ImplicitProducer::template enqueue<canAlloc>(std::forward<U>(element));
+        return producer == nullptr ? false : producer->ConcurrentQueue::ImplicitProducer::template enqueue<canAlloc>(HPX_FWD(element));
     }
 
     template<AllocationMode canAlloc, typename It>
@@ -1861,11 +1861,11 @@ private:
                     ++pr_blockIndexSlotsUsed;
                 }
 
-                if (!MOODYCAMEL_NOEXCEPT_CTOR(T, U, new (nullptr) T(std::forward<U>(element)))) {
+                if (!MOODYCAMEL_NOEXCEPT_CTOR(T, U, new (nullptr) T(HPX_FWD(element)))) {
                     // The constructor may throw. We want the element not to appear in the queue in
                     // that case (without corrupting the queue):
                     MOODYCAMEL_TRY {
-                        new ((*this->tailBlock)[currentTailIndex]) T(std::forward<U>(element));
+                        new ((*this->tailBlock)[currentTailIndex]) T(HPX_FWD(element));
                     }
                     MOODYCAMEL_CATCH (...) {
                         // Revert change to the current block, but leave the new block available
@@ -1887,14 +1887,14 @@ private:
                 blockIndex.load(std::memory_order_relaxed)->front.store(pr_blockIndexFront, std::memory_order_release);
                 pr_blockIndexFront = (pr_blockIndexFront + 1) & (pr_blockIndexSize - 1);
 
-                if (!MOODYCAMEL_NOEXCEPT_CTOR(T, U, new (nullptr) T(std::forward<U>(element)))) {
+                if (!MOODYCAMEL_NOEXCEPT_CTOR(T, U, new (nullptr) T(HPX_FWD(element)))) {
                     this->tailIndex.store(newTailIndex, std::memory_order_release);
                     return true;
                 }
             }
 
             // Enqueue
-            new ((*this->tailBlock)[currentTailIndex]) T(std::forward<U>(element));
+            new ((*this->tailBlock)[currentTailIndex]) T(HPX_FWD(element));
 
             this->tailIndex.store(newTailIndex, std::memory_order_release);
             return true;
@@ -2457,10 +2457,10 @@ private:
 #endif
                 newBlock->ConcurrentQueue::Block::template reset_empty<implicit_context>();
 
-                if (!MOODYCAMEL_NOEXCEPT_CTOR(T, U, new (nullptr) T(std::forward<U>(element)))) {
+                if (!MOODYCAMEL_NOEXCEPT_CTOR(T, U, new (nullptr) T(HPX_FWD(element)))) {
                     // May throw, try to insert now before we publish the fact that we have this new block
                     MOODYCAMEL_TRY {
-                        new ((*newBlock)[currentTailIndex]) T(std::forward<U>(element));
+                        new ((*newBlock)[currentTailIndex]) T(HPX_FWD(element));
                     }
                     MOODYCAMEL_CATCH (...) {
                         rewind_block_index_tail();
@@ -2475,14 +2475,14 @@ private:
 
                 this->tailBlock = newBlock;
 
-                if (!MOODYCAMEL_NOEXCEPT_CTOR(T, U, new (nullptr) T(std::forward<U>(element)))) {
+                if (!MOODYCAMEL_NOEXCEPT_CTOR(T, U, new (nullptr) T(HPX_FWD(element)))) {
                     this->tailIndex.store(newTailIndex, std::memory_order_release);
                     return true;
                 }
             }
 
             // Enqueue
-            new ((*this->tailBlock)[currentTailIndex]) T(std::forward<U>(element));
+            new ((*this->tailBlock)[currentTailIndex]) T(HPX_FWD(element));
 
             this->tailIndex.store(newTailIndex, std::memory_order_release);
             return true;
@@ -3545,7 +3545,7 @@ private:
     static inline U* create(A1&& a1)
     {
         auto p = (Traits::malloc)(sizeof(U));
-        return p != nullptr ? new (p) U(std::forward<A1>(a1)) : nullptr;
+        return p != nullptr ? new (p) U(HPX_FWD(a1)) : nullptr;
     }
 
     template<typename U>

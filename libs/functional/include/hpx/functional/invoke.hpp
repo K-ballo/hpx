@@ -34,7 +34,7 @@ namespace hpx { namespace util {
                 util::invoke_result<T C::*, T0>>::type::type
             operator()(T0&& v0) const noexcept
             {
-                return std::forward<T0>(v0).*f;
+                return HPX_FWD(v0).*f;
             }
 
             // (*t0).*f
@@ -42,9 +42,9 @@ namespace hpx { namespace util {
             constexpr HPX_HOST_DEVICE typename std::enable_if<
                 !std::is_base_of<C, typename std::decay<T0>::type>::value,
                 util::invoke_result<T C::*, T0>>::type::type
-            operator()(T0&& v0) const noexcept(noexcept(*std::forward<T0>(v0)))
+            operator()(T0&& v0) const noexcept(noexcept(*HPX_FWD(v0)))
             {
-                return (*std::forward<T0>(v0)).*f;
+                return (*HPX_FWD(v0)).*f;
             }
         };
 
@@ -65,7 +65,7 @@ namespace hpx { namespace util {
                 util::invoke_result<T C::*, T0, Ts...>>::type::type
             operator()(T0&& v0, Ts&&... vs) const
             {
-                return (std::forward<T0>(v0).*f)(std::forward<Ts>(vs)...);
+                return (HPX_FWD(v0).*f)(HPX_FWD(vs)...);
             }
 
             // ((*t0).*f)(t1, ..., tN)
@@ -75,7 +75,7 @@ namespace hpx { namespace util {
                 util::invoke_result<T C::*, T0, Ts...>>::type::type
             operator()(T0&& v0, Ts&&... vs) const
             {
-                return ((*std::forward<T0>(v0)).*f)(std::forward<Ts>(vs)...);
+                return ((*HPX_FWD(v0)).*f)(HPX_FWD(vs)...);
             }
         };
 
@@ -132,7 +132,7 @@ namespace hpx { namespace util {
     constexpr HPX_HOST_DEVICE typename util::invoke_result<F, Ts...>::type
     invoke(F&& f, Ts&&... vs)
     {
-        return HPX_INVOKE(std::forward<F>(f), std::forward<Ts>(vs)...);
+        return HPX_INVOKE(HPX_FWD(f), HPX_FWD(vs)...);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -143,7 +143,7 @@ namespace hpx { namespace util {
     template <typename R, typename F, typename... Ts>
     constexpr HPX_HOST_DEVICE R invoke_r(F&& f, Ts&&... vs)
     {
-        return HPX_INVOKE_R(R, std::forward<F>(f), std::forward<Ts>(vs)...);
+        return HPX_INVOKE_R(R, HPX_FWD(f), HPX_FWD(vs)...);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -155,7 +155,7 @@ namespace hpx { namespace util {
                 typename util::invoke_result<F, Ts...>::type
                 operator()(F&& f, Ts&&... vs) const
             {
-                return HPX_INVOKE(std::forward<F>(f), std::forward<Ts>(vs)...);
+                return HPX_INVOKE(HPX_FWD(f), HPX_FWD(vs)...);
             }
         };
 
@@ -166,7 +166,7 @@ namespace hpx { namespace util {
             constexpr HPX_HOST_DEVICE R operator()(F&& f, Ts&&... vs) const
             {
                 return HPX_INVOKE_R(
-                    R, std::forward<F>(f), std::forward<Ts>(vs)...);
+                    R, HPX_FWD(f), HPX_FWD(vs)...);
             }
         };
     }    // namespace functional

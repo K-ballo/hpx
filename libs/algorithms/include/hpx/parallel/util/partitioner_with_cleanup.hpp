@@ -70,8 +70,8 @@ namespace hpx { namespace parallel { namespace util {
                 try
                 {
                     workitems = detail::partition<Result>(
-                        std::forward<ExPolicy_>(policy), first, count,
-                        std::forward<F1>(f1));
+                        HPX_FWD(policy), first, count,
+                        HPX_FWD(f1));
 
                     scoped_params.mark_end_of_scheduling();
                 }
@@ -81,7 +81,7 @@ namespace hpx { namespace parallel { namespace util {
                         std::current_exception(), errors);
                 }
                 return reduce(std::move(workitems), std::move(errors),
-                    std::forward<F2>(f2), std::forward<Cleanup>(cleanup));
+                    HPX_FWD(f2), HPX_FWD(cleanup));
             }
 
         private:
@@ -96,7 +96,7 @@ namespace hpx { namespace parallel { namespace util {
                 // always rethrow if 'errors' is not empty or workitems has
                 // exceptional future
                 handle_local_exceptions::call(
-                    workitems, errors, std::forward<Cleanup>(cleanup));
+                    workitems, errors, HPX_FWD(cleanup));
 
                 try
                 {
@@ -139,8 +139,8 @@ namespace hpx { namespace parallel { namespace util {
                 try
                 {
                     workitems = detail::partition<Result>(
-                        std::forward<ExPolicy_>(policy), first, count,
-                        std::forward<F1>(f1));
+                        HPX_FWD(policy), first, count,
+                        HPX_FWD(f1));
 
                     scoped_params->mark_end_of_scheduling();
                 }
@@ -155,8 +155,8 @@ namespace hpx { namespace parallel { namespace util {
                         std::current_exception(), errors);
                 }
                 return reduce(std::move(scoped_params), std::move(workitems),
-                    std::move(errors), std::forward<F2>(f2),
-                    std::forward<Cleanup>(cleanup));
+                    std::move(errors), HPX_FWD(f2),
+                    HPX_FWD(cleanup));
             }
 
         private:
@@ -175,13 +175,13 @@ namespace hpx { namespace parallel { namespace util {
                 return hpx::dataflow(
                     [errors = std::move(errors),
                         scoped_params = std::move(scoped_params),
-                        f = std::forward<F>(f),
-                        cleanup = std::forward<Cleanup>(cleanup)](
+                        f = HPX_FWD(f),
+                        cleanup = HPX_FWD(cleanup)](
                         std::vector<hpx::future<Result>>&& r) mutable -> R {
                         HPX_UNUSED(scoped_params);
 
                         handle_local_exceptions::call(
-                            r, errors, std::forward<Cleanup>(cleanup));
+                            r, errors, HPX_FWD(cleanup));
                         return f(std::move(r));
                     },
                     std::move(workitems));

@@ -103,12 +103,12 @@ namespace hpx { namespace actions
 
         template <typename F>
         typed_continuation(naming::id_type const& gid, F && f)
-          : continuation(gid), f_(std::forward<F>(f))
+          : continuation(gid), f_(HPX_FWD(f))
         {}
 
         template <typename F>
         typed_continuation(naming::id_type && gid, F && f)
-          : continuation(std::move(gid)), f_(std::forward<F>(f))
+          : continuation(std::move(gid)), f_(HPX_FWD(f))
         {}
 
         typed_continuation(naming::id_type const& gid, naming::address && addr)
@@ -123,14 +123,14 @@ namespace hpx { namespace actions
         typed_continuation(naming::id_type const& gid, naming::address && addr,
                 F && f)
           : continuation(gid, std::move(addr)),
-            f_(std::forward<F>(f))
+            f_(HPX_FWD(f))
         {}
 
         template <typename F>
         typed_continuation(naming::id_type && gid, naming::address && addr,
                 F && f)
           : continuation(std::move(gid), std::move(addr)),
-            f_(std::forward<F>(f))
+            f_(HPX_FWD(f))
         {}
 
         template <typename F, typename Enable =
@@ -141,7 +141,7 @@ namespace hpx { namespace actions
             >::type
         >
         explicit typed_continuation(F && f)
-          : f_(std::forward<F>(f))
+          : f_(HPX_FWD(f))
         {}
 
         // This is needed for some gcc versions
@@ -223,12 +223,12 @@ namespace hpx { namespace actions
 
         template <typename F>
         typed_continuation(naming::id_type const& gid, F && f)
-          : base_type(gid, std::forward<F>(f))
+          : base_type(gid, HPX_FWD(f))
         {}
 
         template <typename F>
         typed_continuation(naming::id_type && gid, F && f)
-          : base_type(std::move(gid), std::forward<F>(f))
+          : base_type(std::move(gid), HPX_FWD(f))
         {}
 
         typed_continuation(naming::id_type const& gid, naming::address && addr)
@@ -242,13 +242,13 @@ namespace hpx { namespace actions
         template <typename F>
         typed_continuation(naming::id_type const& gid,
                 naming::address && addr, F && f)
-          : base_type(gid, std::move(addr), std::forward<F>(f))
+          : base_type(gid, std::move(addr), HPX_FWD(f))
         {}
 
         template <typename F>
         typed_continuation(naming::id_type && gid,
                 naming::address && addr, F && f)
-          : base_type(std::move(gid), std::move(addr), std::forward<F>(f))
+          : base_type(std::move(gid), std::move(addr), HPX_FWD(f))
         {}
 
         template <typename F, typename Enable =
@@ -259,7 +259,7 @@ namespace hpx { namespace actions
             >::type
         >
         explicit typed_continuation(F && f)
-          : base_type(std::forward<F>(f))
+          : base_type(HPX_FWD(f))
         {}
 
         // This is needed for some gcc versions
@@ -332,12 +332,12 @@ namespace hpx { namespace actions
 
         template <typename F>
         typed_continuation(naming::id_type const& gid, F && f)
-          : continuation(gid), f_(std::forward<F>(f))
+          : continuation(gid), f_(HPX_FWD(f))
         {}
 
         template <typename F>
         typed_continuation(naming::id_type && gid, F && f)
-          : continuation(std::move(gid)), f_(std::forward<F>(f))
+          : continuation(std::move(gid)), f_(HPX_FWD(f))
         {}
 
         typed_continuation(naming::id_type const& gid, naming::address && addr)
@@ -352,14 +352,14 @@ namespace hpx { namespace actions
         typed_continuation(naming::id_type const& gid, naming::address && addr,
                 F && f)
           : continuation(gid, std::move(addr)),
-            f_(std::forward<F>(f))
+            f_(HPX_FWD(f))
         {}
 
         template <typename F>
         typed_continuation(naming::id_type && gid, naming::address && addr,
                 F && f)
           : continuation(std::move(gid), std::move(addr)),
-            f_(std::forward<F>(f))
+            f_(HPX_FWD(f))
         {}
 
         template <typename F, typename Enable =
@@ -370,7 +370,7 @@ namespace hpx { namespace actions
             >::type
         >
         explicit typed_continuation(F && f)
-          : f_(std::forward<F>(f))
+          : f_(HPX_FWD(f))
         {}
 
         // This is needed for some gcc versions

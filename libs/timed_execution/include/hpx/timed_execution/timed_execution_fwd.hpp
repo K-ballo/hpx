@@ -55,11 +55,11 @@ namespace hpx { namespace parallel { namespace execution {
                 hpx::util::steady_time_point const& abs_time, F&& f, Ts&&... ts)
                 -> decltype(execution::async_execute(
                     timed_executor<TwoWayExecutor&>(exec, abs_time),
-                    std::forward<F>(f), std::forward<Ts>(ts)...))
+                    HPX_FWD(f), HPX_FWD(ts)...))
             {
                 return execution::async_execute(
                     timed_executor<TwoWayExecutor&>(exec, abs_time),
-                    std::forward<F>(f), std::forward<Ts>(ts)...);
+                    HPX_FWD(f), HPX_FWD(ts)...);
             }
 
             template <typename TwoWayExecutor, typename F, typename... Ts>
@@ -67,11 +67,11 @@ namespace hpx { namespace parallel { namespace execution {
                 hpx::util::steady_duration const& rel_time, F&& f, Ts&&... ts)
                 -> decltype(execution::async_execute(
                     timed_executor<TwoWayExecutor&>(exec, rel_time),
-                    std::forward<F>(f), std::forward<Ts>(ts)...))
+                    HPX_FWD(f), HPX_FWD(ts)...))
             {
                 return execution::async_execute(
                     timed_executor<TwoWayExecutor&>(exec, rel_time),
-                    std::forward<F>(f), std::forward<Ts>(ts)...);
+                    HPX_FWD(f), HPX_FWD(ts)...);
             }
 
             template <typename TwoWayExecutor, typename F, typename... Ts>
@@ -115,8 +115,8 @@ namespace hpx { namespace parallel { namespace execution {
                 Executor>::type>::template result<Executor, F, Ts...>::type
         {
             return timed_async_execute_fn_helper<typename std::decay<
-                Executor>::type>::call(std::forward<Executor>(exec), abs_time,
-                std::forward<F>(f), std::forward<Ts>(ts)...);
+                Executor>::type>::call(HPX_FWD(exec), abs_time,
+                HPX_FWD(f), HPX_FWD(ts)...);
         }
 
         // async_execute_after dispatch point
@@ -127,8 +127,8 @@ namespace hpx { namespace parallel { namespace execution {
                 Executor>::type>::template result<Executor, F, Ts...>::type
         {
             return timed_async_execute_fn_helper<typename std::decay<
-                Executor>::type>::call(std::forward<Executor>(exec), rel_time,
-                std::forward<F>(f), std::forward<Ts>(ts)...);
+                Executor>::type>::call(HPX_FWD(exec), rel_time,
+                HPX_FWD(f), HPX_FWD(ts)...);
         }
 
         // sync_execute_at dispatch point
@@ -139,8 +139,8 @@ namespace hpx { namespace parallel { namespace execution {
                 Executor>::type>::template result<Executor, F, Ts...>::type
         {
             return timed_sync_execute_fn_helper<typename std::decay<
-                Executor>::type>::call(std::forward<Executor>(exec), abs_time,
-                std::forward<F>(f), std::forward<Ts>(ts)...);
+                Executor>::type>::call(HPX_FWD(exec), abs_time,
+                HPX_FWD(f), HPX_FWD(ts)...);
         }
 
         // sync_execute_after dispatch point
@@ -151,8 +151,8 @@ namespace hpx { namespace parallel { namespace execution {
                 Executor>::type>::template result<Executor, F, Ts...>::type
         {
             return timed_sync_execute_fn_helper<typename std::decay<
-                Executor>::type>::call(std::forward<Executor>(exec), rel_time,
-                std::forward<F>(f), std::forward<Ts>(ts)...);
+                Executor>::type>::call(HPX_FWD(exec), rel_time,
+                HPX_FWD(f), HPX_FWD(ts)...);
         }
 
         // post_at dispatch point
@@ -163,8 +163,8 @@ namespace hpx { namespace parallel { namespace execution {
                 template result<Executor, F, Ts...>::type
         {
             return timed_post_fn_helper<typename std::decay<Executor>::type>::
-                call(std::forward<Executor>(exec), abs_time, std::forward<F>(f),
-                    std::forward<Ts>(ts)...);
+                call(HPX_FWD(exec), abs_time, HPX_FWD(f),
+                    HPX_FWD(ts)...);
         }
 
         // post_after dispatch point
@@ -175,8 +175,8 @@ namespace hpx { namespace parallel { namespace execution {
                 template result<Executor, F, Ts...>::type
         {
             return timed_post_fn_helper<typename std::decay<Executor>::type>::
-                call(std::forward<Executor>(exec), rel_time, std::forward<F>(f),
-                    std::forward<Ts>(ts)...);
+                call(HPX_FWD(exec), rel_time, HPX_FWD(f),
+                    HPX_FWD(ts)...);
         }
 
         template <>
@@ -186,11 +186,11 @@ namespace hpx { namespace parallel { namespace execution {
             HPX_FORCEINLINE auto operator()(Executor&& exec,
                 hpx::util::steady_duration const& rel_time, F&& f,
                 Ts&&... ts) const
-                -> decltype(post_after(std::forward<Executor>(exec), rel_time,
-                    std::forward<F>(f), std::forward<Ts>(ts)...))
+                -> decltype(post_after(HPX_FWD(exec), rel_time,
+                    HPX_FWD(f), HPX_FWD(ts)...))
             {
-                return post_after(std::forward<Executor>(exec), rel_time,
-                    std::forward<F>(f), std::forward<Ts>(ts)...);
+                return post_after(HPX_FWD(exec), rel_time,
+                    HPX_FWD(f), HPX_FWD(ts)...);
             }
         };
 
@@ -201,11 +201,11 @@ namespace hpx { namespace parallel { namespace execution {
             HPX_FORCEINLINE auto operator()(Executor&& exec,
                 hpx::util::steady_time_point const& abs_time, F&& f,
                 Ts&&... ts) const
-                -> decltype(post_at(std::forward<Executor>(exec), abs_time,
-                    std::forward<F>(f), std::forward<Ts>(ts)...))
+                -> decltype(post_at(HPX_FWD(exec), abs_time,
+                    HPX_FWD(f), HPX_FWD(ts)...))
             {
-                return post_at(std::forward<Executor>(exec), abs_time,
-                    std::forward<F>(f), std::forward<Ts>(ts)...);
+                return post_at(HPX_FWD(exec), abs_time,
+                    HPX_FWD(f), HPX_FWD(ts)...);
             }
         };
 
@@ -216,11 +216,11 @@ namespace hpx { namespace parallel { namespace execution {
             HPX_FORCEINLINE auto operator()(Executor&& exec,
                 hpx::util::steady_duration const& rel_time, F&& f,
                 Ts&&... ts) const
-                -> decltype(sync_execute_after(std::forward<Executor>(exec),
-                    rel_time, std::forward<F>(f), std::forward<Ts>(ts)...))
+                -> decltype(sync_execute_after(HPX_FWD(exec),
+                    rel_time, HPX_FWD(f), HPX_FWD(ts)...))
             {
-                return sync_execute_after(std::forward<Executor>(exec),
-                    rel_time, std::forward<F>(f), std::forward<Ts>(ts)...);
+                return sync_execute_after(HPX_FWD(exec),
+                    rel_time, HPX_FWD(f), HPX_FWD(ts)...);
             }
         };
 
@@ -231,11 +231,11 @@ namespace hpx { namespace parallel { namespace execution {
             HPX_FORCEINLINE auto operator()(Executor&& exec,
                 hpx::util::steady_time_point const& abs_time, F&& f,
                 Ts&&... ts) const
-                -> decltype(sync_execute_at(std::forward<Executor>(exec),
-                    abs_time, std::forward<F>(f), std::forward<Ts>(ts)...))
+                -> decltype(sync_execute_at(HPX_FWD(exec),
+                    abs_time, HPX_FWD(f), HPX_FWD(ts)...))
             {
-                return sync_execute_at(std::forward<Executor>(exec), abs_time,
-                    std::forward<F>(f), std::forward<Ts>(ts)...);
+                return sync_execute_at(HPX_FWD(exec), abs_time,
+                    HPX_FWD(f), HPX_FWD(ts)...);
             }
         };
 
@@ -246,11 +246,11 @@ namespace hpx { namespace parallel { namespace execution {
             HPX_FORCEINLINE auto operator()(Executor&& exec,
                 hpx::util::steady_time_point const& abs_time, F&& f,
                 Ts&&... ts) const
-                -> decltype(async_execute_at(std::forward<Executor>(exec),
-                    abs_time, std::forward<F>(f), std::forward<Ts>(ts)...))
+                -> decltype(async_execute_at(HPX_FWD(exec),
+                    abs_time, HPX_FWD(f), HPX_FWD(ts)...))
             {
-                return async_execute_at(std::forward<Executor>(exec), abs_time,
-                    std::forward<F>(f), std::forward<Ts>(ts)...);
+                return async_execute_at(HPX_FWD(exec), abs_time,
+                    HPX_FWD(f), HPX_FWD(ts)...);
             }
         };
 
@@ -261,11 +261,11 @@ namespace hpx { namespace parallel { namespace execution {
             HPX_FORCEINLINE auto operator()(Executor&& exec,
                 hpx::util::steady_duration const& rel_time, F&& f,
                 Ts&&... ts) const
-                -> decltype(async_execute_after(std::forward<Executor>(exec),
-                    rel_time, std::forward<F>(f), std::forward<Ts>(ts)...))
+                -> decltype(async_execute_after(HPX_FWD(exec),
+                    rel_time, HPX_FWD(f), HPX_FWD(ts)...))
             {
-                return async_execute_after(std::forward<Executor>(exec),
-                    rel_time, std::forward<F>(f), std::forward<Ts>(ts)...);
+                return async_execute_after(HPX_FWD(exec),
+                    rel_time, HPX_FWD(f), HPX_FWD(ts)...);
             }
         };
 

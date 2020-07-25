@@ -44,7 +44,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 InIter2 first2, InIter2 last2, OutIter dest, F&& f)
             {
                 return std::set_intersection(
-                    first1, last1, first2, last2, dest, std::forward<F>(f));
+                    first1, last1, first2, last2, dest, HPX_FWD(f));
             }
 
             template <typename ExPolicy, typename RanIter1, typename RanIter2,
@@ -71,8 +71,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 typedef typename hpx::util::decay<F>::type func_type;
 
                 return set_operation(
-                    std::forward<ExPolicy>(policy), first1, last1, first2,
-                    last2, dest, std::forward<F>(f),
+                    HPX_FWD(policy), first1, last1, first2,
+                    last2, dest, HPX_FWD(f),
                     // calculate approximate destination index
                     [](difference_type1 idx1, difference_type2 idx2)
                         -> difference_type1 { return (std::min)(idx1, idx2); },
@@ -195,7 +195,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
             is_seq;
 
         return detail::set_intersection<FwdIter3>().call(
-            std::forward<ExPolicy>(policy), is_seq(), first1, last1, first2,
-            last2, dest, std::forward<Pred>(op));
+            HPX_FWD(policy), is_seq(), first1, last1, first2,
+            last2, dest, HPX_FWD(op));
     }
 }}}    // namespace hpx::parallel::v1

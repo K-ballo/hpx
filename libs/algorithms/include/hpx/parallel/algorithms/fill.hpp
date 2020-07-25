@@ -82,7 +82,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
                 return hpx::util::void_guard<result_type>(),
                        for_each_n<FwdIter>().call(
-                           std::forward<ExPolicy>(policy), std::false_type(),
+                           HPX_FWD(policy), std::false_type(),
                            first, std::distance(first, last),
                            fill_iteration<T>{val}, util::projection_identity());
             }
@@ -97,7 +97,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 is_seq;
 
             return detail::fill().call(
-                std::forward<ExPolicy>(policy), is_seq(), first, last, value);
+                HPX_FWD(policy), is_seq(), first, last, value);
         }
 
         // forward declare the segmented version of this algorithm
@@ -158,7 +158,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
         typedef hpx::traits::is_segmented_iterator<FwdIter> is_segmented;
 
         return detail::fill_(
-            std::forward<ExPolicy>(policy), first, last, value, is_segmented());
+            HPX_FWD(policy), first, last, value, is_segmented());
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -189,7 +189,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 typedef typename std::iterator_traits<FwdIter>::value_type type;
 
                 return for_each_n<FwdIter>().call(
-                    std::forward<ExPolicy>(policy), std::false_type(), first,
+                    HPX_FWD(policy), std::false_type(), first,
                     count, [val](type& v) -> void { v = val; },
                     util::projection_identity());
             }
@@ -257,7 +257,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 std::move(first));
         }
 
-        return detail::fill_n<FwdIter>().call(std::forward<ExPolicy>(policy),
+        return detail::fill_n<FwdIter>().call(HPX_FWD(policy),
             is_seq(), first, std::size_t(count), value);
     }
 }}}    // namespace hpx::parallel::v1

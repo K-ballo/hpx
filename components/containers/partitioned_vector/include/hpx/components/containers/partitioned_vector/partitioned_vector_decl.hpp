@@ -854,7 +854,7 @@ namespace hpx
         void set_value(launch::sync_policy, size_type pos, T_ && val)
         {
             return set_value(launch::sync, get_partition(pos),
-                get_local_index(pos), std::forward<T_>(val));
+                get_local_index(pos), HPX_FWD(val));
         }
 
         /// Copy the value of \a val in the element at position \a pos in
@@ -871,12 +871,12 @@ namespace hpx
             partition_data const& part_data = partitions_[part];
             if (part_data.local_data_)
             {
-                part_data.local_data_->set_value(pos, std::forward<T_>(val));
+                part_data.local_data_->set_value(pos, HPX_FWD(val));
             }
             else
             {
                 partitioned_vector_partition_client(part_data.partition_)
-                    .set_value(launch::sync, pos, std::forward<T_>(val));
+                    .set_value(launch::sync, pos, HPX_FWD(val));
             }
         }
 
@@ -893,7 +893,7 @@ namespace hpx
         future<void> set_value(size_type pos, T_ && val)
         {
             return set_value(get_partition(pos), get_local_index(pos),
-                std::forward<T_>(val));
+                HPX_FWD(val));
         }
 
         /// Asynchronously set the element at position \a pos in
@@ -912,12 +912,12 @@ namespace hpx
             partition_data const& part_data = partitions_[part];
             if (part_data.local_data_)
             {
-                part_data.local_data_->set_value(pos, std::forward<T_>(val));
+                part_data.local_data_->set_value(pos, HPX_FWD(val));
                 return make_ready_future();
             }
 
             return partitioned_vector_partition_client(part_data.partition_)
-                .set_value(pos, std::forward<T_>(val));
+                .set_value(pos, HPX_FWD(val));
         }
 
         /// Copy the values of \a val to the elements at positions \a pos in

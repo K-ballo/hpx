@@ -54,8 +54,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                     !std::is_same<typename hpx::util::decay<Op_>::type,
                         count_iteration>::value>::type>
             HPX_HOST_DEVICE count_iteration(Op_&& op, Proj_&& proj)
-              : op_(std::forward<Op_>(op))
-              , proj_(std::forward<Proj_>(proj))
+              : op_(HPX_FWD(op))
+              , proj_(HPX_FWD(proj))
             {
             }
 
@@ -117,7 +117,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
             {
                 auto f1 =
                     count_iteration<ExPolicy, detail::compare_to<T>, Proj>(
-                        detail::compare_to<T>(value), std::forward<Proj>(proj));
+                        detail::compare_to<T>(value), HPX_FWD(proj));
 
                 typename std::iterator_traits<InIterB>::difference_type ret = 0;
 
@@ -142,10 +142,10 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
                 auto f1 =
                     count_iteration<ExPolicy, detail::compare_to<T>, Proj>(
-                        detail::compare_to<T>(value), std::forward<Proj>(proj));
+                        detail::compare_to<T>(value), HPX_FWD(proj));
 
                 return util::partitioner<ExPolicy, difference_type>::call(
-                    std::forward<ExPolicy>(policy), first,
+                    HPX_FWD(policy), first,
                     detail::distance(first, last), std::move(f1),
                     hpx::util::unwrapping(
                         [](std::vector<difference_type>&& results) {
@@ -170,8 +170,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 difference_type;
 
             return detail::count<difference_type>().call(
-                std::forward<ExPolicy>(policy), is_seq(), first, last, value,
-                std::forward<Proj>(proj));
+                HPX_FWD(policy), is_seq(), first, last, value,
+                HPX_FWD(proj));
         }
 
         // forward declare the segmented version of this algorithm
@@ -252,8 +252,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
         typedef hpx::traits::is_segmented_iterator<FwdIterB> is_segmented;
 
-        return detail::count_(std::forward<ExPolicy>(policy), first, last,
-            value, std::forward<Proj>(proj), is_segmented());
+        return detail::count_(HPX_FWD(policy), first, last,
+            value, HPX_FWD(proj), is_segmented());
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -276,7 +276,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 InIterE last, Pred&& op, Proj&& proj)
             {
                 auto f1 = count_iteration<ExPolicy, Pred, Proj>(
-                    op, std::forward<Proj>(proj));
+                    op, HPX_FWD(proj));
 
                 typename std::iterator_traits<InIterB>::difference_type ret = 0;
 
@@ -300,10 +300,10 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 }
 
                 auto f1 = count_iteration<ExPolicy, Pred, Proj>(
-                    op, std::forward<Proj>(proj));
+                    op, HPX_FWD(proj));
 
                 return util::partitioner<ExPolicy, difference_type>::call(
-                    std::forward<ExPolicy>(policy), first,
+                    HPX_FWD(policy), first,
                     detail::distance(first, last), std::move(f1),
                     hpx::util::unwrapping(
                         [](std::vector<difference_type>&& results) {
@@ -328,8 +328,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 difference_type;
 
             return detail::count_if<difference_type>().call(
-                std::forward<ExPolicy>(policy), is_seq(), first, last,
-                std::forward<F>(f), std::forward<Proj>(proj));
+                HPX_FWD(policy), is_seq(), first, last,
+                HPX_FWD(f), HPX_FWD(proj));
         }
 
         // forward declare the segmented version of this algorithm
@@ -428,7 +428,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
         typedef hpx::traits::is_segmented_iterator<FwdIterB> is_segmented;
 
-        return detail::count_if_(std::forward<ExPolicy>(policy), first, last,
-            std::forward<F>(f), std::forward<Proj>(proj), is_segmented());
+        return detail::count_if_(HPX_FWD(policy), first, last,
+            HPX_FWD(f), HPX_FWD(proj), is_segmented());
     }
 }}}    // namespace hpx::parallel::v1

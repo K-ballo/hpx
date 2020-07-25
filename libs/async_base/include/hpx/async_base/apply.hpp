@@ -23,6 +23,6 @@ namespace hpx {
     HPX_FORCEINLINE bool apply(F&& f, Ts&&... ts)
     {
         return detail::apply_dispatch<typename util::decay<F>::type>::call(
-            std::forward<F>(f), std::forward<Ts>(ts)...);
+            HPX_FWD(f), HPX_FWD(ts)...);
     }
 }    // namespace hpx

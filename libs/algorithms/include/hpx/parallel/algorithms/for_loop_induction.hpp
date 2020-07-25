@@ -219,14 +219,14 @@ namespace hpx { namespace parallel { inline namespace v2 {
         T&& value, std::size_t stride)
     {
         return detail::induction_stride_helper<T>(
-            std::forward<T>(value), stride);
+            HPX_FWD(value), stride);
     }
 
     /// \cond NOINTERNAL
     template <typename T>
     HPX_FORCEINLINE constexpr detail::induction_helper<T> induction(T&& value)
     {
-        return detail::induction_helper<T>(std::forward<T>(value));
+        return detail::induction_helper<T>(HPX_FWD(value));
     }
     /// \endcond
 }}}    // namespace hpx::parallel::v2

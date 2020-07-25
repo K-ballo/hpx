@@ -24,7 +24,7 @@ namespace hpx {
         static void invoke(std::false_type, F&& f, stop_token&& st, Ts&&... ts)
         {
             // started thread does not expect a stop token:
-            hpx::util::invoke(std::forward<F>(f), std::forward<Ts>(ts)...);
+            hpx::util::invoke(HPX_FWD(f), HPX_FWD(ts)...);
         }
 
         template <typename F, typename... Ts>
@@ -32,7 +32,7 @@ namespace hpx {
         {
             // pass the stop_token as first argument to the started thread:
             hpx::util::invoke(
-                std::forward<F>(f), std::move(st), std::forward<Ts>(ts)...);
+                HPX_FWD(f), std::move(st), HPX_FWD(ts)...);
         }
 
     public:
@@ -55,13 +55,13 @@ namespace hpx {
         // Requires: F and each T in Ts meet the Cpp17MoveConstructible
         //      requirements. Either
         //
-        //      INVOKE(decay-copy(std::forward<F>(f)), get_stop_token(),
-        //             decay-copy(std::forward<Ts>(ts))...)
+        //      INVOKE(decay-copy(HPX_FWD(f)), get_stop_token(),
+        //             decay-copy(HPX_FWD(ts))...)
         //
         //      is a valid expression or
         //
-        //      INVOKE(decay-copy(std::forward<F>(f)),
-        //             decay-copy(std::forward<Ts>(ts))...)
+        //      INVOKE(decay-copy(HPX_FWD(f)),
+        //             decay-copy(HPX_FWD(ts))...)
         //
         //      is a valid expression.
         //
@@ -70,13 +70,13 @@ namespace hpx {
         // Effects: Initializes ssource_ and constructs an object of type
         //      jthread. The new thread of execution executes
         //
-        //      INVOKE(decay-copy(std::forward<F>(f)), get_stop_token(),
-        //             decay-copy(std::forward<Ts>(ts))...)
+        //      INVOKE(decay-copy(HPX_FWD(f)), get_stop_token(),
+        //             decay-copy(HPX_FWD(ts))...)
         //
         //      if that expression is well-formed, otherwise
         //
-        //      INVOKE(decay-copy(std::forward<F>(f)),
-        //             decay-copy(std::forward<Ts>(ts))...)
+        //      INVOKE(decay-copy(HPX_FWD(f)),
+        //             decay-copy(HPX_FWD(ts))...)
         //
         //      with the calls to decay-copy being evaluated in the
         //      constructing thread. Any return value from this invocation
@@ -110,13 +110,13 @@ namespace hpx {
                     using use_stop_token = typename traits::is_invocable<F,
                         stop_token, Ts...>::type;
 
-                    jthread::invoke(use_stop_token{}, std::forward<F>(f),
-                        std::move(st), std::forward<Ts>(ts)...);
+                    jthread::invoke(use_stop_token{}, HPX_FWD(f),
+                        std::move(st), HPX_FWD(ts)...);
                 },
                 // not captured due to possible races if immediately set
                 ssource_.get_token(),
-                std::forward<F>(f),        // pass callable
-                std::forward<Ts>(ts)...    // pass arguments for callable
+                HPX_FWD(f),        // pass callable
+                HPX_FWD(ts)...    // pass arguments for callable
             }
         {
         }

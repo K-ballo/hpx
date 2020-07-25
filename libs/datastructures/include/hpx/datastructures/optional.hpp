@@ -107,7 +107,7 @@ namespace hpx { namespace util {
         explicit optional(in_place_t, Ts&&... ts)
           : empty_(true)
         {
-            new (&storage_) T(std::forward<Ts>(ts)...);
+            new (&storage_) T(HPX_FWD(ts)...);
             empty_ = false;
         }
 
@@ -115,7 +115,7 @@ namespace hpx { namespace util {
         explicit optional(in_place_t, std::initializer_list<U> il, Ts&&... ts)
           : empty_(true)
         {
-            new (&storage_) T(il, std::forward<Ts>(ts)...);
+            new (&storage_) T(il, HPX_FWD(ts)...);
             empty_ = false;
         }
 
@@ -249,7 +249,7 @@ namespace hpx { namespace util {
         constexpr T value_or(U&& value) const
         {
             if (empty_)
-                return std::forward<U>(value);
+                return HPX_FWD(value);
             return **this;
         }
 
@@ -261,7 +261,7 @@ namespace hpx { namespace util {
                 reinterpret_cast<T*>(&storage_)->~T();
                 empty_ = true;
             }
-            new (&storage_) T(std::forward<Ts>(ts)...);
+            new (&storage_) T(HPX_FWD(ts)...);
             empty_ = false;
         }
 
@@ -503,19 +503,19 @@ namespace hpx { namespace util {
     template <typename T>
     constexpr optional<typename std::decay<T>::type> make_optional(T&& v)
     {
-        return optional<typename std::decay<T>::type>(std::forward<T>(v));
+        return optional<typename std::decay<T>::type>(HPX_FWD(v));
     }
 
     template <typename T, typename... Ts>
     constexpr optional<T> make_optional(Ts&&... ts)
     {
-        return optional<T>(in_place, std::forward<Ts>(ts)...);
+        return optional<T>(in_place, HPX_FWD(ts)...);
     }
 
     template <typename T, typename U, typename... Ts>
     constexpr optional<T> make_optional(std::initializer_list<U> il, Ts&&... ts)
     {
-        return optional<T>(in_place, il, std::forward<Ts>(ts)...);
+        return optional<T>(in_place, il, HPX_FWD(ts)...);
     }
 }}    // namespace hpx::util
 

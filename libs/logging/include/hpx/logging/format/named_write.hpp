@@ -419,7 +419,7 @@ This will just configure "file" twice, ending up with writing only to "two.txt" 
         template <typename Formatter, typename... Args>
         void set_formatter(std::string const& name, Args&&... args)
         {
-            m_format.add(name, Formatter::make(std::forward<Args>(args)...));
+            m_format.add(name, Formatter::make(HPX_FWD(args)...));
         }
 
         /** @brief Replaces a destination from the named destination.
@@ -438,7 +438,7 @@ This will just configure "file" twice, ending up with writing only to "two.txt" 
         void set_destination(std::string const& name, Args&&... args)
         {
             m_destination.add(
-                name, Destination::make(std::forward<Args>(args)...));
+                name, Destination::make(HPX_FWD(args)...));
         }
 
     private:

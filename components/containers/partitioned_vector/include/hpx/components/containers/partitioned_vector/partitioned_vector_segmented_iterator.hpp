@@ -154,12 +154,12 @@ namespace hpx
                 if (!it_.get_data())
                 {
                     it_.get_partition().set_value(launch::sync,
-                        it_.get_local_index(), std::forward<T_>(value));
+                        it_.get_local_index(), HPX_FWD(value));
                 }
                 else
                 {
                     *(it_.get_data()->begin() + it_.get_local_index()) =
-                        std::forward<T_>(value);
+                        HPX_FWD(value);
                 }
                 return *this;
             }
@@ -205,7 +205,7 @@ namespace hpx
             template <typename T_>
             vector_value_proxy& operator=(T_ && value)
             {
-                v_.set_value(launch::sync, index_, std::forward<T_>(value));
+                v_.set_value(launch::sync, index_, HPX_FWD(value));
                 return *this;
             }
 

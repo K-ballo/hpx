@@ -55,7 +55,7 @@ namespace hpx { namespace lcos { namespace detail {
     template <typename Callback>
     static void run_on_completed_on_new_thread(Callback&& f)
     {
-        lcos::local::futures_factory<void()> p(std::forward<Callback>(f));
+        lcos::local::futures_factory<void()> p(HPX_FWD(f));
 
         bool is_hpx_thread = nullptr != hpx::threads::get_self_ptr();
         hpx::launch policy = launch::fork;
@@ -196,7 +196,7 @@ namespace hpx { namespace lcos { namespace detail {
         if (!recurse_asynchronously)
         {
             // directly execute continuation on this thread
-            run_on_completed(std::forward<Callback>(on_completed));
+            run_on_completed(HPX_FWD(on_completed));
         }
         else
         {
@@ -206,7 +206,7 @@ namespace hpx { namespace lcos { namespace detail {
             try
             {
                 run_on_completed_on_new_thread(util::deferred_call(
-                    p, std::forward<Callback>(on_completed)));
+                    p, HPX_FWD(on_completed)));
             }
             catch (...)
             {

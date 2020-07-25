@@ -45,7 +45,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 InIter2 first2, InIter2 last2, OutIter dest, F&& f)
             {
                 return std::set_symmetric_difference(
-                    first1, last1, first2, last2, dest, std::forward<F>(f));
+                    first1, last1, first2, last2, dest, HPX_FWD(f));
             }
 
             template <typename ExPolicy, typename RanIter1, typename RanIter2,
@@ -64,7 +64,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 {
                     return util::detail::convert_to_result(
                         detail::copy<util::in_out_result<RanIter2, FwdIter>>()
-                            .call(std::forward<ExPolicy>(policy),
+                            .call(HPX_FWD(policy),
                                 std::false_type(), first2, last2, dest),
                         [](util::in_out_result<RanIter2, FwdIter> const& p)
                             -> FwdIter { return p.out; });
@@ -74,7 +74,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 {
                     return util::detail::convert_to_result(
                         detail::copy<util::in_out_result<RanIter1, FwdIter>>()
-                            .call(std::forward<ExPolicy>(policy),
+                            .call(HPX_FWD(policy),
                                 std::false_type(), first1, last1, dest),
                         [](util::in_out_result<RanIter1, FwdIter> const& p)
                             -> FwdIter { return p.out; });
@@ -85,8 +85,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 typedef typename hpx::util::decay<F>::type func_type;
 
                 return set_operation(
-                    std::forward<ExPolicy>(policy), first1, last1, first2,
-                    last2, dest, std::forward<F>(f),
+                    HPX_FWD(policy), first1, last1, first2,
+                    last2, dest, HPX_FWD(f),
                     // calculate approximate destination index
                     [](difference_type1 idx1, difference_type2 idx2)
                         -> difference_type1 { return idx1 + idx2; },
@@ -214,7 +214,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
             is_seq;
 
         return detail::set_symmetric_difference<FwdIter3>().call(
-            std::forward<ExPolicy>(policy), is_seq(), first1, last1, first2,
-            last2, dest, std::forward<Pred>(op));
+            HPX_FWD(policy), is_seq(), first1, last1, first2,
+            last2, dest, HPX_FWD(op));
     }
 }}}    // namespace hpx::parallel::v1

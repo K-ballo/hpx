@@ -64,7 +64,7 @@ namespace hpx { namespace components
             typedef server::create_component_action<
                 ServerComponent, typename hpx::util::decay<Ts>::type...
             > action_type;
-            return hpx::async<action_type>(gid, std::forward<Ts>(vs)...);
+            return hpx::async<action_type>(gid, HPX_FWD(vs)...);
         }
 
         template <typename ...Ts>
@@ -85,21 +85,21 @@ namespace hpx { namespace components
                 ServerComponent, typename hpx::util::decay<Ts>::type...
             > action_type;
             return hpx::async<action_type>(gid, count,
-                std::forward<Ts>(vs)...);
+                HPX_FWD(vs)...);
         }
 
         template <typename ...Ts>
         static naming::id_type create(
             naming::id_type const& gid, Ts&&... vs)
         {
-            return create_async(gid, std::forward<Ts>(vs)...).get();
+            return create_async(gid, HPX_FWD(vs)...).get();
         }
 
         template <typename ...Ts>
         static std::vector<naming::id_type> bulk_create(
             naming::id_type const& gid, std::size_t count, Ts&&... vs)
         {
-            return bulk_create_async(gid, count, std::forward<Ts>(vs)...).get();
+            return bulk_create_async(gid, count, HPX_FWD(vs)...).get();
         }
 
         template <typename ...Ts>
@@ -110,14 +110,14 @@ namespace hpx { namespace components
                 ServerComponent, typename hpx::util::decay<Ts>::type...
             > action_type;
             return hpx::detail::async_colocated<action_type>(
-                gid, std::forward<Ts>(vs)...);
+                gid, HPX_FWD(vs)...);
         }
 
         template <typename ...Ts>
         static naming::id_type create_colocated(
             naming::id_type const& gid, Ts&&... vs)
         {
-            return create_colocated_async(gid, std::forward<Ts>(vs)...).get();
+            return create_colocated_async(gid, HPX_FWD(vs)...).get();
         }
 
         template <typename ...Ts>
@@ -130,7 +130,7 @@ namespace hpx { namespace components
             > action_type;
 
             return hpx::detail::async_colocated<action_type>(gid, count,
-                std::forward<Ts>(vs)...);
+                HPX_FWD(vs)...);
         }
 
         template <typename ...Ts>
@@ -139,7 +139,7 @@ namespace hpx { namespace components
             Ts&&... vs)
         {
             return bulk_create_colocated_async(id, count,
-                std::forward<Ts>(vs)...).get();
+                HPX_FWD(vs)...).get();
         }
 
         /// Delete an existing component

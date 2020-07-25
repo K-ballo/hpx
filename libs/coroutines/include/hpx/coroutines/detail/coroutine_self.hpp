@@ -91,7 +91,7 @@ namespace hpx { namespace threads { namespace coroutines { namespace detail {
         template <typename F>
         yield_decorator_type decorate_yield(F&& f)
         {
-            yield_decorator_type tmp(std::forward<F>(f));
+            yield_decorator_type tmp(HPX_FWD(f));
             std::swap(tmp, yield_decorator_);
             return tmp;
         }

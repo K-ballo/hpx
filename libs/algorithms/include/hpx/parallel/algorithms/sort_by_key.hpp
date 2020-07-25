@@ -29,9 +29,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
         {
             template <typename Tuple>
             auto operator()(Tuple&& t) const
-                -> decltype(hpx::util::get<0>(std::forward<Tuple>(t)))
+                -> decltype(hpx::util::get<0>(HPX_FWD(t)))
             {
-                return hpx::util::get<0>(std::forward<Tuple>(t));
+                return hpx::util::get<0>(HPX_FWD(t));
             }
         };
         /// \endcond
@@ -134,10 +134,10 @@ namespace hpx { namespace parallel { inline namespace v1 {
         std::advance(value_last, std::distance(key_first, key_last));
 
         return detail::get_iter_tagged_pair<tag::in1, tag::in2>(
-            hpx::parallel::sort(std::forward<ExPolicy>(policy),
+            hpx::parallel::sort(HPX_FWD(policy),
                 hpx::util::make_zip_iterator(key_first, value_first),
                 hpx::util::make_zip_iterator(key_last, value_last),
-                std::forward<Compare>(comp), detail::extract_key()));
+                HPX_FWD(comp), detail::extract_key()));
 #endif
     }
 }}}    // namespace hpx::parallel::v1

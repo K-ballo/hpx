@@ -78,9 +78,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 {
                     result[0] = *first;
                     inclusive_scan<typename vector_type::iterator>().sequential(
-                        std::forward<ExPolicy>(policy), first + 1, last,
-                        result.begin() + 1, std::forward<value_type>(*first),
-                        std::forward<Op>(op));
+                        HPX_FWD(policy), first + 1, last,
+                        result.begin() + 1, HPX_FWD(*first),
+                        HPX_FWD(op));
                 }
                 return result;
             }
@@ -109,7 +109,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                         inclusive_scan<typename vector_type::iterator>()
                             .parallel(hpx::parallel::execution::par, first + 1,
                                 last, r.begin() + 1,
-                                std::forward<value_type>(*first), op);
+                                HPX_FWD(*first), op);
                         return r;
                     },
                     std::move(res)));
@@ -131,8 +131,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
             return segmented_scan_seq<transform_inclusive_scan<
                 typename traits_out::local_raw_iterator>>(
-                std::forward<ExPolicy>(policy), first, last, dest,
-                std::forward<Conv>(conv), init, std::forward<Op>(op),
+                HPX_FWD(policy), first, last, dest,
+                HPX_FWD(conv), init, HPX_FWD(op),
                 std::true_type());
         }
 
@@ -148,8 +148,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
             return segmented_scan_seq_non<
                 segmented_inclusive_scan_vector<vector_type>>(
-                std::forward<ExPolicy>(policy), first, last, dest, init,
-                std::forward<Op>(op), merge_inclusive_scan(),
+                HPX_FWD(policy), first, last, dest, init,
+                HPX_FWD(op), merge_inclusive_scan(),
                 // new init value is last element from
                 // segmented_inclusive_scan_vector + last init value
                 [op](vector_type v, T val) { return op(v.back(), val); });
@@ -170,8 +170,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
             return segmented_scan_par<transform_inclusive_scan<
                 typename traits_out::local_raw_iterator>>(
-                std::forward<ExPolicy>(policy), first, last, dest,
-                std::forward<Conv>(conv), init, std::forward<Op>(op),
+                HPX_FWD(policy), first, last, dest,
+                HPX_FWD(conv), init, HPX_FWD(op),
                 std::true_type());
         }
 
@@ -187,8 +187,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
             return segmented_scan_par_non<
                 segmented_inclusive_scan_vector<vector_type>>(
-                std::forward<ExPolicy>(policy), first, last, dest, init,
-                std::forward<Op>(op), merge_inclusive_scan(),
+                HPX_FWD(policy), first, last, dest, init,
+                HPX_FWD(op), merge_inclusive_scan(),
                 // last T of scan is in the back
                 [](vector_type v) { return v.back(); });
         }
@@ -209,16 +209,16 @@ namespace hpx { namespace parallel { inline namespace v1 {
             if (is_segmented_the_same(first, last, dest, is_out_seg()))
             {
                 return segmented_inclusive_scan_seq(
-                    std::forward<ExPolicy>(policy), first, last, dest, init,
-                    std::forward<Op>(op), is_out_seg(),
-                    std::forward<Conv>(conv));
+                    HPX_FWD(policy), first, last, dest, init,
+                    HPX_FWD(op), is_out_seg(),
+                    HPX_FWD(conv));
             }
             else
             {
                 return segmented_inclusive_scan_seq(
-                    std::forward<ExPolicy>(policy), first, last, dest, init,
-                    std::forward<Op>(op), std::false_type(),
-                    std::forward<Conv>(conv));
+                    HPX_FWD(policy), first, last, dest, init,
+                    HPX_FWD(op), std::false_type(),
+                    HPX_FWD(conv));
             }
         }
 
@@ -238,16 +238,16 @@ namespace hpx { namespace parallel { inline namespace v1 {
             if (is_segmented_the_same(first, last, dest, is_out_seg()))
             {
                 return segmented_inclusive_scan_par(
-                    std::forward<ExPolicy>(policy), first, last, dest, init,
-                    std::forward<Op>(op), is_out_seg(),
-                    std::forward<Conv>(conv));
+                    HPX_FWD(policy), first, last, dest, init,
+                    HPX_FWD(op), is_out_seg(),
+                    HPX_FWD(conv));
             }
             else
             {
                 return segmented_inclusive_scan_par(
-                    std::forward<ExPolicy>(policy), first, last, dest, init,
-                    std::forward<Op>(op), std::false_type(),
-                    std::forward<Conv>(conv));
+                    HPX_FWD(policy), first, last, dest, init,
+                    HPX_FWD(op), std::false_type(),
+                    HPX_FWD(conv));
             }
         }
 
@@ -268,9 +268,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
                     std::move(dest));
             }
 
-            return segmented_inclusive_scan(std::forward<ExPolicy>(policy),
-                first, last, dest, std::forward<T>(init), std::forward<Op>(op),
-                is_seq(), std::forward<Conv>(conv));
+            return segmented_inclusive_scan(HPX_FWD(policy),
+                first, last, dest, HPX_FWD(init), HPX_FWD(op),
+                is_seq(), HPX_FWD(conv));
         }
 
         template <typename ExPolicy, typename InIter, typename OutIter,
@@ -290,9 +290,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
                     std::move(dest));
             }
 
-            return segmented_inclusive_scan(std::forward<ExPolicy>(policy),
-                first, last, dest, value_type{}, std::forward<Op>(op), is_seq(),
-                std::forward<Conv>(conv));
+            return segmented_inclusive_scan(HPX_FWD(policy),
+                first, last, dest, value_type{}, HPX_FWD(op), is_seq(),
+                HPX_FWD(conv));
         }
 
         // forward declare the non-segmented version of this algorithm

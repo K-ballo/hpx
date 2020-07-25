@@ -195,7 +195,7 @@ namespace hpx {
             F&& sink)
         {
             return components::server::get_error_dispatcher().set_error_sink(
-                std::forward<F>(sink));
+                HPX_FWD(sink));
         }
 
         /// \brief Allow access to the registry counter registry instance used

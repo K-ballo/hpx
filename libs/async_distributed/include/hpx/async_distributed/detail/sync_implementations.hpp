@@ -38,7 +38,7 @@ namespace hpx { namespace detail {
                 get_remote_result_type;
 
             return get_remote_result_type::call(Action::execute_function(
-                addr.address_, addr.type_, std::forward<Ts>(vs)...));
+                addr.address_, addr.type_, HPX_FWD(vs)...));
         }
     };
 
@@ -50,7 +50,7 @@ namespace hpx { namespace detail {
             naming::id_type const& id, naming::address&& addr, Ts&&... vs)
         {
             Action::execute_function(
-                addr.address_, addr.type_, std::forward<Ts>(vs)...);
+                addr.address_, addr.type_, HPX_FWD(vs)...);
         }
     };
 
@@ -85,7 +85,7 @@ namespace hpx { namespace detail {
                     {
                         return hpx::detail::sync_local_invoke_direct<
                             action_type, result_type>::call(id, std::move(addr),
-                            std::forward<Ts>(vs)...);
+                            HPX_FWD(vs)...);
                     }
                 }
             }
@@ -94,12 +94,12 @@ namespace hpx { namespace detail {
             {
                 return hpx::detail::sync_local_invoke_direct<action_type,
                     result_type>::call(id, std::move(addr),
-                    std::forward<Ts>(vs)...);
+                    HPX_FWD(vs)...);
             }
         }
 
-        return async_remote_impl<Action>(std::forward<Launch>(policy), id,
-            std::move(addr), std::forward<Ts>(vs)...)
+        return async_remote_impl<Action>(HPX_FWD(policy), id,
+            std::move(addr), HPX_FWD(vs)...)
             .get();
     }
     /// \endcond

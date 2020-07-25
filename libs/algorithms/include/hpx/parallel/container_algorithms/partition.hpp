@@ -95,9 +95,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
         typename hpx::traits::range_iterator<Rng>::type>::type
     partition(ExPolicy&& policy, Rng&& rng, Pred&& pred, Proj&& proj = Proj())
     {
-        return partition(std::forward<ExPolicy>(policy), hpx::util::begin(rng),
-            hpx::util::end(rng), std::forward<Pred>(pred),
-            std::forward<Proj>(proj));
+        return partition(HPX_FWD(policy), hpx::util::begin(rng),
+            hpx::util::end(rng), HPX_FWD(pred),
+            HPX_FWD(proj));
     }
 
     /// Copies the elements in the range \a rng,
@@ -198,8 +198,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
     partition_copy(ExPolicy&& policy, Rng&& rng, FwdIter2 dest_true,
         FwdIter3 dest_false, Pred&& pred, Proj&& proj = Proj())
     {
-        return partition_copy(std::forward<ExPolicy>(policy),
+        return partition_copy(HPX_FWD(policy),
             hpx::util::begin(rng), hpx::util::end(rng), dest_true, dest_false,
-            std::forward<Pred>(pred), std::forward<Proj>(proj));
+            HPX_FWD(pred), HPX_FWD(proj));
     }
 }}}    // namespace hpx::parallel::v1

@@ -118,7 +118,7 @@ namespace hpx { namespace actions
     template <typename ...Ts>
     transfer_continuation_action<Action>::transfer_continuation_action(
         continuation_type&& cont, Ts&&... vs)
-      : base_type(std::forward<Ts>(vs)...)
+      : base_type(HPX_FWD(vs)...)
       , cont_(std::move(cont))
     {}
 
@@ -126,7 +126,7 @@ namespace hpx { namespace actions
     template <typename ...Ts>
     transfer_continuation_action<Action>::transfer_continuation_action(
         threads::thread_priority priority, continuation_type&& cont, Ts&&... vs)
-      : base_type(priority, std::forward<Ts>(vs)...)
+      : base_type(priority, HPX_FWD(vs)...)
       , cont_(std::move(cont))
     {}
 

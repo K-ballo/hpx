@@ -83,7 +83,7 @@ namespace hpx { namespace actions {
         {
             basic_action<detail::plain_function, R(Ps...),
                 derived_type>::increment_invocation_count();
-            return F(std::forward<Ts>(vs)...);
+            return F(HPX_FWD(vs)...);
         }
     };
 
@@ -112,7 +112,7 @@ namespace hpx { namespace actions {
         {
             basic_action<detail::plain_function, R(Ps...),
                 derived_type>::increment_invocation_count();
-            return F(std::forward<Ts>(vs)...);
+            return F(HPX_FWD(vs)...);
         }
     };
 #endif

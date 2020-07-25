@@ -54,7 +54,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 typedef typename std::iterator_traits<InIter>::value_type
                     value_type;
 
-                return std::accumulate(first, last, std::forward<T_>(init),
+                return std::accumulate(first, last, HPX_FWD(init),
                     [&r, &conv](T const& res, value_type const& next) -> T {
                         return hpx::util::invoke(
                             r, res, hpx::util::invoke(conv, next));
@@ -77,7 +77,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 typedef
                     typename std::iterator_traits<FwdIter>::reference reference;
 
-                auto f1 = [r, conv = std::forward<Convert>(conv)](
+                auto f1 = [r, conv = HPX_FWD(conv)](
                               FwdIter part_begin, std::size_t part_size) -> T {
                     T val = hpx::util::invoke(conv, *part_begin);
                     return util::accumulate_n(++part_begin, --part_size,
@@ -91,10 +91,10 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 };
 
                 return util::partitioner<ExPolicy, T>::call(
-                    std::forward<ExPolicy>(policy), first,
+                    HPX_FWD(policy), first,
                     std::distance(first, last), std::move(f1),
-                    hpx::util::unwrapping([init = std::forward<T_>(init),
-                                              r = std::forward<Reduce>(r)](
+                    hpx::util::unwrapping([init = HPX_FWD(init),
+                                              r = HPX_FWD(r)](
                                               std::vector<T>&& results) -> T {
                         return util::accumulate_n(hpx::util::begin(results),
                             hpx::util::size(results), init, r);
@@ -114,9 +114,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
             typedef typename hpx::util::decay<T>::type init_type;
 
             return transform_reduce<init_type>().call(
-                std::forward<ExPolicy>(policy), is_seq(), first, last,
-                std::forward<T>(init), std::forward<Reduce>(red_op),
-                std::forward<Convert>(conv_op));
+                HPX_FWD(policy), is_seq(), first, last,
+                HPX_FWD(init), HPX_FWD(red_op),
+                HPX_FWD(conv_op));
         }
 
         // forward declare the segmented version of this algorithm
@@ -244,8 +244,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
         typedef hpx::traits::is_segmented_iterator<FwdIter> is_segmented;
 
-        return detail::transform_reduce_(std::forward<ExPolicy>(policy), first,
-            last, std::move(init), std::forward<Reduce>(red_op),
-            std::forward<Convert>(conv_op), is_segmented());
+        return detail::transform_reduce_(HPX_FWD(policy), first,
+            last, std::move(init), HPX_FWD(red_op),
+            HPX_FWD(conv_op), is_segmented());
     }
 }}}    // namespace hpx::parallel::v1

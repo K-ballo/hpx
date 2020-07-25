@@ -27,7 +27,7 @@ namespace hpx { namespace util {
 
             template <typename U>
             explicit constexpr member_leaf(std::piecewise_construct_t, U&& v)
-              : member(std::forward<U>(v))
+              : member(HPX_FWD(v))
             {
             }
         };
@@ -39,7 +39,7 @@ namespace hpx { namespace util {
 
             template <typename U>
             explicit constexpr member_leaf(std::piecewise_construct_t, U&& v)
-              : T(std::forward<U>(v))
+              : T(HPX_FWD(v))
             {
             }
         };
@@ -85,7 +85,7 @@ namespace hpx { namespace util {
         template <typename... Us>
         explicit constexpr member_pack(std::piecewise_construct_t, Us&&... us)
           : detail::member_leaf<Is, Ts>(
-                std::piecewise_construct, std::forward<Us>(us))...
+                std::piecewise_construct, HPX_FWD(us))...
         {
         }
 
@@ -103,13 +103,13 @@ namespace hpx { namespace util {
             constexpr decltype(auto) get() && noexcept
         {
             using T = decltype(detail::member_type<I>(*this));
-            return std::forward<T>(detail::member_get<I>(*this));
+            return static_cast<T&&>(detail::member_get<I>(*this));
         }
         template <std::size_t I>
         constexpr decltype(auto) get() const&& noexcept
         {
             using T = decltype(detail::member_type<I>(*this));
-            return std::forward<T>(detail::member_get<I>(*this));
+            return static_cast<T&&>(detail::member_get<I>(*this));
         }
     };
 

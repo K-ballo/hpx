@@ -32,12 +32,12 @@ namespace hpx { namespace detail {
         HPX_FORCEINLINE static auto
         call(Policy_&& launch_policy, F&& f, Ts&&... ts) -> decltype(
             async_launch_policy_dispatch<typename util::decay<F>::type>::call(
-                std::forward<Policy_>(launch_policy), std::forward<F>(f),
-                std::forward<Ts>(ts)...))
+                HPX_FWD(launch_policy), HPX_FWD(f),
+                HPX_FWD(ts)...))
         {
             return async_launch_policy_dispatch<typename util::decay<F>::type>::
-                call(std::forward<Policy_>(launch_policy), std::forward<F>(f),
-                    std::forward<Ts>(ts)...);
+                call(HPX_FWD(launch_policy), HPX_FWD(f),
+                    HPX_FWD(ts)...);
         }
     };
 
@@ -50,12 +50,12 @@ namespace hpx { namespace detail {
             Policy_&& launch_policy, F&& f, Ts&&... ts)
             -> decltype(
                 async_dispatch_launch_policy_helper<typename util::decay<
-                    F>::type>::call(std::forward<Policy_>(launch_policy),
-                    std::forward<F>(f), std::forward<Ts>(ts)...))
+                    F>::type>::call(HPX_FWD(launch_policy),
+                    HPX_FWD(f), HPX_FWD(ts)...))
         {
             return async_dispatch_launch_policy_helper<typename util::decay<
-                F>::type>::call(std::forward<Policy_>(launch_policy),
-                std::forward<F>(f), std::forward<Ts>(ts)...);
+                F>::type>::call(HPX_FWD(launch_policy),
+                HPX_FWD(f), HPX_FWD(ts)...);
         }
     };
 
@@ -73,7 +73,7 @@ namespace hpx { namespace detail {
         {
             parallel::execution::parallel_executor exec;
             return exec.async_execute(
-                std::forward<F>(f), std::forward<Ts>(ts)...);
+                HPX_FWD(f), HPX_FWD(ts)...);
         }
     };
 
@@ -93,8 +93,8 @@ namespace hpx { namespace detail {
             Executor_&& exec, F&& f, Ts&&... ts)
         {
             return parallel::execution::async_execute(
-                std::forward<Executor_>(exec), std::forward<F>(f),
-                std::forward<Ts>(ts)...);
+                HPX_FWD(exec), HPX_FWD(f),
+                HPX_FWD(ts)...);
         }
     };
 }}    // namespace hpx::detail

@@ -73,7 +73,7 @@ namespace hpx { namespace components
                     get_best_locality(std::move(values), localities_);
 
                 return stub_base<Component>::create_async(
-                    best_locality, std::forward<Ts>(vs)...);
+                    best_locality, HPX_FWD(vs)...);
             }
 
             std::vector<hpx::id_type> const& localities_;
@@ -234,12 +234,12 @@ namespace hpx { namespace components
             if (localities_.size() == 0)
             {
                 return stub_base<Component>::create_async(
-                    hpx::find_here(), std::forward<Ts>(vs)...);
+                    hpx::find_here(), HPX_FWD(vs)...);
             }
             else if (localities_.size() == 1)
             {
                 return stub_base<Component>::create_async(
-                    localities_.front(), std::forward<Ts>(vs)...);
+                    localities_.front(), HPX_FWD(vs)...);
             }
 
             // schedule creation of all objects across given localities
@@ -250,7 +250,7 @@ namespace hpx { namespace components
 
             return values.then(hpx::util::bind_back(
                 detail::create_helper<Component>(localities_),
-                std::forward<Ts>(vs)...));
+                HPX_FWD(vs)...));
         }
 
         /// \cond NOINTERNAL
@@ -285,7 +285,7 @@ namespace hpx { namespace components
                 return values.then(
                     hpx::util::bind_back(
                         detail::create_bulk_helper<Component>(localities_),
-                        count, std::forward<Ts>(vs)...));
+                        count, HPX_FWD(vs)...));
             }
 
             // handle special cases
@@ -294,7 +294,7 @@ namespace hpx { namespace components
 
             hpx::future<std::vector<hpx::id_type> > f =
                 stub_base<Component>::bulk_create_async(
-                    id, count, std::forward<Ts>(vs)...);
+                    id, count, HPX_FWD(vs)...);
 
             return f.then(hpx::launch::sync,
                 [id = std::move(id)](

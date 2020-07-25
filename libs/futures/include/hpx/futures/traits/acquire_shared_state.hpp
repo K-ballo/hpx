@@ -42,7 +42,7 @@ namespace hpx { namespace traits {
         HPX_FORCEINLINE typename acquire_shared_state<T>::type operator()(
             T&& t) const
         {
-            return acquire_shared_state<T>()(std::forward<T>(t));
+            return acquire_shared_state<T>()(HPX_FWD(t));
         }
     };
 
@@ -58,7 +58,7 @@ namespace hpx { namespace traits {
             template <typename T_>
             HPX_FORCEINLINE T operator()(T_&& value) const
             {
-                return std::forward<T_>(value);
+                return HPX_FWD(value);
             }
         };
 
@@ -111,7 +111,7 @@ namespace hpx { namespace traits {
         HPX_FORCEINLINE typename acquire_shared_state<T>::type get_shared_state(
             T&& t)
         {
-            return acquire_shared_state<T>()(std::forward<T>(t));
+            return acquire_shared_state<T>()(HPX_FWD(t));
         }
 
         template <typename R>

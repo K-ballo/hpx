@@ -230,7 +230,7 @@ namespace hpx { namespace traits {
                     std::move(communicator_.name_), communicator_.site_)
                     .get();
             }
-            return std::forward<T>(t);
+            return HPX_FWD(t);
         }
 
         Communicator& communicator_;
@@ -335,7 +335,7 @@ namespace hpx { namespace lcos {
         };
 
         return dataflow(hpx::launch::sync, std::move(broadcast_data),
-            std::move(fid), std::forward<T>(local_result));
+            std::move(fid), HPX_FWD(local_result));
     }
 
     template <typename T>
@@ -356,7 +356,7 @@ namespace hpx { namespace lcos {
 
         return broadcast_to(
             create_broadcast(basename, num_sites, generation, root_site),
-            std::forward<T>(local_result), this_site);
+            HPX_FWD(local_result), this_site);
     }
 
     ///////////////////////////////////////////////////////////////////////////

@@ -68,8 +68,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 if (chunks < 2)
                 {
                     return execution::async_execute(policy.executor(),
-                        [first, last, f = std::forward<F>(f),
-                            proj = std::forward<Proj>(proj)]() -> RandIter {
+                        [first, last, f = HPX_FWD(f),
+                            proj = HPX_FWD(proj)]() -> RandIter {
                             return std::stable_partition(first, last,
                                 util::invoke_projected<F, Proj>(f, proj));
                         });
@@ -143,7 +143,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
             {
                 return std::stable_partition(first, last,
                     util::invoke_projected<F, Proj>(
-                        std::forward<F>(f), std::forward<Proj>(proj)));
+                        HPX_FWD(f), HPX_FWD(proj)));
             }
 
             template <typename ExPolicy, typename RandIter, typename F,
@@ -190,8 +190,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                             cores, size, chunk_size, max_chunks);
 
                         result = stable_partition_helper()(
-                            std::forward<ExPolicy>(policy), first, last, size,
-                            std::forward<F>(f), std::forward<Proj>(proj),
+                            HPX_FWD(policy), first, last, size,
+                            HPX_FWD(f), HPX_FWD(proj),
                             max_chunks);
                     }
                 }
@@ -302,8 +302,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 !hpx::traits::is_random_access_iterator<BidirIter>::value>;
 
         return detail::stable_partition<BidirIter>().call(
-            std::forward<ExPolicy>(policy), is_seq(), first, last,
-            std::forward<F>(f), std::forward<Proj>(proj));
+            HPX_FWD(policy), is_seq(), first, last,
+            HPX_FWD(f), HPX_FWD(proj));
     }
 
     /////////////////////////////////////////////////////////////////////////////
@@ -965,7 +965,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 ExPolicy, FwdIter first, FwdIter last, Pred&& pred, Proj&& proj)
             {
                 return sequential_partition(first, last,
-                    std::forward<Pred>(pred), std::forward<Proj>(proj));
+                    HPX_FWD(pred), HPX_FWD(proj));
             }
 
             template <typename ExPolicy, typename Pred,
@@ -981,8 +981,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 try
                 {
                     return algorithm_result::get(parallel_partition(
-                        std::forward<ExPolicy>(policy), first, last,
-                        std::forward<Pred>(pred), std::forward<Proj>(proj)));
+                        HPX_FWD(policy), first, last,
+                        HPX_FWD(pred), HPX_FWD(proj)));
                 }
                 catch (...)
                 {
@@ -1074,9 +1074,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
         using is_seq = execution::is_sequenced_execution_policy<ExPolicy>;
 
-        return detail::partition<FwdIter>().call(std::forward<ExPolicy>(policy),
-            is_seq(), first, last, std::forward<Pred>(pred),
-            std::forward<Proj>(proj));
+        return detail::partition<FwdIter>().call(HPX_FWD(policy),
+            is_seq(), first, last, HPX_FWD(pred),
+            HPX_FWD(proj));
     }
 
     /////////////////////////////////////////////////////////////////////////////
@@ -1120,8 +1120,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 OutIter2 dest_false, Pred&& pred, Proj&& proj)
             {
                 return sequential_partition_copy(first, last, dest_true,
-                    dest_false, std::forward<Pred>(pred),
-                    std::forward<Proj>(proj));
+                    dest_false, HPX_FWD(pred),
+                    HPX_FWD(proj));
             }
 
             template <typename ExPolicy, typename FwdIter1, typename FwdIter2,
@@ -1160,8 +1160,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                     hpx::util::tuple<FwdIter1, FwdIter2, FwdIter3>,
                     output_iterator_offset>;
 
-                auto f1 = [pred = std::forward<Pred>(pred),
-                              proj = std::forward<Proj>(proj)](
+                auto f1 = [pred = HPX_FWD(pred),
+                              proj = HPX_FWD(proj)](
                               zip_iterator part_begin,
                               std::size_t part_size) -> output_iterator_offset {
                     std::size_t true_count = 0;
@@ -1231,7 +1231,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 };
 
                 return scan_partitioner_type::call(
-                    std::forward<ExPolicy>(policy),
+                    HPX_FWD(policy),
                     make_zip_iterator(first, flags.get()), count, init,
                     // step 1 performs first part of scan algorithm
                     std::move(f1),
@@ -1360,8 +1360,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
         return hpx::util::make_tagged_tuple<tag::in, tag::out1, tag::out2>(
             detail::partition_copy<result_type>().call(
-                std::forward<ExPolicy>(policy), is_seq(), first, last,
-                dest_true, dest_false, std::forward<Pred>(pred),
-                std::forward<Proj>(proj)));
+                HPX_FWD(policy), is_seq(), first, last,
+                dest_true, dest_false, HPX_FWD(pred),
+                HPX_FWD(proj)));
     }
 }}}    // namespace hpx::parallel::v1

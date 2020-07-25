@@ -275,8 +275,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                         // Not reachable.
                         HPX_ASSERT(false);
                     },
-                    std::forward<ExPolicy>(policy), std::forward<Comp>(comp),
-                    std::forward<Proj1>(proj1), std::forward<Proj2>(proj2)));
+                    HPX_FWD(policy), HPX_FWD(comp),
+                    HPX_FWD(proj1), HPX_FWD(proj2)));
 
             return f;
         }
@@ -297,8 +297,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 Proj2&& proj2)
             {
                 return sequential_merge(first1, last1, first2, last2, dest,
-                    std::forward<Comp>(comp), std::forward<Proj1>(proj1),
-                    std::forward<Proj2>(proj2));
+                    HPX_FWD(comp), HPX_FWD(proj1),
+                    HPX_FWD(proj2));
             }
 
             template <typename ExPolicy, typename RandIter1, typename RandIter2,
@@ -318,10 +318,10 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 try
                 {
                     return algorithm_result::get(parallel_merge(
-                        std::forward<ExPolicy>(policy), first1, last1, first2,
-                        last2, dest, std::forward<Comp>(comp),
-                        std::forward<Proj1>(proj1),
-                        std::forward<Proj2>(proj2)));
+                        HPX_FWD(policy), first1, last1, first2,
+                        last2, dest, HPX_FWD(comp),
+                        HPX_FWD(proj1),
+                        HPX_FWD(proj2)));
                 }
                 catch (...)
                 {
@@ -464,10 +464,10 @@ namespace hpx { namespace parallel { inline namespace v1 {
         typedef hpx::util::tuple<RandIter1, RandIter2, RandIter3> result_type;
 
         return hpx::util::make_tagged_tuple<tag::in1, tag::in2, tag::out>(
-            detail::merge<result_type>().call(std::forward<ExPolicy>(policy),
+            detail::merge<result_type>().call(HPX_FWD(policy),
                 is_seq(), first1, last1, first2, last2, dest,
-                std::forward<Comp>(comp), std::forward<Proj1>(proj1),
-                std::forward<Proj2>(proj2)));
+                HPX_FWD(comp), HPX_FWD(proj1),
+                HPX_FWD(proj2)));
     }
 
     /////////////////////////////////////////////////////////////////////////////
@@ -482,7 +482,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
         {
             std::inplace_merge(first, middle, last,
                 util::compare_projected<Comp, Proj>(
-                    std::forward<Comp>(comp), std::forward<Proj>(proj)));
+                    HPX_FWD(comp), HPX_FWD(proj)));
             return last;
         }
 
@@ -502,7 +502,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
             if (left_size + right_size <= threshold)
             {
                 sequential_inplace_merge(first, middle, last,
-                    std::forward<Comp>(comp), std::forward<Proj>(proj));
+                    HPX_FWD(comp), HPX_FWD(proj));
                 return;
             }
 
@@ -620,8 +620,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
             Proj&& proj)
         {
             return execution::async_execute(policy.executor(),
-                [policy, first, middle, last, comp = std::forward<Comp>(comp),
-                    proj = std::forward<Proj>(proj)]() mutable -> RandIter {
+                [policy, first, middle, last, comp = HPX_FWD(comp),
+                    proj = HPX_FWD(proj)]() mutable -> RandIter {
                     try
                     {
                         parallel_inplace_merge_helper(policy, first, middle,
@@ -654,7 +654,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 RandIter middle, RandIter last, Comp&& comp, Proj&& proj)
             {
                 return sequential_inplace_merge(first, middle, last,
-                    std::forward<Comp>(comp), std::forward<Proj>(proj));
+                    HPX_FWD(comp), HPX_FWD(proj));
             }
 
             template <typename ExPolicy, typename RandIter, typename Comp,
@@ -670,8 +670,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 try
                 {
                     return algorithm_result::get(parallel_inplace_merge(
-                        std::forward<ExPolicy>(policy), first, middle, last,
-                        std::forward<Comp>(comp), std::forward<Proj>(proj)));
+                        HPX_FWD(policy), first, middle, last,
+                        HPX_FWD(comp), HPX_FWD(proj)));
                 }
                 catch (...)
                 {
@@ -772,7 +772,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
         typedef execution::is_sequenced_execution_policy<ExPolicy> is_seq;
 
         return detail::inplace_merge<RandIter>().call(
-            std::forward<ExPolicy>(policy), is_seq(), first, middle, last,
-            std::forward<Comp>(comp), std::forward<Proj>(proj));
+            HPX_FWD(policy), is_seq(), first, middle, last,
+            HPX_FWD(comp), HPX_FWD(proj));
     }
 }}}    // namespace hpx::parallel::v1

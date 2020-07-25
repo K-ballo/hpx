@@ -71,7 +71,7 @@ namespace hpx { namespace string_util {
     void split(Container& container, char const* str, Predicate&& pred,
         token_compress_mode compress_mode = token_compress_mode::off)
     {
-        split(container, std::string{str}, std::forward<Predicate>(pred),
+        split(container, std::string{str}, HPX_FWD(pred),
             compress_mode);
     }
 }}    // namespace hpx::string_util

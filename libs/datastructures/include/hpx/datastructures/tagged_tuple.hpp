@@ -31,7 +31,7 @@ namespace hpx { namespace util {
 
         template <typename... Ts_>
         tagged_tuple(Ts_&&... ts)
-          : base_type(std::forward<Ts_>(ts)...)
+          : base_type(HPX_FWD(ts)...)
         {
         }
     };
@@ -54,7 +54,7 @@ namespace hpx { namespace util {
         typedef tagged_tuple<typename detail::tagged_type<Tags, Ts>::type...>
             result_type;
 
-        return result_type(std::forward<Ts>(ts)...);
+        return result_type(HPX_FWD(ts)...);
     }
 
     template <typename... Tags, typename... Ts>

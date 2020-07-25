@@ -78,8 +78,8 @@ namespace hpx { namespace parallel { namespace execution {
         {
             typedef components::server::invoke_function_action<F> action_type;
             policy_.template apply<action_type>(
-                threads::thread_priority_default, std::forward<F>(f),
-                std::forward<Ts>(ts)...);
+                threads::thread_priority_default, HPX_FWD(f),
+                HPX_FWD(ts)...);
         }
 
         template <typename Action, typename... Ts>
@@ -87,7 +87,7 @@ namespace hpx { namespace parallel { namespace execution {
         post_impl(Action&& act, Ts&&... ts) const
         {
             policy_.template apply<Action>(
-                threads::thread_priority_default, std::forward<Ts>(ts)...);
+                threads::thread_priority_default, HPX_FWD(ts)...);
         }
 
         // async_execute implementations
@@ -99,7 +99,7 @@ namespace hpx { namespace parallel { namespace execution {
         {
             typedef components::server::invoke_function_action<F> action_type;
             return policy_.template async<action_type>(
-                launch::async, std::forward<F>(f), std::forward<Ts>(ts)...);
+                launch::async, HPX_FWD(f), HPX_FWD(ts)...);
         }
 
         template <typename Action, typename... Ts>
@@ -108,7 +108,7 @@ namespace hpx { namespace parallel { namespace execution {
         async_execute_impl(Action&& act, Ts&&... ts) const
         {
             return policy_.template async<Action>(
-                launch::async, std::forward<Ts>(ts)...);
+                launch::async, HPX_FWD(ts)...);
         }
         /// \endcond
 
@@ -123,7 +123,7 @@ namespace hpx { namespace parallel { namespace execution {
                 !std::is_same<distribution_policy_executor,
                     typename hpx::util::decay<DistPolicy_>::type>::value>::type>
         distribution_policy_executor(DistPolicy_&& policy)
-          : policy_(std::forward<DistPolicy_>(policy))
+          : policy_(HPX_FWD(policy))
         {
         }
 
@@ -150,7 +150,7 @@ namespace hpx { namespace parallel { namespace execution {
         template <typename F, typename... Ts>
         void post(F&& f, Ts&&... ts) const
         {
-            return post_impl(std::forward<F>(f), std::forward<Ts>(ts)...);
+            return post_impl(HPX_FWD(f), HPX_FWD(ts)...);
         }
 
         template <typename F, typename... Ts>
@@ -159,7 +159,7 @@ namespace hpx { namespace parallel { namespace execution {
         async_execute(F&& f, Ts&&... ts) const
         {
             return async_execute_impl(
-                std::forward<F>(f), std::forward<Ts>(ts)...);
+                HPX_FWD(f), HPX_FWD(ts)...);
         }
 
         template <typename F, typename... Ts>
@@ -167,7 +167,7 @@ namespace hpx { namespace parallel { namespace execution {
         sync_execute(F&& f, Ts&&... ts) const
         {
             return async_execute_impl(
-                std::forward<F>(f), std::forward<Ts>(ts)...)
+                HPX_FWD(f), HPX_FWD(ts)...)
                 .get();
         }
         /// \endcond
@@ -187,7 +187,7 @@ namespace hpx { namespace parallel { namespace execution {
     {
         typedef typename hpx::util::decay<DistPolicy>::type dist_policy_type;
         return distribution_policy_executor<dist_policy_type>(
-            std::forward<DistPolicy>(policy));
+            HPX_FWD(policy));
     }
 
     /// \cond NOINTERNAL

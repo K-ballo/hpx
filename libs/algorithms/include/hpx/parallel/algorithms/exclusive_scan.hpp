@@ -85,7 +85,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 OutIter dest, T const& init, Op&& op)
             {
                 return sequential_exclusive_scan(
-                    first, last, dest, init, std::forward<Op>(op));
+                    first, last, dest, init, HPX_FWD(op));
             }
 
             template <typename ExPolicy, typename FwdIter1, typename T,
@@ -136,7 +136,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 };
 
                 return util::scan_partitioner<ExPolicy, FwdIter2, T>::call(
-                    std::forward<ExPolicy>(policy),
+                    HPX_FWD(policy),
                     make_zip_iterator(first, dest), count, init,
                     // step 1 performs first part of scan algorithm
                     [op, last](
@@ -174,8 +174,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 is_seq;
 
             return exclusive_scan<FwdIter2>().call(
-                std::forward<ExPolicy>(policy), is_seq(), first, last, dest,
-                std::forward<T>(init), std::forward<Op>(op));
+                HPX_FWD(policy), is_seq(), first, last, dest,
+                HPX_FWD(init), HPX_FWD(op));
         }
 
         // forward declare the segmented version of this algorithm
@@ -282,8 +282,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
         typedef hpx::traits::is_segmented_iterator<FwdIter1> is_segmented;
 
-        return detail::exclusive_scan_(std::forward<ExPolicy>(policy), first,
-            last, dest, std::move(init), std::forward<Op>(op), is_segmented(),
+        return detail::exclusive_scan_(HPX_FWD(policy), first,
+            last, dest, std::move(init), HPX_FWD(op), is_segmented(),
             util::projection_identity{});
     }
 
@@ -362,7 +362,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
         typedef hpx::traits::is_segmented_iterator<FwdIter1> is_segmented;
 
-        return detail::exclusive_scan_(std::forward<ExPolicy>(policy), first,
+        return detail::exclusive_scan_(HPX_FWD(policy), first,
             last, dest, std::move(init), std::plus<T>(), is_segmented(),
             util::projection_identity{});
     }

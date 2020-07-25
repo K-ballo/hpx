@@ -230,7 +230,7 @@ namespace hpx { namespace traits {
             communicator_.gate_.synchronize(1, l);
 
             auto& data = communicator_.template access_data<arg_type>(l);
-            data[which] = std::forward<T>(t);
+            data[which] = HPX_FWD(t);
 
             if (communicator_.gate_.set(which, l))
             {
@@ -374,7 +374,7 @@ namespace hpx { namespace lcos {
             // make sure id is kept alive as long as the returned future
             hpx::id_type id = fid.get();
             auto result = async(
-                action_type(), id, this_site, std::forward<T>(local_result));
+                action_type(), id, this_site, HPX_FWD(local_result));
 
             traits::detail::get_shared_state(result)->set_on_completed(
                 [id = std::move(id)]() { HPX_UNUSED(id); });
@@ -383,7 +383,7 @@ namespace hpx { namespace lcos {
         };
 
         return dataflow(hpx::launch::sync, std::move(gather_data_direct),
-            std::move(fid), std::forward<T>(local_result));
+            std::move(fid), HPX_FWD(local_result));
     }
 
     template <typename T>
@@ -405,7 +405,7 @@ namespace hpx { namespace lcos {
 
         return gather_here(
             create_gatherer(basename, num_sites, generation, this_site),
-            std::forward<T>(result), this_site);
+            HPX_FWD(result), this_site);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -478,7 +478,7 @@ namespace hpx { namespace lcos {
             // make sure id is kept alive as long as the returned future
             hpx::id_type id = fid.get();
             auto result = async(
-                action_type(), id, this_site, std::forward<T>(local_result));
+                action_type(), id, this_site, HPX_FWD(local_result));
 
             traits::detail::get_shared_state(result)->set_on_completed(
                 [id = std::move(id)]() { HPX_UNUSED(id); });
@@ -487,7 +487,7 @@ namespace hpx { namespace lcos {
         };
 
         return dataflow(std::move(gather_there_data_direct), std::move(fid),
-            std::forward<T>(local_result));
+            HPX_FWD(local_result));
     }
 
     template <typename T>
@@ -502,7 +502,7 @@ namespace hpx { namespace lcos {
         }
 
         return gather_there(hpx::find_from_basename(std::move(name), root_site),
-            std::forward<T>(local_result), this_site);
+            HPX_FWD(local_result), this_site);
     }
 }}    // namespace hpx::lcos
 

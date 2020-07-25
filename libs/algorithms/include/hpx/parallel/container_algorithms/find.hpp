@@ -114,9 +114,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
     find_end(ExPolicy&& policy, Rng&& rng, Rng2&& rng2, Pred&& op = Pred(),
         Proj&& proj = Proj())
     {
-        return find_end(std::forward<ExPolicy>(policy), hpx::util::begin(rng),
+        return find_end(HPX_FWD(policy), hpx::util::begin(rng),
             hpx::util::end(rng), hpx::util::begin(rng2), hpx::util::end(rng2),
-            std::forward<Pred>(op), std::forward<Proj>(proj));
+            HPX_FWD(op), HPX_FWD(proj));
     }
     ///////////////////////////////////////////////////////////////////////////
     // find_first_of
@@ -219,11 +219,11 @@ namespace hpx { namespace parallel { inline namespace v1 {
     find_first_of(ExPolicy&& policy, Rng1&& rng1, Rng2&& rng2,
         Pred&& op = Pred(), Proj1&& proj1 = Proj1(), Proj2&& proj2 = Proj2())
     {
-        return find_first_of(std::forward<ExPolicy>(policy),
+        return find_first_of(HPX_FWD(policy),
             hpx::util::begin(rng1), hpx::util::end(rng1),
             hpx::util::begin(rng2), hpx::util::end(rng2),
-            std::forward<Pred>(op), std::forward<Proj1>(proj1),
-            std::forward<Proj2>(proj2));
+            HPX_FWD(op), HPX_FWD(proj1),
+            HPX_FWD(proj2));
     }
 
 }}}    // namespace hpx::parallel::v1

@@ -118,7 +118,7 @@ namespace hpx { namespace compute { namespace host {
             target_type t = this->get_next_target();
             hpx::id_type target_locality = t.get_locality();
             return components::stub_base<Component>::create_async(
-                target_locality, std::forward<Ts>(ts)..., std::move(t));
+                target_locality, HPX_FWD(ts)..., std::move(t));
         }
 
         /// \cond NOINTERNAL

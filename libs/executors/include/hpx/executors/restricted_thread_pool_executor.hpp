@@ -108,8 +108,8 @@ namespace hpx { namespace parallel { namespace execution {
             return detail::thread_pool_async_execute_helper(pool_, priority_,
                 stacksize_,
                 threads::thread_schedule_hint(get_next_thread_num()),
-                hpx::launch::async, std::forward<F>(f),
-                std::forward<Ts>(ts)...);
+                hpx::launch::async, HPX_FWD(f),
+                HPX_FWD(ts)...);
         }
 
         template <typename F, typename Future, typename... Ts>
@@ -118,8 +118,8 @@ namespace hpx { namespace parallel { namespace execution {
         then_execute(F&& f, Future&& predecessor, Ts&&... ts)
         {
             return detail::thread_pool_then_execute_helper(*this, launch::async,
-                std::forward<F>(f), std::forward<Future>(predecessor),
-                std::forward<Ts>(ts)...);
+                HPX_FWD(f), HPX_FWD(predecessor),
+                HPX_FWD(ts)...);
         }
 
         // NonBlockingOneWayExecutor (adapted) interface
@@ -128,7 +128,7 @@ namespace hpx { namespace parallel { namespace execution {
         {
             return detail::thread_pool_post_helper(pool_, priority_, stacksize_,
                 threads::thread_schedule_hint(get_next_thread_num()),
-                launch::async, std::forward<F>(f), std::forward<Ts>(ts)...);
+                launch::async, HPX_FWD(f), HPX_FWD(ts)...);
         }
 
         template <typename F, typename S, typename... Ts>
@@ -139,7 +139,7 @@ namespace hpx { namespace parallel { namespace execution {
             return detail::thread_pool_bulk_async_execute_helper(pool_,
                 priority_, stacksize_, schedulehint_, first_thread_,
                 num_threads_, hierarchical_threshold_, launch::async,
-                std::forward<F>(f), shape, std::forward<Ts>(ts)...);
+                HPX_FWD(f), shape, HPX_FWD(ts)...);
         }
 
         template <typename F, typename S, typename Future, typename... Ts>
@@ -149,8 +149,8 @@ namespace hpx { namespace parallel { namespace execution {
             F&& f, S const& shape, Future&& predecessor, Ts&&... ts)
         {
             return detail::thread_pool_bulk_then_execute_helper(*this,
-                launch::async, std::forward<F>(f), shape,
-                std::forward<Future>(predecessor), std::forward<Ts>(ts)...);
+                launch::async, HPX_FWD(f), shape,
+                HPX_FWD(predecessor), HPX_FWD(ts)...);
         }
         /// \endcond
 

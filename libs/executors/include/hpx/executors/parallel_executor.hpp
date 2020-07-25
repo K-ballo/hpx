@@ -175,7 +175,7 @@ namespace hpx { namespace parallel { namespace execution {
             sync_execute(F&& f, Ts&&... ts)
         {
             return hpx::detail::sync_launch_policy_dispatch<Policy>::call(
-                launch::sync, std::forward<F>(f), std::forward<Ts>(ts)...);
+                launch::sync, HPX_FWD(f), HPX_FWD(ts)...);
         }
 
         // TwoWayExecutor interface
@@ -186,7 +186,7 @@ namespace hpx { namespace parallel { namespace execution {
         {
             return hpx::detail::async_launch_policy_dispatch<Policy>::call(
                 policy_, priority_, stacksize_, schedulehint_,
-                std::forward<F>(f), std::forward<Ts>(ts)...);
+                HPX_FWD(f), HPX_FWD(ts)...);
         }
 
         template <typename F, typename Future, typename... Ts>
@@ -200,12 +200,12 @@ namespace hpx { namespace parallel { namespace execution {
                     Ts...>::type;
 
             auto&& func = hpx::util::one_shot(hpx::util::bind_back(
-                std::forward<F>(f), std::forward<Ts>(ts)...));
+                HPX_FWD(f), HPX_FWD(ts)...));
 
             typename hpx::traits::detail::shared_state_ptr<result_type>::type
                 p = lcos::detail::make_continuation_alloc_nounwrap<result_type>(
                     hpx::util::internal_allocator<>{},
-                    std::forward<Future>(predecessor), policy_,
+                    HPX_FWD(predecessor), policy_,
                     std::move(func));
 
             return hpx::traits::future_access<hpx::future<result_type>>::create(
@@ -219,8 +219,8 @@ namespace hpx { namespace parallel { namespace execution {
             hpx::util::thread_description desc(f);
 
             detail::post_policy_dispatch<Policy>::call(policy_, desc, priority_,
-                stacksize_, schedulehint_, std::forward<F>(f),
-                std::forward<Ts>(ts)...);
+                stacksize_, schedulehint_, HPX_FWD(f),
+                HPX_FWD(ts)...);
         }
 
         // BulkTwoWayExecutor interface
@@ -276,8 +276,8 @@ namespace hpx { namespace parallel { namespace execution {
 
             auto&& func =
                 detail::make_fused_bulk_async_execute_helper<result_type>(*this,
-                    std::forward<F>(f), shape,
-                    hpx::util::make_tuple(std::forward<Ts>(ts)...));
+                    HPX_FWD(f), shape,
+                    hpx::util::make_tuple(HPX_FWD(ts)...));
 
             // void or std::vector<func_result_type>
             using vector_result_type =
@@ -297,7 +297,7 @@ namespace hpx { namespace parallel { namespace execution {
             shared_state_type p =
                 lcos::detail::make_continuation_alloc<vector_result_type>(
                     hpx::util::internal_allocator<>{},
-                    std::forward<Future>(predecessor), policy_,
+                    HPX_FWD(predecessor), policy_,
                     [func = std::move(func)](future_type&& predecessor) mutable
                     -> vector_result_type {
                         // use unwrap directly (instead of lazily) to avoid

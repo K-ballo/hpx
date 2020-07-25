@@ -35,8 +35,8 @@ namespace hpx { namespace resiliency {
     {
         return hpx::dataflow(
             hpx::resiliency::functional::async_replicate_vote_validate{}, n,
-            std::forward<Vote>(vote), std::forward<Pred>(pred),
-            std::forward<F>(f), std::forward<Ts>(ts)...);
+            HPX_FWD(vote), HPX_FWD(pred),
+            HPX_FWD(f), HPX_FWD(ts)...);
     }
 
     /// Launch given function \a f exactly \a n times. Run all the valid
@@ -52,8 +52,8 @@ namespace hpx { namespace resiliency {
     {
         return hpx::dataflow(
             hpx::resiliency::functional::async_replicate_vote{}, n,
-            std::forward<Vote>(vote), std::forward<F>(f),
-            std::forward<Ts>(ts)...);
+            HPX_FWD(vote), HPX_FWD(f),
+            HPX_FWD(ts)...);
     }
 
     /// Launch given function \a f exactly \a n times. Verify the result of
@@ -69,8 +69,8 @@ namespace hpx { namespace resiliency {
     {
         return hpx::dataflow(
             hpx::resiliency::functional::async_replicate_validate{}, n,
-            std::forward<Pred>(pred), std::forward<F>(f),
-            std::forward<Ts>(ts)...);
+            HPX_FWD(pred), HPX_FWD(f),
+            HPX_FWD(ts)...);
     }
 
     /// Launch given function \a f exactly \a n times. Return the first
@@ -84,6 +84,6 @@ namespace hpx { namespace resiliency {
     dataflow_replicate(std::size_t n, F&& f, Ts&&... ts)
     {
         return hpx::dataflow(hpx::resiliency::functional::async_replicate{}, n,
-            std::forward<F>(f), std::forward<Ts>(ts)...);
+            HPX_FWD(f), HPX_FWD(ts)...);
     }
 }}    // namespace hpx::resiliency

@@ -77,7 +77,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
         typename hpx::traits::range_iterator<Rng>::type>::type
     generate(ExPolicy&& policy, Rng&& rng, F&& f)
     {
-        return generate(std::forward<ExPolicy>(policy), hpx::util::begin(rng),
-            hpx::util::end(rng), std::forward<F>(f));
+        return generate(HPX_FWD(policy), hpx::util::begin(rng),
+            hpx::util::end(rng), HPX_FWD(f));
     }
 }}}    // namespace hpx::parallel::v1

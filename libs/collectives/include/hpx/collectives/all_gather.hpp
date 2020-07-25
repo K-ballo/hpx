@@ -164,7 +164,7 @@ namespace hpx { namespace traits {
             communicator_.gate_.synchronize(1, l);
 
             auto& data = communicator_.template access_data<arg_type>(l);
-            data[which] = std::forward<T>(t);
+            data[which] = HPX_FWD(t);
 
             if (communicator_.gate_.set(which, l))
             {
@@ -278,7 +278,7 @@ namespace hpx { namespace lcos {
         using arg_type = typename util::decay<T>::type;
 
         auto all_gather_data_direct =
-            [local_result = std::forward<T>(local_result), this_site](
+            [local_result = HPX_FWD(local_result), this_site](
                 hpx::future<hpx::id_type>&& f)
             -> hpx::future<std::vector<arg_type>> {
             using action_type = typename detail::communicator_server::
@@ -321,7 +321,7 @@ namespace hpx { namespace lcos {
         {
             return all_gather(
                 create_all_gather(basename, num_sites, generation, root_site),
-                std::forward<T>(local_result), this_site);
+                HPX_FWD(local_result), this_site);
         }
 
         std::string name(basename);
@@ -331,7 +331,7 @@ namespace hpx { namespace lcos {
         }
 
         return all_gather(hpx::find_from_basename(std::move(name), root_site),
-            std::forward<T>(local_result), this_site);
+            HPX_FWD(local_result), this_site);
     }
 }}    // namespace hpx::lcos
 

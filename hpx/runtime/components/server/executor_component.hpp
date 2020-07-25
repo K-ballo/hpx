@@ -36,7 +36,7 @@ namespace hpx { namespace components
     public:
         template <typename ... Arg>
         executor_component(executor_type const& exec, Arg &&... arg)
-          : base_type(std::forward<Arg>(arg)...),
+          : base_type(HPX_FWD(arg)...),
             exec_(exec)
         {}
 

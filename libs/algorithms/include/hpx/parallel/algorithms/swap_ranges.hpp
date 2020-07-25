@@ -57,7 +57,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                     FwdIter2>::type result_type;
 
                 return get_iter<1, result_type>(for_each_n<zip_iterator>().call(
-                    std::forward<ExPolicy>(policy), std::false_type(),
+                    HPX_FWD(policy), std::false_type(),
                     hpx::util::make_zip_iterator(first1, first2),
                     std::distance(first1, last1),
                     [](reference t) -> void {
@@ -131,6 +131,6 @@ namespace hpx { namespace parallel { inline namespace v1 {
         typedef execution::is_sequenced_execution_policy<ExPolicy> is_seq;
 
         return detail::swap_ranges<FwdIter2>().call(
-            std::forward<ExPolicy>(policy), is_seq(), first1, last1, first2);
+            HPX_FWD(policy), is_seq(), first1, last1, first2);
     }
 }}}    // namespace hpx::parallel::v1

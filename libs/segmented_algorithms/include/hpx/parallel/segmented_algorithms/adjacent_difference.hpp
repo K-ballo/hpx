@@ -254,8 +254,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
             return segmented_adjacent_difference(
                 adjacent_difference<typename iterator_traits::local_iterator>(),
-                std::forward<ExPolicy>(policy), first, last, dest,
-                std::forward<Op>(op), is_seq());
+                HPX_FWD(policy), first, last, dest,
+                HPX_FWD(op), is_seq());
         }
 
         // forward declare the non-segmented version of this algorithm

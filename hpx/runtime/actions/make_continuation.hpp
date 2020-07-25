@@ -32,7 +32,7 @@ namespace hpx {
     {
         typedef typename util::decay<Cont>::type cont_type;
         return hpx::actions::continuation_impl<cont_type>(
-            std::forward<Cont>(cont), hpx::find_here());
+            HPX_FWD(cont), hpx::find_here());
     }
 
     template <typename Cont>
@@ -43,7 +43,7 @@ namespace hpx {
     {
         typedef typename util::decay<Cont>::type cont_type;
         return hpx::actions::continuation_impl<cont_type>(
-            std::forward<Cont>(f), target);
+            HPX_FWD(f), target);
     }
 
     template <typename Cont, typename F>
@@ -63,7 +63,7 @@ namespace hpx {
         typedef typename util::decay<F>::type function_type;
 
         return hpx::actions::continuation2_impl<cont_type, function_type>(
-            std::forward<Cont>(cont), hpx::find_here(), std::forward<F>(f));
+            HPX_FWD(cont), hpx::find_here(), HPX_FWD(f));
     }
 
     template <typename Cont, typename F>
@@ -78,7 +78,7 @@ namespace hpx {
         typedef typename util::decay<F>::type function_type;
 
         return hpx::actions::continuation2_impl<cont_type, function_type>(
-            std::forward<Cont>(cont), target, std::forward<F>(f));
+            HPX_FWD(cont), target, HPX_FWD(f));
     }
 }
 

@@ -42,7 +42,7 @@ namespace hpx { namespace lcos { namespace detail {
     {
         // simply forward this to executor
         return parallel::execution::then_execute(
-            exec, std::forward<F>(f), std::forward<Future>(predecessor));
+            exec, HPX_FWD(f), HPX_FWD(predecessor));
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -64,7 +64,7 @@ namespace hpx { namespace lcos { namespace detail {
             typename hpx::traits::detail::shared_state_ptr<result_type>::type
                 p = detail::make_continuation_alloc<continuation_result_type>(
                     hpx::util::internal_allocator<>{}, std::move(fut),
-                    std::forward<Policy_>(policy), std::forward<F>(f));
+                    HPX_FWD(policy), HPX_FWD(f));
             return hpx::traits::future_access<future<result_type>>::create(
                 std::move(p));
         }
@@ -82,8 +82,8 @@ namespace hpx { namespace lcos { namespace detail {
 
             typename hpx::traits::detail::shared_state_ptr<result_type>::type
                 p = detail::make_continuation_alloc<continuation_result_type>(
-                    alloc, std::move(fut), std::forward<Policy_>(policy),
-                    std::forward<F>(f));
+                    alloc, std::move(fut), HPX_FWD(policy),
+                    HPX_FWD(f));
             return hpx::traits::future_access<future<result_type>>::create(
                 std::move(p));
         }
@@ -107,8 +107,8 @@ namespace hpx { namespace lcos { namespace detail {
             call(Future&& fut, Executor_&& exec, F&& f)
         {
             // simply forward this to executor
-            return detail::then_execute_helper(std::forward<Executor_>(exec),
-                std::forward<F>(f), std::move(fut));
+            return detail::then_execute_helper(HPX_FWD(exec),
+                HPX_FWD(f), std::move(fut));
         }
 
         template <typename Allocator, typename Executor_, typename F>
@@ -117,8 +117,8 @@ namespace hpx { namespace lcos { namespace detail {
                 F>::type
             call_alloc(Allocator const&, Future&& fut, Executor_&& exec, F&& f)
         {
-            return call(std::forward<Future>(fut),
-                std::forward<Executor_>(exec), std::forward<F>(f));
+            return call(HPX_FWD(fut),
+                HPX_FWD(exec), HPX_FWD(f));
         }
     };
 
@@ -133,20 +133,20 @@ namespace hpx { namespace lcos { namespace detail {
         template <typename F>
         HPX_FORCEINLINE static auto call(Future&& fut, F&& f)
             -> decltype(future_then_dispatch<Future, launch>::call(
-                std::move(fut), launch::all, std::forward<F>(f)))
+                std::move(fut), launch::all, HPX_FWD(f)))
         {
             return future_then_dispatch<Future, launch>::call(
-                std::move(fut), launch::all, std::forward<F>(f));
+                std::move(fut), launch::all, HPX_FWD(f));
         }
 
         template <typename Allocator, typename F>
         HPX_FORCEINLINE static auto call_alloc(
             Allocator const& alloc, Future&& fut, F&& f)
             -> decltype(future_then_dispatch<Future, launch>::call_alloc(
-                alloc, std::move(fut), launch::all, std::forward<F>(f)))
+                alloc, std::move(fut), launch::all, HPX_FWD(f)))
         {
             return future_then_dispatch<Future, launch>::call_alloc(
-                alloc, std::move(fut), launch::all, std::forward<F>(f));
+                alloc, std::move(fut), launch::all, HPX_FWD(f));
         }
     };
 
@@ -158,7 +158,7 @@ namespace hpx { namespace lcos { namespace detail {
         {
             parallel::execution::detail::post_policy_dispatch<
                 hpx::launch::async_policy>::call(hpx::launch::async, desc,
-                std::forward<F>(f));
+                HPX_FWD(f));
         }
     };
 
@@ -170,7 +170,7 @@ namespace hpx { namespace lcos { namespace detail {
         template <typename F>
         void operator()(F&& f, hpx::util::thread_description)
         {
-            hpx::parallel::execution::post(exec, std::forward<F>(f));
+            hpx::parallel::execution::post(exec, HPX_FWD(f));
         }
     };
 
@@ -187,9 +187,9 @@ namespace hpx { namespace lcos { namespace detail {
 
         // create a continuation
         typename traits::detail::shared_state_ptr<result_type>::type p(
-            new shared_state(init_no_addref{}, std::forward<F>(f)), false);
+            new shared_state(init_no_addref{}, HPX_FWD(f)), false);
         static_cast<shared_state*>(p.get())->template attach<spawner_type>(
-            future, spawner_type{}, std::forward<Policy>(policy));
+            future, spawner_type{}, HPX_FWD(policy));
         return p;
     }
 
@@ -222,14 +222,14 @@ namespace hpx { namespace lcos { namespace detail {
         unique_ptr p(traits::allocate(alloc, 1),
             util::allocator_deleter<other_allocator>{alloc});
         traits::construct(
-            alloc, p.get(), init_no_addref{}, alloc, std::forward<F>(f));
+            alloc, p.get(), init_no_addref{}, alloc, HPX_FWD(f));
 
         // create a continuation
         typename hpx::traits::detail::shared_state_ptr<result_type>::type r(
             p.release(), false);
 
         static_cast<shared_state*>(r.get())->template attach<spawner_type>(
-            future, spawner_type{}, std::forward<Policy>(policy));
+            future, spawner_type{}, HPX_FWD(policy));
 
         return r;
     }
@@ -263,7 +263,7 @@ namespace hpx { namespace lcos { namespace detail {
         unique_ptr p(traits::allocate(alloc, 1),
             util::allocator_deleter<other_allocator>{alloc});
         traits::construct(
-            alloc, p.get(), init_no_addref{}, alloc, std::forward<F>(f));
+            alloc, p.get(), init_no_addref{}, alloc, HPX_FWD(f));
 
         // create a continuation
         typename hpx::traits::detail::shared_state_ptr<result_type>::type r(
@@ -271,7 +271,7 @@ namespace hpx { namespace lcos { namespace detail {
 
         static_cast<shared_state*>(r.get())
             ->template attach_nounwrap<spawner_type>(
-                future, spawner_type{}, std::forward<Policy>(policy));
+                future, spawner_type{}, HPX_FWD(policy));
 
         return r;
     }
@@ -288,10 +288,10 @@ namespace hpx { namespace lcos { namespace detail {
 
         // create a continuation
         typename traits::detail::shared_state_ptr<ContResult>::type p(
-            new shared_state(init_no_addref{}, std::forward<F>(f)), false);
+            new shared_state(init_no_addref{}, HPX_FWD(f)), false);
         static_cast<shared_state*>(p.get())
             ->template attach_nounwrap<spawner_type>(future,
-                spawner_type{std::forward<Executor>(exec)},
+                spawner_type{HPX_FWD(exec)},
                 launch::async_policy{});
         return p;
     }

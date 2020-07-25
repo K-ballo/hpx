@@ -79,7 +79,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
     rotate(ExPolicy&& policy, Rng&& rng,
         typename hpx::traits::range_iterator<Rng>::type middle)
     {
-        return rotate(std::forward<ExPolicy>(policy), hpx::util::begin(rng),
+        return rotate(HPX_FWD(policy), hpx::util::begin(rng),
             middle, hpx::util::end(rng));
     }
 
@@ -141,7 +141,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
         typename hpx::traits::range_iterator<Rng>::type middle,
         OutIter dest_first)
     {
-        return rotate_copy(std::forward<ExPolicy>(policy),
+        return rotate_copy(HPX_FWD(policy),
             hpx::util::begin(rng), middle, hpx::util::end(rng), dest_first);
     }
 }}}    // namespace hpx::parallel::v1

@@ -62,7 +62,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 InIter2 first2, InIter2 last2, F&& f)
             {
                 return sequential_equal_binary(
-                    first1, last1, first2, last2, std::forward<F>(f));
+                    first1, last1, first2, last2, HPX_FWD(f));
             }
 
             template <typename ExPolicy, typename FwdIter1, typename FwdIter2,
@@ -124,7 +124,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 };
 
                 return util::partitioner<ExPolicy, bool>::call(
-                    std::forward<ExPolicy>(policy),
+                    HPX_FWD(policy),
                     hpx::util::make_zip_iterator(first1, first2), count1,
                     std::move(f1),
                     [](std::vector<hpx::future<bool>>&& results) {
@@ -225,8 +225,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
         typedef execution::is_sequenced_execution_policy<ExPolicy> is_seq;
 
-        return detail::equal_binary().call(std::forward<ExPolicy>(policy),
-            is_seq(), first1, last1, first2, last2, std::forward<Pred>(op));
+        return detail::equal_binary().call(HPX_FWD(policy),
+            is_seq(), first1, last1, first2, last2, HPX_FWD(op));
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -245,7 +245,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
             static bool sequential(
                 ExPolicy, InIter1 first1, InIter1 last1, InIter2 first2, F&& f)
             {
-                return std::equal(first1, last1, first2, std::forward<F>(f));
+                return std::equal(first1, last1, first2, HPX_FWD(f));
             }
 
             template <typename ExPolicy, typename FwdIter1, typename FwdIter2,
@@ -284,7 +284,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 };
 
                 return util::partitioner<ExPolicy, bool>::call(
-                    std::forward<ExPolicy>(policy),
+                    HPX_FWD(policy),
                     hpx::util::make_zip_iterator(first1, first2), count,
                     std::move(f1),
                     [](std::vector<hpx::future<bool>>&& results) {
@@ -381,7 +381,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
         typedef execution::is_sequenced_execution_policy<ExPolicy> is_seq;
 
-        return detail::equal().call(std::forward<ExPolicy>(policy), is_seq(),
-            first1, last1, first2, std::forward<Pred>(op));
+        return detail::equal().call(HPX_FWD(policy), is_seq(),
+            first1, last1, first2, HPX_FWD(op));
     }
 }}}    // namespace hpx::parallel::v1

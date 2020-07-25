@@ -53,7 +53,7 @@ namespace hpx {
         }                                                                      \
                                                                                \
         explicit NAME(TYPE&& value)                                            \
-          : error_info(::std::forward<TYPE>(value))                            \
+          : error_info(HPX_FWD(value))                            \
         {                                                                      \
         }                                                                      \
     } /**/
@@ -129,7 +129,7 @@ namespace hpx {
             using node_type = detail::exception_info_node<ErrorInfo...>;
 
             node_ptr node = std::make_shared<node_type>(
-                std::forward<ErrorInfo>(tagged_values)...);
+                HPX_FWD(tagged_values)...);
             node->next = std::move(_data);
             _data = std::move(node);
             return *this;
@@ -191,13 +191,13 @@ namespace hpx {
             "E shall not derive from exception_info");
 
         throw detail::exception_with_info<ED>(
-            std::forward<E>(e), std::move(xi));
+            HPX_FWD(e), std::move(xi));
     }
 
     template <typename E>
     HPX_NORETURN void throw_with_info(E&& e, exception_info const& xi)
     {
-        throw_with_info(std::forward<E>(e), exception_info(xi));
+        throw_with_info(HPX_FWD(e), exception_info(xi));
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -216,15 +216,15 @@ namespace hpx {
     ///////////////////////////////////////////////////////////////////////////
     template <typename E, typename F>
     auto invoke_with_exception_info(E const& e, F&& f)
-        -> decltype(std::forward<F>(f)(std::declval<exception_info const*>()))
+        -> decltype(HPX_FWD(f)(std::declval<exception_info const*>()))
     {
-        return std::forward<F>(f)(
+        return HPX_FWD(f)(
             dynamic_cast<exception_info const*>(std::addressof(e)));
     }
 
     template <typename F>
     auto invoke_with_exception_info(std::exception_ptr const& p, F&& f)
-        -> decltype(std::forward<F>(f)(std::declval<exception_info const*>()))
+        -> decltype(HPX_FWD(f)(std::declval<exception_info const*>()))
     {
         try
         {
@@ -233,19 +233,19 @@ namespace hpx {
         }
         catch (exception_info const& xi)
         {
-            return std::forward<F>(f)(&xi);
+            return HPX_FWD(f)(&xi);
         }
         catch (...)
         {
         }
-        return std::forward<F>(f)(nullptr);
+        return HPX_FWD(f)(nullptr);
     }
 
     template <typename F>
     auto invoke_with_exception_info(hpx::error_code const& ec, F&& f)
-        -> decltype(std::forward<F>(f)(std::declval<exception_info const*>()))
+        -> decltype(HPX_FWD(f)(std::declval<exception_info const*>()))
     {
         return invoke_with_exception_info(
-            detail::access_exception(ec), std::forward<F>(f));
+            detail::access_exception(ec), HPX_FWD(f));
     }
 }    // namespace hpx

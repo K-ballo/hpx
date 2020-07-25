@@ -151,8 +151,8 @@ namespace hpx { namespace parallel { namespace execution {
                 F, Shape, Ts...>::type
         {
             return bulk_async_execute_fn_helper<typename std::decay<
-                Executor>::type>::call(std::forward<Executor>(exec),
-                std::forward<F>(f), shape, std::forward<Ts>(ts)...);
+                Executor>::type>::call(HPX_FWD(exec),
+                HPX_FWD(f), shape, HPX_FWD(ts)...);
         }
 
         ///////////////////////////////////////////////////////////////////////
@@ -163,8 +163,8 @@ namespace hpx { namespace parallel { namespace execution {
                 Executor>::type>::template result<Executor, F, Ts...>::type
         {
             return async_execute_fn_helper<typename std::decay<
-                Executor>::type>::call(std::forward<Executor>(exec),
-                std::forward<F>(f), std::forward<Ts>(ts)...);
+                Executor>::type>::call(HPX_FWD(exec),
+                HPX_FWD(f), HPX_FWD(ts)...);
         }
 
         ///////////////////////////////////////////////////////////////////////
@@ -175,8 +175,8 @@ namespace hpx { namespace parallel { namespace execution {
                 Executor>::type>::template result<Executor, F, Ts...>::type
         {
             return sync_execute_fn_helper<typename std::decay<Executor>::type>::
-                call(std::forward<Executor>(exec), std::forward<F>(f),
-                    std::forward<Ts>(ts)...);
+                call(HPX_FWD(exec), HPX_FWD(f),
+                    HPX_FWD(ts)...);
         }
 
         ///////////////////////////////////////////////////////////////////////
@@ -187,8 +187,8 @@ namespace hpx { namespace parallel { namespace execution {
                 template result<Executor, F, Ts...>::type
         {
             return post_fn_helper<typename std::decay<Executor>::type>::call(
-                std::forward<Executor>(exec), std::forward<F>(f),
-                std::forward<Ts>(ts)...);
+                HPX_FWD(exec), HPX_FWD(f),
+                HPX_FWD(ts)...);
         }
 
         ///////////////////////////////////////////////////////////////////////
@@ -202,9 +202,9 @@ namespace hpx { namespace parallel { namespace execution {
                 F, Shape, Future, Ts...>::type
         {
             return bulk_then_execute_fn_helper<typename std::decay<
-                Executor>::type>::call(std::forward<Executor>(exec),
-                std::forward<F>(f), shape, std::forward<Future>(predecessor),
-                std::forward<Ts>(ts)...);
+                Executor>::type>::call(HPX_FWD(exec),
+                HPX_FWD(f), shape, HPX_FWD(predecessor),
+                HPX_FWD(ts)...);
         }
 
         ///////////////////////////////////////////////////////////////////////
@@ -217,8 +217,8 @@ namespace hpx { namespace parallel { namespace execution {
                 F, Shape, Ts...>::type
         {
             return bulk_sync_execute_fn_helper<typename std::decay<
-                Executor>::type>::call(std::forward<Executor>(exec),
-                std::forward<F>(f), shape, std::forward<Ts>(ts)...);
+                Executor>::type>::call(HPX_FWD(exec),
+                HPX_FWD(f), shape, HPX_FWD(ts)...);
         }
 
         ///////////////////////////////////////////////////////////////////////
@@ -232,8 +232,8 @@ namespace hpx { namespace parallel { namespace execution {
                 F, Future, Ts...>::type
         {
             return then_execute_fn_helper<typename std::decay<Executor>::type>::
-                call(std::forward<Executor>(exec), std::forward<F>(f),
-                    std::forward<Future>(predecessor), std::forward<Ts>(ts)...);
+                call(HPX_FWD(exec), HPX_FWD(f),
+                    HPX_FWD(predecessor), HPX_FWD(ts)...);
         }
 
         ///////////////////////////////////////////////////////////////////////
@@ -245,11 +245,11 @@ namespace hpx { namespace parallel { namespace execution {
             template <typename Executor, typename F, typename... Ts>
             HPX_FORCEINLINE auto operator()(
                 Executor&& exec, F&& f, Ts&&... ts) const
-                -> decltype(async_execute(std::forward<Executor>(exec),
-                    std::forward<F>(f), std::forward<Ts>(ts)...))
+                -> decltype(async_execute(HPX_FWD(exec),
+                    HPX_FWD(f), HPX_FWD(ts)...))
             {
-                return async_execute(std::forward<Executor>(exec),
-                    std::forward<F>(f), std::forward<Ts>(ts)...);
+                return async_execute(HPX_FWD(exec),
+                    HPX_FWD(f), HPX_FWD(ts)...);
             }
         };
 
@@ -262,11 +262,11 @@ namespace hpx { namespace parallel { namespace execution {
             template <typename Executor, typename F, typename... Ts>
             HPX_FORCEINLINE auto operator()(
                 Executor&& exec, F&& f, Ts&&... ts) const
-                -> decltype(sync_execute(std::forward<Executor>(exec),
-                    std::forward<F>(f), std::forward<Ts>(ts)...))
+                -> decltype(sync_execute(HPX_FWD(exec),
+                    HPX_FWD(f), HPX_FWD(ts)...))
             {
-                return sync_execute(std::forward<Executor>(exec),
-                    std::forward<F>(f), std::forward<Ts>(ts)...);
+                return sync_execute(HPX_FWD(exec),
+                    HPX_FWD(f), HPX_FWD(ts)...);
             }
         };
 
@@ -280,14 +280,14 @@ namespace hpx { namespace parallel { namespace execution {
                 typename... Ts>
             HPX_FORCEINLINE auto operator()(
                 Executor&& exec, F&& f, Future&& predecessor, Ts&&... ts) const
-                -> decltype(then_execute(std::forward<Executor>(exec),
-                    std::forward<F>(f), std::forward<Future>(predecessor),
-                    std::forward<Ts>(ts)...))
+                -> decltype(then_execute(HPX_FWD(exec),
+                    HPX_FWD(f), HPX_FWD(predecessor),
+                    HPX_FWD(ts)...))
 
             {
-                return then_execute(std::forward<Executor>(exec),
-                    std::forward<F>(f), std::forward<Future>(predecessor),
-                    std::forward<Ts>(ts)...);
+                return then_execute(HPX_FWD(exec),
+                    HPX_FWD(f), HPX_FWD(predecessor),
+                    HPX_FWD(ts)...);
             }
         };
 
@@ -299,11 +299,11 @@ namespace hpx { namespace parallel { namespace execution {
         public:
             template <typename Executor, typename F, typename... Ts>
             HPX_FORCEINLINE auto operator()(Executor&& exec, F&& f,
-                Ts&&... ts) const -> decltype(post(std::forward<Executor>(exec),
-                std::forward<F>(f), std::forward<Ts>(ts)...))
+                Ts&&... ts) const -> decltype(post(HPX_FWD(exec),
+                HPX_FWD(f), HPX_FWD(ts)...))
             {
-                return post(std::forward<Executor>(exec), std::forward<F>(f),
-                    std::forward<Ts>(ts)...);
+                return post(HPX_FWD(exec), HPX_FWD(f),
+                    HPX_FWD(ts)...);
             }
         };
 
@@ -317,11 +317,11 @@ namespace hpx { namespace parallel { namespace execution {
                 typename... Ts>
             HPX_FORCEINLINE auto operator()(
                 Executor&& exec, F&& f, Shape const& shape, Ts&&... ts) const
-                -> decltype(bulk_async_execute(std::forward<Executor>(exec),
-                    std::forward<F>(f), shape, std::forward<Ts>(ts)...))
+                -> decltype(bulk_async_execute(HPX_FWD(exec),
+                    HPX_FWD(f), shape, HPX_FWD(ts)...))
             {
-                return bulk_async_execute(std::forward<Executor>(exec),
-                    std::forward<F>(f), shape, std::forward<Ts>(ts)...);
+                return bulk_async_execute(HPX_FWD(exec),
+                    HPX_FWD(f), shape, HPX_FWD(ts)...);
             }
         };
 
@@ -335,11 +335,11 @@ namespace hpx { namespace parallel { namespace execution {
                 typename... Ts>
             HPX_FORCEINLINE auto operator()(
                 Executor&& exec, F&& f, Shape const& shape, Ts&&... ts) const
-                -> decltype(bulk_sync_execute(std::forward<Executor>(exec),
-                    std::forward<F>(f), shape, std::forward<Ts>(ts)...))
+                -> decltype(bulk_sync_execute(HPX_FWD(exec),
+                    HPX_FWD(f), shape, HPX_FWD(ts)...))
             {
-                return bulk_sync_execute(std::forward<Executor>(exec),
-                    std::forward<F>(f), shape, std::forward<Ts>(ts)...);
+                return bulk_sync_execute(HPX_FWD(exec),
+                    HPX_FWD(f), shape, HPX_FWD(ts)...);
             }
         };
 
@@ -353,13 +353,13 @@ namespace hpx { namespace parallel { namespace execution {
                 typename Future, typename... Ts>
             HPX_FORCEINLINE auto operator()(Executor&& exec, F&& f,
                 Shape const& shape, Future&& predecessor, Ts&&... ts) const
-                -> decltype(bulk_then_execute(std::forward<Executor>(exec),
-                    std::forward<F>(f), shape,
-                    std::forward<Future>(predecessor), std::forward<Ts>(ts)...))
+                -> decltype(bulk_then_execute(HPX_FWD(exec),
+                    HPX_FWD(f), shape,
+                    HPX_FWD(predecessor), HPX_FWD(ts)...))
             {
-                return bulk_then_execute(std::forward<Executor>(exec),
-                    std::forward<F>(f), shape,
-                    std::forward<Future>(predecessor), std::forward<Ts>(ts)...);
+                return bulk_then_execute(HPX_FWD(exec),
+                    HPX_FWD(f), shape,
+                    HPX_FWD(predecessor), HPX_FWD(ts)...);
             }
         };
         /// \endcond

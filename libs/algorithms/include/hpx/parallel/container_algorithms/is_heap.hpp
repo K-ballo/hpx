@@ -88,9 +88,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
         ExPolicy&& policy, Rng&& rng, Comp&& comp = Comp(),
         Proj&& proj = Proj())
     {
-        return is_heap(std::forward<ExPolicy>(policy), hpx::util::begin(rng),
-            hpx::util::end(rng), std::forward<Comp>(comp),
-            std::forward<Proj>(proj));
+        return is_heap(HPX_FWD(policy), hpx::util::begin(rng),
+            hpx::util::end(rng), HPX_FWD(comp),
+            HPX_FWD(proj));
     }
 
     /// Returns the upper bound of the largest range beginning at \a first
@@ -164,8 +164,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
     is_heap_until(ExPolicy&& policy, Rng&& rng, Comp&& comp = Comp(),
         Proj&& proj = Proj())
     {
-        return is_heap_until(std::forward<ExPolicy>(policy),
+        return is_heap_until(HPX_FWD(policy),
             hpx::util::begin(rng), hpx::util::end(rng),
-            std::forward<Comp>(comp), std::forward<Proj>(proj));
+            HPX_FWD(comp), HPX_FWD(proj));
     }
 }}}    // namespace hpx::parallel::v1

@@ -454,7 +454,7 @@ namespace hpx { namespace lcos {
 
         traits::acquire_future_disp func;
         result_type lazy_values(
-            func(std::forward<T>(t)), func(std::forward<Ts>(ts))...);
+            func(HPX_FWD(t)), func(HPX_FWD(ts))...);
 
         std::shared_ptr<detail::when_any<result_type>> f =
             std::make_shared<detail::when_any<result_type>>(

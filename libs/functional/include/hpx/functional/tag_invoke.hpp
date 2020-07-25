@@ -17,7 +17,7 @@ namespace hpx { namespace functional {
         ///
         /// The evaluation of the expression `hpx::tag_invoke(tag, args...)` is
         /// equivalent to evaluating the unqualified call to
-        /// `tag_invoke(decay-copy(tag), std::forward<Args>(args)...)`.
+        /// `tag_invoke(decay-copy(tag), HPX_FWD(args)...)`.
         ///
         /// `hpx::functional::tag_invoke` is implemented against P1895.
         ///
@@ -116,11 +116,11 @@ namespace hpx { namespace functional {
             template <typename Tag, typename... Ts>
             constexpr HPX_FORCEINLINE auto operator()(Tag tag, Ts&&... ts) const
                 noexcept(noexcept(
-                    tag_invoke(std::declval<Tag>(), std::forward<Ts>(ts)...)))
+                    tag_invoke(std::declval<Tag>(), HPX_FWD(ts)...)))
                     -> decltype(tag_invoke(
-                        std::declval<Tag>(), std::forward<Ts>(ts)...))
+                        std::declval<Tag>(), HPX_FWD(ts)...))
             {
-                return tag_invoke(tag, std::forward<Ts>(ts)...);
+                return tag_invoke(tag, HPX_FWD(ts)...);
             }
 
             friend constexpr bool operator==(tag_invoke_t, tag_invoke_t)
@@ -196,7 +196,7 @@ namespace hpx { namespace functional {
                 -> tag_invoke_result_t<Tag, decltype(args)...>
         {
             return hpx::functional::tag_invoke(
-                static_cast<Tag const&>(*this), std::forward<Args>(args)...);
+                static_cast<Tag const&>(*this), HPX_FWD(args)...);
         }
     };
 

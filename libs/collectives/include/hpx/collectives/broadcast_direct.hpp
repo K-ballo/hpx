@@ -225,7 +225,7 @@ namespace hpx { namespace lcos {
             hpx::id_type const& id, std::size_t, Ts const&... vs)
         {
             futures.push_back(
-                hpx::async(act, id, vs...).then(std::forward<Cont>(cont)));
+                hpx::async(act, id, vs...).then(HPX_FWD(cont)));
         }
 
         template <typename Action, typename Futures, typename Cont,
@@ -235,7 +235,7 @@ namespace hpx { namespace lcos {
             Ts const&... vs)
         {
             futures.push_back(hpx::async(Action(), id, vs..., global_idx)
-                                  .then(std::forward<Cont>(cont)));
+                                  .then(HPX_FWD(cont)));
         }
 
         template <typename Action, typename... Ts>

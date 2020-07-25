@@ -46,7 +46,7 @@ namespace hpx { namespace util {
                 traits::is_invocable_r<R, FD&, Ts...>::value>::type>
         unique_function(F&& f)
         {
-            assign(std::forward<F>(f));
+            assign(HPX_FWD(f));
         }
 
         // the split SFINAE prevents MSVC from eagerly instantiating things
@@ -57,7 +57,7 @@ namespace hpx { namespace util {
                 traits::is_invocable_r<R, FD&, Ts...>::value>::type>
         unique_function& operator=(F&& f)
         {
-            assign(std::forward<F>(f));
+            assign(HPX_FWD(f));
             return *this;
         }
 

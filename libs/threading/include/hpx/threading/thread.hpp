@@ -52,7 +52,7 @@ namespace hpx {
             auto thrd_data = threads::get_self_id_data();
             HPX_ASSERT(thrd_data);
             start_thread(thrd_data->get_scheduler_base()->get_parent_pool(),
-                util::deferred_call(std::forward<F>(f)));
+                util::deferred_call(HPX_FWD(f)));
         }
 
         template <typename F, typename... Ts>
@@ -62,13 +62,13 @@ namespace hpx {
             HPX_ASSERT(thrd_data);
             start_thread(thrd_data->get_scheduler_base()->get_parent_pool(),
                 util::deferred_call(
-                    std::forward<F>(f), std::forward<Ts>(vs)...));
+                    HPX_FWD(f), HPX_FWD(vs)...));
         }
 
         template <typename F>
         thread(threads::thread_pool_base* pool, F&& f)
         {
-            start_thread(pool, util::deferred_call(std::forward<F>(f)));
+            start_thread(pool, util::deferred_call(HPX_FWD(f)));
         }
 
         template <typename F, typename... Ts>
@@ -76,7 +76,7 @@ namespace hpx {
         {
             start_thread(pool,
                 util::deferred_call(
-                    std::forward<F>(f), std::forward<Ts>(vs)...));
+                    HPX_FWD(f), HPX_FWD(vs)...));
         }
 
         ~thread();

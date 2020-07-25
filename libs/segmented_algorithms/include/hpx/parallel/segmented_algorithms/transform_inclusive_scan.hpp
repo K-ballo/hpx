@@ -42,9 +42,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 return util::detail::algorithm_result<ExPolicy, OutIter>::get(
                     std::move(dest));
             }
-            return inclusive_scan_(std::forward<ExPolicy>(policy), first, last,
-                dest, std::forward<T>(init), std::forward<Op>(op),
-                std::true_type(), std::forward<Conv>(conv));
+            return inclusive_scan_(HPX_FWD(policy), first, last,
+                dest, HPX_FWD(init), HPX_FWD(op),
+                std::true_type(), HPX_FWD(conv));
         }
 
         template <typename ExPolicy, typename InIter, typename OutIter,
@@ -58,9 +58,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 return util::detail::algorithm_result<ExPolicy, OutIter>::get(
                     std::move(dest));
             }
-            return inclusive_scan_(std::forward<ExPolicy>(policy), first, last,
-                dest, std::forward<Op>(op), std::true_type(),
-                std::forward<Conv>(conv));
+            return inclusive_scan_(HPX_FWD(policy), first, last,
+                dest, HPX_FWD(op), std::true_type(),
+                HPX_FWD(conv));
         }
 
         // forward declare the non-segmented version of this algorithm

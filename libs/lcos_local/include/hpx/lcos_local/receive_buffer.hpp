@@ -52,7 +52,7 @@ namespace hpx { namespace lcos { namespace local {
             void set_value(Val&& val)
             {
                 value_set_ = true;
-                promise_.set_value(std::forward<Val>(val));
+                promise_.set_value(HPX_FWD(val));
             }
 
             bool cancel(std::exception_ptr const& e)

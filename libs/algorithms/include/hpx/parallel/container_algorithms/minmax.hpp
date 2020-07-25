@@ -98,9 +98,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
         typename hpx::traits::range_traits<Rng>::iterator_type>::type
     min_element(ExPolicy&& policy, Rng&& rng, F&& f = F(), Proj&& proj = Proj())
     {
-        return min_element(std::forward<ExPolicy>(policy),
-            hpx::util::begin(rng), hpx::util::end(rng), std::forward<F>(f),
-            std::forward<Proj>(proj));
+        return min_element(HPX_FWD(policy),
+            hpx::util::begin(rng), hpx::util::end(rng), HPX_FWD(f),
+            HPX_FWD(proj));
     }
 
     /// Finds the greatest element in the range [first, last) using the given
@@ -178,9 +178,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
         typename hpx::traits::range_traits<Rng>::iterator_type>::type
     max_element(ExPolicy&& policy, Rng&& rng, F&& f = F(), Proj&& proj = Proj())
     {
-        return max_element(std::forward<ExPolicy>(policy),
-            hpx::util::begin(rng), hpx::util::end(rng), std::forward<F>(f),
-            std::forward<Proj>(proj));
+        return max_element(HPX_FWD(policy),
+            hpx::util::begin(rng), hpx::util::end(rng), HPX_FWD(f),
+            HPX_FWD(proj));
     }
 
     /// Finds the greatest element in the range [first, last) using the given
@@ -275,9 +275,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
         minmax_element(
             ExPolicy&& policy, Rng&& rng, F&& f = F(), Proj&& proj = Proj())
     {
-        return minmax_element(std::forward<ExPolicy>(policy),
-            hpx::util::begin(rng), hpx::util::end(rng), std::forward<F>(f),
-            std::forward<Proj>(proj));
+        return minmax_element(HPX_FWD(policy),
+            hpx::util::begin(rng), hpx::util::end(rng), HPX_FWD(f),
+            HPX_FWD(proj));
     }
 
 #if defined(HPX_MSVC)

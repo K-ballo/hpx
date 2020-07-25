@@ -53,7 +53,7 @@ private:
 template <class Handler>
 on_exec_error_<Handler> on_exec_error(Handler && handler)
 {
-    return on_exec_error_<Handler>(std::forward<Handler>(handler));
+    return on_exec_error_<Handler>(HPX_FWD(handler));
 }
 
 }

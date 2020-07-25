@@ -400,7 +400,7 @@ namespace hpx { namespace ranges {
                 hpx::parallel::v1::detail::copy_iter<FwdIter1, FwdIter>;
 
             return hpx::parallel::v1::detail::transfer<copy_iter_t>(
-                std::forward<ExPolicy>(policy), iter, sent, dest);
+                HPX_FWD(policy), iter, sent, dest);
         }
 
         // clang-format off
@@ -423,7 +423,7 @@ namespace hpx { namespace ranges {
                 FwdIter>;
 
             return hpx::parallel::v1::detail::transfer<copy_iter_t>(
-                std::forward<ExPolicy>(policy), hpx::util::begin(rng),
+                HPX_FWD(policy), hpx::util::begin(rng),
                 hpx::util::end(rng), dest);
         }
 
@@ -505,7 +505,7 @@ namespace hpx { namespace ranges {
 
             return hpx::parallel::v1::detail::copy_n<
                 ranges::copy_n_result<FwdIter1, FwdIter2>>()
-                .call(std::forward<ExPolicy>(policy), is_seq{}, first,
+                .call(HPX_FWD(policy), is_seq{}, first,
                     std::size_t(count), dest);
         }
 
@@ -575,8 +575,8 @@ namespace hpx { namespace ranges {
 
             return hpx::parallel::v1::detail::copy_if<
                 hpx::parallel::util::in_out_result<FwdIter1, FwdIter>>()
-                .call(std::forward<ExPolicy>(policy), is_seq{}, iter, sent,
-                    dest, std::forward<Pred>(pred), std::forward<Proj>(proj));
+                .call(HPX_FWD(policy), is_seq{}, iter, sent,
+                    dest, HPX_FWD(pred), HPX_FWD(proj));
         }
 
         // clang-format off
@@ -611,9 +611,9 @@ namespace hpx { namespace ranges {
                 hpx::parallel::util::in_out_result<
                     typename hpx::traits::range_traits<Rng>::iterator_type,
                     FwdIter>>()
-                .call(std::forward<ExPolicy>(policy), is_seq(),
+                .call(HPX_FWD(policy), is_seq(),
                     hpx::util::begin(rng), hpx::util::end(rng), dest,
-                    std::forward<Pred>(pred), std::forward<Proj>(proj));
+                    HPX_FWD(pred), HPX_FWD(proj));
         }
 
         // clang-format off
@@ -644,8 +644,8 @@ namespace hpx { namespace ranges {
             return hpx::parallel::v1::detail::copy_if<
                 hpx::parallel::util::in_out_result<FwdIter1, FwdIter>>()
                 .call(hpx::parallel::execution::seq, std::true_type{}, iter,
-                    sent, dest, std::forward<Pred>(pred),
-                    std::forward<Proj>(proj));
+                    sent, dest, HPX_FWD(pred),
+                    HPX_FWD(proj));
         }
 
         // clang-format off
@@ -675,7 +675,7 @@ namespace hpx { namespace ranges {
                     FwdIter>>()
                 .call(hpx::parallel::execution::seq, std::true_type{},
                     hpx::util::begin(rng), hpx::util::end(rng), dest,
-                    std::forward<Pred>(pred), std::forward<Proj>(proj));
+                    HPX_FWD(pred), HPX_FWD(proj));
         }
 
     } copy_if{};
@@ -702,7 +702,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
     {
         using copy_iter_t = detail::copy_iter<FwdIter1, FwdIter>;
         return detail::transfer<copy_iter_t>(
-            std::forward<ExPolicy>(policy), iter, sent, dest);
+            HPX_FWD(policy), iter, sent, dest);
     }
 
     // clang-format off
@@ -723,7 +723,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
         using copy_iter_t = detail::copy_iter<
             typename hpx::traits::range_traits<Rng>::iterator_type, FwdIter>;
 
-        return detail::transfer<copy_iter_t>(std::forward<ExPolicy>(policy),
+        return detail::transfer<copy_iter_t>(HPX_FWD(policy),
             hpx::util::begin(rng), hpx::util::end(rng), dest);
     }
 
@@ -748,9 +748,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 OutIter>>::type copy_if(ExPolicy&& policy, Rng&& rng,
             OutIter dest, F&& f, Proj&& proj = Proj())
     {
-        return copy_if(std::forward<ExPolicy>(policy), hpx::util::begin(rng),
-            hpx::util::end(rng), dest, std::forward<F>(f),
-            std::forward<Proj>(proj));
+        return copy_if(HPX_FWD(policy), hpx::util::begin(rng),
+            hpx::util::end(rng), dest, HPX_FWD(f),
+            HPX_FWD(proj));
     }
 }}}    // namespace hpx::parallel::v1
 

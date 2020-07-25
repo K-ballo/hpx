@@ -135,7 +135,7 @@ namespace hpx { namespace lcos { namespace detail {
         template <typename U>
         HPX_FORCEINLINE static U&& set(U&& u)
         {
-            return std::forward<U>(u);
+            return HPX_FWD(u);
         }
     };
 
@@ -327,8 +327,8 @@ namespace hpx { namespace lcos { namespace detail {
         static void construct(void* p, T&& t, Ts&&... ts)
         {
             ::new (p)
-                result_type(future_data_result<Result>::set(std::forward<T>(t)),
-                    std::forward<Ts>(ts)...);
+                result_type(future_data_result<Result>::set(HPX_FWD(t)),
+                    HPX_FWD(ts)...);
         }
 
     public:
@@ -353,7 +353,7 @@ namespace hpx { namespace lcos { namespace detail {
           : base_type(no_addref)
         {
             result_type* value_ptr = reinterpret_cast<result_type*>(&storage_);
-            construct(value_ptr, std::forward<Ts>(ts)...);
+            construct(value_ptr, HPX_FWD(ts)...);
             state_.store(value, std::memory_order_relaxed);
         }
 
@@ -419,7 +419,7 @@ namespace hpx { namespace lcos { namespace detail {
 
             // set the data
             result_type* value_ptr = reinterpret_cast<result_type*>(&storage_);
-            construct(value_ptr, std::forward<Ts>(ts)...);
+            construct(value_ptr, HPX_FWD(ts)...);
 
             // At this point the lock needs to be acquired to safely access the
             // registered continuations
@@ -531,7 +531,7 @@ namespace hpx { namespace lcos { namespace detail {
             try
             {
                 // store the value
-                set_value(std::forward<T>(result));
+                set_value(HPX_FWD(result));
             }
             catch (...)
             {
@@ -555,7 +555,7 @@ namespace hpx { namespace lcos { namespace detail {
 
                 // store the value
                 set_value(std::move(
-                    get_remote_result_type::call(std::forward<T>(result))));
+                    get_remote_result_type::call(HPX_FWD(result))));
             }
             catch (...)
             {
@@ -646,7 +646,7 @@ namespace hpx { namespace lcos { namespace detail {
         template <typename... Ts>
         future_data(init_no_addref no_addref, in_place in_place, Ts&&... ts)
           : future_data_base<Result>(
-                no_addref, in_place, std::forward<Ts>(ts)...)
+                no_addref, in_place, HPX_FWD(ts)...)
         {
         }
 
@@ -691,7 +691,7 @@ namespace hpx { namespace lcos { namespace detail {
         template <typename... T>
         future_data_allocator(init_no_addref no_addref, in_place in_place,
             other_allocator const& alloc, T&&... ts)
-          : future_data<Result>(no_addref, in_place, std::forward<T>(ts)...)
+          : future_data<Result>(no_addref, in_place, HPX_FWD(ts)...)
           , alloc_(alloc)
         {
         }
@@ -746,7 +746,7 @@ namespace hpx { namespace lcos { namespace detail {
             threads::thread_init_data data(
                 threads::make_thread_function_nullary(
                     [this_ = std::move(this_),
-                        init = std::forward<Result_>(init)]() {
+                        init = HPX_FWD(init)]() {
                         this_->set_value(init);
                     }),
                 "timed_future_data<Result>::timed_future_data",
@@ -895,7 +895,7 @@ namespace hpx { namespace lcos { namespace detail {
         template <typename T>
         void set_data(T&& result)
         {
-            this->future_data<Result>::set_data(std::forward<T>(result));
+            this->future_data<Result>::set_data(HPX_FWD(result));
         }
 
         void set_exception(std::exception_ptr e)

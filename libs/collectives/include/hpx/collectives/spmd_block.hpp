@@ -259,7 +259,7 @@ namespace hpx { namespace lcos {
 
                 F()
                 (hpx::launch::sync, hpx::find_here(), std::move(block),
-                    std::forward<Ts>(ts)...);
+                    HPX_FWD(ts)...);
             }
         };
 
@@ -309,7 +309,7 @@ namespace hpx { namespace lcos {
             images_per_locality;
 
         return hpx::lcos::broadcast(act, hpx::find_all_localities(),
-            std::forward<std::string>(name), images_per_locality, num_images,
-            std::forward<Args>(args)...);
+            HPX_FWD(name), images_per_locality, num_images,
+            HPX_FWD(args)...);
     }
 }}    // namespace hpx::lcos

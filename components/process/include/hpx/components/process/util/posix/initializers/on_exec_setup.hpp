@@ -53,7 +53,7 @@ private:
 template <class Handler>
 on_exec_setup_<Handler> on_exec_setup(Handler && handler)
 {
-    return on_exec_setup_<Handler>(std::forward<Handler>(handler));
+    return on_exec_setup_<Handler>(HPX_FWD(handler));
 }
 
 }

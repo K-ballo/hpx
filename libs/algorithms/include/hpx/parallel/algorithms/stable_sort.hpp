@@ -67,7 +67,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
                 spin_sort(first, last,
                     compare_type(
-                        std::forward<Compare>(comp), std::forward<Proj>(proj)));
+                        HPX_FWD(comp), HPX_FWD(proj)));
                 return last;
             }
 
@@ -108,8 +108,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 {
                     // call the sort routine and return the right type,
                     // depending on execution policy
-                    compare_type comp(std::forward<Compare>(compare),
-                        std::forward<Proj>(proj));
+                    compare_type comp(HPX_FWD(compare),
+                        HPX_FWD(proj));
 
                     return algorithm_result::get(
                         parallel_stable_sort(policy.executor(), first, last,
@@ -222,7 +222,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
         typedef execution::is_sequenced_execution_policy<ExPolicy> is_seq;
 
         return detail::stable_sort<RandomIt>().call(
-            std::forward<ExPolicy>(policy), is_seq(), first, last,
-            std::forward<Compare>(comp), std::forward<Proj>(proj));
+            HPX_FWD(policy), is_seq(), first, last,
+            HPX_FWD(comp), HPX_FWD(proj));
     }
 }}}    // namespace hpx::parallel::v1

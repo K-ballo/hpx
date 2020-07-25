@@ -100,9 +100,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
     unique(ExPolicy&& policy, Rng&& rng, Pred&& pred = Pred(),
         Proj&& proj = Proj())
     {
-        return unique(std::forward<ExPolicy>(policy), hpx::util::begin(rng),
-            hpx::util::end(rng), std::forward<Pred>(pred),
-            std::forward<Proj>(proj));
+        return unique(HPX_FWD(policy), hpx::util::begin(rng),
+            hpx::util::end(rng), HPX_FWD(pred),
+            HPX_FWD(proj));
     }
 
     /// Copies the elements from the range \a rng,
@@ -194,8 +194,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
     unique_copy(ExPolicy&& policy, Rng&& rng, FwdIter2 dest,
         Pred&& pred = Pred(), Proj&& proj = Proj())
     {
-        return unique_copy(std::forward<ExPolicy>(policy),
+        return unique_copy(HPX_FWD(policy),
             hpx::util::begin(rng), hpx::util::end(rng), dest,
-            std::forward<Pred>(pred), std::forward<Proj>(proj));
+            HPX_FWD(pred), HPX_FWD(proj));
     }
 }}}    // namespace hpx::parallel::v1

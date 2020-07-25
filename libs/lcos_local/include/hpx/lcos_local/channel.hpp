@@ -246,7 +246,7 @@ namespace hpx { namespace lcos { namespace local {
             template <typename T1>
             void set(T1&& val)
             {
-                val_ = std::forward<T1>(val);
+                val_ = HPX_FWD(val);
                 empty_ = false;
                 push_active_ = false;
             }
@@ -269,7 +269,7 @@ namespace hpx { namespace lcos { namespace local {
             {
                 return local::packaged_task<void()>(
                     util::deferred_call(&one_element_queue_async::set_deferred,
-                        this, std::forward<T1>(val)));
+                        this, HPX_FWD(val)));
             }
             local::packaged_task<T()> pop_pt()
             {
@@ -301,12 +301,12 @@ namespace hpx { namespace lcos { namespace local {
                                 "attempting to write to a busy queue"));
                     }
 
-                    push_ = push_pt(std::forward<T1>(val));
+                    push_ = push_pt(HPX_FWD(val));
                     push_active_ = true;
                     return push_.get_future();
                 }
 
-                set(std::forward<T1>(val));
+                set(HPX_FWD(val));
                 if (pop_active_)
                 {
                     pop_();    // trigger waiting pop

@@ -85,10 +85,10 @@ namespace hpx { namespace util {
     template <typename Visitor, typename... T>
     auto traverse_pack_async(Visitor&& visitor, T&&... pack)
         -> decltype(detail::apply_pack_transform_async(
-            std::forward<Visitor>(visitor), std::forward<T>(pack)...))
+            HPX_FWD(visitor), HPX_FWD(pack)...))
     {
         return detail::apply_pack_transform_async(
-            std::forward<Visitor>(visitor), std::forward<T>(pack)...);
+            HPX_FWD(visitor), HPX_FWD(pack)...);
     }
 
     /// Traverses the pack with the given visitor in an asynchronous way.
@@ -154,9 +154,9 @@ namespace hpx { namespace util {
     auto traverse_pack_async_allocator(
         Allocator const& alloc, Visitor&& visitor, T&&... pack)
         -> decltype(detail::apply_pack_transform_async_allocator(
-            alloc, std::forward<Visitor>(visitor), std::forward<T>(pack)...))
+            alloc, HPX_FWD(visitor), HPX_FWD(pack)...))
     {
         return detail::apply_pack_transform_async_allocator(
-            alloc, std::forward<Visitor>(visitor), std::forward<T>(pack)...);
+            alloc, HPX_FWD(visitor), HPX_FWD(pack)...);
     }
 }}    // namespace hpx::util

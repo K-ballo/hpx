@@ -29,7 +29,7 @@ namespace hpx { namespace components { namespace process { namespace server
     public:
         template <typename ... Ts>
         child(Ts && ... ts)
-          : child_(process::util::execute(std::forward<Ts>(ts)...))
+          : child_(process::util::execute(HPX_FWD(ts)...))
         {}
 
         void terminate();

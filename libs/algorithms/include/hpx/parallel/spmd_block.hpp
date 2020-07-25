@@ -163,7 +163,7 @@ namespace hpx { namespace lcos { namespace local {
                 spmd_block block(
                     num_images_, image_id, *barrier_, *barriers_, *mtx_);
                 hpx::util::invoke(
-                    f_, std::move(block), std::forward<Ts>(ts)...);
+                    f_, std::move(block), HPX_FWD(ts)...);
             }
         };
     }    // namespace detail
@@ -200,9 +200,9 @@ namespace hpx { namespace lcos { namespace local {
 
         return hpx::parallel::execution::bulk_async_execute(policy.executor(),
             detail::spmd_block_helper<F>{
-                barrier, barriers, mtx, std::forward<F>(f), num_images},
+                barrier, barriers, mtx, HPX_FWD(f), num_images},
             boost::irange(std::size_t(0), num_images),
-            std::forward<Args>(args)...);
+            HPX_FWD(args)...);
     }
 
     // Synchronous version
@@ -237,16 +237,16 @@ namespace hpx { namespace lcos { namespace local {
 
         hpx::parallel::execution::bulk_sync_execute(policy.executor(),
             detail::spmd_block_helper<F>{
-                barrier, barriers, mtx, std::forward<F>(f), num_images},
+                barrier, barriers, mtx, HPX_FWD(f), num_images},
             boost::irange(std::size_t(0), num_images),
-            std::forward<Args>(args)...);
+            HPX_FWD(args)...);
     }
 
     template <typename F, typename... Args>
     void define_spmd_block(std::size_t num_images, F&& f, Args&&... args)
     {
         define_spmd_block(parallel::execution::par, num_images,
-            std::forward<F>(f), std::forward<Args>(args)...);
+            HPX_FWD(f), HPX_FWD(args)...);
     }
 }}}    // namespace hpx::lcos::local
 
@@ -270,8 +270,8 @@ namespace hpx { namespace parallel { inline namespace v2 {
         ExPolicy&& policy, std::size_t num_images, F&& f, Args&&... args)
     {
         return hpx::lcos::local::define_spmd_block(
-            std::forward<ExPolicy>(policy), num_images, std::forward<F>(f),
-            std::forward<Args>(args)...);
+            HPX_FWD(policy), num_images, HPX_FWD(f),
+            HPX_FWD(args)...);
     }
 
     // Synchronous version
@@ -282,14 +282,14 @@ namespace hpx { namespace parallel { inline namespace v2 {
     void define_spmd_block(
         ExPolicy&& policy, std::size_t num_images, F&& f, Args&&... args)
     {
-        hpx::lcos::local::define_spmd_block(std::forward<ExPolicy>(policy),
-            num_images, std::forward<F>(f), std::forward<Args>(args)...);
+        hpx::lcos::local::define_spmd_block(HPX_FWD(policy),
+            num_images, HPX_FWD(f), HPX_FWD(args)...);
     }
 
     template <typename F, typename... Args>
     void define_spmd_block(std::size_t num_images, F&& f, Args&&... args)
     {
         hpx::lcos::local::define_spmd_block(parallel::execution::par,
-            num_images, std::forward<F>(f), std::forward<Args>(args)...);
+            num_images, HPX_FWD(f), HPX_FWD(args)...);
     }
 }}}    // namespace hpx::parallel::v2

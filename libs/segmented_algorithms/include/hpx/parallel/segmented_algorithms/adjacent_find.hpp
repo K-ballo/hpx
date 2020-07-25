@@ -286,8 +286,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
             return segmented_adjacent_find(
                 adjacent_find<typename iterator_traits::local_iterator>(),
-                std::forward<ExPolicy>(policy), first, last,
-                std::forward<Pred>(op), is_seq());
+                HPX_FWD(policy), first, last,
+                HPX_FWD(op), is_seq());
         }
 
         // forward declare the non-segmented version of this algorithm

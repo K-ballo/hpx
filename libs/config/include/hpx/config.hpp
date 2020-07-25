@@ -39,6 +39,8 @@
 #error HPX cannot be compiled with a Boost version earlier than 1.61.0
 #endif
 
+#define HPX_FWD(...) static_cast<decltype(__VA_ARGS__)&&>(__VA_ARGS__)
+
 #include <hpx/preprocessor/cat.hpp>
 #include <hpx/preprocessor/stringize.hpp>
 

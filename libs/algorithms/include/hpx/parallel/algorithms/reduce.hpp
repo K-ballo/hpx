@@ -254,8 +254,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
             static T sequential(
                 ExPolicy, InIterB first, InIterE last, T_&& init, Reduce&& r)
             {
-                return detail::accumulate(first, last, std::forward<T_>(init),
-                    std::forward<Reduce>(r));
+                return detail::accumulate(first, last, HPX_FWD(init),
+                    HPX_FWD(r));
             }
 
             template <typename ExPolicy, typename FwdIterB, typename FwdIterE,
@@ -267,7 +267,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 if (first == last)
                 {
                     return util::detail::algorithm_result<ExPolicy, T>::get(
-                        std::forward<T_>(init));
+                        HPX_FWD(init));
                 }
 
                 auto f1 = [r](FwdIterB part_begin, std::size_t part_size) -> T {
@@ -277,10 +277,10 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 };
 
                 return util::partitioner<ExPolicy, T>::call(
-                    std::forward<ExPolicy>(policy), first,
+                    HPX_FWD(policy), first,
                     detail::distance(first, last), std::move(f1),
-                    hpx::util::unwrapping([init = std::forward<T_>(init),
-                                              r = std::forward<Reduce>(r)](
+                    hpx::util::unwrapping([init = HPX_FWD(init),
+                                              r = HPX_FWD(r)](
                                               std::vector<T>&& results) -> T {
                         return util::accumulate_n(hpx::util::begin(results),
                             hpx::util::size(results), init, r);
@@ -302,8 +302,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
             using is_seq = execution::is_sequenced_execution_policy<ExPolicy>;
 
-            return detail::reduce<T>().call(std::forward<ExPolicy>(policy),
-                is_seq(), first, last, std::move(init), std::forward<F>(f));
+            return detail::reduce<T>().call(HPX_FWD(policy),
+                is_seq(), first, last, std::move(init), HPX_FWD(f));
         }
 
         // Forward Declaration of Segmented Reduce
@@ -329,8 +329,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
     {
         typedef hpx::traits::is_segmented_iterator<FwdIterB> is_segmented;
 
-        return detail::reduce_(std::forward<ExPolicy>(policy), first, last,
-            std::move(init), std::forward<F>(f), is_segmented{});
+        return detail::reduce_(HPX_FWD(policy), first, last,
+            std::move(init), HPX_FWD(f), is_segmented{});
     }
 
     // clang-format off
@@ -348,7 +348,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
     {
         typedef hpx::traits::is_segmented_iterator<FwdIterB> is_segmented;
 
-        return detail::reduce_(std::forward<ExPolicy>(policy), first, last,
+        return detail::reduce_(HPX_FWD(policy), first, last,
             std::move(init), std::plus<T>(), is_segmented{});
     }
 
@@ -369,7 +369,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
         typedef hpx::traits::is_segmented_iterator<FwdIterB> is_segmented;
 
-        return detail::reduce_(std::forward<ExPolicy>(policy), first, last,
+        return detail::reduce_(HPX_FWD(policy), first, last,
             value_type{}, std::plus<value_type>(), is_segmented{});
     }
 }}}    // namespace hpx::parallel::v1
@@ -397,8 +397,8 @@ namespace hpx {
             using is_segmented = hpx::traits::is_segmented_iterator<FwdIter>;
 
             return hpx::parallel::v1::detail::reduce_(
-                std::forward<ExPolicy>(policy), first, last, std::move(init),
-                std::forward<F>(f), is_segmented{});
+                HPX_FWD(policy), first, last, std::move(init),
+                HPX_FWD(f), is_segmented{});
         }
 
         // clang-format off
@@ -416,7 +416,7 @@ namespace hpx {
             using is_segmented = hpx::traits::is_segmented_iterator<FwdIter>;
 
             return hpx::parallel::v1::detail::reduce_(
-                std::forward<ExPolicy>(policy), first, last, std::move(init),
+                HPX_FWD(policy), first, last, std::move(init),
                 std::plus<T>{}, is_segmented{});
         }
 
@@ -438,7 +438,7 @@ namespace hpx {
             using is_segmented = hpx::traits::is_segmented_iterator<FwdIter>;
 
             return hpx::parallel::v1::detail::reduce_(
-                std::forward<ExPolicy>(policy), first, last, value_type{},
+                HPX_FWD(policy), first, last, value_type{},
                 std::plus<value_type>{}, is_segmented{});
         }
 
@@ -455,7 +455,7 @@ namespace hpx {
 
             return hpx::parallel::v1::detail::reduce_(
                 hpx::parallel::execution::seq, first, last, std::move(init),
-                std::forward<F>(f), is_segmented{});
+                HPX_FWD(f), is_segmented{});
         }
 
         // clang-format off

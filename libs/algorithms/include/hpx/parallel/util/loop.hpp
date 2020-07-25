@@ -34,7 +34,7 @@ namespace hpx { namespace parallel { namespace util {
         typename hpx::util::invoke_result<F, Iters...>::type>::type
     loop_step(VecOnly, F&& f, Iters&... its)
     {
-        return hpx::util::invoke(std::forward<F>(f), (its++)...);
+        return hpx::util::invoke(HPX_FWD(f), (its++)...);
     }
 
     template <typename ExPolicy, typename Iter>
@@ -84,7 +84,7 @@ namespace hpx { namespace parallel { namespace util {
     HPX_HOST_DEVICE HPX_FORCEINLINE Begin loop(
         ExPolicy&&, Begin begin, End end, F&& f)
     {
-        return detail::loop<Begin>::call(begin, end, std::forward<F>(f));
+        return detail::loop<Begin>::call(begin, end, HPX_FWD(f));
     }
 
     template <typename ExPolicy, typename Begin, typename End,
@@ -92,7 +92,7 @@ namespace hpx { namespace parallel { namespace util {
     HPX_HOST_DEVICE HPX_FORCEINLINE Begin loop(
         ExPolicy&&, Begin begin, End end, CancelToken& tok, F&& f)
     {
-        return detail::loop<Begin>::call(begin, end, tok, std::forward<F>(f));
+        return detail::loop<Begin>::call(begin, end, tok, HPX_FWD(f));
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -125,7 +125,7 @@ namespace hpx { namespace parallel { namespace util {
     loop2(VecOnly, Begin1 begin1, End1 end1, Begin2 begin2, F&& f)
     {
         return detail::loop2<Begin1, Begin2>::call(
-            begin1, end1, begin2, std::forward<F>(f));
+            begin1, end1, begin2, HPX_FWD(f));
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -209,7 +209,7 @@ namespace hpx { namespace parallel { namespace util {
         accumulate_values(F&& f, T&& v, T1&& init)
         {
             return hpx::util::invoke(
-                std::forward<F>(f), std::forward<T1>(init), std::forward<T>(v));
+                HPX_FWD(f), HPX_FWD(init), HPX_FWD(v));
         }
     }    // namespace detail
 
@@ -218,7 +218,7 @@ namespace hpx { namespace parallel { namespace util {
         !execution::is_vectorpack_execution_policy<ExPolicy>::value, Iter>::type
     loop_n(Iter it, std::size_t count, F&& f)
     {
-        return detail::loop_n<Iter>::call(it, count, std::forward<F>(f));
+        return detail::loop_n<Iter>::call(it, count, HPX_FWD(f));
     }
 
     template <typename ExPolicy, typename Iter, typename CancelToken,
@@ -227,7 +227,7 @@ namespace hpx { namespace parallel { namespace util {
         !execution::is_vectorpack_execution_policy<ExPolicy>::value, Iter>::type
     loop_n(Iter it, std::size_t count, CancelToken& tok, F&& f)
     {
-        return detail::loop_n<Iter>::call(it, count, tok, std::forward<F>(f));
+        return detail::loop_n<Iter>::call(it, count, tok, HPX_FWD(f));
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -258,7 +258,7 @@ namespace hpx { namespace parallel { namespace util {
     //     loop2_n(ExPolicy&&, Begin1 begin1, std::size_t count, Begin2 begin2, F && f)
     //     {
     //         return detail::loop2_n<Begin1, Begin2>::call(begin1, count, begin2,
-    //             std::forward<F>(f));
+    //             HPX_FWD(f));
     //     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -318,7 +318,7 @@ namespace hpx { namespace parallel { namespace util {
     {
         typedef typename std::iterator_traits<Iter>::iterator_category cat;
         return detail::loop_with_cleanup<cat>::call(
-            it, last, std::forward<F>(f), std::forward<Cleanup>(cleanup));
+            it, last, HPX_FWD(f), HPX_FWD(cleanup));
     }
 
     template <typename Iter, typename FwdIter, typename F, typename Cleanup>
@@ -327,7 +327,7 @@ namespace hpx { namespace parallel { namespace util {
     {
         typedef typename std::iterator_traits<Iter>::iterator_category cat;
         return detail::loop_with_cleanup<cat>::call(
-            it, last, dest, std::forward<F>(f), std::forward<Cleanup>(cleanup));
+            it, last, dest, HPX_FWD(f), HPX_FWD(cleanup));
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -437,7 +437,7 @@ namespace hpx { namespace parallel { namespace util {
     {
         typedef typename std::iterator_traits<Iter>::iterator_category cat;
         return detail::loop_with_cleanup_n<cat>::call(
-            it, count, std::forward<F>(f), std::forward<Cleanup>(cleanup));
+            it, count, HPX_FWD(f), HPX_FWD(cleanup));
     }
 
     template <typename Iter, typename FwdIter, typename F, typename Cleanup>
@@ -446,7 +446,7 @@ namespace hpx { namespace parallel { namespace util {
     {
         typedef typename std::iterator_traits<Iter>::iterator_category cat;
         return detail::loop_with_cleanup_n<cat>::call(it, count, dest,
-            std::forward<F>(f), std::forward<Cleanup>(cleanup));
+            HPX_FWD(f), HPX_FWD(cleanup));
     }
 
     template <typename Iter, typename CancelToken, typename F, typename Cleanup>
@@ -455,7 +455,7 @@ namespace hpx { namespace parallel { namespace util {
     {
         typedef typename std::iterator_traits<Iter>::iterator_category cat;
         return detail::loop_with_cleanup_n<cat>::call_with_token(
-            it, count, tok, std::forward<F>(f), std::forward<Cleanup>(cleanup));
+            it, count, tok, HPX_FWD(f), HPX_FWD(cleanup));
     }
 
     template <typename Iter, typename FwdIter, typename CancelToken, typename F,
@@ -466,7 +466,7 @@ namespace hpx { namespace parallel { namespace util {
     {
         typedef typename std::iterator_traits<Iter>::iterator_category cat;
         return detail::loop_with_cleanup_n<cat>::call_with_token(it, count,
-            dest, tok, std::forward<F>(f), std::forward<Cleanup>(cleanup));
+            dest, tok, HPX_FWD(f), HPX_FWD(cleanup));
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -510,7 +510,7 @@ namespace hpx { namespace parallel { namespace util {
     {
         typedef typename std::iterator_traits<Iter>::iterator_category cat;
         return detail::loop_idx_n<cat>::call(
-            base_idx, it, count, std::forward<F>(f));
+            base_idx, it, count, HPX_FWD(f));
     }
 
     template <typename Iter, typename CancelToken, typename F>
@@ -519,7 +519,7 @@ namespace hpx { namespace parallel { namespace util {
     {
         typedef typename std::iterator_traits<Iter>::iterator_category cat;
         return detail::loop_idx_n<cat>::call(
-            base_idx, it, count, tok, std::forward<F>(f));
+            base_idx, it, count, tok, HPX_FWD(f));
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -545,7 +545,7 @@ namespace hpx { namespace parallel { namespace util {
     {
         typedef typename std::iterator_traits<Iter>::iterator_category cat;
         return detail::accumulate_n<cat>::call(
-            it, count, std::move(init), std::forward<Pred>(f));
+            it, count, std::move(init), HPX_FWD(f));
     }
 
     template <typename T, typename Iter, typename Reduce,

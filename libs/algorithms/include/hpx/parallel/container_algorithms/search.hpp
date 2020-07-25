@@ -114,10 +114,10 @@ namespace hpx { namespace parallel { inline namespace v1 {
     search(ExPolicy&& policy, Rng1&& rng1, Rng2&& rng2, Pred&& op = Pred(),
         Proj1&& proj1 = Proj1(), Proj2&& proj2 = Proj2())
     {
-        return search(std::forward<ExPolicy>(policy), hpx::util::begin(rng1),
+        return search(HPX_FWD(policy), hpx::util::begin(rng1),
             hpx::util::end(rng1), hpx::util::begin(rng2), hpx::util::end(rng2),
-            std::forward<Pred>(op), std::forward<Proj1>(proj1),
-            std::forward<Proj2>(proj2));
+            HPX_FWD(op), HPX_FWD(proj1),
+            HPX_FWD(proj2));
     }
 
     /// Searches the range [first, last) for any elements in the range [s_first, s_last).
@@ -213,9 +213,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
     search_n(ExPolicy&& policy, Rng1&& rng1, std::size_t count, Rng2&& rng2,
         Pred&& op = Pred(), Proj1&& proj1 = Proj1(), Proj2&& proj2 = Proj2())
     {
-        return search_n(std::forward<ExPolicy>(policy), hpx::util::begin(rng1),
+        return search_n(HPX_FWD(policy), hpx::util::begin(rng1),
             count, hpx::util::begin(rng2), hpx::util::end(rng2),
-            std::forward<Pred>(op), std::forward<Proj1>(proj1),
-            std::forward<Proj2>(proj2));
+            HPX_FWD(op), HPX_FWD(proj1),
+            HPX_FWD(proj2));
     }
 }}}    // namespace hpx::parallel::v1

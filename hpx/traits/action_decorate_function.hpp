@@ -24,15 +24,15 @@ namespace hpx { namespace traits
         template <typename Component, typename F>
         F && decorate_function(wrap_int, naming::address_type /*lva*/, F && f)
         {
-            return std::forward<F>(f);
+            return HPX_FWD(f);
         }
 
         // forward the call if the component implements the function
         template <typename Component, typename F>
         auto decorate_function(int, naming::address_type lva, F && f)
-        ->  decltype(Component::decorate_action(lva, std::forward<F>(f)))
+        ->  decltype(Component::decorate_action(lva, HPX_FWD(f)))
         {
-            return Component::decorate_action(lva, std::forward<F>(f));
+            return Component::decorate_action(lva, HPX_FWD(f));
         }
 
         HPX_HAS_XXX_TRAIT_DEF(decorates_action);
@@ -54,7 +54,7 @@ namespace hpx { namespace traits
         {
             using component_type = typename Action::component_type;
             return detail::decorate_function<component_type>(0,
-                lva, std::forward<F>(f));
+                lva, HPX_FWD(f));
         }
     };
 
@@ -71,7 +71,7 @@ namespace hpx { namespace traits
         call(naming::address_type lva, F && f)
         {
             return detail::decorate_function<Component>(0,
-                lva, std::forward<F>(f));
+                lva, HPX_FWD(f));
         }
     };
 }}

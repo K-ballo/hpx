@@ -66,7 +66,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 Proj&& proj)
             {
                 return sequential_remove_copy(
-                    first, last, dest, val, std::forward<Proj>(proj));
+                    first, last, dest, val, HPX_FWD(proj));
             }
 
             template <typename ExPolicy, typename FwdIter1, typename FwdIter2,
@@ -77,10 +77,10 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 FwdIter2 dest, T const& val, Proj&& proj)
             {
                 return copy_if<IterPair>().call(
-                    std::forward<ExPolicy>(policy), std::false_type(), first,
+                    HPX_FWD(policy), std::false_type(), first,
                     last, dest,
                     [val](T const& a) -> bool { return !(a == val); },
-                    std::forward<Proj>(proj));
+                    HPX_FWD(proj));
             }
         };
         /// \endcond
@@ -173,8 +173,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
         typedef execution::is_sequenced_execution_policy<ExPolicy> is_seq;
 
         return detail::remove_copy<util::in_out_result<FwdIter1, FwdIter2>>()
-            .call(std::forward<ExPolicy>(policy), is_seq(), first, last, dest,
-                val, std::forward<Proj>(proj));
+            .call(HPX_FWD(policy), is_seq(), first, last, dest,
+                val, HPX_FWD(proj));
     }
 
     /////////////////////////////////////////////////////////////////////////////
@@ -213,7 +213,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 InIter first, InIter last, OutIter dest, F&& f, Proj&& proj)
             {
                 return sequential_remove_copy_if(first, last, dest,
-                    std::forward<F>(f), std::forward<Proj>(proj));
+                    HPX_FWD(f), HPX_FWD(proj));
             }
 
             template <typename ExPolicy, typename FwdIter1, typename FwdIter2,
@@ -227,12 +227,12 @@ namespace hpx { namespace parallel { inline namespace v1 {
                     value_type;
 
                 return copy_if<IterPair>().call(
-                    std::forward<ExPolicy>(policy), std::false_type(), first,
+                    HPX_FWD(policy), std::false_type(), first,
                     last, dest,
-                    [f = std::forward<F>(f)](value_type const& a) -> bool {
+                    [f = HPX_FWD(f)](value_type const& a) -> bool {
                         return !hpx::util::invoke(f, a);
                     },
-                    std::forward<Proj>(proj));
+                    HPX_FWD(proj));
             }
         };
         /// \endcond
@@ -340,7 +340,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
         typedef execution::is_sequenced_execution_policy<ExPolicy> is_seq;
 
         return detail::remove_copy_if<util::in_out_result<FwdIter1, FwdIter2>>()
-            .call(std::forward<ExPolicy>(policy), is_seq(), first, last, dest,
-                std::forward<F>(f), std::forward<Proj>(proj));
+            .call(HPX_FWD(policy), is_seq(), first, last, dest,
+                HPX_FWD(f), HPX_FWD(proj));
     }
 }}}    // namespace hpx::parallel::v1

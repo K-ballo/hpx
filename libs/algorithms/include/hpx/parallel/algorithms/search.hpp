@@ -86,18 +86,18 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 util::cancellation_token<difference_type> tok(count);
 
                 auto f1 = [diff, count, tok, s_first,
-                              op = std::forward<Pred>(op),
-                              proj1 = std::forward<Proj1>(proj1),
-                              proj2 = std::forward<Proj2>(proj2)](FwdIter it,
+                              op = HPX_FWD(op),
+                              proj1 = HPX_FWD(proj1),
+                              proj2 = HPX_FWD(proj2)](FwdIter it,
                               std::size_t part_size,
                               std::size_t base_idx) mutable -> void {
                     FwdIter curr = it;
 
                     util::loop_idx_n(base_idx, it, part_size, tok,
                         [diff, count, s_first, &tok, &curr,
-                            op = std::forward<Pred>(op),
-                            proj1 = std::forward<Proj1>(proj1),
-                            proj2 = std::forward<Proj2>(proj2)](
+                            op = HPX_FWD(op),
+                            proj1 = HPX_FWD(proj1),
+                            proj2 = HPX_FWD(proj2)](
                             reference v, std::size_t i) -> void {
                             ++curr;
                             if (hpx::util::invoke(op,
@@ -136,7 +136,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                     return std::move(first);
                 };
                 return partitioner::call_with_index(
-                    std::forward<ExPolicy>(policy), first, count - (diff - 1),
+                    HPX_FWD(policy), first, count - (diff - 1),
                     1, std::move(f1), std::move(f2));
             }
         };
@@ -249,9 +249,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
         typedef execution::is_sequenced_execution_policy<ExPolicy> is_seq;
 
-        return detail::search<FwdIter>().call(std::forward<ExPolicy>(policy),
-            is_seq(), first, last, s_first, s_last, std::forward<Pred>(op),
-            std::forward<Proj1>(proj1), std::forward<Proj2>(proj2));
+        return detail::search<FwdIter>().call(HPX_FWD(policy),
+            is_seq(), first, last, s_first, s_last, HPX_FWD(op),
+            HPX_FWD(proj1), HPX_FWD(proj2));
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -307,18 +307,18 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 util::cancellation_token<difference_type> tok(count);
 
                 auto f1 = [count, diff, tok, s_first,
-                              op = std::forward<Pred>(op),
-                              proj1 = std::forward<Proj1>(proj1),
-                              proj2 = std::forward<Proj2>(proj2)](FwdIter it,
+                              op = HPX_FWD(op),
+                              proj1 = HPX_FWD(proj1),
+                              proj2 = HPX_FWD(proj2)](FwdIter it,
                               std::size_t part_size,
                               std::size_t base_idx) mutable -> void {
                     FwdIter curr = it;
 
                     util::loop_idx_n(base_idx, it, part_size, tok,
                         [count, diff, s_first, &tok, &curr,
-                            op = std::forward<Pred>(op),
-                            proj1 = std::forward<Proj1>(proj1),
-                            proj2 = std::forward<Proj2>(proj2)](
+                            op = HPX_FWD(op),
+                            proj1 = HPX_FWD(proj1),
+                            proj2 = HPX_FWD(proj2)](
                             reference v, std::size_t i) -> void {
                             ++curr;
                             if (hpx::util::invoke(op,
@@ -356,7 +356,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                     return std::move(first);
                 };
                 return partitioner::call_with_index(
-                    std::forward<ExPolicy>(policy), first, count - (diff - 1),
+                    HPX_FWD(policy), first, count - (diff - 1),
                     1, std::move(f1), std::move(f2));
             }
         };
@@ -465,8 +465,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
         typedef execution::is_sequenced_execution_policy<ExPolicy> is_seq;
 
-        return detail::search_n<FwdIter>().call(std::forward<ExPolicy>(policy),
-            is_seq(), first, count, s_first, s_last, std::forward<Pred>(op),
-            std::forward<Proj1>(proj1), std::forward<Proj2>(proj2));
+        return detail::search_n<FwdIter>().call(HPX_FWD(policy),
+            is_seq(), first, count, s_first, s_last, HPX_FWD(op),
+            HPX_FWD(proj1), HPX_FWD(proj2));
     }
 }}}    // namespace hpx::parallel::v1

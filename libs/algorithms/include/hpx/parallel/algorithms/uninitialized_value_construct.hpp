@@ -100,7 +100,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
             return util::partitioner_with_cleanup<ExPolicy, FwdIter,
                 partition_result_type>::
                 call(
-                    std::forward<ExPolicy>(policy), first, count,
+                    HPX_FWD(policy), first, count,
                     [tok](FwdIter it, std::size_t part_size) mutable
                     -> partition_result_type {
                         return std::make_pair(it,
@@ -150,7 +150,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
             {
                 return util::detail::algorithm_result<ExPolicy>::get(
                     parallel_sequential_uninitialized_value_construct_n(
-                        std::forward<ExPolicy>(policy), first,
+                        HPX_FWD(policy), first,
                         std::distance(first, last)));
             }
         };
@@ -207,7 +207,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
         typedef execution::is_sequenced_execution_policy<ExPolicy> is_seq;
 
         return detail::uninitialized_value_construct<FwdIter>().call(
-            std::forward<ExPolicy>(policy), is_seq(), first, last);
+            HPX_FWD(policy), is_seq(), first, last);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -267,7 +267,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 parallel(ExPolicy&& policy, FwdIter first, std::size_t count)
             {
                 return parallel_sequential_uninitialized_value_construct_n(
-                    std::forward<ExPolicy>(policy), first, count);
+                    HPX_FWD(policy), first, count);
             }
         };
         /// \endcond
@@ -339,7 +339,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
         typedef execution::is_sequenced_execution_policy<ExPolicy> is_seq;
 
         return detail::uninitialized_value_construct_n<FwdIter>().call(
-            std::forward<ExPolicy>(policy), is_seq(), first,
+            HPX_FWD(policy), is_seq(), first,
             std::size_t(count));
     }
 }}}    // namespace hpx::parallel::v1

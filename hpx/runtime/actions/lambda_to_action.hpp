@@ -55,7 +55,7 @@ namespace hpx { namespace actions
             {
                 int* dummy = nullptr;
                 return reinterpret_cast<const F&>(*dummy)(    // -V522
-                    std::forward<Ts>(vs)...);
+                    HPX_FWD(vs)...);
             }
         };
 

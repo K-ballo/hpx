@@ -137,7 +137,7 @@ namespace hpx { namespace lcos { namespace local {
             future<void> get_future(
                 Condition&& func, error_code& ec = hpx::throws)
             {
-                return (*it_)->get_future(std::forward<Condition>(func), ec);
+                return (*it_)->get_future(HPX_FWD(func), ec);
             }
 
             base_trigger& this_;

@@ -61,7 +61,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 is_seq;
 
             return Algo().call(
-                std::forward<ExPolicy>(policy), is_seq(), first, last, dest);
+                HPX_FWD(policy), is_seq(), first, last, dest);
         }
 
 #if !defined(HPX_COMPUTE_DEVICE_CODE)
@@ -132,12 +132,12 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 "Requires at least forward iterator.");
 
 #if defined(HPX_COMPUTE_DEVICE_CODE)
-            return transfer_<Algo>(std::forward<ExPolicy>(policy), first, last,
+            return transfer_<Algo>(HPX_FWD(policy), first, last,
                 dest, std::false_type());
 #else
             typedef hpx::traits::is_segmented_iterator<FwdIter1> is_segmented;
 
-            return transfer_<Algo>(std::forward<ExPolicy>(policy), first, last,
+            return transfer_<Algo>(HPX_FWD(policy), first, last,
                 dest, is_segmented());
 #endif
         }

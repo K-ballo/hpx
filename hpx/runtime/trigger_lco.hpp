@@ -110,7 +110,7 @@ namespace hpx
     set_lco_value(naming::id_type const& id, Result && t, bool move_credits = true)
     {
         naming::address addr(nullptr, components::component_base_lco_with_value);
-        set_lco_value(id, std::move(addr), std::forward<Result>(t), move_credits);
+        set_lco_value(id, std::move(addr), HPX_FWD(t), move_credits);
     }
 
     /// \brief Set the result value for the (unmanaged) LCO referenced by the given id
@@ -130,7 +130,7 @@ namespace hpx
     {
         naming::address addr(nullptr,
             components::component_base_lco_with_value_unmanaged);
-        set_lco_value(id, std::move(addr), std::forward<Result>(t), move_credits);
+        set_lco_value(id, std::move(addr), HPX_FWD(t), move_credits);
     }
 
     /// \brief Set the result value for the LCO referenced by the given id
@@ -166,7 +166,7 @@ namespace hpx
         naming::id_type const& cont, bool move_credits = true)
     {
         naming::address addr(nullptr, components::component_base_lco_with_value);
-        set_lco_value(id, std::move(addr), std::forward<Result>(t), cont,
+        set_lco_value(id, std::move(addr), HPX_FWD(t), cont,
             move_credits);
     }
 
@@ -188,7 +188,7 @@ namespace hpx
     {
         naming::address addr(nullptr,
             components::component_base_lco_with_value_unmanaged);
-        set_lco_value(id, std::move(addr), std::forward<Result>(t), cont,
+        set_lco_value(id, std::move(addr), HPX_FWD(t), cont,
             move_credits);
     }
 
@@ -478,7 +478,7 @@ namespace hpx
                 set_value_action;
 
             detail::set_lco_value<set_value_action>(
-                id, std::move(addr), std::forward<Result>(t), move_credits);
+                id, std::move(addr), HPX_FWD(t), move_credits);
         }
         else
         {
@@ -492,7 +492,7 @@ namespace hpx
                 >::set_value_action set_value_action;
 
             detail::set_lco_value<set_value_action>(id, std::move(addr),
-                std::forward<Result>(t), move_credits);
+                HPX_FWD(t), move_credits);
         }
     }
 
@@ -514,7 +514,7 @@ namespace hpx
                 set_value_action;
 
             detail::set_lco_value<local_result_type, remote_result_type,
-                set_value_action>(id, std::move(addr), std::forward<Result>(t),
+                set_value_action>(id, std::move(addr), HPX_FWD(t),
                 cont, move_credits);
         }
         else
@@ -529,7 +529,7 @@ namespace hpx
 
             detail::set_lco_value<
                     local_result_type, remote_result_type, set_value_action
-                >(id, std::move(addr), std::forward<Result>(t), cont, move_credits);
+                >(id, std::move(addr), HPX_FWD(t), cont, move_credits);
         }
     }
     /// \endcond

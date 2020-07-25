@@ -177,7 +177,7 @@ namespace hpx { namespace util { namespace detail {
                     buffer = vtable::template allocate<T>(
                         storage, function_storage_size);
                 }
-                object = ::new (buffer) T(std::forward<F>(f));
+                object = ::new (buffer) T(HPX_FWD(f));
             }
             else
             {
@@ -225,7 +225,7 @@ namespace hpx { namespace util { namespace detail {
         HPX_FORCEINLINE R operator()(Ts... vs) const
         {
             vtable const* vptr = static_cast<vtable const*>(base_type::vptr);
-            return vptr->invoke(object, std::forward<Ts>(vs)...);
+            return vptr->invoke(object, HPX_FWD(vs)...);
         }
 
         using base_type::get_function_address;

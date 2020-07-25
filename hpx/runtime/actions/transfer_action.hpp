@@ -111,14 +111,14 @@ namespace hpx { namespace actions
     template <typename Action>
     template <typename ...Ts>
     transfer_action<Action>::transfer_action(Ts&&... vs)
-      : base_type(std::forward<Ts>(vs)...)
+      : base_type(HPX_FWD(vs)...)
     {}
 
     template <typename Action>
     template <typename ...Ts>
     transfer_action<Action>::transfer_action(
             threads::thread_priority priority, Ts&&... vs)
-      : base_type(priority, std::forward<Ts>(vs)...)
+      : base_type(priority, HPX_FWD(vs)...)
     {}
 
     template <typename Action>

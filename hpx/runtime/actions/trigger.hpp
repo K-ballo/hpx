@@ -25,7 +25,7 @@ namespace hpx { namespace actions
         try
         {
             cont.trigger_value(util::invoke(
-                std::forward<F>(f), std::forward<Ts>(vs)...));
+                HPX_FWD(f), HPX_FWD(vs)...));
         } catch (...) {
             // make sure hpx::exceptions are propagated back to the client
             cont.trigger_error(std::current_exception());
@@ -39,7 +39,7 @@ namespace hpx { namespace actions
     {
         try
         {
-            util::invoke(std::forward<F>(f), std::forward<Ts>(vs)...);
+            util::invoke(HPX_FWD(f), HPX_FWD(vs)...);
             cont.trigger();
         } catch (...) {
             // make sure hpx::exceptions are propagated back to the client

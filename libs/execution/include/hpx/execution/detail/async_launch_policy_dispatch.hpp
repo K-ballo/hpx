@@ -38,7 +38,7 @@ namespace hpx { namespace detail {
         try
         {
             return lcos::make_ready_future<R>(
-                util::invoke(std::forward<F>(f), std::move(vs)...));
+                util::invoke(HPX_FWD(f), std::move(vs)...));
         }
         catch (...)
         {
@@ -53,7 +53,7 @@ namespace hpx { namespace detail {
     {
         try
         {
-            util::invoke(std::forward<F>(f), std::move(vs)...);
+            util::invoke(HPX_FWD(f), std::move(vs)...);
             return lcos::make_ready_future();
         }
         catch (...)
@@ -86,11 +86,11 @@ namespace hpx { namespace detail {
             {
                 using is_void = typename std::is_void<result_type>::type;
                 return detail::call_sync(
-                    is_void{}, std::forward<F>(f), std::forward<Ts>(ts)...);
+                    is_void{}, HPX_FWD(f), HPX_FWD(ts)...);
             }
 
             lcos::local::futures_factory<result_type()> p(util::deferred_call(
-                std::forward<F>(f), std::forward<Ts>(ts)...));
+                HPX_FWD(f), HPX_FWD(ts)...));
             if (hpx::detail::has_async_policy(policy))
             {
                 threads::thread_id_type tid =
@@ -117,8 +117,8 @@ namespace hpx { namespace detail {
             threads::thread_schedule_hint hint, F&& f, Ts&&... ts)
         {
             return call(policy, threads::detail::get_self_or_default_pool(),
-                priority, stacksize, hint, std::forward<F>(f),
-                std::forward<Ts>(ts)...);
+                priority, stacksize, hint, HPX_FWD(f),
+                HPX_FWD(ts)...);
         }
 
         template <typename F, typename... Ts>
@@ -130,8 +130,8 @@ namespace hpx { namespace detail {
         {
             return call(policy, threads::detail::get_self_or_default_pool(),
                 policy.priority(), threads::thread_stacksize_default,
-                threads::thread_schedule_hint{}, std::forward<F>(f),
-                std::forward<Ts>(ts)...);
+                threads::thread_schedule_hint{}, HPX_FWD(f),
+                HPX_FWD(ts)...);
         }
 
         template <typename F, typename... Ts>
@@ -147,7 +147,7 @@ namespace hpx { namespace detail {
 
             using is_void = typename std::is_void<result_type>::type;
             return detail::call_sync(
-                is_void{}, std::forward<F>(f), std::forward<Ts>(ts)...);
+                is_void{}, HPX_FWD(f), HPX_FWD(ts)...);
         }
 
         template <typename F, typename... Ts>
@@ -166,7 +166,7 @@ namespace hpx { namespace detail {
                     result_type;
 
             lcos::local::futures_factory<result_type()> p(util::deferred_call(
-                std::forward<F>(f), std::forward<Ts>(ts)...));
+                HPX_FWD(f), HPX_FWD(ts)...));
 
             p.apply(pool, "async_launch_policy_dispatch::call", policy,
                 priority, stacksize, hint);
@@ -183,8 +183,8 @@ namespace hpx { namespace detail {
             return call(policy, threads::detail::get_self_or_default_pool(),
                 threads::thread_priority_default,
                 threads::thread_stacksize_default,
-                threads::thread_schedule_hint{}, std::forward<F>(f),
-                std::forward<Ts>(ts)...);
+                threads::thread_schedule_hint{}, HPX_FWD(f),
+                HPX_FWD(ts)...);
         }
 
         template <typename F, typename... Ts>
@@ -203,7 +203,7 @@ namespace hpx { namespace detail {
                     result_type;
 
             lcos::local::futures_factory<result_type()> p(util::deferred_call(
-                std::forward<F>(f), std::forward<Ts>(ts)...));
+                HPX_FWD(f), HPX_FWD(ts)...));
 
             // make sure this thread is executed last
             threads::thread_id_type tid =
@@ -231,8 +231,8 @@ namespace hpx { namespace detail {
             return call(policy, threads::detail::get_self_or_default_pool(),
                 threads::thread_priority_default,
                 threads::thread_stacksize_default,
-                threads::thread_schedule_hint{}, std::forward<F>(f),
-                std::forward<Ts>(ts)...);
+                threads::thread_schedule_hint{}, HPX_FWD(f),
+                HPX_FWD(ts)...);
         }
 
         template <typename F, typename... Ts>
@@ -247,7 +247,7 @@ namespace hpx { namespace detail {
                     result_type;
 
             lcos::local::futures_factory<result_type()> p(util::deferred_call(
-                std::forward<F>(f), std::forward<Ts>(ts)...));
+                HPX_FWD(f), HPX_FWD(ts)...));
 
             return p.get_future();
         }

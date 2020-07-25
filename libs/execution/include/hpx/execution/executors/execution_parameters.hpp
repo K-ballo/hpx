@@ -61,11 +61,11 @@ namespace hpx { namespace parallel { namespace execution {
             HPX_FORCEINLINE static auto call_param(int, AnyParameters&& params,
                 Executor&& exec, F&& f, std::size_t cores,
                 std::size_t num_tasks)
-                -> decltype(params.get_chunk_size(std::forward<Executor>(exec),
-                    std::forward<F>(f), cores, num_tasks))
+                -> decltype(params.get_chunk_size(HPX_FWD(exec),
+                    HPX_FWD(f), cores, num_tasks))
             {
-                return params.get_chunk_size(std::forward<Executor>(exec),
-                    std::forward<F>(f), cores, num_tasks);
+                return params.get_chunk_size(HPX_FWD(exec),
+                    HPX_FWD(f), cores, num_tasks);
             }
 
             // Check whether this function is implemented by the executor
@@ -75,8 +75,8 @@ namespace hpx { namespace parallel { namespace execution {
                 Executor&& exec, F&& f, std::size_t cores,
                 std::size_t num_tasks)
             {
-                return call_param(0, std::forward<AnyParameters>(params),
-                    std::forward<Executor>(exec), std::forward<F>(f), cores,
+                return call_param(0, HPX_FWD(params),
+                    HPX_FWD(exec), HPX_FWD(f), cores,
                     num_tasks);
             }
 
@@ -85,11 +85,11 @@ namespace hpx { namespace parallel { namespace execution {
                 Executor&& exec, F&& f, std::size_t cores,
                 std::size_t num_tasks)
                 -> decltype(
-                    exec.get_chunk_size(std::forward<AnyParameters>(params),
-                        std::forward<F>(f), cores, num_tasks))
+                    exec.get_chunk_size(HPX_FWD(params),
+                        HPX_FWD(f), cores, num_tasks))
             {
-                return exec.get_chunk_size(std::forward<AnyParameters>(params),
-                    std::forward<F>(f), cores, num_tasks);
+                return exec.get_chunk_size(HPX_FWD(params),
+                    HPX_FWD(f), cores, num_tasks);
             }
 
             template <typename Executor, typename F>
@@ -97,8 +97,8 @@ namespace hpx { namespace parallel { namespace execution {
                 Executor&& exec, F&& f, std::size_t cores,
                 std::size_t num_tasks)
             {
-                return call(0, params, std::forward<Executor>(exec),
-                    std::forward<F>(f), cores, num_tasks);
+                return call(0, params, HPX_FWD(exec),
+                    HPX_FWD(f), cores, num_tasks);
             }
 
             template <typename AnyParameters, typename Executor, typename F>
@@ -107,7 +107,7 @@ namespace hpx { namespace parallel { namespace execution {
                 std::size_t num_tasks)
             {
                 return call(0, static_cast<Parameters&>(params),
-                    std::forward<Executor>(exec), std::forward<F>(f), cores,
+                    HPX_FWD(exec), HPX_FWD(f), cores,
                     num_tasks);
             }
 
@@ -147,10 +147,10 @@ namespace hpx { namespace parallel { namespace execution {
             HPX_FORCEINLINE static auto call_param(int, AnyParameters&& params,
                 Executor&& exec, std::size_t cores, std::size_t num_tasks)
                 -> decltype(params.maximal_number_of_chunks(
-                    std::forward<Executor>(exec), cores, num_tasks))
+                    HPX_FWD(exec), cores, num_tasks))
             {
                 return params.maximal_number_of_chunks(
-                    std::forward<Executor>(exec), cores, num_tasks);
+                    HPX_FWD(exec), cores, num_tasks);
             }
 
             // Check whether this function is implemented by the executor
@@ -159,18 +159,18 @@ namespace hpx { namespace parallel { namespace execution {
                 hpx::traits::detail::wrap_int, AnyParameters&& params,
                 Executor&& exec, std::size_t cores, std::size_t num_tasks)
             {
-                return call_param(0, std::forward<AnyParameters>(params),
-                    std::forward<Executor>(exec), cores, num_tasks);
+                return call_param(0, HPX_FWD(params),
+                    HPX_FWD(exec), cores, num_tasks);
             }
 
             template <typename AnyParameters, typename Executor>
             HPX_FORCEINLINE static auto call(int, AnyParameters&& params,
                 Executor&& exec, std::size_t cores, std::size_t num_tasks)
                 -> decltype(exec.maximal_number_of_chunks(
-                    std::forward<AnyParameters>(params), cores, num_tasks))
+                    HPX_FWD(params), cores, num_tasks))
             {
                 return exec.maximal_number_of_chunks(
-                    std::forward<AnyParameters>(params), cores, num_tasks);
+                    HPX_FWD(params), cores, num_tasks);
             }
 
             template <typename Executor>
@@ -178,7 +178,7 @@ namespace hpx { namespace parallel { namespace execution {
                 Executor&& exec, std::size_t cores, std::size_t num_tasks)
             {
                 return call(
-                    0, params, std::forward<Executor>(exec), cores, num_tasks);
+                    0, params, HPX_FWD(exec), cores, num_tasks);
             }
 
             template <typename AnyParameters, typename Executor>
@@ -186,7 +186,7 @@ namespace hpx { namespace parallel { namespace execution {
                 Executor&& exec, std::size_t cores, std::size_t num_tasks)
             {
                 return call(static_cast<Parameters&>(params),
-                    std::forward<Executor>(exec), cores, num_tasks);
+                    HPX_FWD(exec), cores, num_tasks);
             }
 
             template <typename AnyParameters, typename Executor>
@@ -228,8 +228,8 @@ namespace hpx { namespace parallel { namespace execution {
             HPX_FORCEINLINE static void call(hpx::traits::detail::wrap_int,
                 AnyParameters&& params, Executor&& exec)
             {
-                call_param(0, std::forward<AnyParameters>(params),
-                    std::forward<Executor>(exec));
+                call_param(0, HPX_FWD(params),
+                    HPX_FWD(exec));
             }
 
             // Check whether this function is implemented by the executor
@@ -237,17 +237,17 @@ namespace hpx { namespace parallel { namespace execution {
             HPX_FORCEINLINE static auto call(
                 int, AnyParameters&& params, Executor&& exec)
                 -> decltype(exec.reset_thread_distribution(
-                    std::forward<AnyParameters>(params)))
+                    HPX_FWD(params)))
             {
                 exec.reset_thread_distribution(
-                    std::forward<AnyParameters>(params));
+                    HPX_FWD(params));
             }
 
             template <typename Executor>
             HPX_FORCEINLINE static void call(
                 Parameters& params, Executor&& exec)
             {
-                call(0, params, std::forward<Executor>(exec));
+                call(0, params, HPX_FWD(exec));
             }
 
             template <typename AnyParameters, typename Executor>
@@ -255,7 +255,7 @@ namespace hpx { namespace parallel { namespace execution {
                 AnyParameters params, Executor&& exec)
             {
                 call(static_cast<Parameters&>(params),
-                    std::forward<Executor>(exec));
+                    HPX_FWD(exec));
             }
 
             template <typename AnyParameters, typename Executor>
@@ -288,10 +288,10 @@ namespace hpx { namespace parallel { namespace execution {
             HPX_FORCEINLINE static auto call_param(
                 int, AnyParameters&& params, Executor&& exec)
                 -> decltype(
-                    params.processing_units_count(std::forward<Executor>(exec)))
+                    params.processing_units_count(HPX_FWD(exec)))
             {
                 return params.processing_units_count(
-                    std::forward<Executor>(exec));
+                    HPX_FWD(exec));
             }
 
             // Check whether this function is implemented by the executor
@@ -300,8 +300,8 @@ namespace hpx { namespace parallel { namespace execution {
                 hpx::traits::detail::wrap_int, AnyParameters&& params,
                 Executor&& exec)
             {
-                return call_param(0, std::forward<AnyParameters>(params),
-                    std::forward<Executor>(exec));
+                return call_param(0, HPX_FWD(params),
+                    HPX_FWD(exec));
             }
 
             template <typename AnyParameters, typename Executor>
@@ -315,7 +315,7 @@ namespace hpx { namespace parallel { namespace execution {
             HPX_FORCEINLINE static std::size_t call(
                 Parameters& params, Executor&& exec)
             {
-                return call(0, params, std::forward<Executor>(exec));
+                return call(0, params, HPX_FWD(exec));
             }
 
             template <typename AnyParameters, typename Executor>
@@ -323,7 +323,7 @@ namespace hpx { namespace parallel { namespace execution {
                 AnyParameters params, Executor&& exec)
             {
                 return call(static_cast<Parameters&>(params),
-                    std::forward<Executor>(exec));
+                    HPX_FWD(exec));
             }
 
             template <typename AnyParameters, typename Executor>
@@ -355,9 +355,9 @@ namespace hpx { namespace parallel { namespace execution {
             HPX_FORCEINLINE static auto call_param(
                 int, AnyParameters&& params, Executor&& exec)
                 -> decltype(
-                    params.mark_begin_execution(std::forward<Executor>(exec)))
+                    params.mark_begin_execution(HPX_FWD(exec)))
             {
-                params.mark_begin_execution(std::forward<Executor>(exec));
+                params.mark_begin_execution(HPX_FWD(exec));
             }
 
             // Check whether this function is implemented by the executor
@@ -365,24 +365,24 @@ namespace hpx { namespace parallel { namespace execution {
             HPX_FORCEINLINE static void call(hpx::traits::detail::wrap_int,
                 AnyParameters&& params, Executor&& exec)
             {
-                call_param(0, std::forward<AnyParameters>(params),
-                    std::forward<Executor>(exec));
+                call_param(0, HPX_FWD(params),
+                    HPX_FWD(exec));
             }
 
             template <typename AnyParameters, typename Executor>
             HPX_FORCEINLINE static auto call(
                 int, AnyParameters&& params, Executor&& exec)
                 -> decltype(exec.mark_begin_execution(
-                    std::forward<AnyParameters>(params)))
+                    HPX_FWD(params)))
             {
-                exec.mark_begin_execution(std::forward<AnyParameters>(params));
+                exec.mark_begin_execution(HPX_FWD(params));
             }
 
             template <typename Executor>
             HPX_FORCEINLINE static void call(
                 Parameters& params, Executor&& exec)
             {
-                call(0, params, std::forward<Executor>(exec));
+                call(0, params, HPX_FWD(exec));
             }
 
             template <typename AnyParameters, typename Executor>
@@ -390,7 +390,7 @@ namespace hpx { namespace parallel { namespace execution {
                 AnyParameters params, Executor&& exec)
             {
                 call(static_cast<Parameters&>(params),
-                    std::forward<Executor>(exec));
+                    HPX_FWD(exec));
             }
 
             template <typename AnyParameters, typename Executor>
@@ -422,9 +422,9 @@ namespace hpx { namespace parallel { namespace execution {
             HPX_FORCEINLINE static auto call_param(
                 int, AnyParameters&& params, Executor&& exec)
                 -> decltype(
-                    params.mark_end_of_scheduling(std::forward<Executor>(exec)))
+                    params.mark_end_of_scheduling(HPX_FWD(exec)))
             {
-                params.mark_end_of_scheduling(std::forward<Executor>(exec));
+                params.mark_end_of_scheduling(HPX_FWD(exec));
             }
 
             // Check whether this function is implemented by the executor
@@ -432,25 +432,25 @@ namespace hpx { namespace parallel { namespace execution {
             HPX_FORCEINLINE static void call(hpx::traits::detail::wrap_int,
                 AnyParameters&& params, Executor&& exec)
             {
-                call_param(0, std::forward<AnyParameters>(params),
-                    std::forward<Executor>(exec));
+                call_param(0, HPX_FWD(params),
+                    HPX_FWD(exec));
             }
 
             template <typename AnyParameters, typename Executor>
             HPX_FORCEINLINE static auto call(
                 int, AnyParameters&& params, Executor&& exec)
                 -> decltype(exec.mark_end_of_scheduling(
-                    std::forward<AnyParameters>(params)))
+                    HPX_FWD(params)))
             {
                 exec.mark_end_of_scheduling(
-                    std::forward<AnyParameters>(params));
+                    HPX_FWD(params));
             }
 
             template <typename Executor>
             HPX_FORCEINLINE static void call(
                 Parameters& params, Executor&& exec)
             {
-                call(0, params, std::forward<Executor>(exec));
+                call(0, params, HPX_FWD(exec));
             }
 
             template <typename AnyParameters, typename Executor>
@@ -458,7 +458,7 @@ namespace hpx { namespace parallel { namespace execution {
                 AnyParameters params, Executor&& exec)
             {
                 call(static_cast<Parameters&>(params),
-                    std::forward<Executor>(exec));
+                    HPX_FWD(exec));
             }
 
             template <typename AnyParameters, typename Executor>
@@ -490,9 +490,9 @@ namespace hpx { namespace parallel { namespace execution {
             HPX_FORCEINLINE static auto call_param(
                 int, AnyParameters&& params, Executor&& exec)
                 -> decltype(
-                    params.mark_end_execution(std::forward<Executor>(exec)))
+                    params.mark_end_execution(HPX_FWD(exec)))
             {
-                params.mark_end_execution(std::forward<Executor>(exec));
+                params.mark_end_execution(HPX_FWD(exec));
             }
 
             // Check whether this function is implemented by the executor
@@ -500,24 +500,24 @@ namespace hpx { namespace parallel { namespace execution {
             HPX_FORCEINLINE static void call(hpx::traits::detail::wrap_int,
                 AnyParameters&& params, Executor&& exec)
             {
-                call_param(0, std::forward<AnyParameters>(params),
-                    std::forward<Executor>(exec));
+                call_param(0, HPX_FWD(params),
+                    HPX_FWD(exec));
             }
 
             template <typename AnyParameters, typename Executor>
             HPX_FORCEINLINE static auto call(
                 int, AnyParameters&& params, Executor&& exec)
                 -> decltype(exec.mark_end_execution(
-                    std::forward<AnyParameters>(params)))
+                    HPX_FWD(params)))
             {
-                exec.mark_end_execution(std::forward<AnyParameters>(params));
+                exec.mark_end_execution(HPX_FWD(params));
             }
 
             template <typename Executor>
             HPX_FORCEINLINE static void call(
                 Parameters& params, Executor&& exec)
             {
-                call(0, params, std::forward<Executor>(exec));
+                call(0, params, HPX_FWD(exec));
             }
 
             template <typename AnyParameters, typename Executor>
@@ -525,7 +525,7 @@ namespace hpx { namespace parallel { namespace execution {
                 AnyParameters params, Executor&& exec)
             {
                 call(static_cast<Parameters&>(params),
-                    std::forward<Executor>(exec));
+                    HPX_FWD(exec));
             }
 
             template <typename AnyParameters, typename Executor>
@@ -580,7 +580,7 @@ namespace hpx { namespace parallel { namespace execution {
                     !std::is_same<typename hpx::util::decay<U>::type,
                         unwrapper>::value>::type>
             unwrapper(U&& u)
-              : T(std::forward<U>(u))
+              : T(HPX_FWD(u))
             {
             }
         };
@@ -603,7 +603,7 @@ namespace hpx { namespace parallel { namespace execution {
                 auto& wrapped =
                     static_cast<unwrapper<Wrapper>*>(this)->member_.get();
                 return wrapped.maximal_number_of_chunks(
-                    std::forward<Executor>(exec), cores, num_tasks);
+                    HPX_FWD(exec), cores, num_tasks);
             }
         };
 
@@ -623,8 +623,8 @@ namespace hpx { namespace parallel { namespace execution {
             {
                 auto& wrapped =
                     static_cast<unwrapper<Wrapper>*>(this)->member_.get();
-                return wrapped.get_chunk_size(std::forward<Executor>(exec),
-                    std::forward<F>(f), cores, num_tasks);
+                return wrapped.get_chunk_size(HPX_FWD(exec),
+                    HPX_FWD(f), cores, num_tasks);
             }
         };
 
@@ -643,7 +643,7 @@ namespace hpx { namespace parallel { namespace execution {
             {
                 auto& wrapped =
                     static_cast<unwrapper<Wrapper>*>(this)->member_.get();
-                wrapped.mark_begin_execution(std::forward<Executor>(exec));
+                wrapped.mark_begin_execution(HPX_FWD(exec));
             }
         };
 
@@ -662,7 +662,7 @@ namespace hpx { namespace parallel { namespace execution {
             {
                 auto& wrapped =
                     static_cast<unwrapper<Wrapper>*>(this)->member_.get();
-                wrapped.mark_end_of_scheduling(std::forward<Executor>(exec));
+                wrapped.mark_end_of_scheduling(HPX_FWD(exec));
             }
         };
 
@@ -681,7 +681,7 @@ namespace hpx { namespace parallel { namespace execution {
             {
                 auto& wrapped =
                     static_cast<unwrapper<Wrapper>*>(this)->member_.get();
-                wrapped.mark_end_execution(std::forward<Executor>(exec));
+                wrapped.mark_end_execution(HPX_FWD(exec));
             }
         };
 
@@ -701,7 +701,7 @@ namespace hpx { namespace parallel { namespace execution {
                 auto& wrapped =
                     static_cast<unwrapper<Wrapper>*>(this)->member_.get();
                 return wrapped.processing_units_count(
-                    std::forward<Executor>(exec));
+                    HPX_FWD(exec));
             }
         };
 
@@ -721,7 +721,7 @@ namespace hpx { namespace parallel { namespace execution {
             {
                 auto& wrapped =
                     static_cast<unwrapper<Wrapper>*>(this)->member_.get();
-                wrapped.reset_thread_distribution(std::forward<Executor>(exec));
+                wrapped.reset_thread_distribution(HPX_FWD(exec));
             }
         };
 
@@ -802,7 +802,7 @@ namespace hpx { namespace parallel { namespace execution {
                     typename std::enable_if<hpx::util::pack<Params...>::size ==
                         hpx::util::pack<Params_...>::size>::type>
             executor_parameters(Params_&&... params)
-              : unwrapper<Params>(std::forward<Params_>(params))...
+              : unwrapper<Params>(HPX_FWD(params))...
             {
             }
 
@@ -837,7 +837,7 @@ namespace hpx { namespace parallel { namespace execution {
     {
         using joined_params =
             typename executor_parameters_join<Params...>::type;
-        return joined_params(std::forward<Params>(params)...);
+        return joined_params(HPX_FWD(params)...);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -854,6 +854,6 @@ namespace hpx { namespace parallel { namespace execution {
                           typename std::decay<Param>::type>::value,
             "The passed parameter must be a proper executor parameters object");
 
-        return std::forward<Param>(param);
+        return HPX_FWD(param);
     }
 }}}    // namespace hpx::parallel::execution

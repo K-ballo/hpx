@@ -129,7 +129,7 @@ namespace hpx
             template <typename T_>
             unordered_map_value_proxy& operator=(T_ && value)
             {
-                um_.set_value(launch::sync, key_, std::forward<T_>(value));
+                um_.set_value(launch::sync, key_, HPX_FWD(value));
                 return *this;
             }
 
@@ -708,7 +708,7 @@ namespace hpx
         void set_value(launch::sync_policy, Key const& pos, T_ && val)
         {
             return set_value(launch::sync, get_partition(pos), pos,
-                std::forward<T_>(val));
+                HPX_FWD(val));
         }
 
         /// Copy the value of \a val in the element at position \a pos in
@@ -727,12 +727,12 @@ namespace hpx
             partition_data const& part_data = partitions_[part];
             if (part_data.local_data_)
             {
-                part_data.local_data_->set_value(pos, std::forward<T_>(val));
+                part_data.local_data_->set_value(pos, HPX_FWD(val));
             }
             else
             {
                 partition_unordered_map_client(part_data.partition_)
-                    .set_value(launch::sync, pos, std::forward<T_>(val));
+                    .set_value(launch::sync, pos, HPX_FWD(val));
             }
         }
 
@@ -748,7 +748,7 @@ namespace hpx
         template <typename T_>
         future<void> set_value(Key const& pos, T_ && val)
         {
-            return set_value(get_partition(pos), pos, std::forward<T_>(val));
+            return set_value(get_partition(pos), pos, HPX_FWD(val));
         }
 
         /// Asynchronously set the element at position \a pos in
@@ -769,12 +769,12 @@ namespace hpx
             partition_data const& part_data = partitions_[part];
             if (part_data.local_data_)
             {
-                part_data.local_data_->set_value(pos, std::forward<T_>(val));
+                part_data.local_data_->set_value(pos, HPX_FWD(val));
                 return make_ready_future();
             }
 
             return partition_unordered_map_client(part_data.partition_)
-                .set_value(pos, std::forward<T_>(val));
+                .set_value(pos, HPX_FWD(val));
         }
 
         /// Asynchronously compute the size of the unordered_map.

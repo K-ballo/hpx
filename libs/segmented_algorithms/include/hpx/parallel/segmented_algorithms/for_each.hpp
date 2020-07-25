@@ -201,8 +201,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
             return segmented_for_each(
                 for_each<typename iterator_traits::local_iterator>(),
-                std::forward<ExPolicy>(policy), first, last, std::forward<F>(f),
-                std::forward<Proj>(proj), is_seq());
+                HPX_FWD(policy), first, last, HPX_FWD(f),
+                HPX_FWD(proj), is_seq());
         }
 
         // forward declare the non-segmented version of this algorithm

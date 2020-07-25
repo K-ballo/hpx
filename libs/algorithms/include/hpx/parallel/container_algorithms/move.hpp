@@ -95,7 +95,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
     {
         using move_iter_t = detail::move<FwdIter1, FwdIter>;
         return detail::transfer<move_iter_t>(
-            std::forward<ExPolicy>(policy), iter, sent, dest);
+            HPX_FWD(policy), iter, sent, dest);
     }
 
     /// Moves the elements in the range \a rng to another range beginning
@@ -161,7 +161,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
             detail::move<typename hpx::traits::range_traits<Rng>::iterator_type,
                 FwdIter>;
 
-        return detail::transfer<move_iter_t>(std::forward<ExPolicy>(policy),
+        return detail::transfer<move_iter_t>(HPX_FWD(policy),
             hpx::util::begin(rng), hpx::util::end(rng), dest);
     }
 }}}    // namespace hpx::parallel::v1

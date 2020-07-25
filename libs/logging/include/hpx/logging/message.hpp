@@ -79,7 +79,7 @@ namespace hpx { namespace util { namespace logging {
         template <typename T>
         message& operator<<(T&& v)
         {
-            m_str << std::forward<T>(v);
+            m_str << HPX_FWD(v);
             m_full_msg_computed = false;
             return *this;
         }

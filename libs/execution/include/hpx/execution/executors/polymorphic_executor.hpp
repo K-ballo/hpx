@@ -293,7 +293,7 @@ namespace hpx { namespace parallel { namespace execution {
             static void _post(void* exec, post_function_type&& f, Ts&&... ts)
             {
                 execution::post(vtable_base::get<T>(exec), std::move(f),
-                    std::forward<Ts>(ts)...);
+                    HPX_FWD(ts)...);
             }
             void (*post)(void*, post_function_type&&, Ts&&...);
 
@@ -332,7 +332,7 @@ namespace hpx { namespace parallel { namespace execution {
                 void* exec, sync_execute_function_type&& f, Ts&&... ts)
             {
                 return execution::sync_execute(vtable_base::get<T>(exec),
-                    std::move(f), std::forward<Ts>(ts)...);
+                    std::move(f), HPX_FWD(ts)...);
             }
             R (*sync_execute)(void*, sync_execute_function_type&&, Ts&&...);
 
@@ -375,7 +375,7 @@ namespace hpx { namespace parallel { namespace execution {
                 void* exec, async_execute_function_type&& f, Ts&&... ts)
             {
                 return execution::async_execute(vtable_base::get<T>(exec),
-                    std::move(f), std::forward<Ts>(ts)...);
+                    std::move(f), HPX_FWD(ts)...);
             }
             hpx::future<R> (*async_execute)(
                 void*, async_execute_function_type&& f, Ts&&...);
@@ -387,7 +387,7 @@ namespace hpx { namespace parallel { namespace execution {
                 hpx::shared_future<void> const& predecessor, Ts&&... ts)
             {
                 return execution::then_execute(vtable_base::get<T>(exec),
-                    std::move(f), predecessor, std::forward<Ts>(ts)...);
+                    std::move(f), predecessor, HPX_FWD(ts)...);
             }
             hpx::future<R> (*then_execute)(void*,
                 then_execute_function_type&& f, hpx::shared_future<void> const&,
@@ -438,7 +438,7 @@ namespace hpx { namespace parallel { namespace execution {
                 Ts&&... ts)
             {
                 return execution::bulk_sync_execute(vtable_base::get<T>(exec),
-                    std::move(f), shape, std::forward<Ts>(ts)...);
+                    std::move(f), shape, HPX_FWD(ts)...);
             }
             std::vector<R> (*bulk_sync_execute)(void*,
                 bulk_sync_execute_function_type&&, range_proxy const& shape,
@@ -485,7 +485,7 @@ namespace hpx { namespace parallel { namespace execution {
                 Ts&&... ts)
             {
                 return execution::bulk_async_execute(vtable_base::get<T>(exec),
-                    std::move(f), shape, std::forward<Ts>(ts)...);
+                    std::move(f), shape, HPX_FWD(ts)...);
             }
             std::vector<hpx::future<R>> (*bulk_async_execute)(void*,
                 bulk_async_execute_function_type&&, range_proxy const& shape,
@@ -498,7 +498,7 @@ namespace hpx { namespace parallel { namespace execution {
                 hpx::shared_future<void> const& predecessor, Ts&&... ts)
             {
                 return execution::bulk_then_execute(vtable_base::get<T>(exec),
-                    std::move(f), shape, predecessor, std::forward<Ts>(ts)...);
+                    std::move(f), shape, predecessor, HPX_FWD(ts)...);
             }
             hpx::future<std::vector<R>> (*bulk_then_execute)(void*,
                 bulk_then_execute_function_type&&, range_proxy const& shape,
@@ -702,7 +702,7 @@ namespace hpx { namespace parallel { namespace execution {
         polymorphic_executor(Exec&& exec)
           : base_type(get_empty_vtable())
         {
-            assign(std::forward<Exec>(exec));
+            assign(HPX_FWD(exec));
         }
 
         template <typename Exec, typename PE = typename std::decay<Exec>::type,
@@ -710,7 +710,7 @@ namespace hpx { namespace parallel { namespace execution {
                 !std::is_same<PE, polymorphic_executor>::value>::type>
         polymorphic_executor& operator=(Exec&& exec)
         {
-            assign(std::forward<Exec>(exec));
+            assign(HPX_FWD(exec));
             return *this;
         }
 
@@ -745,7 +745,7 @@ namespace hpx { namespace parallel { namespace execution {
                     buffer = vtable::template allocate<T>(
                         storage, detail::polymorphic_executor_storage_size);
                 }
-                object = ::new (buffer) T(std::forward<Exec>(exec));
+                object = ::new (buffer) T(HPX_FWD(exec));
             }
             else
             {
@@ -777,8 +777,8 @@ namespace hpx { namespace parallel { namespace execution {
             using function_type = typename vtable::post_function_type;
 
             vtable const* vptr = static_cast<vtable const*>(base_type::vptr);
-            vptr->post(object, function_type(std::forward<F>(f)),
-                std::forward<Ts>(ts)...);
+            vptr->post(object, function_type(HPX_FWD(f)),
+                HPX_FWD(ts)...);
         }
 
         // OneWayExecutor interface
@@ -788,8 +788,8 @@ namespace hpx { namespace parallel { namespace execution {
             using function_type = typename vtable::sync_execute_function_type;
 
             vtable const* vptr = static_cast<vtable const*>(base_type::vptr);
-            return vptr->sync_execute(object, function_type(std::forward<F>(f)),
-                std::forward<Ts>(ts)...);
+            return vptr->sync_execute(object, function_type(HPX_FWD(f)),
+                HPX_FWD(ts)...);
         }
 
         // TwoWayExecutor interface
@@ -800,7 +800,7 @@ namespace hpx { namespace parallel { namespace execution {
 
             vtable const* vptr = static_cast<vtable const*>(base_type::vptr);
             return vptr->async_execute(object,
-                function_type(std::forward<F>(f)), std::forward<Ts>(ts)...);
+                function_type(HPX_FWD(f)), HPX_FWD(ts)...);
         }
 
         template <typename F, typename Future>
@@ -810,9 +810,9 @@ namespace hpx { namespace parallel { namespace execution {
             using function_type = typename vtable::then_execute_function_type;
 
             vtable const* vptr = static_cast<vtable const*>(base_type::vptr);
-            return vptr->then_execute(object, function_type(std::forward<F>(f)),
-                hpx::make_shared_future(std::forward<Future>(predecessor)),
-                std::forward<Ts>(ts)...);
+            return vptr->then_execute(object, function_type(HPX_FWD(f)),
+                hpx::make_shared_future(HPX_FWD(predecessor)),
+                HPX_FWD(ts)...);
         }
 
         // BulkOneWayExecutor interface
@@ -826,8 +826,8 @@ namespace hpx { namespace parallel { namespace execution {
             detail::range_proxy shape(s);
             vtable const* vptr = static_cast<vtable const*>(base_type::vptr);
             return vptr->bulk_sync_execute(object,
-                function_type(std::forward<F>(f)), shape,
-                std::forward<Ts>(ts)...);
+                function_type(HPX_FWD(f)), shape,
+                HPX_FWD(ts)...);
         }
 
         // BulkTwoWayExecutor interface
@@ -841,8 +841,8 @@ namespace hpx { namespace parallel { namespace execution {
             detail::range_proxy shape(s);
             vtable const* vptr = static_cast<vtable const*>(base_type::vptr);
             return vptr->bulk_async_execute(object,
-                function_type(std::forward<F>(f)), shape,
-                std::forward<Ts>(ts)...);
+                function_type(HPX_FWD(f)), shape,
+                HPX_FWD(ts)...);
         }
 
         template <typename F, typename Shape>
@@ -856,8 +856,8 @@ namespace hpx { namespace parallel { namespace execution {
             detail::range_proxy shape(s);
             vtable const* vptr = static_cast<vtable const*>(base_type::vptr);
             return vptr->bulk_then_execute(object,
-                function_type(std::forward<F>(f)), shape, predecessor,
-                std::forward<Ts>(ts)...);
+                function_type(HPX_FWD(f)), shape, predecessor,
+                HPX_FWD(ts)...);
         }
 
     private:

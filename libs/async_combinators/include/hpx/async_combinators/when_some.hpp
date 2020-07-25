@@ -589,7 +589,7 @@ namespace hpx { namespace lcos {
 
         traits::acquire_future_disp func;
         result_type lazy_values(
-            func(std::forward<T>(t)), func(std::forward<Ts>(ts))...);
+            func(HPX_FWD(t)), func(HPX_FWD(ts))...);
 
         if (n == 0)
         {
@@ -631,7 +631,7 @@ namespace hpx { namespace lcos {
 
         traits::acquire_future_disp func;
         result_type lazy_values(
-            func(std::forward<T>(t)), func(std::forward<Ts>(ts))...);
+            func(HPX_FWD(t)), func(HPX_FWD(ts))...);
 
         if (n == 0)
         {

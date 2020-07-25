@@ -55,7 +55,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
         {
             return std::unique(first, last,
                 util::compare_projected<Pred, Proj>(
-                    std::forward<Pred>(pred), std::forward<Proj>(proj)));
+                    HPX_FWD(pred), HPX_FWD(proj)));
         }
 
         template <typename Iter>
@@ -71,8 +71,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
             static InIter sequential(
                 ExPolicy, InIter first, InIter last, Pred&& pred, Proj&& proj)
             {
-                return sequential_unique(first, last, std::forward<Pred>(pred),
-                    std::forward<Proj>(proj));
+                return sequential_unique(first, last, HPX_FWD(pred),
+                    HPX_FWD(proj));
             }
 
             template <typename ExPolicy, typename FwdIter, typename Pred,
@@ -108,8 +108,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                     void, util::scan_partitioner_sequential_f3_tag>
                     scan_partitioner_type;
 
-                auto f1 = [pred = std::forward<Pred>(pred),
-                              proj = std::forward<Proj>(proj)](
+                auto f1 = [pred = HPX_FWD(pred),
+                              proj = HPX_FWD(proj)](
                               zip_iterator part_begin,
                               std::size_t part_size) -> std::size_t {
                     FwdIter base = get<0>(part_begin.get_iterator_tuple());
@@ -187,7 +187,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 };
 
                 return scan_partitioner_type::call(
-                    std::forward<ExPolicy>(policy),
+                    HPX_FWD(policy),
                     make_zip_iterator(first, flags.get()), count - 1, init,
                     // step 1 performs first part of scan algorithm
                     std::move(f1),
@@ -297,9 +297,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
         typedef execution::is_sequenced_execution_policy<ExPolicy> is_seq;
 
-        return detail::unique<FwdIter>().call(std::forward<ExPolicy>(policy),
-            is_seq(), first, last, std::forward<Pred>(pred),
-            std::forward<Proj>(proj));
+        return detail::unique<FwdIter>().call(HPX_FWD(policy),
+            is_seq(), first, last, HPX_FWD(pred),
+            HPX_FWD(proj));
     }
 
     /////////////////////////////////////////////////////////////////////////////
@@ -374,7 +374,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 InIter last, OutIter dest, Pred&& pred, Proj&& proj)
             {
                 return sequential_unique_copy(first, last, dest,
-                    std::forward<Pred>(pred), std::forward<Proj>(proj),
+                    HPX_FWD(pred), HPX_FWD(proj),
                     hpx::traits::is_forward_iterator<InIter>());
             }
 
@@ -417,8 +417,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                     std::pair<FwdIter1, FwdIter2>, std::size_t>
                     scan_partitioner_type;
 
-                auto f1 = [pred = std::forward<Pred>(pred),
-                              proj = std::forward<Proj>(proj)](
+                auto f1 = [pred = HPX_FWD(pred),
+                              proj = HPX_FWD(proj)](
                               zip_iterator part_begin,
                               std::size_t part_size) -> std::size_t {
                     FwdIter1 base = get<0>(part_begin.get_iterator_tuple());
@@ -470,7 +470,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 };
 
                 return scan_partitioner_type::call(
-                    std::forward<ExPolicy>(policy),
+                    HPX_FWD(policy),
                     //make_zip_iterator(first, flags.get() - 1),
                     make_zip_iterator(first, flags.get() - 1), count - 1, init,
                     // step 1 performs first part of scan algorithm
@@ -588,7 +588,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
         return hpx::util::make_tagged_pair<tag::in, tag::out>(
             detail::unique_copy<result_type>().call(
-                std::forward<ExPolicy>(policy), is_seq(), first, last, dest,
-                std::forward<Pred>(pred), std::forward<Proj>(proj)));
+                HPX_FWD(policy), is_seq(), first, last, dest,
+                HPX_FWD(pred), HPX_FWD(proj)));
     }
 }}}    // namespace hpx::parallel::v1

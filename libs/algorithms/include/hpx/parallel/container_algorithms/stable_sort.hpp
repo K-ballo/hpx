@@ -105,8 +105,8 @@ namespace hpx { namespace parallel { inline namespace rangev1 {
     stable_sort(ExPolicy&& policy, Rng&& rng, Compare&& comp = Compare(),
         Proj&& proj = Proj())
     {
-        return v1::stable_sort(std::forward<ExPolicy>(policy),
+        return v1::stable_sort(HPX_FWD(policy),
             hpx::util::begin(rng), hpx::util::end(rng),
-            std::forward<Compare>(comp), std::forward<Proj>(proj));
+            HPX_FWD(comp), HPX_FWD(proj));
     }
 }}}    // namespace hpx::parallel::rangev1

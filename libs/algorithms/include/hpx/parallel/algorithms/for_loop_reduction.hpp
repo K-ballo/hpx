@@ -40,7 +40,7 @@ namespace hpx { namespace parallel { inline namespace v2 {
             template <typename Op_>
             constexpr reduction_helper(T& var, T const& identity, Op_&& op)
               : var_(var)
-              , op_(std::forward<Op_>(op))
+              , op_(HPX_FWD(op))
             {
                 std::size_t cores = hpx::get_os_thread_count();
                 data_.reset(new hpx::util::cache_line_data<T>[cores]);
@@ -136,7 +136,7 @@ namespace hpx { namespace parallel { inline namespace v2 {
     reduction(T& var, T const& identity, Op&& combiner)
     {
         return detail::reduction_helper<T, typename std::decay<Op>::type>(
-            var, identity, std::forward<Op>(combiner));
+            var, identity, HPX_FWD(combiner));
     }
 
     /// \cond NOINTERNAL

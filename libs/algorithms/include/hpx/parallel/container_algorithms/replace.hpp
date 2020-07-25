@@ -83,9 +83,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
     replace(ExPolicy&& policy, Rng&& rng, T1 const& old_value,
         T2 const& new_value, Proj&& proj = Proj())
     {
-        return replace(std::forward<ExPolicy>(policy), hpx::util::begin(rng),
+        return replace(HPX_FWD(policy), hpx::util::begin(rng),
             hpx::util::end(rng), old_value, new_value,
-            std::forward<Proj>(proj));
+            HPX_FWD(proj));
     }
 
     /// Replaces all elements satisfying specific criteria (for which predicate
@@ -167,9 +167,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
     replace_if(ExPolicy&& policy, Rng&& rng, F&& f, T const& new_value,
         Proj&& proj = Proj())
     {
-        return replace_if(std::forward<ExPolicy>(policy), hpx::util::begin(rng),
-            hpx::util::end(rng), std::forward<F>(f), new_value,
-            std::forward<Proj>(proj));
+        return replace_if(HPX_FWD(policy), hpx::util::begin(rng),
+            hpx::util::end(rng), HPX_FWD(f), new_value,
+            HPX_FWD(proj));
     }
 
     /// Copies the all elements from the range [first, last) to another range
@@ -249,9 +249,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
     replace_copy(ExPolicy&& policy, Rng&& rng, OutIter dest,
         T1 const& old_value, T2 const& new_value, Proj&& proj = Proj())
     {
-        return replace_copy(std::forward<ExPolicy>(policy),
+        return replace_copy(HPX_FWD(policy),
             hpx::util::begin(rng), hpx::util::end(rng), dest, old_value,
-            new_value, std::forward<Proj>(proj));
+            new_value, HPX_FWD(proj));
     }
 
     /// Copies the all elements from the range [first, last) to another range
@@ -348,8 +348,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
     replace_copy_if(ExPolicy&& policy, Rng&& rng, OutIter dest, F&& f,
         T const& new_value, Proj&& proj = Proj())
     {
-        return replace_copy_if(std::forward<ExPolicy>(policy),
+        return replace_copy_if(HPX_FWD(policy),
             hpx::util::begin(rng), hpx::util::end(rng), dest,
-            std::forward<F>(f), new_value, std::forward<Proj>(proj));
+            HPX_FWD(f), new_value, HPX_FWD(proj));
     }
 }}}    // namespace hpx::parallel::v1

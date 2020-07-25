@@ -146,7 +146,7 @@ namespace hpx { namespace traits {
 
             auto this_ = this->shared_from_this();
             auto on_ready =
-                [this_ = std::move(this_), op = std::forward<F>(op)](
+                [this_ = std::move(this_), op = HPX_FWD(op)](
                     hpx::shared_future<void> f) mutable -> arg_type {
                 f.get();    // propagate any exceptions
 
@@ -172,7 +172,7 @@ namespace hpx { namespace traits {
             communicator_.gate_.synchronize(1, l);
 
             auto& data = communicator_.template access_data<arg_type>(l);
-            data[which] = std::forward<T>(t);
+            data[which] = HPX_FWD(t);
 
             if (communicator_.gate_.set(which, l))
             {
@@ -220,7 +220,7 @@ namespace hpx { namespace lcos {
         }
 
         auto all_reduce_data =
-            [op = std::forward<F>(op), this_site](hpx::future<hpx::id_type>&& f,
+            [op = HPX_FWD(op), this_site](hpx::future<hpx::id_type>&& f,
                 hpx::future<T>&& local_result) mutable -> hpx::future<T> {
             using func_type = typename std::decay<F>::type;
             using action_type = typename detail::communicator_server::
@@ -231,7 +231,7 @@ namespace hpx { namespace lcos {
             // make sure id is kept alive as long as the returned future
             hpx::id_type id = f.get();
             hpx::future<T> result = async(action_type(), id, this_site,
-                local_result.get(), std::forward<F>(op));
+                local_result.get(), HPX_FWD(op));
 
             traits::detail::get_shared_state(result)->set_on_completed(
                 [id = std::move(id)]() { HPX_UNUSED(id); });
@@ -264,7 +264,7 @@ namespace hpx { namespace lcos {
         {
             return all_reduce(
                 create_all_reduce(basename, num_sites, generation, root_site),
-                std::move(local_result), std::forward<F>(op), this_site);
+                std::move(local_result), HPX_FWD(op), this_site);
         }
 
         std::string name(basename);
@@ -274,7 +274,7 @@ namespace hpx { namespace lcos {
         }
 
         return all_reduce(hpx::find_from_basename(std::move(name), root_site),
-            std::move(local_result), std::forward<F>(op), this_site);
+            std::move(local_result), HPX_FWD(op), this_site);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -292,8 +292,8 @@ namespace hpx { namespace lcos {
         using arg_type = typename std::decay<T>::type;
 
         auto all_reduce_data_direct =
-            [op = std::forward<F>(op),
-                local_result = std::forward<T>(local_result),
+            [op = HPX_FWD(op),
+                local_result = HPX_FWD(local_result),
                 this_site](hpx::future<hpx::id_type>&& f) mutable
             -> hpx::future<arg_type> {
             using func_type = typename std::decay<F>::type;
@@ -305,7 +305,7 @@ namespace hpx { namespace lcos {
             // make sure id is kept alive as long as the returned future
             hpx::id_type id = f.get();
             hpx::future<arg_type> result = async(action_type(), id, this_site,
-                std::forward<T>(local_result), std::forward<F>(op));
+                HPX_FWD(local_result), HPX_FWD(op));
 
             traits::detail::get_shared_state(result)->set_on_completed(
                 [id = std::move(id)]() { HPX_UNUSED(id); });
@@ -336,7 +336,7 @@ namespace hpx { namespace lcos {
         {
             return all_reduce(
                 create_all_reduce(basename, num_sites, generation, root_site),
-                std::forward<T>(local_result), std::forward<F>(op), this_site);
+                HPX_FWD(local_result), HPX_FWD(op), this_site);
         }
 
         std::string name(basename);
@@ -344,7 +344,7 @@ namespace hpx { namespace lcos {
             name += std::to_string(generation) + "/";
 
         return all_reduce(hpx::find_from_basename(std::move(name), root_site),
-            std::forward<T>(local_result), std::forward<F>(op), this_site);
+            HPX_FWD(local_result), HPX_FWD(op), this_site);
     }
 }}    // namespace hpx::lcos
 

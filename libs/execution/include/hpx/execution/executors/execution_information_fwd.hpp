@@ -64,7 +64,7 @@ namespace hpx { namespace parallel { namespace execution {
         {
             return has_pending_closures_fn_helper<
                 typename std::decay<Executor>::type>::call(0,
-                std::forward<Executor>(exec));
+                HPX_FWD(exec));
         }
 
         template <>
@@ -73,9 +73,9 @@ namespace hpx { namespace parallel { namespace execution {
         public:
             template <typename Executor>
             HPX_FORCEINLINE auto operator()(Executor&& exec) const
-                -> decltype(has_pending_closures(std::forward<Executor>(exec)))
+                -> decltype(has_pending_closures(HPX_FWD(exec)))
             {
-                return has_pending_closures(std::forward<Executor>(exec));
+                return has_pending_closures(HPX_FWD(exec));
             }
         };
 
@@ -89,7 +89,7 @@ namespace hpx { namespace parallel { namespace execution {
         {
             return get_pu_mask_fn_helper<
                 typename std::decay<Executor>::type>::call(0,
-                std::forward<Executor>(exec), topo, thread_num);
+                HPX_FWD(exec), topo, thread_num);
         }
 
         template <>
@@ -100,10 +100,10 @@ namespace hpx { namespace parallel { namespace execution {
             HPX_FORCEINLINE auto operator()(Executor&& exec,
                 threads::topology& topo, std::size_t thread_num) const
                 -> decltype(
-                    get_pu_mask(std::forward<Executor>(exec), topo, thread_num))
+                    get_pu_mask(HPX_FWD(exec), topo, thread_num))
             {
                 return get_pu_mask(
-                    std::forward<Executor>(exec), topo, thread_num);
+                    HPX_FWD(exec), topo, thread_num);
             }
         };
 
@@ -116,7 +116,7 @@ namespace hpx { namespace parallel { namespace execution {
         {
             return set_scheduler_mode_fn_helper<
                 typename std::decay<Executor>::type>::call(0,
-                std::forward<Executor>(exec), mode);
+                HPX_FWD(exec), mode);
         }
 
         template <>
@@ -127,9 +127,9 @@ namespace hpx { namespace parallel { namespace execution {
             HPX_FORCEINLINE auto operator()(
                 Executor&& exec, Mode const& mode) const
                 -> decltype(
-                    set_scheduler_mode(std::forward<Executor>(exec), mode))
+                    set_scheduler_mode(HPX_FWD(exec), mode))
             {
-                return set_scheduler_mode(std::forward<Executor>(exec), mode);
+                return set_scheduler_mode(HPX_FWD(exec), mode);
             }
         };
         /// \endcond

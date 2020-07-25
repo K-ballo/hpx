@@ -56,7 +56,7 @@ namespace hpx { namespace threads {
                         // Execute the given function, forward all parameters,
                         // store result.
                         result.emplace(
-                            util::invoke(f, std::forward<Ts>(ts)...));
+                            util::invoke(f, HPX_FWD(ts)...));
                     }
                     catch (...)
                     {
@@ -105,7 +105,7 @@ namespace hpx { namespace threads {
                     try
                     {
                         // Execute the given function, forward all parameters.
-                        util::invoke(f, std::forward<Ts>(ts)...);
+                        util::invoke(f, HPX_FWD(ts)...);
                     }
                     catch (...)
                     {
@@ -146,6 +146,6 @@ namespace hpx { namespace threads {
             typename util::invoke_result<F, Ts...>::type>::type result_is_void;
 
         return detail::run_as_hpx_thread(
-            result_is_void(), f, std::forward<Ts>(vs)...);
+            result_is_void(), f, HPX_FWD(vs)...);
     }
 }}    // namespace hpx::threads

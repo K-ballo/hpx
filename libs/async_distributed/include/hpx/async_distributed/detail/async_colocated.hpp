@@ -88,7 +88,7 @@ namespace hpx { namespace detail {
         return detail::async_continue_r<action_type, remote_result_type>(
             util::functional::async_continuation(util::bind<Action>(
                 util::bind(util::functional::extract_locality(), _2, gid),
-                std::forward<Ts>(vs)...)),
+                HPX_FWD(vs)...)),
             service_target, gid.get_gid());
 #endif
     }
@@ -102,7 +102,7 @@ namespace hpx { namespace detail {
         ,
         naming::id_type const& gid, Ts&&... vs)
     {
-        return async_colocated<Derived>(gid, std::forward<Ts>(vs)...);
+        return async_colocated<Derived>(gid, HPX_FWD(vs)...);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -132,8 +132,8 @@ namespace hpx { namespace detail {
             util::functional::async_continuation(
                 util::bind<Action>(
                     util::bind(util::functional::extract_locality(), _2, gid),
-                    std::forward<Ts>(vs)...),
-                std::forward<Continuation>(cont)),
+                    HPX_FWD(vs)...),
+                HPX_FWD(cont)),
             service_target, gid.get_gid());
 #endif
     }
@@ -150,6 +150,6 @@ namespace hpx { namespace detail {
             naming::id_type const& gid, Ts&&... vs)
     {
         return async_colocated<Derived>(
-            std::forward<Continuation>(cont), gid, std::forward<Ts>(vs)...);
+            HPX_FWD(cont), gid, HPX_FWD(vs)...);
     }
 }}    // namespace hpx::detail

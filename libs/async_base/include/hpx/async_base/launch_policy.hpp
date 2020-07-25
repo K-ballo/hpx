@@ -216,7 +216,7 @@ namespace hpx {
                     threads::thread_priority_default)    // NOLINT
               : policy_holder<select_policy<Pred>>(
                     launch_policy::async, priority)
-              , pred_(std::forward<F>(f))
+              , pred_(HPX_FWD(f))
             {
             }
 
@@ -248,7 +248,7 @@ namespace hpx {
                     threads::thread_priority_default) const
             {
                 return select_policy<typename std::decay<F>::type>(
-                    std::forward<F>(f), priority);
+                    HPX_FWD(f), priority);
             }
         };
 

@@ -42,7 +42,7 @@ namespace hpx { namespace lcos { namespace local {
                 !std::is_same<FD, packaged_task>::value &&
                 traits::is_invocable_r<R, FD&, Ts...>::value>::type>
         explicit packaged_task(F&& f)
-          : function_(std::forward<F>(f))
+          : function_(HPX_FWD(f))
           , promise_()
         {
         }
@@ -53,7 +53,7 @@ namespace hpx { namespace lcos { namespace local {
                 !std::is_same<FD, packaged_task>::value &&
                 traits::is_invocable_r<R, FD&, Ts...>::value>::type>
         explicit packaged_task(std::allocator_arg_t, Allocator const& a, F&& f)
-          : function_(std::forward<F>(f))
+          : function_(HPX_FWD(f))
           , promise_(std::allocator_arg, a)
         {
         }
@@ -91,7 +91,7 @@ namespace hpx { namespace lcos { namespace local {
             }
 
             hpx::util::annotate_function annotate(function_);
-            invoke_impl(std::is_void<R>(), std::forward<Ts>(vs)...);
+            invoke_impl(std::is_void<R>(), HPX_FWD(vs)...);
         }
 
         // result retrieval
@@ -137,7 +137,7 @@ namespace hpx { namespace lcos { namespace local {
         {
             try
             {
-                promise_.set_value(function_(std::forward<Vs>(vs)...));
+                promise_.set_value(function_(HPX_FWD(vs)...));
             }
             catch (...)
             {
@@ -150,7 +150,7 @@ namespace hpx { namespace lcos { namespace local {
         {
             try
             {
-                function_(std::forward<Ts>(vs)...);
+                function_(HPX_FWD(vs)...);
                 promise_.set_value();
             }
             catch (...)

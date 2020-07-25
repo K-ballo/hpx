@@ -117,8 +117,8 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
 
                 return parallel::util::detail::
                     algorithm_result<ExPolicy, local_result_type>::get(
-                        Derived::sequential(std::forward<ExPolicy>(policy),
-                            std::forward<Args>(args)...));
+                        Derived::sequential(HPX_FWD(policy),
+                            HPX_FWD(args)...));
 #if !defined(__CUDA_ARCH__)
             }
             catch (...)
@@ -139,8 +139,8 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
             return parallel::util::detail::algorithm_result<ExPolicy,
                 local_result_type>::get(execution::sync_execute(policy
                                                                     .executor(),
-                derived(), std::forward<ExPolicy>(policy),
-                std::forward<Args>(args)...));
+                derived(), HPX_FWD(policy),
+                HPX_FWD(args)...));
         }
 
         template <typename ExPolicy, typename... Args>
@@ -148,7 +148,7 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
         call_execute(ExPolicy&& policy, std::true_type, Args&&... args) const
         {
             execution::sync_execute(policy.executor(), derived(),
-                std::forward<ExPolicy>(policy), std::forward<Args>(args)...);
+                HPX_FWD(policy), HPX_FWD(args)...);
 
             return parallel::util::detail::algorithm_result<ExPolicy>::get();
         }
@@ -161,8 +161,8 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
             try
             {
                 typedef std::is_void<local_result_type> is_void;
-                return call_execute(std::forward<ExPolicy>(policy), is_void(),
-                    std::forward<Args>(args)...);
+                return call_execute(HPX_FWD(policy), is_void(),
+                    HPX_FWD(args)...);
             }
             catch (std::bad_alloc const& ba)
             {
@@ -186,8 +186,8 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
                 // run the launched task on the requested executor
                 hpx::future<local_result_type> result =
                     execution::async_execute(policy.executor(), derived(),
-                        std::forward<ExPolicy>(policy),
-                        std::forward<Args>(args)...);
+                        HPX_FWD(policy),
+                        HPX_FWD(args)...);
 
                 return parallel::util::detail::algorithm_result<ExPolicy,
                     local_result_type>::get(std::move(result));
@@ -209,7 +209,7 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
         call(execution::sequenced_task_policy policy, std::true_type,
             Args&&... args) const
         {
-            return call_sequential(policy, std::forward<Args>(args)...);
+            return call_sequential(policy, HPX_FWD(args)...);
         }
 
         template <typename Executor, typename Parameters, typename... Args>
@@ -220,7 +220,7 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
             execution::sequenced_task_policy_shim<Executor, Parameters>& policy,
             std::true_type, Args&&... args) const
         {
-            return call_sequential(policy, std::forward<Args>(args)...);
+            return call_sequential(policy, HPX_FWD(args)...);
         }
 
         template <typename Executor, typename Parameters, typename... Args>
@@ -231,7 +231,7 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
                  policy,
             std::true_type, Args&&... args) const
         {
-            return call_sequential(policy, std::forward<Args>(args)...);
+            return call_sequential(policy, HPX_FWD(args)...);
         }
 
         template <typename Executor, typename Parameters, typename... Args>
@@ -242,7 +242,7 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
                  policy,
             std::true_type, Args&&... args) const
         {
-            return call_sequential(policy, std::forward<Args>(args)...);
+            return call_sequential(policy, HPX_FWD(args)...);
         }
 
 #if defined(HPX_HAVE_DATAPAR)
@@ -252,7 +252,7 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
         call(execution::dataseq_task_policy policy, std::true_type,
             Args&&... args) const
         {
-            return call_sequential(policy, std::forward<Args>(args)...);
+            return call_sequential(policy, HPX_FWD(args)...);
         }
 
         template <typename Executor, typename Parameters, typename... Args>
@@ -262,7 +262,7 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
         call(execution::dataseq_task_policy_shim<Executor, Parameters>& policy,
             std::true_type, Args&&... args) const
         {
-            return call_sequential(policy, std::forward<Args>(args)...);
+            return call_sequential(policy, HPX_FWD(args)...);
         }
 
         template <typename Executor, typename Parameters, typename... Args>
@@ -272,7 +272,7 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
         call(execution::dataseq_task_policy_shim<Executor, Parameters>&& policy,
             std::true_type, Args&&... args) const
         {
-            return call_sequential(policy, std::forward<Args>(args)...);
+            return call_sequential(policy, HPX_FWD(args)...);
         }
 
         template <typename Executor, typename Parameters, typename... Args>
@@ -283,7 +283,7 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
                  policy,
             std::true_type, Args&&... args) const
         {
-            return call_sequential(policy, std::forward<Args>(args)...);
+            return call_sequential(policy, HPX_FWD(args)...);
         }
 #endif
 
@@ -294,7 +294,7 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
         call(execution::parallel_task_policy policy, std::true_type,
             Args&&... args) const
         {
-            return call_sequential(policy, std::forward<Args>(args)...);
+            return call_sequential(policy, HPX_FWD(args)...);
         }
 
         template <typename Executor, typename Parameters, typename... Args>
@@ -304,7 +304,7 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
         call(execution::parallel_task_policy_shim<Executor, Parameters>& policy,
             std::true_type, Args&&... args) const
         {
-            return call_sequential(policy, std::forward<Args>(args)...);
+            return call_sequential(policy, HPX_FWD(args)...);
         }
 
         template <typename Executor, typename Parameters, typename... Args>
@@ -315,7 +315,7 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
             execution::parallel_task_policy_shim<Executor, Parameters>&& policy,
             std::true_type, Args&&... args) const
         {
-            return call_sequential(policy, std::forward<Args>(args)...);
+            return call_sequential(policy, HPX_FWD(args)...);
         }
 
         template <typename Executor, typename Parameters, typename... Args>
@@ -326,7 +326,7 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
                  policy,
             std::true_type, Args&&... args) const
         {
-            return call_sequential(policy, std::forward<Args>(args)...);
+            return call_sequential(policy, HPX_FWD(args)...);
         }
 
 #if defined(HPX_HAVE_DATAPAR)
@@ -337,7 +337,7 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
         call(execution::datapar_task_policy_shim<Executor, Parameters>& policy,
             std::true_type, Args&&... args) const
         {
-            return call_sequential(policy, std::forward<Args>(args)...);
+            return call_sequential(policy, HPX_FWD(args)...);
         }
 
         template <typename Executor, typename Parameters, typename... Args>
@@ -347,7 +347,7 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
         call(execution::datapar_task_policy_shim<Executor, Parameters>&& policy,
             std::true_type, Args&&... args) const
         {
-            return call_sequential(policy, std::forward<Args>(args)...);
+            return call_sequential(policy, HPX_FWD(args)...);
         }
 
         template <typename Executor, typename Parameters, typename... Args>
@@ -358,7 +358,7 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
                  policy,
             std::true_type, Args&&... args) const
         {
-            return call_sequential(policy, std::forward<Args>(args)...);
+            return call_sequential(policy, HPX_FWD(args)...);
         }
 #endif
 
@@ -368,7 +368,7 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
         call(ExPolicy&& policy, std::false_type, Args&&... args) const
         {
             return Derived::parallel(
-                std::forward<ExPolicy>(policy), std::forward<Args>(args)...);
+                HPX_FWD(policy), HPX_FWD(args)...);
         }
 
     private:

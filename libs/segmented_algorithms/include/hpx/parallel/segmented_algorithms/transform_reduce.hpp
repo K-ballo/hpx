@@ -204,13 +204,13 @@ namespace hpx { namespace parallel { inline namespace v1 {
             if (first == last)
             {
                 return util::detail::algorithm_result<ExPolicy, init_type>::get(
-                    std::forward<T>(init));
+                    HPX_FWD(init));
             }
 
             return segmented_transform_reduce(seg_transform_reduce<init_type>(),
-                std::forward<ExPolicy>(policy), first, last,
-                std::forward<T>(init), std::forward<Reduce>(red_op),
-                std::forward<Convert>(conv_op), is_seq());
+                HPX_FWD(policy), first, last,
+                HPX_FWD(init), HPX_FWD(red_op),
+                HPX_FWD(conv_op), is_seq());
         }
 
         // forward declare the non-segmented version of this algorithm
@@ -418,14 +418,14 @@ namespace hpx { namespace parallel { inline namespace v1 {
             if (first1 == last1)
             {
                 return util::detail::algorithm_result<ExPolicy, init_type>::get(
-                    std::forward<T>(init));
+                    HPX_FWD(init));
             }
 
             return segmented_transform_reduce(
                 seg_transform_reduce_binary<init_type>(),
-                std::forward<ExPolicy>(policy), first1, last1, first2,
-                std::forward<T>(init), std::forward<Reduce>(red_op),
-                std::forward<Convert>(conv_op), is_seq());
+                HPX_FWD(policy), first1, last1, first2,
+                HPX_FWD(init), HPX_FWD(red_op),
+                HPX_FWD(conv_op), is_seq());
         }
 
         template <typename ExPolicy, typename FwdIter1, typename FwdIter2,

@@ -36,7 +36,7 @@ namespace hpx { namespace util {
                 typename = typename std::enable_if<
                     std::is_constructible<F, F_>::value>::type>
             constexpr explicit one_shot_wrapper(F_&& f)
-              : _f(std::forward<F_>(f))
+              : _f(HPX_FWD(f))
               , _called(false)
             {
             }
@@ -62,7 +62,7 @@ namespace hpx { namespace util {
                 typename = typename std::enable_if<
                     std::is_constructible<F, F_>::value>::type>
             constexpr explicit one_shot_wrapper(F_&& f)
-              : _f(std::forward<F_>(f))
+              : _f(HPX_FWD(f))
             {
             }
 
@@ -81,7 +81,7 @@ namespace hpx { namespace util {
             {
                 check_call();
 
-                return HPX_INVOKE(std::move(_f), std::forward<Ts>(vs)...);
+                return HPX_INVOKE(std::move(_f), HPX_FWD(vs)...);
             }
 
             template <typename Archive>
@@ -131,7 +131,7 @@ namespace hpx { namespace util {
         typedef detail::one_shot_wrapper<typename std::decay<F>::type>
             result_type;
 
-        return result_type(std::forward<F>(f));
+        return result_type(HPX_FWD(f));
     }
 }}    // namespace hpx::util
 

@@ -61,7 +61,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
                 return util::detail::convert_to_result(
                     for_each_n<zip_iterator>().call(
-                        std::forward<ExPolicy>(policy), std::false_type(),
+                        HPX_FWD(policy), std::false_type(),
                         hpx::util::make_zip_iterator(
                             first, destination_iterator(last)),
                         std::distance(first, last) / 2,
@@ -127,7 +127,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
         typedef execution::is_sequenced_execution_policy<ExPolicy> is_seq;
 
         return detail::reverse<BidirIter>().call(
-            std::forward<ExPolicy>(policy), is_seq(), first, last);
+            HPX_FWD(policy), is_seq(), first, last);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -174,7 +174,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
                 return util::detail::convert_to_result(
                     detail::copy<util::in_out_result<iterator, FwdIter>>().call(
-                        std::forward<ExPolicy>(policy), std::false_type(),
+                        HPX_FWD(policy), std::false_type(),
                         iterator(last), iterator(first), dest_first),
                     [](util::in_out_result<iterator, FwdIter> const& p)
                         -> util::in_out_result<BidirIter, FwdIter> {
@@ -259,7 +259,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
         typedef execution::is_sequenced_execution_policy<ExPolicy> is_seq;
 
         return detail::reverse_copy<util::in_out_result<BidirIter, FwdIter>>()
-            .call(std::forward<ExPolicy>(policy), is_seq(), first, last,
+            .call(HPX_FWD(policy), is_seq(), first, last,
                 dest_first);
     }
 }}}    // namespace hpx::parallel::v1

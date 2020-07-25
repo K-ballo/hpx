@@ -83,7 +83,7 @@ namespace hpx { namespace parallel { namespace util {
                 {
                     // pre-initialize first intermediate result
                     workitems.push_back(
-                        make_ready_future(std::forward<T>(init)));
+                        make_ready_future(HPX_FWD(init)));
 
                     HPX_ASSERT(count > 0);
                     FwdIter first_ = first;
@@ -151,7 +151,7 @@ namespace hpx { namespace parallel { namespace util {
                         std::current_exception(), errors);
                 }
                 return reduce(std::move(workitems), std::move(finalitems),
-                    std::move(errors), std::forward<F4>(f4));
+                    std::move(errors), HPX_FWD(f4));
 #endif
             }
 
@@ -176,7 +176,7 @@ namespace hpx { namespace parallel { namespace util {
                 {
                     // pre-initialize first intermediate result
                     workitems.push_back(
-                        make_ready_future(std::forward<T>(init)));
+                        make_ready_future(HPX_FWD(init)));
 
                     HPX_ASSERT(count > 0);
                     FwdIter first_ = first;
@@ -277,7 +277,7 @@ namespace hpx { namespace parallel { namespace util {
                         std::current_exception(), errors);
                 }
                 return reduce(std::move(workitems), std::move(finalitems),
-                    std::move(errors), std::forward<F4>(f4));
+                    std::move(errors), HPX_FWD(f4));
 #endif
             }
 
@@ -286,10 +286,10 @@ namespace hpx { namespace parallel { namespace util {
             static R call(ExPolicy_&& policy, FwdIter first, std::size_t count,
                 T&& init, F1&& f1, F2&& f2, F3&& f3, F4&& f4)
             {
-                return call(ScanPartTag{}, std::forward<ExPolicy_>(policy),
-                    first, count, std::forward<T>(init), std::forward<F1>(f1),
-                    std::forward<F2>(f2), std::forward<F3>(f3),
-                    std::forward<F4>(f4));
+                return call(ScanPartTag{}, HPX_FWD(policy),
+                    first, count, HPX_FWD(init), HPX_FWD(f1),
+                    HPX_FWD(f2), HPX_FWD(f3),
+                    HPX_FWD(f4));
             }
 
         private:
@@ -335,15 +335,15 @@ namespace hpx { namespace parallel { namespace util {
                 std::size_t count, T&& init, F1&& f1, F2&& f2, F3&& f3, F4&& f4)
             {
                 return execution::async_execute(policy.executor(),
-                    [first, count, policy = std::forward<ExPolicy_>(policy),
-                        init = std::forward<T>(init), f1 = std::forward<F1>(f1),
-                        f2 = std::forward<F2>(f2), f3 = std::forward<F3>(f3),
-                        f4 = std::forward<F4>(f4)]() mutable -> R {
+                    [first, count, policy = HPX_FWD(policy),
+                        init = HPX_FWD(init), f1 = HPX_FWD(f1),
+                        f2 = HPX_FWD(f2), f3 = HPX_FWD(f3),
+                        f4 = HPX_FWD(f4)]() mutable -> R {
                         using partitioner_type =
                             scan_static_partitioner<ExPolicy, ScanPartTag, R,
                                 Result1, Result2>;
                         return partitioner_type::call(ScanPartTag{},
-                            std::forward<ExPolicy_>(policy), first, count,
+                            HPX_FWD(policy), first, count,
                             std::move(init), f1, f2, f3, f4);
                     });
             }

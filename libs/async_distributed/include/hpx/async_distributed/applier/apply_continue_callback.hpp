@@ -28,8 +28,8 @@ namespace hpx {
 
         return apply_cb<Action>(
             hpx::actions::typed_continuation<local_result_type, result_type>(
-                std::forward<Cont>(cont)),
-            gid, std::forward<Callback>(cb), std::forward<Ts>(vs)...);
+                HPX_FWD(cont)),
+            gid, HPX_FWD(cb), HPX_FWD(vs)...);
     }
 
     template <typename Component, typename Signature, typename Derived,
@@ -38,8 +38,8 @@ namespace hpx {
         hpx::actions::basic_action<Component, Signature, Derived> /*act*/,
         Cont&& cont, naming::id_type const& gid, Callback&& cb, Ts&&... vs)
     {
-        return apply_continue_cb<Derived>(std::forward<Cont>(cont), gid,
-            std::forward<Callback>(cb), std::forward<Ts>(vs)...);
+        return apply_continue_cb<Derived>(HPX_FWD(cont), gid,
+            HPX_FWD(cb), HPX_FWD(vs)...);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -54,7 +54,7 @@ namespace hpx {
         return apply_cb<Action>(
             hpx::actions::typed_continuation<local_result_type, result_type>(
                 cont, make_continuation()),
-            gid, std::forward<Callback>(cb), std::forward<Ts>(vs)...);
+            gid, HPX_FWD(cb), HPX_FWD(vs)...);
     }
 
     template <typename Component, typename Signature, typename Derived,
@@ -65,6 +65,6 @@ namespace hpx {
         Ts&&... vs)
     {
         return apply_continue_cb<Derived>(
-            cont, gid, std::forward<Callback>(cb), std::forward<Ts>(vs)...);
+            cont, gid, HPX_FWD(cb), HPX_FWD(vs)...);
     }
 }    // namespace hpx

@@ -47,7 +47,7 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
         parallel(ExPolicy&& policy, FwdIter first, FwdIter last, Reduce&& r)
         {
             return util::partitioner<ExPolicy, T>::call(
-                std::forward<ExPolicy>(policy), first,
+                HPX_FWD(policy), first,
                 std::distance(first, last),
                 [r](FwdIter part_begin, std::size_t part_size) -> T {
                     T val = *part_begin;
@@ -83,7 +83,7 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
                     return hpx::util::invoke(
                         r, res, hpx::util::invoke(conv, next));
                 },
-                std::forward<Convert>(conv));
+                HPX_FWD(conv));
         }
 
         template <typename ExPolicy, typename FwdIter, typename Reduce,
@@ -95,7 +95,7 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
             typedef typename std::iterator_traits<FwdIter>::reference reference;
 
             return util::partitioner<ExPolicy, T>::call(
-                std::forward<ExPolicy>(policy), first,
+                HPX_FWD(policy), first,
                 std::distance(first, last),
                 [r, conv](FwdIter part_begin, std::size_t part_size) -> T {
                     T val = hpx::util::invoke(conv, *part_begin);
@@ -133,7 +133,7 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
             typedef
                 typename std::iterator_traits<FwdIter1>::reference reference;
             return util::accumulate<T>(first1, last1, first2,
-                std::forward<Reduce>(r), std::forward<Convert>(conv));
+                HPX_FWD(r), HPX_FWD(conv));
         }
 
         template <typename ExPolicy, typename FwdIter1, typename FwdIter2,
@@ -147,7 +147,7 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
             typedef hpx::util::zip_iterator<FwdIter1, FwdIter2> zip_iterator;
             using hpx::util::make_zip_iterator;
             return util::partitioner<ExPolicy, T>::call(
-                std::forward<ExPolicy>(policy),
+                HPX_FWD(policy),
                 make_zip_iterator(first1, first2), std::distance(first1, last1),
                 [&r, &conv](
                     zip_iterator part_begin, std::size_t part_size) -> T {
@@ -157,7 +157,7 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
                     FwdIter1 last1 = it1;
                     std::advance(last1, part_size);
                     return util::accumulate<T>(it1, last1, it2,
-                        std::forward<Reduce>(r), std::forward<Convert>(conv));
+                        HPX_FWD(r), HPX_FWD(conv));
                 },
                 hpx::util::unwrapping([r](std::vector<T>&& results) -> T {
                     auto rfirst1 = hpx::util::begin(results);

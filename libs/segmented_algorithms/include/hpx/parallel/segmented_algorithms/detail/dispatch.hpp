@@ -35,7 +35,7 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
         template <typename T_>
         static HPX_FORCEINLINE T_ call(T_&& val)
         {
-            return std::forward<T_>(val);
+            return HPX_FWD(val);
         }
     };
 
@@ -258,9 +258,9 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
         {
             using hpx::traits::segmented_local_iterator_traits;
             return detail::algorithm_result_helper<R>::call(
-                algo.call(std::forward<ExPolicy>(policy), std::true_type(),
+                algo.call(HPX_FWD(policy), std::true_type(),
                     segmented_local_iterator_traits<typename hpx::util::decay<
-                        Args>::type>::local(std::forward<Args>(args))...));
+                        Args>::type>::local(HPX_FWD(args))...));
         }
 
         template <typename ExPolicy, typename... Args>
@@ -269,9 +269,9 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
         {
             using hpx::traits::segmented_local_iterator_traits;
             return detail::algorithm_result_helper<R>::call(
-                algo.call(std::forward<ExPolicy>(policy), std::false_type(),
+                algo.call(HPX_FWD(policy), std::false_type(),
                     segmented_local_iterator_traits<typename hpx::util::decay<
-                        Args>::type>::local(std::forward<Args>(args))...));
+                        Args>::type>::local(HPX_FWD(args))...));
         }
     };
 
@@ -284,9 +284,9 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
             sequential(Algo const& algo, ExPolicy&& policy, Args&&... args)
         {
             using hpx::traits::segmented_local_iterator_traits;
-            return algo.call(std::forward<ExPolicy>(policy), std::true_type(),
+            return algo.call(HPX_FWD(policy), std::true_type(),
                 segmented_local_iterator_traits<typename hpx::util::decay<
-                    Args>::type>::local(std::forward<Args>(args))...);
+                    Args>::type>::local(HPX_FWD(args))...);
         }
 
         template <typename ExPolicy, typename... Args>
@@ -295,9 +295,9 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
             parallel(Algo const& algo, ExPolicy&& policy, Args&&... args)
         {
             using hpx::traits::segmented_local_iterator_traits;
-            return algo.call(std::forward<ExPolicy>(policy), std::false_type(),
+            return algo.call(HPX_FWD(policy), std::false_type(),
                 segmented_local_iterator_traits<typename hpx::util::decay<
-                    Args>::type>::local(std::forward<Args>(args))...);
+                    Args>::type>::local(HPX_FWD(args))...);
         }
     };
 
@@ -365,8 +365,8 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
             result_type(typename hpx::util::decay<Args>::type...)>
             act;
 
-        return hpx::async(act, hpx::colocated(id), std::forward<Algo>(algo),
-            policy, std::forward<Args>(args)...);
+        return hpx::async(act, hpx::colocated(id), HPX_FWD(algo),
+            policy, HPX_FWD(args)...);
     }
 
     template <typename Algo, typename ExPolicy, typename IsSeq,
@@ -377,8 +377,8 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
     {
         // synchronously invoke remote operation
         future<typename hpx::util::decay<Algo>::type::result_type> f =
-            dispatch_async(id, std::forward<Algo>(algo), policy, is_seq,
-                std::forward<Args>(args)...);
+            dispatch_async(id, HPX_FWD(algo), policy, is_seq,
+                HPX_FWD(args)...);
         f.wait();
 
         // handle any remote exceptions

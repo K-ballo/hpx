@@ -35,7 +35,7 @@ namespace hpx {
             // If remote, create a new parcel to be sent to the destination
             // Create a new parcel with the gid, action, and arguments
             return detail::put_parcel_cb<Action>(id, std::move(addr), priority,
-                std::forward<Callback>(cb), std::forward<Ts>(vs)...);
+                HPX_FWD(cb), HPX_FWD(vs)...);
         }
 
         template <typename Action, typename Callback, typename... Ts>
@@ -43,8 +43,8 @@ namespace hpx {
             naming::id_type const& gid, Callback&& cb, Ts&&... vs)
         {
             return apply_r_p_cb<Action>(std::move(addr), gid,
-                actions::action_priority<Action>(), std::forward<Callback>(cb),
-                std::forward<Ts>(vs)...);
+                actions::action_priority<Action>(), HPX_FWD(cb),
+                HPX_FWD(vs)...);
         }
     }}    // namespace applier::detail
 #endif
@@ -55,14 +55,14 @@ namespace hpx {
         threads::thread_priority priority, Callback&& cb, Ts&&... vs)
     {
         return hpx::detail::apply_cb_impl<Action>(
-            gid, priority, std::forward<Callback>(cb), std::forward<Ts>(vs)...);
+            gid, priority, HPX_FWD(cb), HPX_FWD(vs)...);
     }
 
     template <typename Action, typename Callback, typename... Ts>
     inline bool apply_cb(naming::id_type const& gid, Callback&& cb, Ts&&... vs)
     {
         return apply_p_cb<Action>(gid, actions::action_priority<Action>(),
-            std::forward<Callback>(cb), std::forward<Ts>(vs)...);
+            HPX_FWD(cb), HPX_FWD(vs)...);
     }
 
     template <typename Component, typename Signature, typename Derived,
@@ -72,7 +72,7 @@ namespace hpx {
         naming::id_type const& gid, Callback&& cb, Ts&&... vs)
     {
         return apply_p_cb<Derived>(gid, actions::action_priority<Derived>(),
-            std::forward<Callback>(cb), std::forward<Ts>(vs)...);
+            HPX_FWD(cb), HPX_FWD(vs)...);
     }
 
     template <typename Action, typename DistPolicy, typename Callback,
@@ -83,7 +83,7 @@ namespace hpx {
         Callback&& cb, Ts&&... vs)
     {
         return policy.template apply_cb<Action>(
-            priority, std::forward<Callback>(cb), std::forward<Ts>(vs)...);
+            priority, HPX_FWD(cb), HPX_FWD(vs)...);
     }
 
     template <typename Action, typename DistPolicy, typename Callback,
@@ -93,7 +93,7 @@ namespace hpx {
     apply_cb(DistPolicy const& policy, Callback&& cb, Ts&&... vs)
     {
         return apply_p_cb<Action>(policy, actions::action_priority<Action>(),
-            std::forward<Callback>(cb), std::forward<Ts>(vs)...);
+            HPX_FWD(cb), HPX_FWD(vs)...);
     }
 
     template <typename Component, typename Signature, typename Derived,
@@ -104,7 +104,7 @@ namespace hpx {
         DistPolicy const& policy, Callback&& cb, Ts&&... vs)
     {
         return apply_p_cb<Derived>(policy, actions::action_priority<Derived>(),
-            std::forward<Callback>(cb), std::forward<Ts>(vs)...);
+            HPX_FWD(cb), HPX_FWD(vs)...);
     }
 
 #if defined(HPX_HAVE_NETWORKING)
@@ -119,8 +119,8 @@ namespace hpx {
             // If remote, create a new parcel to be sent to the destination
             // Create a new parcel with the gid, action, and arguments
             return detail::put_parcel_cont_cb<Action>(id, std::move(addr),
-                priority, std::forward<Continuation>(c),
-                std::forward<Callback>(cb), std::forward<Ts>(vs)...);
+                priority, HPX_FWD(c),
+                HPX_FWD(cb), HPX_FWD(vs)...);
         }
 
         template <typename Action, typename Continuation, typename Callback,
@@ -129,9 +129,9 @@ namespace hpx {
             naming::id_type const& gid, Callback&& cb, Ts&&... vs)
         {
             return apply_r_p_cb<Action>(std::move(addr),
-                std::forward<Continuation>(c), gid,
-                actions::action_priority<Action>(), std::forward<Callback>(cb),
-                std::forward<Ts>(vs)...);
+                HPX_FWD(c), gid,
+                actions::action_priority<Action>(), HPX_FWD(cb),
+                HPX_FWD(vs)...);
         }
     }}    // namespace applier::detail
 #endif
@@ -157,8 +157,8 @@ namespace hpx {
         {
             // apply locally
             bool result = applier::detail::apply_l_p<Action>(
-                std::forward<Continuation>(c), gid, std::move(addr), priority,
-                std::forward<Ts>(vs)...);
+                HPX_FWD(c), gid, std::move(addr), priority,
+                HPX_FWD(vs)...);
 
             // invoke callback
 #if defined(HPX_HAVE_NETWORKING)
@@ -172,8 +172,8 @@ namespace hpx {
 #if defined(HPX_HAVE_NETWORKING)
         // apply remotely
         return applier::detail::apply_r_p_cb<Action>(std::move(addr),
-            std::forward<Continuation>(c), gid, priority,
-            std::forward<Callback>(cb), std::forward<Ts>(vs)...);
+            HPX_FWD(c), gid, priority,
+            HPX_FWD(cb), HPX_FWD(vs)...);
 #else
         HPX_THROW_EXCEPTION(invalid_status, "hpx::apply_cb",
             "unexpected attempt to send a parcel with networking disabled");
@@ -185,8 +185,8 @@ namespace hpx {
     inline bool apply_p_cb(Continuation&& c, naming::id_type const& gid,
         threads::thread_priority priority, Callback&& cb, Ts&&... vs)
     {
-        return hpx::detail::apply_cb_impl<Action>(std::forward<Continuation>(c),
-            gid, priority, std::forward<Callback>(cb), std::forward<Ts>(vs)...);
+        return hpx::detail::apply_cb_impl<Action>(HPX_FWD(c),
+            gid, priority, HPX_FWD(cb), HPX_FWD(vs)...);
     }
 
     template <typename Action, typename Continuation, typename Callback,
@@ -194,9 +194,9 @@ namespace hpx {
     inline bool apply_cb(
         Continuation&& c, naming::id_type const& gid, Callback&& cb, Ts&&... vs)
     {
-        return apply_p_cb<Action>(std::forward<Continuation>(c), gid,
-            actions::action_priority<Action>(), std::forward<Callback>(cb),
-            std::forward<Ts>(vs)...);
+        return apply_p_cb<Action>(HPX_FWD(c), gid,
+            actions::action_priority<Action>(), HPX_FWD(cb),
+            HPX_FWD(vs)...);
     }
 
     template <typename Component, typename Continuation, typename Signature,
@@ -205,9 +205,9 @@ namespace hpx {
         hpx::actions::basic_action<Component, Signature, Derived> /*act*/,
         naming::id_type const& gid, Callback&& cb, Ts&&... vs)
     {
-        return apply_p<Derived>(std::forward<Continuation>(c), gid,
-            actions::action_priority<Derived>(), std::forward<Callback>(cb),
-            std::forward<Ts>(vs)...);
+        return apply_p<Derived>(HPX_FWD(c), gid,
+            actions::action_priority<Derived>(), HPX_FWD(cb),
+            HPX_FWD(vs)...);
     }
 
     template <typename Action, typename Continuation, typename DistPolicy,
@@ -219,8 +219,8 @@ namespace hpx {
         apply_p_cb(Continuation&& c, DistPolicy const& policy,
             threads::thread_priority priority, Callback&& cb, Ts&&... vs)
     {
-        return policy.template apply_cb<Action>(std::forward<Continuation>(c),
-            priority, std::forward<Callback>(cb), std::forward<Ts>(vs)...);
+        return policy.template apply_cb<Action>(HPX_FWD(c),
+            priority, HPX_FWD(cb), HPX_FWD(vs)...);
     }
 
     template <typename Action, typename Continuation, typename DistPolicy,
@@ -232,9 +232,9 @@ namespace hpx {
         apply_cb(Continuation&& c, DistPolicy const& policy, Callback&& cb,
             Ts&&... vs)
     {
-        return apply_p_cb<Action>(std::forward<Continuation>(c), policy,
-            actions::action_priority<Action>(), std::forward<Callback>(cb),
-            std::forward<Ts>(vs)...);
+        return apply_p_cb<Action>(HPX_FWD(c), policy,
+            actions::action_priority<Action>(), HPX_FWD(cb),
+            HPX_FWD(vs)...);
     }
 
     template <typename Component, typename Continuation, typename Signature,
@@ -246,9 +246,9 @@ namespace hpx {
         hpx::actions::basic_action<Component, Signature, Derived> /*act*/,
         DistPolicy const& policy, Callback&& cb, Ts&&... vs)
     {
-        return apply_p<Derived>(std::forward<Continuation>(c), policy,
-            actions::action_priority<Derived>(), std::forward<Callback>(cb),
-            std::forward<Ts>(vs)...);
+        return apply_p<Derived>(HPX_FWD(c), policy,
+            actions::action_priority<Derived>(), HPX_FWD(cb),
+            HPX_FWD(vs)...);
     }
 
 #if defined(HPX_HAVE_NETWORKING)
@@ -269,8 +269,8 @@ namespace hpx {
             return apply_r_p_cb<Action>(std::move(addr),
                 actions::typed_continuation<local_result_type,
                     remote_result_type>(contgid),
-                gid, priority, std::forward<Callback>(cb),
-                std::forward<Ts>(vs)...);
+                gid, priority, HPX_FWD(cb),
+                HPX_FWD(vs)...);
         }
 
         template <typename Action, typename Callback, typename... Ts>
@@ -289,7 +289,7 @@ namespace hpx {
                 actions::typed_continuation<local_result_type,
                     remote_result_type>(contgid),
                 gid, actions::action_priority<Action>(),
-                std::forward<Callback>(cb), std::forward<Ts>(vs)...);
+                HPX_FWD(cb), HPX_FWD(vs)...);
         }
     }}    // namespace applier::detail
 #endif
@@ -308,7 +308,7 @@ namespace hpx {
         return apply_p_cb<Action>(
             actions::typed_continuation<local_result_type, remote_result_type>(
                 contgid),
-            gid, priority, std::forward<Callback>(cb), std::forward<Ts>(vs)...);
+            gid, priority, HPX_FWD(cb), HPX_FWD(vs)...);
     }
 
     template <typename Action, typename Callback, typename... Ts>
@@ -323,8 +323,8 @@ namespace hpx {
         return apply_p_cb<Action>(
             actions::typed_continuation<local_result_type, remote_result_type>(
                 contgid),
-            gid, actions::action_priority<Action>(), std::forward<Callback>(cb),
-            std::forward<Ts>(vs)...);
+            gid, actions::action_priority<Action>(), HPX_FWD(cb),
+            HPX_FWD(vs)...);
     }
 
     template <typename Action, typename Callback, typename... Ts>
@@ -340,8 +340,8 @@ namespace hpx {
         return apply_p_cb<Action>(
             actions::typed_continuation<local_result_type, remote_result_type>(
                 contgid),
-            std::move(addr), gid, priority, std::forward<Callback>(cb),
-            std::forward<Ts>(vs)...);
+            std::move(addr), gid, priority, HPX_FWD(cb),
+            HPX_FWD(vs)...);
     }
 
     template <typename Action, typename Callback, typename... Ts>
@@ -358,7 +358,7 @@ namespace hpx {
             actions::typed_continuation<local_result_type, remote_result_type>(
                 contgid),
             std::move(addr), gid, actions::action_priority<Action>(),
-            std::forward<Callback>(cb), std::forward<Ts>(vs)...);
+            HPX_FWD(cb), HPX_FWD(vs)...);
     }
 
     namespace functional {
@@ -377,7 +377,7 @@ namespace hpx {
               , id_(id)
               , p_(p)
               , cb_(std::move(cb))
-              , args_(std::forward<Ts_>(vs)...)
+              , args_(HPX_FWD(vs)...)
             {
             }
 
@@ -416,12 +416,12 @@ namespace hpx {
                 {
                     hpx::apply_c_p_cb<Action>(contid_, std::move(addr_), id_,
                         p_, std::move(cb_),
-                        util::get<Is>(std::forward<tuple_type>(args_))...);
+                        util::get<Is>(HPX_FWD(args_))...);
                 }
                 else
                 {
                     hpx::apply_c_p_cb<Action>(contid_, id_, p_, std::move(cb_),
-                        util::get<Is>(std::forward<tuple_type>(args_))...);
+                        util::get<Is>(HPX_FWD(args_))...);
                 }
             }
 
@@ -447,7 +447,7 @@ namespace hpx {
                 result_type;
 
             return result_type(contid, std::move(addr), id, p,
-                std::forward<Callback>(cb), std::forward<Ts>(vs)...);
+                HPX_FWD(cb), HPX_FWD(vs)...);
         }
     }    // namespace functional
 }    // namespace hpx

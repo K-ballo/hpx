@@ -131,7 +131,7 @@ namespace hpx { namespace util {
         }
         catch (...)
         {
-            return std::forward<U>(default_value);
+            return HPX_FWD(default_value);
         }
     }
 

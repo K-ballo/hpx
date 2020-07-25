@@ -107,7 +107,7 @@ namespace hpx { namespace threads {
             thread_stacksize stacksize_ = thread_stacksize_default,
             thread_state_enum initial_state_ = pending, bool run_now_ = false,
             policies::scheduler_base* scheduler_base_ = nullptr)
-          : func(std::forward<F>(f))
+          : func(HPX_FWD(f))
 #if defined(HPX_HAVE_THREAD_DESCRIPTION)
           , description(desc)
 #endif

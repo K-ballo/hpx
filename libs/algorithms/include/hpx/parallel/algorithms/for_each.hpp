@@ -55,7 +55,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 !hpx::traits::is_value_proxy<T>::value>::type
             call(T&& t)
             {
-                T&& tmp = std::forward<T>(t);
+                T&& tmp = HPX_FWD(t);
                 hpx::util::invoke(f_, hpx::util::invoke(proj_, tmp));
             }
 
@@ -64,7 +64,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 hpx::traits::is_value_proxy<T>::value>::type
             call(T&& t)
             {
-                auto tmp = hpx::util::invoke(proj_, std::forward<T>(t));
+                auto tmp = hpx::util::invoke(proj_, HPX_FWD(t));
                 hpx::util::invoke_r<void>(f_, tmp);
             }
 
@@ -90,7 +90,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 !hpx::traits::is_value_proxy<T>::value>::type
             call(T&& t)
             {
-                T&& tmp = std::forward<T>(t);
+                T&& tmp = HPX_FWD(t);
                 hpx::util::invoke(f_, tmp);
             }
 
@@ -99,7 +99,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 hpx::traits::is_value_proxy<T>::value>::type
             call(T&& t)
             {
-                auto tmp = std::forward<T>(t);
+                auto tmp = HPX_FWD(t);
                 hpx::util::invoke_r<void>(f_, tmp);
             }
 
@@ -132,8 +132,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
             template <typename F_, typename Proj_>
             HPX_HOST_DEVICE for_each_iteration(F_&& f, Proj_&& proj)
-              : f_(std::forward<F_>(f))
-              , proj_(std::forward<Proj_>(proj))
+              : f_(HPX_FWD(f))
+              , proj_(HPX_FWD(proj))
             {
             }
 
@@ -195,10 +195,10 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 if (count != 0)
                 {
                     auto f1 = for_each_iteration<ExPolicy, F, Proj>(
-                        std::forward<F>(f), std::forward<Proj>(proj));
+                        HPX_FWD(f), HPX_FWD(proj));
 
                     return util::foreach_partitioner<ExPolicy>::call(
-                        std::forward<ExPolicy>(policy), first, count,
+                        HPX_FWD(policy), first, count,
                         std::move(f1), util::projection_identity());
                 }
 
@@ -217,9 +217,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 is_seq;
 
             return detail::for_each_n<FwdIter>().call(
-                std::forward<ExPolicy>(policy), is_seq(), first,
-                std::size_t(count), std::forward<F>(f),
-                std::forward<Proj>(proj));
+                HPX_FWD(policy), is_seq(), first,
+                std::size_t(count), HPX_FWD(f),
+                HPX_FWD(proj));
         }
         // forward declare the segmented version of for_each_ algorithm
         template <typename ExPolicy, typename SegIterB, typename SegIterE,
@@ -237,8 +237,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
         {
             auto last = first;
             detail::advance(last, std::size_t(count));
-            return for_each_(std::forward<ExPolicy>(policy), first, last,
-                std::forward<F>(f), std::forward<Proj>(proj), std::true_type());
+            return for_each_(HPX_FWD(policy), first, last,
+                HPX_FWD(f), HPX_FWD(proj), std::true_type());
         }
         /// \endcond
     }    // namespace detail
@@ -347,8 +347,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
         typedef hpx::traits::is_segmented_iterator<FwdIter> is_segmented;
 
-        return detail::for_each_n_(std::forward<ExPolicy>(policy), first, count,
-            std::forward<F>(f), is_segmented(), std::forward<Proj>(proj));
+        return detail::for_each_n_(HPX_FWD(policy), first, count,
+            HPX_FWD(f), is_segmented(), HPX_FWD(proj));
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -384,7 +384,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
             sequential(ExPolicy&& policy, InIterB first, InIterE last, F&& f,
                 Proj&& proj)
             {
-                return util::loop(std::forward<ExPolicy>(policy), first, last,
+                return util::loop(HPX_FWD(policy), first, last,
                     invoke_projected<F, Proj>{f, proj});
             }
 
@@ -398,10 +398,10 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 if (first != last)
                 {
                     auto f1 = for_each_iteration<ExPolicy, F, Proj>(
-                        std::forward<F>(f), std::forward<Proj>(proj));
+                        HPX_FWD(f), HPX_FWD(proj));
 
                     return util::foreach_partitioner<ExPolicy>::call(
-                        std::forward<ExPolicy>(policy), first,
+                        HPX_FWD(policy), first,
                         detail::distance(first, last), std::move(f1),
                         util::projection_identity());
                 }
@@ -429,9 +429,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 return result::get(std::move(first));
             }
 
-            return for_each<FwdIterB>().call(std::forward<ExPolicy>(policy),
-                is_seq(), first, last, std::forward<F>(f),
-                std::forward<Proj>(proj));
+            return for_each<FwdIterB>().call(HPX_FWD(policy),
+                is_seq(), first, last, HPX_FWD(f),
+                HPX_FWD(proj));
         }
         /// \endcond
     }    // namespace detail
@@ -540,8 +540,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
         typedef hpx::traits::is_segmented_iterator<FwdIterB> is_segmented;
 
-        return detail::for_each_(std::forward<ExPolicy>(policy), first, last,
-            std::forward<F>(f), std::forward<Proj>(proj), is_segmented());
+        return detail::for_each_(HPX_FWD(policy), first, last,
+            HPX_FWD(f), HPX_FWD(proj), is_segmented());
     }
 }}}    // namespace hpx::parallel::v1
 

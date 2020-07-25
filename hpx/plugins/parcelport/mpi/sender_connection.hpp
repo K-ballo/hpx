@@ -100,12 +100,12 @@ namespace hpx { namespace parcelset { namespace policies { namespace mpi
 
             state_ = initialized;
 
-            handler_ = std::forward<Handler>(handler);
+            handler_ = HPX_FWD(handler);
 
             if(!send())
             {
                 postprocess_handler_
-                    = std::forward<ParcelPostprocess>(parcel_postprocess);
+                    = HPX_FWD(parcel_postprocess);
                 add_connection(sender_, shared_from_this());
             }
             else

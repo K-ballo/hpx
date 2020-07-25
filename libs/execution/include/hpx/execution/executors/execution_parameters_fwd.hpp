@@ -101,8 +101,8 @@ namespace hpx { namespace parallel { namespace execution {
             return get_chunk_size_fn_helper<
                 typename hpx::util::decay_unwrap<Parameters>::type,
                 typename hpx::util::decay<Executor>::type>::
-                call(std::forward<Parameters>(params),
-                    std::forward<Executor>(exec), std::forward<F>(f), cores,
+                call(HPX_FWD(params),
+                    HPX_FWD(exec), HPX_FWD(f), cores,
                     num_tasks);
         }
 
@@ -114,12 +114,12 @@ namespace hpx { namespace parallel { namespace execution {
             HPX_FORCEINLINE auto operator()(Parameters&& params,
                 Executor&& exec, F&& f, std::size_t cores,
                 std::size_t num_tasks) const
-                -> decltype(get_chunk_size(std::forward<Parameters>(params),
-                    std::forward<Executor>(exec), std::forward<F>(f), cores,
+                -> decltype(get_chunk_size(HPX_FWD(params),
+                    HPX_FWD(exec), HPX_FWD(f), cores,
                     num_tasks))
             {
-                return get_chunk_size(std::forward<Parameters>(params),
-                    std::forward<Executor>(exec), std::forward<F>(f), cores,
+                return get_chunk_size(HPX_FWD(params),
+                    HPX_FWD(exec), HPX_FWD(f), cores,
                     num_tasks);
             }
         };
@@ -137,8 +137,8 @@ namespace hpx { namespace parallel { namespace execution {
             return maximal_number_of_chunks_fn_helper<
                 typename hpx::util::decay_unwrap<Parameters>::type,
                 typename hpx::util::decay<Executor>::type>::
-                call(std::forward<Parameters>(params),
-                    std::forward<Executor>(exec), cores, num_tasks);
+                call(HPX_FWD(params),
+                    HPX_FWD(exec), cores, num_tasks);
         }
 
         template <>
@@ -149,12 +149,12 @@ namespace hpx { namespace parallel { namespace execution {
             HPX_FORCEINLINE auto operator()(Parameters&& params,
                 Executor&& exec, std::size_t cores, std::size_t num_tasks) const
                 -> decltype(
-                    maximal_number_of_chunks(std::forward<Parameters>(params),
-                        std::forward<Executor>(exec), cores, num_tasks))
+                    maximal_number_of_chunks(HPX_FWD(params),
+                        HPX_FWD(exec), cores, num_tasks))
             {
                 return maximal_number_of_chunks(
-                    std::forward<Parameters>(params),
-                    std::forward<Executor>(exec), cores, num_tasks);
+                    HPX_FWD(params),
+                    HPX_FWD(exec), cores, num_tasks);
             }
         };
 
@@ -171,8 +171,8 @@ namespace hpx { namespace parallel { namespace execution {
             return reset_thread_distribution_fn_helper<
                 typename hpx::util::decay_unwrap<Parameters>::type,
                 typename hpx::util::decay<Executor>::type>::
-                call(std::forward<Parameters>(params),
-                    std::forward<Executor>(exec));
+                call(HPX_FWD(params),
+                    HPX_FWD(exec));
         }
 
         template <>
@@ -183,12 +183,12 @@ namespace hpx { namespace parallel { namespace execution {
             HPX_FORCEINLINE auto operator()(
                 Parameters&& params, Executor&& exec) const
                 -> decltype(
-                    reset_thread_distribution(std::forward<Parameters>(params),
-                        std::forward<Executor>(exec)))
+                    reset_thread_distribution(HPX_FWD(params),
+                        HPX_FWD(exec)))
             {
                 return reset_thread_distribution(
-                    std::forward<Parameters>(params),
-                    std::forward<Executor>(exec));
+                    HPX_FWD(params),
+                    HPX_FWD(exec));
             }
         };
 
@@ -205,8 +205,8 @@ namespace hpx { namespace parallel { namespace execution {
             return processing_units_count_fn_helper<
                 typename hpx::util::decay_unwrap<Parameters>::type,
                 typename hpx::util::decay<Executor>::type>::
-                call(std::forward<Parameters>(params),
-                    std::forward<Executor>(exec));
+                call(HPX_FWD(params),
+                    HPX_FWD(exec));
         }
 
         template <>
@@ -217,11 +217,11 @@ namespace hpx { namespace parallel { namespace execution {
             HPX_FORCEINLINE auto operator()(
                 Parameters&& params, Executor&& exec) const
                 -> decltype(
-                    processing_units_count(std::forward<Parameters>(params),
-                        std::forward<Executor>(exec)))
+                    processing_units_count(HPX_FWD(params),
+                        HPX_FWD(exec)))
             {
-                return processing_units_count(std::forward<Parameters>(params),
-                    std::forward<Executor>(exec));
+                return processing_units_count(HPX_FWD(params),
+                    HPX_FWD(exec));
             }
         };
 
@@ -238,8 +238,8 @@ namespace hpx { namespace parallel { namespace execution {
             return mark_begin_execution_fn_helper<
                 typename hpx::util::decay_unwrap<Parameters>::type,
                 typename hpx::util::decay<Executor>::type>::
-                call(std::forward<Parameters>(params),
-                    std::forward<Executor>(exec));
+                call(HPX_FWD(params),
+                    HPX_FWD(exec));
         }
 
         template <>
@@ -250,11 +250,11 @@ namespace hpx { namespace parallel { namespace execution {
             HPX_FORCEINLINE auto operator()(
                 Parameters&& params, Executor&& exec) const
                 -> decltype(
-                    mark_begin_execution(std::forward<Parameters>(params),
-                        std::forward<Executor>(exec)))
+                    mark_begin_execution(HPX_FWD(params),
+                        HPX_FWD(exec)))
             {
-                return mark_begin_execution(std::forward<Parameters>(params),
-                    std::forward<Executor>(exec));
+                return mark_begin_execution(HPX_FWD(params),
+                    HPX_FWD(exec));
             }
         };
 
@@ -271,8 +271,8 @@ namespace hpx { namespace parallel { namespace execution {
             return mark_end_of_scheduling_fn_helper<
                 typename hpx::util::decay_unwrap<Parameters>::type,
                 typename hpx::util::decay<Executor>::type>::
-                call(std::forward<Parameters>(params),
-                    std::forward<Executor>(exec));
+                call(HPX_FWD(params),
+                    HPX_FWD(exec));
         }
 
         template <>
@@ -283,11 +283,11 @@ namespace hpx { namespace parallel { namespace execution {
             HPX_FORCEINLINE auto operator()(
                 Parameters&& params, Executor&& exec) const
                 -> decltype(
-                    mark_end_of_scheduling(std::forward<Parameters>(params),
-                        std::forward<Executor>(exec)))
+                    mark_end_of_scheduling(HPX_FWD(params),
+                        HPX_FWD(exec)))
             {
-                return mark_end_of_scheduling(std::forward<Parameters>(params),
-                    std::forward<Executor>(exec));
+                return mark_end_of_scheduling(HPX_FWD(params),
+                    HPX_FWD(exec));
             }
         };
 
@@ -304,8 +304,8 @@ namespace hpx { namespace parallel { namespace execution {
             return mark_end_execution_fn_helper<
                 typename hpx::util::decay_unwrap<Parameters>::type,
                 typename hpx::util::decay<Executor>::type>::
-                call(std::forward<Parameters>(params),
-                    std::forward<Executor>(exec));
+                call(HPX_FWD(params),
+                    HPX_FWD(exec));
         }
 
         template <>
@@ -315,11 +315,11 @@ namespace hpx { namespace parallel { namespace execution {
             template <typename Parameters, typename Executor>
             HPX_FORCEINLINE auto operator()(
                 Parameters&& params, Executor&& exec) const
-                -> decltype(mark_end_execution(std::forward<Parameters>(params),
-                    std::forward<Executor>(exec)))
+                -> decltype(mark_end_execution(HPX_FWD(params),
+                    HPX_FWD(exec)))
             {
-                return mark_end_execution(std::forward<Parameters>(params),
-                    std::forward<Executor>(exec));
+                return mark_end_execution(HPX_FWD(params),
+                    HPX_FWD(exec));
             }
         };
 

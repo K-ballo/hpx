@@ -87,10 +87,10 @@ namespace hpx { namespace components
             if (!id_)
             {
                 return components::stub_base<Component>::create_async(
-                    hpx::find_here(), std::forward<Ts>(vs)...);
+                    hpx::find_here(), HPX_FWD(vs)...);
             }
             return components::stub_base<Component>::create_colocated_async(
-                id_, std::forward<Ts>(vs)...);
+                id_, HPX_FWD(vs)...);
         }
 
         /// \cond NOINTERNAL
@@ -123,13 +123,13 @@ namespace hpx { namespace components
             {
                 id = hpx::find_here();
                 f = stub_base<Component>::bulk_create_async(
-                        id, count, std::forward<Ts>(vs)...);
+                        id, count, HPX_FWD(vs)...);
             }
             else
             {
                 id = id_;
                 f = stub_base<Component>::bulk_create_colocated_async(
-                        id, count, std::forward<Ts>(vs)...);
+                        id, count, HPX_FWD(vs)...);
             }
 
             return f.then(hpx::launch::sync,
@@ -161,10 +161,10 @@ namespace hpx { namespace components
             if (!id_)
             {
                 return hpx::detail::async_impl<Action>(
-                    policy, hpx::find_here(), std::forward<Ts>(vs)...);
+                    policy, hpx::find_here(), HPX_FWD(vs)...);
             }
             return hpx::detail::async_colocated<Action>(
-                id_, std::forward<Ts>(vs)...);
+                id_, HPX_FWD(vs)...);
         }
 
         /// \note This function is part of the invocation policy implemented by
@@ -178,10 +178,10 @@ namespace hpx { namespace components
             {
                 return hpx::detail::async_cb_impl<Action>(
                     policy, hpx::find_here(),
-                    std::forward<Callback>(cb), std::forward<Ts>(vs)...);
+                    HPX_FWD(cb), HPX_FWD(vs)...);
             }
             return hpx::detail::async_colocated_cb<Action>(id_,
-                std::forward<Callback>(cb), std::forward<Ts>(vs)...);
+                HPX_FWD(cb), HPX_FWD(vs)...);
         }
 
         /// \note This function is part of the invocation policy implemented by
@@ -194,11 +194,11 @@ namespace hpx { namespace components
             if (!id_)
             {
                 return hpx::detail::apply_impl<Action>(
-                    std::forward<Continuation>(c),
-                    hpx::find_here(), priority, std::forward<Ts>(vs)...);
+                    HPX_FWD(c),
+                    hpx::find_here(), priority, HPX_FWD(vs)...);
             }
             return hpx::detail::apply_colocated<Action>(
-                std::forward<Continuation>(c), id_, std::forward<Ts>(vs)...);
+                HPX_FWD(c), id_, HPX_FWD(vs)...);
         }
 
         template <typename Action, typename ...Ts>
@@ -207,10 +207,10 @@ namespace hpx { namespace components
             if (!id_)
             {
                 return hpx::detail::apply_impl<Action>(
-                    hpx::find_here(), priority, std::forward<Ts>(vs)...);
+                    hpx::find_here(), priority, HPX_FWD(vs)...);
             }
             return hpx::detail::apply_colocated<Action>(
-                id_, std::forward<Ts>(vs)...);
+                id_, HPX_FWD(vs)...);
         }
 
         /// \note This function is part of the invocation policy implemented by
@@ -224,14 +224,14 @@ namespace hpx { namespace components
             if (!id_)
             {
                 return hpx::detail::apply_cb_impl<Action>(
-                    std::forward<Continuation>(c),
-                    hpx::find_here(), priority, std::forward<Callback>(cb),
-                    std::forward<Ts>(vs)...);
+                    HPX_FWD(c),
+                    hpx::find_here(), priority, HPX_FWD(cb),
+                    HPX_FWD(vs)...);
             }
             return hpx::detail::apply_colocated_cb<Action>(
-                std::forward<Continuation>(c),
-                id_, std::forward<Callback>(cb),
-                std::forward<Ts>(vs)...);
+                HPX_FWD(c),
+                id_, HPX_FWD(cb),
+                HPX_FWD(vs)...);
         }
 
         template <typename Action, typename Callback, typename ...Ts>
@@ -241,11 +241,11 @@ namespace hpx { namespace components
             if (!id_)
             {
                 return hpx::detail::apply_cb_impl<Action>(
-                    hpx::find_here(), priority, std::forward<Callback>(cb),
-                    std::forward<Ts>(vs)...);
+                    hpx::find_here(), priority, HPX_FWD(cb),
+                    HPX_FWD(vs)...);
             }
             return hpx::detail::apply_colocated_cb<Action>(
-                id_, std::forward<Callback>(cb), std::forward<Ts>(vs)...);
+                id_, HPX_FWD(cb), HPX_FWD(vs)...);
         }
 
         /// Returns the number of associated localities for this distribution

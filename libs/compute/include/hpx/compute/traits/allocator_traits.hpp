@@ -125,7 +125,7 @@ namespace hpx { namespace compute { namespace traits {
             {
                 typedef typename Allocator::pointer pointer;
                 typedef typename Allocator::value_type value_type;
-                value_type init_value(std::forward<Ts>(vs)...);
+                value_type init_value(HPX_FWD(vs)...);
                 pointer end = p + count;
                 typename Allocator::size_type allocated = 0;
                 for (pointer it = p; it != end; ++it)
@@ -155,9 +155,9 @@ namespace hpx { namespace compute { namespace traits {
                 typename Allocator::pointer p,
                 typename Allocator::size_type count, Ts&&... vs)
                 -> decltype(
-                    alloc.bulk_construct(p, count, std::forward<Ts>(vs)...))
+                    alloc.bulk_construct(p, count, HPX_FWD(vs)...))
             {
-                alloc.bulk_construct(p, count, std::forward<Ts>(vs)...);
+                alloc.bulk_construct(p, count, HPX_FWD(vs)...);
             }
         };
 
@@ -166,7 +166,7 @@ namespace hpx { namespace compute { namespace traits {
             typename Allocator::pointer p, typename Allocator::size_type count,
             Ts&&... vs)
         {
-            bulk_construct::call(0, alloc, p, count, std::forward<Ts>(vs)...);
+            bulk_construct::call(0, alloc, p, count, HPX_FWD(vs)...);
         }
 
         ///////////////////////////////////////////////////////////////////////
@@ -232,7 +232,7 @@ namespace hpx { namespace compute { namespace traits {
         template <class... Args>
         static void construct(Allocator& alloc, pointer p, Args&&... args)
         {
-            alloc.construct(p, std::forward<Args>(args)...);
+            alloc.construct(p, HPX_FWD(args)...);
         }
 
         template <class... Args>
@@ -275,7 +275,7 @@ namespace hpx { namespace compute { namespace traits {
             Allocator& alloc, pointer p, size_type count, Ts&&... vs)
         {
             detail::call_bulk_construct(
-                alloc, p, count, std::forward<Ts>(vs)...);
+                alloc, p, count, HPX_FWD(vs)...);
         }
 
         HPX_HOST_DEVICE

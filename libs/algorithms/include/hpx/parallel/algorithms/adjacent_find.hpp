@@ -69,7 +69,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 difference_type count = std::distance(first, last);
                 util::cancellation_token<difference_type> tok(count);
 
-                auto f1 = [op = std::forward<Pred>(op), tok](zip_iterator it,
+                auto f1 = [op = HPX_FWD(op), tok](zip_iterator it,
                               std::size_t part_size,
                               std::size_t base_idx) mutable {
                     util::loop_idx_n(base_idx, it, part_size, tok,
@@ -93,7 +93,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 };
 
                 return util::partitioner<ExPolicy, FwdIter,
-                    void>::call_with_index(std::forward<ExPolicy>(policy),
+                    void>::call_with_index(HPX_FWD(policy),
                     hpx::util::make_zip_iterator(first, next), count - 1, 1,
                     std::move(f1), std::move(f2));
             }
@@ -109,8 +109,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
             typedef execution::is_sequenced_execution_policy<ExPolicy> is_seq;
 
             return detail::adjacent_find<FwdIter>().call(
-                std::forward<ExPolicy>(policy), is_seq(), first, last,
-                std::forward<Pred>(op));
+                HPX_FWD(policy), is_seq(), first, last,
+                HPX_FWD(op));
         }
         template <typename ExPolicy, typename FwdIter, typename Pred>
         typename util::detail::algorithm_result<ExPolicy, FwdIter>::type
@@ -191,7 +191,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
         ExPolicy&& policy, FwdIter first, FwdIter last, Pred&& op = Pred())
     {
         typedef hpx::traits::is_segmented_iterator<FwdIter> is_segmented;
-        return detail::adjacent_find_(std::forward<ExPolicy>(policy), first,
-            last, std::forward<Pred>(op), is_segmented());
+        return detail::adjacent_find_(HPX_FWD(policy), first,
+            last, HPX_FWD(op), is_segmented());
     }
 }}}    // namespace hpx::parallel::v1

@@ -36,7 +36,7 @@ namespace hpx { namespace components
     public:
         template <typename ...Arg>
         locking_hook(Arg &&... arg)
-          : base_type(std::forward<Arg>(arg)...)
+          : base_type(HPX_FWD(arg)...)
         {}
 
         locking_hook(locking_hook const& rhs)
@@ -72,7 +72,7 @@ namespace hpx { namespace components
                 &locking_hook::thread_function,
                 get_lva<this_component_type>::call(lva),
                 traits::component_decorate_function<base_type>::call(
-                    lva, std::forward<F>(f))));
+                    lva, HPX_FWD(f))));
         }
 
     protected:
@@ -88,7 +88,7 @@ namespace hpx { namespace components
             // NOLINTNEXTLINE(bugprone-forwarding-reference-overload)
             decorate_wrapper(F && f)
             {
-                threads::get_self().decorate_yield(std::forward<F>(f));
+                threads::get_self().decorate_yield(HPX_FWD(f));
             }
 
             ~decorate_wrapper()

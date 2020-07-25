@@ -55,7 +55,7 @@ namespace hpx { namespace components
         async(launch policy, Ts&&... vs) const
         {
             return hpx::detail::async_unwrap_result_impl<Action>(
-                policy, get_next_target(), std::forward<Ts>(vs)...);
+                policy, get_next_target(), HPX_FWD(vs)...);
         }
 
         template <typename Action, typename ...Ts>
@@ -63,7 +63,7 @@ namespace hpx { namespace components
         async(launch::sync_policy, Ts&&... vs) const
         {
             return hpx::detail::sync_impl<Action>(
-                launch::sync, get_next_target(), std::forward<Ts>(vs)...);
+                launch::sync, get_next_target(), HPX_FWD(vs)...);
         }
 
         template <typename Action, typename Callback, typename ...Ts>
@@ -71,8 +71,8 @@ namespace hpx { namespace components
         async_cb(launch policy, Callback&& cb, Ts&&... vs) const
         {
             return hpx::detail::async_cb_impl<Action>(policy,
-                get_next_target(), std::forward<Callback>(cb),
-                std::forward<Ts>(vs)...);
+                get_next_target(), HPX_FWD(cb),
+                HPX_FWD(vs)...);
         }
 
         /// \note This function is part of the invocation policy implemented by
@@ -82,15 +82,15 @@ namespace hpx { namespace components
         bool apply(Continuation&& c, threads::thread_priority priority,
             Ts&&... vs) const
         {
-            return hpx::detail::apply_impl<Action>(std::forward<Continuation>(c),
-                get_next_target(), priority, std::forward<Ts>(vs)...);
+            return hpx::detail::apply_impl<Action>(HPX_FWD(c),
+                get_next_target(), priority, HPX_FWD(vs)...);
         }
 
         template <typename Action, typename... Ts>
         bool apply(threads::thread_priority priority, Ts&&... vs) const
         {
             return hpx::detail::apply_impl<Action>(
-                get_next_target(), priority, std::forward<Ts>(vs)...);
+                get_next_target(), priority, HPX_FWD(vs)...);
         }
 
         /// \note This function is part of the invocation policy implemented by
@@ -102,8 +102,8 @@ namespace hpx { namespace components
             Callback&& cb, Ts&&... vs) const
         {
             return hpx::detail::apply_cb_impl<Action>(
-                std::forward<Continuation>(c), get_next_target(), priority,
-                std::forward<Callback>(cb), std::forward<Ts>(vs)...);
+                HPX_FWD(c), get_next_target(), priority,
+                HPX_FWD(cb), HPX_FWD(vs)...);
         }
 
         template <typename Action, typename Callback, typename... Ts>
@@ -112,7 +112,7 @@ namespace hpx { namespace components
         {
             return hpx::detail::apply_cb_impl<Action>(
                 get_next_target(), priority,
-                std::forward<Callback>(cb), std::forward<Ts>(vs)...);
+                HPX_FWD(cb), HPX_FWD(vs)...);
         }
 
         hpx::id_type const& get_next_target() const

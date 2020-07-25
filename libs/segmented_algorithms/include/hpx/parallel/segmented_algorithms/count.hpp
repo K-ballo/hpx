@@ -200,8 +200,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
             }
 
             return segmented_count(count<difference_type>(),
-                std::forward<ExPolicy>(policy), first, last, value,
-                std::forward<Proj>(proj), is_seq());
+                HPX_FWD(policy), first, last, value,
+                HPX_FWD(proj), is_seq());
         }
 
         // forward declare the non-segmented version of this algorithm
@@ -249,8 +249,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 if (beg != end)
                 {
                     overall_result = dispatch(traits::get_id(sit), algo, policy,
-                        std::true_type(), beg, end, std::forward<F>(f),
-                        std::forward<Proj>(proj));
+                        std::true_type(), beg, end, HPX_FWD(f),
+                        HPX_FWD(proj));
                 }
             }
             else
@@ -261,8 +261,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 if (beg != end)
                 {
                     overall_result += dispatch(traits::get_id(sit), algo,
-                        policy, std::true_type(), beg, end, std::forward<F>(f),
-                        std::forward<Proj>(proj));
+                        policy, std::true_type(), beg, end, HPX_FWD(f),
+                        HPX_FWD(proj));
                 }
 
                 // handle all of the full partitions
@@ -274,7 +274,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                     {
                         overall_result += dispatch(traits::get_id(sit), algo,
                             policy, std::true_type(), beg, end,
-                            std::forward<F>(f), std::forward<Proj>(proj));
+                            HPX_FWD(f), HPX_FWD(proj));
                     }
                 }
 
@@ -284,8 +284,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 if (beg != end)
                 {
                     overall_result += dispatch(traits::get_id(sit), algo,
-                        policy, std::true_type(), beg, end, std::forward<F>(f),
-                        std::forward<Proj>(proj));
+                        policy, std::true_type(), beg, end, HPX_FWD(f),
+                        HPX_FWD(proj));
                 }
             }
 
@@ -326,8 +326,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 if (beg != end)
                 {
                     segments.push_back(dispatch_async(traits::get_id(sit), algo,
-                        policy, forced_seq(), beg, end, std::forward<F>(f),
-                        std::forward<Proj>(proj)));
+                        policy, forced_seq(), beg, end, HPX_FWD(f),
+                        HPX_FWD(proj)));
                 }
             }
             else
@@ -338,8 +338,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 if (beg != end)
                 {
                     segments.push_back(dispatch_async(traits::get_id(sit), algo,
-                        policy, forced_seq(), beg, end, std::forward<F>(f),
-                        std::forward<Proj>(proj)));
+                        policy, forced_seq(), beg, end, HPX_FWD(f),
+                        HPX_FWD(proj)));
                 }
 
                 // handle all of the full partitions
@@ -351,7 +351,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                     {
                         segments.push_back(dispatch_async(traits::get_id(sit),
                             algo, policy, forced_seq(), beg, end,
-                            std::forward<F>(f), std::forward<Proj>(proj)));
+                            HPX_FWD(f), HPX_FWD(proj)));
                     }
                 }
 
@@ -361,8 +361,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 if (beg != end)
                 {
                     segments.push_back(dispatch_async(traits::get_id(sit), algo,
-                        policy, forced_seq(), beg, end, std::forward<F>(f),
-                        std::forward<Proj>(proj)));
+                        policy, forced_seq(), beg, end, HPX_FWD(f),
+                        HPX_FWD(proj)));
                 }
             }
 
@@ -402,8 +402,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
             }
 
             return segmented_count_if(count_if<difference_type>(),
-                std::forward<ExPolicy>(policy), first, last, std::forward<F>(f),
-                std::forward<Proj>(proj), is_seq());
+                HPX_FWD(policy), first, last, HPX_FWD(f),
+                HPX_FWD(proj), is_seq());
         }
 
         // forward declare the non-segmented version of this algorithm

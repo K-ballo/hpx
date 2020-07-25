@@ -122,7 +122,7 @@ namespace hpx { namespace traits
             HPX_FORCEINLINE
             Derived operator()(T_ && value) const
             {
-                return std::forward<T_>(value);
+                return HPX_FWD(value);
             }
         };
 
@@ -174,7 +174,7 @@ namespace hpx { namespace lcos { namespace detail
 
         template <typename ... T>
         future_data(init_no_addref no_addref, in_place in_place, T&& ... ts)
-          : future_data_base<id_type>(no_addref, in_place, std::forward<T>(ts)...)
+          : future_data_base<id_type>(no_addref, in_place, HPX_FWD(ts)...)
         {}
 
         future_data(init_no_addref no_addref, std::exception_ptr const& e)
@@ -381,14 +381,14 @@ namespace hpx { namespace components
         static Derived create(id_type const& targetgid, Ts&&... vs)
         {
             return Derived(stub_type::create_async(targetgid,
-                std::forward<Ts>(vs)...));
+                HPX_FWD(vs)...));
         }
 
         template <typename ...Ts>
         static Derived create_colocated(id_type const& id, Ts&&... vs)
         {
             return Derived(stub_type::create_colocated_async(id,
-                std::forward<Ts>(vs)...));
+                HPX_FWD(vs)...));
         }
 
         void free()
@@ -539,7 +539,7 @@ namespace hpx { namespace components
             shared_state_ptr p =
                 lcos::detail::make_continuation<continuation_result_type>(
                     *static_cast<Derived const*>(this), launch::all,
-                    std::forward<F>(f));
+                    HPX_FWD(f));
             return hpx::traits::future_access<future<result_type> >::create(
                 std::move(p));
         }

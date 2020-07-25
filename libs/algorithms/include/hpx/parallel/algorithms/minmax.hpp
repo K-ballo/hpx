@@ -105,7 +105,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
             {
                 return std::min_element(first, last,
                     util::compare_projected<F, Proj>(
-                        std::forward<F>(f), std::forward<Proj>(proj)));
+                        HPX_FWD(f), HPX_FWD(proj)));
             }
 
             template <typename ExPolicy, typename FwdIter, typename F,
@@ -126,15 +126,15 @@ namespace hpx { namespace parallel { inline namespace v1 {
                     return sequential_min_element(
                         policy, it, part_count, f, proj);
                 };
-                auto f2 = [policy, f = std::forward<F>(f),
-                              proj = std::forward<Proj>(proj)](
+                auto f2 = [policy, f = HPX_FWD(f),
+                              proj = HPX_FWD(proj)](
                               std::vector<FwdIter>&& positions) -> FwdIter {
                     return min_element::sequential_minmax_element_ind(
                         policy, positions.begin(), positions.size(), f, proj);
                 };
 
                 return util::partitioner<ExPolicy, FwdIter, FwdIter>::call(
-                    std::forward<ExPolicy>(policy), first,
+                    HPX_FWD(policy), first,
                     std::distance(first, last), std::move(f1),
                     hpx::util::unwrapping(std::move(f2)));
             }
@@ -152,8 +152,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 is_seq;
 
             return detail::min_element<FwdIter>().call(
-                std::forward<ExPolicy>(policy), is_seq(), first, last,
-                std::forward<F>(f), std::forward<Proj>(proj));
+                HPX_FWD(policy), is_seq(), first, last,
+                HPX_FWD(f), HPX_FWD(proj));
         }
 
         ///////////////////////////////////////////////////////////////////////
@@ -249,8 +249,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
         typedef hpx::traits::is_segmented_iterator<FwdIter> is_segmented;
 
-        return detail::min_element_(std::forward<ExPolicy>(policy), first, last,
-            std::forward<F>(f), std::forward<Proj>(proj), is_segmented());
+        return detail::min_element_(HPX_FWD(policy), first, last,
+            HPX_FWD(f), HPX_FWD(proj), is_segmented());
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -322,7 +322,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
             {
                 return std::max_element(first, last,
                     util::compare_projected<F, Proj>(
-                        std::forward<F>(f), std::forward<Proj>(proj)));
+                        HPX_FWD(f), HPX_FWD(proj)));
             }
 
             template <typename ExPolicy, typename FwdIter, typename F,
@@ -343,15 +343,15 @@ namespace hpx { namespace parallel { inline namespace v1 {
                     return sequential_max_element(
                         policy, it, part_count, f, proj);
                 };
-                auto f2 = [policy, f = std::forward<F>(f),
-                              proj = std::forward<Proj>(proj)](
+                auto f2 = [policy, f = HPX_FWD(f),
+                              proj = HPX_FWD(proj)](
                               std::vector<FwdIter>&& positions) -> FwdIter {
                     return max_element::sequential_minmax_element_ind(
                         policy, positions.begin(), positions.size(), f, proj);
                 };
 
                 return util::partitioner<ExPolicy, FwdIter, FwdIter>::call(
-                    std::forward<ExPolicy>(policy), first,
+                    HPX_FWD(policy), first,
                     std::distance(first, last), std::move(f1),
                     hpx::util::unwrapping(std::move(f2)));
             }
@@ -369,8 +369,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 is_seq;
 
             return detail::max_element<FwdIter>().call(
-                std::forward<ExPolicy>(policy), is_seq(), first, last,
-                std::forward<F>(f), std::forward<Proj>(proj));
+                HPX_FWD(policy), is_seq(), first, last,
+                HPX_FWD(f), HPX_FWD(proj));
         }
 
         ///////////////////////////////////////////////////////////////////////
@@ -467,8 +467,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
         typedef hpx::traits::is_segmented_iterator<FwdIter> is_segmented;
 
-        return detail::max_element_(std::forward<ExPolicy>(policy), first, last,
-            std::forward<F>(f), std::forward<Proj>(proj), is_segmented());
+        return detail::max_element_(HPX_FWD(policy), first, last,
+            HPX_FWD(f), HPX_FWD(proj), is_segmented());
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -555,7 +555,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
             {
                 return std::minmax_element(first, last,
                     util::compare_projected<F, Proj>(
-                        std::forward<F>(f), std::forward<Proj>(proj)));
+                        HPX_FWD(f), HPX_FWD(proj)));
             }
 
             template <typename ExPolicy, typename FwdIter, typename F,
@@ -581,15 +581,15 @@ namespace hpx { namespace parallel { inline namespace v1 {
                         policy, it, part_count, f, proj);
                 };
                 auto f2 =
-                    [policy, f = std::forward<F>(f),
-                        proj = std::forward<Proj>(proj)](
+                    [policy, f = HPX_FWD(f),
+                        proj = HPX_FWD(proj)](
                         std::vector<result_type>&& positions) -> result_type {
                     return minmax_element::sequential_minmax_element_ind(
                         policy, positions.begin(), positions.size(), f, proj);
                 };
 
                 return util::partitioner<ExPolicy, result_type,
-                    result_type>::call(std::forward<ExPolicy>(policy),
+                    result_type>::call(HPX_FWD(policy),
                     result.first, std::distance(result.first, last),
                     std::move(f1), hpx::util::unwrapping(std::move(f2)));
             }
@@ -608,8 +608,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 is_seq;
 
             return detail::minmax_element<FwdIter>().call(
-                std::forward<ExPolicy>(policy), is_seq(), first, last,
-                std::forward<F>(f), std::forward<Proj>(proj));
+                HPX_FWD(policy), is_seq(), first, last,
+                HPX_FWD(f), HPX_FWD(proj));
         }
 
         ///////////////////////////////////////////////////////////////////////
@@ -720,8 +720,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
         typedef hpx::traits::is_segmented_iterator<FwdIter> is_segmented;
 
         return hpx::util::make_tagged_pair<tag::min, tag::max>(
-            detail::minmax_element_(std::forward<ExPolicy>(policy), first, last,
-                std::forward<F>(f), std::forward<Proj>(proj), is_segmented()));
+            detail::minmax_element_(HPX_FWD(policy), first, last,
+                HPX_FWD(f), HPX_FWD(proj), is_segmented()));
     }
 #if defined(HPX_MSVC)
 #pragma pop_macro("min")

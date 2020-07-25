@@ -98,7 +98,7 @@ namespace hpx { namespace resiliency {
         // that passes the predicate, properly handle exceptions
         return hpx::dataflow(
             hpx::launch::sync,    // do not schedule new thread for the lambda
-            [pred = std::forward<Pred>(pred), vote = std::forward<Vote>(vote),
+            [pred = HPX_FWD(pred), vote = HPX_FWD(vote),
                 n](std::vector<hpx::future<result_type>>&& results) mutable
             -> result_type {
                 // Store all valid results
@@ -127,7 +127,7 @@ namespace hpx { namespace resiliency {
                 if (!valid_results.empty())
                 {
                     return hpx::util::invoke(
-                        std::forward<Vote>(vote), std::move(valid_results));
+                        HPX_FWD(vote), std::move(valid_results));
                 }
 
                 if (bool(ex))
@@ -149,9 +149,9 @@ namespace hpx { namespace resiliency {
         typename hpx::util::detail::invoke_deferred_result<F, Ts...>::type>
     async_replicate_vote(std::size_t n, Vote&& vote, F&& f, Ts&&... ts)
     {
-        return async_replicate_vote_validate(n, std::forward<Vote>(vote),
-            detail::replicate_validator{}, std::forward<F>(f),
-            std::forward<Ts>(ts)...);
+        return async_replicate_vote_validate(n, HPX_FWD(vote),
+            detail::replicate_validator{}, HPX_FWD(f),
+            HPX_FWD(ts)...);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -164,8 +164,8 @@ namespace hpx { namespace resiliency {
     async_replicate_validate(std::size_t n, Pred&& pred, F&& f, Ts&&... ts)
     {
         return async_replicate_vote_validate(n, detail::replicate_voter{},
-            std::forward<Pred>(pred), std::forward<F>(f),
-            std::forward<Ts>(ts)...);
+            HPX_FWD(pred), HPX_FWD(f),
+            HPX_FWD(ts)...);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -178,8 +178,8 @@ namespace hpx { namespace resiliency {
     async_replicate(std::size_t n, F&& f, Ts&&... ts)
     {
         return async_replicate_vote_validate(n, detail::replicate_voter{},
-            detail::replicate_validator{}, std::forward<F>(f),
-            std::forward<Ts>(ts)...);
+            detail::replicate_validator{}, HPX_FWD(f),
+            HPX_FWD(ts)...);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -193,12 +193,12 @@ namespace hpx { namespace resiliency {
             auto operator()(std::size_t n, Vote&& vote, Pred&& pred, F&& f,
                 Ts&&... ts) const
                 -> decltype(hpx::resiliency::async_replicate_vote_validate(n,
-                    std::forward<Vote>(vote), std::forward<Pred>(pred),
-                    std::forward<F>(f), std::forward<Ts>(ts)...))
+                    HPX_FWD(vote), HPX_FWD(pred),
+                    HPX_FWD(f), HPX_FWD(ts)...))
             {
                 return hpx::resiliency::async_replicate_vote_validate(n,
-                    std::forward<Vote>(vote), std::forward<Pred>(pred),
-                    std::forward<F>(f), std::forward<Ts>(ts)...);
+                    HPX_FWD(vote), HPX_FWD(pred),
+                    HPX_FWD(f), HPX_FWD(ts)...);
             }
         };
 
@@ -207,12 +207,12 @@ namespace hpx { namespace resiliency {
             template <typename Vote, typename F, typename... Ts>
             auto operator()(std::size_t n, Vote&& vote, F&& f, Ts&&... ts) const
                 -> decltype(hpx::resiliency::async_replicate_vote(n,
-                    std::forward<Vote>(vote), std::forward<F>(f),
-                    std::forward<Ts>(ts)...))
+                    HPX_FWD(vote), HPX_FWD(f),
+                    HPX_FWD(ts)...))
             {
                 return hpx::resiliency::async_replicate_vote(n,
-                    std::forward<Vote>(vote), std::forward<F>(f),
-                    std::forward<Ts>(ts)...);
+                    HPX_FWD(vote), HPX_FWD(f),
+                    HPX_FWD(ts)...);
             }
         };
 
@@ -221,12 +221,12 @@ namespace hpx { namespace resiliency {
             template <typename Pred, typename F, typename... Ts>
             auto operator()(std::size_t n, Pred&& pred, F&& f, Ts&&... ts) const
                 -> decltype(hpx::resiliency::async_replicate_validate(n,
-                    std::forward<Pred>(pred), std::forward<F>(f),
-                    std::forward<Ts>(ts)...))
+                    HPX_FWD(pred), HPX_FWD(f),
+                    HPX_FWD(ts)...))
             {
                 return hpx::resiliency::async_replicate_validate(n,
-                    std::forward<Pred>(pred), std::forward<F>(f),
-                    std::forward<Ts>(ts)...);
+                    HPX_FWD(pred), HPX_FWD(f),
+                    HPX_FWD(ts)...);
             }
         };
 
@@ -235,10 +235,10 @@ namespace hpx { namespace resiliency {
             template <typename F, typename... Ts>
             auto operator()(std::size_t n, F&& f, Ts&&... ts) const
                 -> decltype(hpx::resiliency::async_replicate(
-                    n, std::forward<F>(f), std::forward<Ts>(ts)...))
+                    n, HPX_FWD(f), HPX_FWD(ts)...))
             {
                 return hpx::resiliency::async_replicate(
-                    n, std::forward<F>(f), std::forward<Ts>(ts)...);
+                    n, HPX_FWD(f), HPX_FWD(ts)...);
             }
         };
     }    // namespace functional

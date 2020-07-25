@@ -107,7 +107,7 @@ namespace hpx { namespace util {
 
         template <typename... Ts>
         tagged(Ts&&... ts)
-          : Base(std::forward<Ts>(ts)...)
+          : Base(HPX_FWD(ts)...)
         {
         }
 
@@ -151,7 +151,7 @@ namespace hpx { namespace util {
             return *this;
         }
 
-        // Effects: Assigns std::forward<U>(u) to static_cast<Base&>(*this).
+        // Effects: Assigns HPX_FWD(u) to static_cast<Base&>(*this).
         // Returns: *this.
         template <typename U,
             HPX_CONCEPT_REQUIRES_(
@@ -159,7 +159,7 @@ namespace hpx { namespace util {
                 std::is_convertible<U, Base>::value)>
         tagged& operator=(U&& u)
         {
-            static_cast<Base&>(*this) = std::forward<U>(u);
+            static_cast<Base&>(*this) = HPX_FWD(u);
             return *this;
         }
 

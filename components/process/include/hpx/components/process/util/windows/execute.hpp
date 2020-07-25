@@ -24,7 +24,7 @@ namespace hpx { namespace components { namespace process { namespace windows {
 template <typename ... Ts>
 child execute(Ts && ...ts)
 {
-    return executor()(std::forward<Ts>(ts)...);
+    return executor()(HPX_FWD(ts)...);
 }
 
 }}}}

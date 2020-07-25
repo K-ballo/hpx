@@ -42,7 +42,7 @@ namespace hpx { namespace components { namespace server
         Component* c = nullptr;
         try
         {
-            c = new(storage) Component(std::forward<Ts>(ts)...);
+            c = new(storage) Component(HPX_FWD(ts)...);
         }
         catch(...)
         {
@@ -83,7 +83,7 @@ namespace hpx { namespace components { namespace server
         Component* c = nullptr;
         try
         {
-            c = new(storage) Component(std::forward<Ts>(ts)...);
+            c = new(storage) Component(HPX_FWD(ts)...);
         }
         catch(...)
         {
@@ -143,7 +143,7 @@ namespace hpx { namespace components { namespace server
             for (std::size_t i = 0; i != count; ++i, ++storage_it)
             {
                 Component* c = nullptr;
-                c = new(storage_it) Component(std::forward<Ts>(ts)...);
+                c = new(storage_it) Component(HPX_FWD(ts)...);
                 naming::gid_type gid = c->get_base_gid();
                 if (!gid)
                 {

@@ -149,9 +149,9 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
             Sent, typename std::decay<Compare>::type>;
 
         parallel_stable_sort_helper_t sorter(
-            first, last, std::forward<Compare>(comp));
+            first, last, HPX_FWD(comp));
 
-        return sorter(std::forward<Exec>(exec), cores, chunk_size);
+        return sorter(HPX_FWD(exec), cores, chunk_size);
     }
 
     template <typename Exec, typename Iter, typename Sent>
@@ -160,7 +160,7 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
         using compare =
             std::less<typename std::iterator_traits<Iter>::value_type>;
 
-        return parallel_stable_sort(std::forward<Exec>(exec), first, last,
+        return parallel_stable_sort(HPX_FWD(exec), first, last,
             hpx::threads::hardware_concurrency(), stable_sort_limit_per_task,
             compare{});
     }

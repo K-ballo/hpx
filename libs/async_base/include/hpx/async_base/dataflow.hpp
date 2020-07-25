@@ -23,23 +23,23 @@ namespace hpx {
     template <typename F, typename... Ts>
     HPX_FORCEINLINE auto dataflow(F&& f, Ts&&... ts) -> decltype(
         lcos::detail::dataflow_dispatch<typename util::decay<F>::type>::call(
-            hpx::util::internal_allocator<>{}, std::forward<F>(f),
-            std::forward<Ts>(ts)...))
+            hpx::util::internal_allocator<>{}, HPX_FWD(f),
+            HPX_FWD(ts)...))
     {
         return lcos::detail::dataflow_dispatch<typename util::decay<F>::type>::
-            call(hpx::util::internal_allocator<>{}, std::forward<F>(f),
-                std::forward<Ts>(ts)...);
+            call(hpx::util::internal_allocator<>{}, HPX_FWD(f),
+                HPX_FWD(ts)...);
     }
 
     template <typename Allocator, typename F, typename... Ts>
     HPX_FORCEINLINE auto
     dataflow_alloc(Allocator const& alloc, F&& f, Ts&&... ts) -> decltype(
         lcos::detail::dataflow_dispatch<typename util::decay<F>::type>::call(
-            alloc, std::forward<F>(f), std::forward<Ts>(ts)...))
+            alloc, HPX_FWD(f), HPX_FWD(ts)...))
     {
         return lcos::detail::dataflow_dispatch<
-            typename util::decay<F>::type>::call(alloc, std::forward<F>(f),
-            std::forward<Ts>(ts)...);
+            typename util::decay<F>::type>::call(alloc, HPX_FWD(f),
+            HPX_FWD(ts)...);
     }
 }    // namespace hpx
 

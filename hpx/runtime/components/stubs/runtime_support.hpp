@@ -54,7 +54,7 @@ namespace hpx { namespace components { namespace stubs
             typedef server::create_component_action<
                 Component, typename hpx::util::decay<Ts>::type...
             > action_type;
-            return hpx::async<action_type>(gid, std::forward<Ts>(vs)...);
+            return hpx::async<action_type>(gid, HPX_FWD(vs)...);
         }
 
         /// Create a new component \a type using the runtime_support with the
@@ -64,7 +64,7 @@ namespace hpx { namespace components { namespace stubs
             Ts&&... vs)
         {
             return create_component_async<Component>(gid,
-                std::forward<Ts>(vs)...).get();
+                HPX_FWD(vs)...).get();
         }
 
         /// Create multiple new components \a type using the runtime_support
@@ -80,7 +80,7 @@ namespace hpx { namespace components { namespace stubs
             > action_type;
 
             return hpx::detail::async_colocated<action_type>(gid, count,
-                std::forward<Ts>(vs)...);
+                HPX_FWD(vs)...);
         }
 
         /// Create multiple new components \a type using the runtime_support
@@ -91,7 +91,7 @@ namespace hpx { namespace components { namespace stubs
             naming::id_type const& gid, std::size_t count, Ts&&... vs)
         {
             return bulk_create_component_colocated_async<Component>(gid,
-                count, std::forward<Ts>(vs)...).get();
+                count, HPX_FWD(vs)...).get();
         }
 
         /// Create multiple new components \a type using the runtime_support
@@ -114,7 +114,7 @@ namespace hpx { namespace components { namespace stubs
                 Component, typename hpx::util::decay<Ts>::type...
             > action_type;
             return hpx::async<action_type>(gid, count,
-                std::forward<Ts>(vs)...);
+                HPX_FWD(vs)...);
         }
 
         /// Create multiple new components \a type using the runtime_support
@@ -124,7 +124,7 @@ namespace hpx { namespace components { namespace stubs
             naming::id_type const& gid, std::size_t count, Ts&&... vs)
         {
             return bulk_create_component_async<Component>(gid, count,
-                std::forward<Ts>(vs)...).get();
+                HPX_FWD(vs)...).get();
         }
 
         /// Create a new component \a type using the runtime_support with the
@@ -140,7 +140,7 @@ namespace hpx { namespace components { namespace stubs
                 Component, typename hpx::util::decay<Ts>::type...
             > action_type;
             return hpx::detail::async_colocated<action_type>(gid,
-                std::forward<Ts>(vs)...);
+                HPX_FWD(vs)...);
         }
 
         /// Create a new component \a type using the runtime_support with the
@@ -150,7 +150,7 @@ namespace hpx { namespace components { namespace stubs
             naming::id_type const& gid, Ts&&... vs)
         {
             return create_component_colocated_async<Component>(gid,
-                std::forward<Ts>(vs)...).get();
+                HPX_FWD(vs)...).get();
         }
 
         ///////////////////////////////////////////////////////////////////////

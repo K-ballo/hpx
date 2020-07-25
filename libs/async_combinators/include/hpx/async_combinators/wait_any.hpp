@@ -244,13 +244,13 @@ namespace hpx { namespace lcos {
     template <typename... Ts>
     void wait_any(error_code& ec, Ts&&... ts)
     {
-        return lcos::wait_some(1, ec, std::forward<Ts>(ts)...);
+        return lcos::wait_some(1, ec, HPX_FWD(ts)...);
     }
 
     template <typename... Ts>
     void wait_any(Ts&&... ts)
     {
-        return lcos::wait_some(1, std::forward<Ts>(ts)...);
+        return lcos::wait_some(1, HPX_FWD(ts)...);
     }
 }}    // namespace hpx::lcos
 

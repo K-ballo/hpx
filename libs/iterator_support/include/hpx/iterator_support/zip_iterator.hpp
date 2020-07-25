@@ -337,7 +337,7 @@ namespace hpx { namespace util {
             template <typename F>
             HPX_HOST_DEVICE void apply(F&& f)
             {
-                return apply(std::forward<F>(f),
+                return apply(HPX_FWD(f),
                     util::make_index_pack<
                         util::tuple_size<IteratorTuple>::value>());
             }
@@ -505,7 +505,7 @@ namespace hpx { namespace util {
     {
         typedef zip_iterator<typename decay<Ts>::type...> result_type;
 
-        return result_type(std::forward<Ts>(vs)...);
+        return result_type(HPX_FWD(vs)...);
     }
 
     ///////////////////////////////////////////////////////////////////////////

@@ -36,7 +36,7 @@ namespace hpx { namespace util {
 
         template <typename... Ts>
         tagged_pair(Ts&&... ts)
-          : base_type(std::forward<Ts>(ts)...)
+          : base_type(HPX_FWD(ts)...)
         {
         }
     };
@@ -108,7 +108,7 @@ namespace hpx { namespace util {
             Tag2(typename decay<T2>::type)>
             result_type;
 
-        return result_type(std::forward<T1>(t1), std::forward<T2>(t2));
+        return result_type(HPX_FWD(t1), HPX_FWD(t2));
     }
 
     ///////////////////////////////////////////////////////////////////////////

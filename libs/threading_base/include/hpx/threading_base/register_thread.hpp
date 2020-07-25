@@ -97,14 +97,14 @@ namespace hpx { namespace threads {
     thread_function_type make_thread_function(F&& f)
     {
         return {detail::thread_function<typename std::decay<F>::type>{
-            std::forward<F>(f)}};
+            HPX_FWD(f)}};
     }
 
     template <typename F>
     thread_function_type make_thread_function_nullary(F&& f)
     {
         return {detail::thread_function_nullary<typename std::decay<F>::type>{
-            std::forward<F>(f)}};
+            HPX_FWD(f)}};
     }
 
     namespace detail {
@@ -418,7 +418,7 @@ namespace hpx { namespace threads {
     {
         threads::thread_function_type thread_func(
             detail::thread_function<typename std::decay<F>::type>{
-                std::forward<F>(func)});
+                HPX_FWD(func)});
         return register_thread_plain(std::move(thread_func), description,
             initial_state, run_now, priority, os_thread, stacksize, ec);
     }
@@ -436,7 +436,7 @@ namespace hpx { namespace threads {
     {
         threads::thread_function_type thread_func(
             detail::thread_function<typename std::decay<F>::type>{
-                std::forward<F>(func)});
+                HPX_FWD(func)});
         return register_non_suspendable_thread_plain(std::move(thread_func),
             description, initial_state, run_now, priority, os_thread, ec);
     }
@@ -467,7 +467,7 @@ namespace hpx { namespace threads {
     {
         threads::thread_function_type thread_func(
             detail::thread_function_nullary<typename std::decay<F>::type>{
-                std::forward<F>(func)});
+                HPX_FWD(func)});
         return register_thread_plain(std::move(thread_func), description,
             initial_state, run_now, priority, os_thread, stacksize, ec);
     }
@@ -483,7 +483,7 @@ namespace hpx { namespace threads {
             threads::thread_schedule_hint(),
         error_code& ec = throws)
     {
-        return register_thread_nullary(std::forward<F>(func), description,
+        return register_thread_nullary(HPX_FWD(func), description,
             initial_state, run_now, priority, os_thread,
             threads::thread_stacksize_nostack, ec);
     }
@@ -503,7 +503,7 @@ namespace hpx { namespace threads {
     {
         threads::thread_function_type thread_func(
             detail::thread_function_nullary<typename std::decay<F>::type>{
-                std::forward<F>(func)});
+                HPX_FWD(func)});
         return register_thread_plain(pool, std::move(thread_func), description,
             initial_state, run_now, priority, os_thread, stacksize, ec);
     }
@@ -522,7 +522,7 @@ namespace hpx { namespace threads {
     {
         threads::thread_function_type thread_func(
             detail::thread_function_nullary<typename std::decay<F>::type>{
-                std::forward<F>(func)});
+                HPX_FWD(func)});
         return register_non_suspendable_thread_plain(pool,
             std::move(thread_func), description, initial_state, run_now,
             priority, os_thread, ec);
@@ -714,7 +714,7 @@ namespace hpx { namespace threads {
     {
         threads::thread_function_type thread_func(
             detail::thread_function<typename std::decay<F>::type>{
-                std::forward<F>(func)});
+                HPX_FWD(func)});
         register_work_plain(std::move(thread_func), description, initial_state,
             priority, os_thread, stacksize, ec);
     }
@@ -731,7 +731,7 @@ namespace hpx { namespace threads {
     {
         threads::thread_function_type thread_func(
             detail::thread_function<typename std::decay<F>::type>{
-                std::forward<F>(func)});
+                HPX_FWD(func)});
         register_non_suspendable_work_plain(detail::get_self_or_default_pool(),
             std::move(thread_func), description, initial_state, priority,
             os_thread, ec);
@@ -762,7 +762,7 @@ namespace hpx { namespace threads {
     {
         threads::thread_function_type thread_func(
             detail::thread_function_nullary<typename std::decay<F>::type>{
-                std::forward<F>(func)});
+                HPX_FWD(func)});
         register_work_plain(std::move(thread_func), description, initial_state,
             priority, os_thread, stacksize, ec);
     }
@@ -779,7 +779,7 @@ namespace hpx { namespace threads {
     {
         threads::thread_function_type thread_func(
             detail::thread_function_nullary<typename std::decay<F>::type>{
-                std::forward<F>(func)});
+                HPX_FWD(func)});
         register_non_suspendable_work_plain(detail::get_self_or_default_pool(),
             std::move(thread_func), description, initial_state, priority,
             os_thread, ec);
@@ -798,7 +798,7 @@ namespace hpx { namespace threads {
     {
         threads::thread_function_type thread_func(
             detail::thread_function_nullary<typename std::decay<F>::type>{
-                std::forward<F>(func)});
+                HPX_FWD(func)});
         register_work_plain(pool, std::move(thread_func), description,
             initial_state, priority, os_thread, stacksize, ec);
     }
@@ -816,7 +816,7 @@ namespace hpx { namespace threads {
     {
         threads::thread_function_type thread_func(
             detail::thread_function_nullary<typename std::decay<F>::type>{
-                std::forward<F>(func)});
+                HPX_FWD(func)});
         register_non_suspendable_work_plain(pool, std::move(thread_func),
             description, initial_state, priority, os_thread, ec);
     }

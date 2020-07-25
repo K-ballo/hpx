@@ -195,26 +195,26 @@ namespace hpx { namespace lcos {
 
             template <typename T>
             auto operator()(util::async_traverse_visit_tag, T&& current)
-                -> decltype(async_visit_future(std::forward<T>(current)))
+                -> decltype(async_visit_future(HPX_FWD(current)))
             {
-                return async_visit_future(std::forward<T>(current));
+                return async_visit_future(HPX_FWD(current));
             }
 
             template <typename T, typename N>
             auto operator()(
                 util::async_traverse_detach_tag, T&& current, N&& next)
                 -> decltype(async_detach_future(
-                    std::forward<T>(current), std::forward<N>(next)))
+                    HPX_FWD(current), HPX_FWD(next)))
             {
                 return async_detach_future(
-                    std::forward<T>(current), std::forward<N>(next));
+                    HPX_FWD(current), HPX_FWD(next));
             }
 
             template <typename T>
             void operator()(util::async_traverse_complete_tag, T&& pack)
             {
                 this->set_value(
-                    when_all_result<Tuple>::call(std::forward<T>(pack)));
+                    when_all_result<Tuple>::call(HPX_FWD(pack)));
             }
         };
 
@@ -234,7 +234,7 @@ namespace hpx { namespace lcos {
             auto frame = util::traverse_pack_async_allocator(
                 util::internal_allocator<>{},
                 util::async_traverse_in_place_tag<frame_type>{}, no_addref,
-                func(std::forward<T>(args))...);
+                func(HPX_FWD(args))...);
 
             using traits::future_access;
             return future_access<typename frame_type::type>::create(
@@ -245,10 +245,10 @@ namespace hpx { namespace lcos {
     template <typename First, typename Second>
     auto when_all(First&& first, Second&& second)
         -> decltype(detail::when_all_impl(
-            std::forward<First>(first), std::forward<Second>(second)))
+            HPX_FWD(first), HPX_FWD(second)))
     {
         return detail::when_all_impl(
-            std::forward<First>(first), std::forward<Second>(second));
+            HPX_FWD(first), HPX_FWD(second));
     }
     template <typename Iterator,
         typename Container = std::vector<
@@ -281,9 +281,9 @@ namespace hpx { namespace lcos {
         typename std::enable_if<(sizeof...(Args) == 1U) ||
             (sizeof...(Args) > 2U)>::type* = nullptr>
     auto when_all(Args&&... args)
-        -> decltype(detail::when_all_impl(std::forward<Args>(args)...))
+        -> decltype(detail::when_all_impl(HPX_FWD(args)...))
     {
-        return detail::when_all_impl(std::forward<Args>(args)...);
+        return detail::when_all_impl(HPX_FWD(args)...);
     }
 }}    // namespace hpx::lcos
 

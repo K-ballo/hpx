@@ -192,8 +192,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
             typedef hpx::traits::segmented_iterator_traits<FwdIter>
                 iterator_traits;
 
-            return segmented_none_of(none_of(), std::forward<ExPolicy>(policy),
-                first, last, std::forward<F>(f), std::forward<Proj>(proj),
+            return segmented_none_of(none_of(), HPX_FWD(policy),
+                first, last, HPX_FWD(f), HPX_FWD(proj),
                 is_seq());
         }
 
@@ -365,8 +365,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
             typedef hpx::traits::segmented_iterator_traits<FwdIter>
                 iterator_traits;
 
-            return segmented_any_of(any_of(), std::forward<ExPolicy>(policy),
-                first, last, std::forward<F>(f), std::forward<Proj>(proj),
+            return segmented_any_of(any_of(), HPX_FWD(policy),
+                first, last, HPX_FWD(f), HPX_FWD(proj),
                 is_seq());
         }
 
@@ -538,8 +538,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
             typedef hpx::traits::segmented_iterator_traits<FwdIter>
                 iterator_traits;
 
-            return segmented_all_of(all_of(), std::forward<ExPolicy>(policy),
-                first, last, std::forward<F>(f), std::forward<Proj>(proj),
+            return segmented_all_of(all_of(), HPX_FWD(policy),
+                first, last, HPX_FWD(f), HPX_FWD(proj),
                 is_seq());
         }
 

@@ -26,7 +26,7 @@ namespace hpx { namespace components { namespace process
     public:
         template <typename ... Ts>
         child(Ts &&... ts)
-          : base_type(std::forward<Ts>(ts)...)
+          : base_type(HPX_FWD(ts)...)
         {}
 
         hpx::future<void> terminate()

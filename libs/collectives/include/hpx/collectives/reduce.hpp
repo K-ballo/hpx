@@ -305,7 +305,7 @@ namespace hpx { namespace lcos {
         }
 
         return hpx::detail::async_colocated<reduce_impl_action>(
-            ids[0], Action(), ids, std::forward<ReduceOp>(reduce_op), 0, vs...);
+            ids[0], Action(), ids, HPX_FWD(reduce_op), 0, vs...);
     }
 
     template <typename Component, typename Signature, typename Derived,
@@ -316,7 +316,7 @@ namespace hpx { namespace lcos {
         std::vector<hpx::id_type> const& ids, ReduceOp&& reduce_op,
         Ts const&... vs)
     {
-        return reduce<Derived>(ids, std::forward<ReduceOp>(reduce_op), vs...);
+        return reduce<Derived>(ids, HPX_FWD(reduce_op), vs...);
     }
 
     template <typename Action, typename ReduceOp, typename... Ts>
@@ -325,7 +325,7 @@ namespace hpx { namespace lcos {
         Ts const&... vs)
     {
         return reduce<detail::reduce_with_index<Action>>(
-            ids, std::forward<ReduceOp>(reduce_op), vs...);
+            ids, HPX_FWD(reduce_op), vs...);
     }
 
     template <typename Component, typename Signature, typename Derived,
@@ -338,7 +338,7 @@ namespace hpx { namespace lcos {
         Ts const&... vs)
     {
         return reduce<detail::reduce_with_index<Derived>>(
-            ids, std::forward<ReduceOp>(reduce_op), vs...);
+            ids, HPX_FWD(reduce_op), vs...);
     }
 }}    // namespace hpx::lcos
 

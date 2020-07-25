@@ -100,7 +100,7 @@ namespace hpx { namespace parallel { namespace execution {
 
                 lcos::local::futures_factory<result_type()> p(
                     hpx::util::deferred_call(
-                        std::forward<F>(f), std::forward<Ts>(ts)...));
+                        HPX_FWD(f), HPX_FWD(ts)...));
 
                 gpx_deb.debug(
                     debug::str<>("triggering apply"), "domain ", domain);
@@ -158,9 +158,9 @@ namespace hpx { namespace parallel { namespace execution {
                     Future, Ts...>::type result_type;
 
                 lcos::local::futures_factory<result_type()> p(
-                    hpx::util::deferred_call(std::forward<F>(f),
-                        std::forward<Future>(predecessor),
-                        std::forward<Ts>(ts)...));
+                    hpx::util::deferred_call(HPX_FWD(f),
+                        HPX_FWD(predecessor),
+                        HPX_FWD(ts)...));
 
                 if (hp_sync_ &&
                     executor_.priority_ == hpx::threads::thread_priority_high)
@@ -282,7 +282,7 @@ namespace hpx { namespace parallel { namespace execution {
                         typename std::decay<typename std::remove_pointer<
                             decltype(this)>::type>::type,
                         pool_numa_hint<Tag>>{*this, hint_, hp_sync_}),
-                std::forward<F>(f), std::forward<Ts>(ts)...);
+                HPX_FWD(f), HPX_FWD(ts)...);
         }
 
         // --------------------------------------------------------------------
@@ -324,7 +324,7 @@ namespace hpx { namespace parallel { namespace execution {
             // the real task will be spawned on a new task with hints - as intended
             return dataflow(
                 launch::sync,
-                [f = std::forward<F>(f), this](
+                [f = HPX_FWD(f), this](
                     Future&& predecessor, Ts&&... ts) {
                     detail::pre_execution_then_domain_schedule<
                         typename std::decay<typename std::remove_pointer<
@@ -333,9 +333,9 @@ namespace hpx { namespace parallel { namespace execution {
                         pre_exec{*this, hint_, hp_sync_};
 
                     return pre_exec(
-                        std::move(f), std::forward<Future>(predecessor));
+                        std::move(f), HPX_FWD(predecessor));
                 },
-                std::forward<Future>(predecessor), std::forward<Ts>(ts)...);
+                HPX_FWD(predecessor), HPX_FWD(ts)...);
         }
 
         // --------------------------------------------------------------------
@@ -388,7 +388,7 @@ namespace hpx { namespace parallel { namespace execution {
             // Please see notes for previous then_execute function above
             return dataflow(
                 launch::sync,
-                [f = std::forward<F>(f), this](
+                [f = HPX_FWD(f), this](
                     OuterFuture<hpx::util::tuple<InnerFutures...>>&&
                         predecessor,
                     Ts&&... ts) {
@@ -403,9 +403,9 @@ namespace hpx { namespace parallel { namespace execution {
                             OuterFuture<hpx::util::tuple<InnerFutures...>>>(
                             predecessor));
                 },
-                std::forward<OuterFuture<hpx::util::tuple<InnerFutures...>>>(
+                HPX_FWD>>(
                     predecessor),
-                std::forward<Ts>(ts)...);
+                HPX_FWD(ts)...);
         }
 
         // --------------------------------------------------------------------
@@ -455,8 +455,8 @@ namespace hpx { namespace parallel { namespace execution {
 
             // forward the task execution on to the real internal executor
             lcos::local::futures_factory<result_type()> p(
-                hpx::util::deferred_call(std::forward<F>(f),
-                    std::forward<hpx::util::tuple<InnerFutures...>>(
+                hpx::util::deferred_call(HPX_FWD(f),
+                    HPX_FWD>(
                         predecessor)));
 
             if (hp_sync_ && priority_ == hpx::threads::thread_priority_high)
@@ -526,7 +526,7 @@ namespace hpx { namespace parallel { namespace execution {
         {
             if (guided_)
                 return guided_exec_.async_execute(
-                    std::forward<F>(f), std::forward<Ts>(ts)...);
+                    HPX_FWD(f), HPX_FWD(ts)...);
             else
             {
                 typedef typename hpx::util::detail::invoke_deferred_result<F,
@@ -534,7 +534,7 @@ namespace hpx { namespace parallel { namespace execution {
 
                 lcos::local::futures_factory<result_type()> p(
                     hpx::util::deferred_call(
-                        std::forward<F>(f), std::forward<Ts>(ts)...));
+                        HPX_FWD(f), HPX_FWD(ts)...));
                 p.apply(guided_exec_.pool_, "guided async", hpx::launch::async,
                     guided_exec_.priority_, guided_exec_.stacksize_,
                     hpx::threads::thread_schedule_hint());
@@ -553,21 +553,21 @@ namespace hpx { namespace parallel { namespace execution {
                 Future, Ts...>::type>
         {
             if (guided_)
-                return guided_exec_.then_execute(std::forward<F>(f),
-                    std::forward<Future>(predecessor), std::forward<Ts>(ts)...);
+                return guided_exec_.then_execute(HPX_FWD(f),
+                    HPX_FWD(predecessor), HPX_FWD(ts)...);
             else
             {
                 typedef typename hpx::util::detail::invoke_deferred_result<F,
                     Future, Ts...>::type result_type;
 
                 auto func = hpx::util::bind_back(
-                    hpx::util::one_shot(std::forward<F>(f)),
-                    std::forward<Ts>(ts)...);
+                    hpx::util::one_shot(HPX_FWD(f)),
+                    HPX_FWD(ts)...);
 
                 typename hpx::traits::detail::shared_state_ptr<
                     result_type>::type p =
                     hpx::lcos::detail::make_continuation_exec<result_type>(
-                        std::forward<Future>(predecessor), *this,
+                        HPX_FWD(predecessor), *this,
                         std::move(func));
 
                 return hpx::traits::future_access<

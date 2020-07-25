@@ -139,7 +139,7 @@ namespace hpx { namespace util {
                 Ts...>::type
             operator()(Ts&&... ts)
             {
-                return util::invoke(f_, std::forward<Ts>(ts)...);
+                return util::invoke(f_, HPX_FWD(ts)...);
             }
 
             template <typename Archive>
@@ -188,7 +188,7 @@ namespace hpx { namespace util {
         typedef detail::annotated_function<typename std::decay<F>::type>
             result_type;
 
-        return result_type(std::forward<F>(f), name);
+        return result_type(HPX_FWD(f), name);
     }
 
 #else
@@ -216,7 +216,7 @@ namespace hpx { namespace util {
     template <typename F>
     F&& annotated_function(F&& f, char const* = nullptr)
     {
-        return std::forward<F>(f);
+        return HPX_FWD(f);
     }
 #endif
 }}    // namespace hpx::util

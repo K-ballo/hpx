@@ -91,8 +91,8 @@ namespace hpx { namespace util {
                 typename = typename std::enable_if<
                     std::is_constructible<F, F_&&>::value>::type>
             explicit constexpr HPX_HOST_DEVICE deferred(F_&& f, Ts_&&... vs)
-              : _f(std::forward<F_>(f))
-              , _args(std::piecewise_construct, std::forward<Ts_>(vs)...)
+              : _f(HPX_FWD(f))
+              , _args(std::piecewise_construct, HPX_FWD(vs)...)
             {
             }
 
@@ -170,7 +170,7 @@ namespace hpx { namespace util {
             typename util::decay_unwrap<Ts>::type...>
             result_type;
 
-        return result_type(std::forward<F>(f), std::forward<Ts>(vs)...);
+        return result_type(HPX_FWD(f), HPX_FWD(vs)...);
     }
 
     // nullary functions do not need to be bound again
@@ -180,7 +180,7 @@ namespace hpx { namespace util {
         static_assert(traits::detail::is_deferred_invocable<F>::value,
             "F shall be Callable with no arguments");
 
-        return std::forward<F>(f);
+        return HPX_FWD(f);
     }
 }}    // namespace hpx::util
 

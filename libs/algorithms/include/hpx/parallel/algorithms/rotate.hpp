@@ -119,7 +119,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 FwdIter last)
             {
                 return util::detail::algorithm_result<ExPolicy, IterPair>::get(
-                    rotate_helper(std::forward<ExPolicy>(policy), first,
+                    rotate_helper(HPX_FWD(policy), first,
                         new_first, last));
             }
         };
@@ -188,7 +188,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
             is_seq;
 
         return detail::rotate<util::in_out_result<FwdIter, FwdIter>>().call(
-            std::forward<ExPolicy>(policy), is_seq(), first, new_first, last);
+            HPX_FWD(policy), is_seq(), first, new_first, last);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -258,7 +258,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 FwdIter1 last, FwdIter2 dest_first)
             {
                 return util::detail::algorithm_result<ExPolicy, IterPair>::get(
-                    rotate_copy_helper(std::forward<ExPolicy>(policy), first,
+                    rotate_copy_helper(HPX_FWD(policy), first,
                         new_first, last, dest_first));
             }
         };
@@ -333,7 +333,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
             is_seq;
 
         return detail::rotate_copy<util::in_out_result<FwdIter1, FwdIter2>>()
-            .call(std::forward<ExPolicy>(policy), is_seq(), first, new_first,
+            .call(HPX_FWD(policy), is_seq(), first, new_first,
                 last, dest_first);
     }
 }}}    // namespace hpx::parallel::v1

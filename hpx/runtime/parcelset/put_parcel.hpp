@@ -48,8 +48,8 @@ namespace hpx { namespace parcelset
                 "We need an action to construct a parcel");
             return std::unique_ptr<actions::base_action>(
                     new actions::transfer_continuation_action<Action>(
-                        std::forward<Continuation>(cont),
-                        std::forward<Args>(args)...
+                        HPX_FWD(cont),
+                        HPX_FWD(args)...
                     )
                 );
         }
@@ -63,7 +63,7 @@ namespace hpx { namespace parcelset
                 "We need an action to construct a parcel");
             return std::unique_ptr<actions::base_action>(
                     new actions::transfer_action<Action>(
-                        std::forward<Args>(args)...
+                        HPX_FWD(args)...
                     )
                 );
         }
@@ -76,7 +76,7 @@ namespace hpx { namespace parcelset
             using is_continuation = traits::is_continuation<Arg0>;
             return make_parcel_action_impl(
                 is_continuation{},
-                std::forward<Arg0>(arg0), std::forward<Args>(args)...);
+                HPX_FWD(arg0), HPX_FWD(args)...);
         }
 
         struct create_parcel
@@ -88,7 +88,7 @@ namespace hpx { namespace parcelset
             {
                 return parcel(
                     std::move(dest), std::move(addr),
-                    detail::make_parcel_action(std::forward<Args>(args)...));
+                    detail::make_parcel_action(HPX_FWD(args)...));
             }
 
             static parcel call_with_action(
@@ -162,7 +162,7 @@ namespace hpx { namespace parcelset
                     split_gid.then(
                         hpx::launch::sync,
                         put_parcel_cont<PutParcel>{
-                            std::forward<PutParcel>(pp),
+                            HPX_FWD(pp),
                             std::move(dest), std::move(addr),
                             std::move(action)
                         });
@@ -194,7 +194,7 @@ namespace hpx { namespace parcelset
         detail::put_parcel_impl(
             detail::put_parcel_handler(),
             dest, std::move(addr),
-            detail::make_parcel_action(std::forward<Args>(args)...));
+            detail::make_parcel_action(HPX_FWD(args)...));
     }
 
     template <typename Callback, typename... Args>
@@ -202,9 +202,9 @@ namespace hpx { namespace parcelset
         naming::id_type const& dest, naming::address&& addr, Args&&... args)
     {
         detail::put_parcel_impl(
-            detail::put_parcel_handler_cb<Callback>{std::forward<Callback>(cb)},
+            detail::put_parcel_handler_cb<Callback>{HPX_FWD(cb)},
             dest, std::move(addr),
-            detail::make_parcel_action(std::forward<Args>(args)...));
+            detail::make_parcel_action(HPX_FWD(args)...));
     }
 }}
 

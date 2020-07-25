@@ -80,8 +80,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
         typename hpx::traits::range_iterator<Rng>::type>::type
     remove(ExPolicy&& policy, Rng&& rng, T const& value, Proj&& proj = Proj())
     {
-        return remove(std::forward<ExPolicy>(policy), hpx::util::begin(rng),
-            hpx::util::end(rng), value, std::forward<Proj>(proj));
+        return remove(HPX_FWD(policy), hpx::util::begin(rng),
+            hpx::util::end(rng), value, HPX_FWD(proj));
     }
 
     /// Removes all elements satisfying specific criteria from the range
@@ -157,8 +157,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
         typename hpx::traits::range_iterator<Rng>::type>::type
     remove_if(ExPolicy&& policy, Rng&& rng, Pred&& pred, Proj&& proj = Proj())
     {
-        return remove_if(std::forward<ExPolicy>(policy), hpx::util::begin(rng),
-            hpx::util::end(rng), std::forward<Pred>(pred),
-            std::forward<Proj>(proj));
+        return remove_if(HPX_FWD(policy), hpx::util::begin(rng),
+            hpx::util::end(rng), HPX_FWD(pred),
+            HPX_FWD(proj));
     }
 }}}    // namespace hpx::parallel::v1

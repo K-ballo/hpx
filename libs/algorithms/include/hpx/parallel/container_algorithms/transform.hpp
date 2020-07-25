@@ -108,9 +108,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
     transform(
         ExPolicy&& policy, Rng&& rng, OutIter dest, F&& f, Proj&& proj = Proj())
     {
-        return transform(std::forward<ExPolicy>(policy), hpx::util::begin(rng),
-            hpx::util::end(rng), std::move(dest), std::forward<F>(f),
-            std::forward<Proj>(proj));
+        return transform(HPX_FWD(policy), hpx::util::begin(rng),
+            hpx::util::end(rng), std::move(dest), HPX_FWD(f),
+            HPX_FWD(proj));
     }
 
     /// Applies the given function \a f to pairs of elements from two ranges:
@@ -219,10 +219,10 @@ namespace hpx { namespace parallel { inline namespace v1 {
     transform(ExPolicy&& policy, Rng&& rng, InIter2 first2, OutIter dest, F&& f,
         Proj1&& proj1 = Proj1(), Proj2&& proj2 = Proj2())
     {
-        return transform(std::forward<ExPolicy>(policy), hpx::util::begin(rng),
+        return transform(HPX_FWD(policy), hpx::util::begin(rng),
             hpx::util::end(rng), std::move(first2), std::move(dest),
-            std::forward<F>(f), std::forward<Proj1>(proj1),
-            std::forward<Proj2>(proj2));
+            HPX_FWD(f), HPX_FWD(proj1),
+            HPX_FWD(proj2));
     }
 
     /// Applies the given function \a f to pairs of elements from two ranges:
@@ -334,9 +334,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
     transform(ExPolicy&& policy, Rng1&& rng1, Rng2&& rng2, OutIter dest, F&& f,
         Proj1&& proj1 = Proj1(), Proj2&& proj2 = Proj2())
     {
-        return transform(std::forward<ExPolicy>(policy), hpx::util::begin(rng1),
+        return transform(HPX_FWD(policy), hpx::util::begin(rng1),
             hpx::util::end(rng1), hpx::util::begin(rng2), hpx::util::end(rng2),
-            std::move(dest), std::forward<F>(f), std::forward<Proj1>(proj1),
-            std::forward<Proj2>(proj2));
+            std::move(dest), HPX_FWD(f), HPX_FWD(proj1),
+            HPX_FWD(proj2));
     }
 }}}    // namespace hpx::parallel::v1

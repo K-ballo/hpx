@@ -66,7 +66,7 @@ namespace hpx { namespace lcos { namespace detail {
             std::is_void<typename traits::future_traits<Future>::type>;
         transfer_result_impl(is_void{},
             traits::future_access<Future>::create(
-                std::forward<SourceState>(src)),
+                HPX_FWD(src)),
             *dest);
     }
 
@@ -76,7 +76,7 @@ namespace hpx { namespace lcos { namespace detail {
     {
         try
         {
-            cont.set_value(func(std::forward<Future>(future)));
+            cont.set_value(func(HPX_FWD(future)));
         }
         catch (...)
         {
@@ -90,7 +90,7 @@ namespace hpx { namespace lcos { namespace detail {
     {
         try
         {
-            func(std::forward<Future>(future));
+            func(HPX_FWD(future));
             cont.set_value(util::unused);
         }
         catch (...)
@@ -109,7 +109,7 @@ namespace hpx { namespace lcos { namespace detail {
 
         hpx::util::annotate_function annotate(func);
         invoke_continuation_nounwrap(
-            func, std::forward<Future>(future), cont, is_void());
+            func, HPX_FWD(future), cont, is_void());
     }
 
     template <typename Func, typename Future, typename Continuation>
@@ -127,7 +127,7 @@ namespace hpx { namespace lcos { namespace detail {
             // take by value, as the future may go away immediately
             inner_shared_state_ptr inner_state =
                 traits::detail::get_shared_state(
-                    func(std::forward<Future>(future)));
+                    func(HPX_FWD(future)));
             typename inner_shared_state_ptr::element_type* ptr =
                 inner_state.get();
 
@@ -214,7 +214,7 @@ namespace hpx { namespace lcos { namespace detail {
         continuation(Func&& f)
           : started_(false)
           , id_(threads::invalid_thread_id)
-          , f_(std::forward<Func>(f))
+          , f_(HPX_FWD(f))
         {
         }
 
@@ -223,7 +223,7 @@ namespace hpx { namespace lcos { namespace detail {
           : base_type(no_addref)
           , started_(false)
           , id_(threads::invalid_thread_id)
-          , f_(std::forward<Func>(f))
+          , f_(HPX_FWD(f))
         {
         }
 
@@ -448,7 +448,7 @@ namespace hpx { namespace lcos { namespace detail {
             ptr->execute_deferred();
             ptr->set_on_completed(
                 [this_ = std::move(this_), state = std::move(state),
-                    policy = std::forward<Policy>(policy),
+                    policy = HPX_FWD(policy),
                     &spawner]() mutable -> void {
                     if (hpx::detail::has_async_policy(policy))
                     {
@@ -484,7 +484,7 @@ namespace hpx { namespace lcos { namespace detail {
             ptr->execute_deferred();
             ptr->set_on_completed(
                 [this_ = std::move(this_), state = std::move(state),
-                    policy = std::forward<Policy>(policy),
+                    policy = HPX_FWD(policy),
                     spawner = std::move(spawner)]() mutable -> void {
                     if (hpx::detail::has_async_policy(policy))
                     {
@@ -521,7 +521,7 @@ namespace hpx { namespace lcos { namespace detail {
             ptr->execute_deferred();
             ptr->set_on_completed(
                 [this_ = std::move(this_), state = std::move(state),
-                    policy = std::forward<Policy>(policy),
+                    policy = HPX_FWD(policy),
                     &spawner]() mutable -> void {
                     if (hpx::detail::has_async_policy(policy))
                     {
@@ -557,7 +557,7 @@ namespace hpx { namespace lcos { namespace detail {
             ptr->execute_deferred();
             ptr->set_on_completed(
                 [this_ = std::move(this_), state = std::move(state),
-                    policy = std::forward<Policy>(policy),
+                    policy = HPX_FWD(policy),
                     spawner = std::move(spawner)]() mutable -> void {
                     if (hpx::detail::has_async_policy(policy))
                     {
@@ -591,7 +591,7 @@ namespace hpx { namespace lcos { namespace detail {
 
         template <typename Func>
         continuation_allocator(other_allocator const& alloc, Func&& f)
-          : base_type(std::forward<Func>(f))
+          : base_type(HPX_FWD(f))
           , alloc_(alloc)
         {
         }
@@ -599,7 +599,7 @@ namespace hpx { namespace lcos { namespace detail {
         template <typename Func>
         continuation_allocator(
             init_no_addref no_addref, other_allocator const& alloc, Func&& f)
-          : base_type(no_addref, std::forward<Func>(f))
+          : base_type(no_addref, HPX_FWD(f))
           , alloc_(alloc)
         {
         }
@@ -817,7 +817,7 @@ namespace hpx { namespace lcos { namespace detail {
         typename hpx::traits::detail::shared_state_ptr<result_type>::type
             result(p.release(), false);
         static_cast<shared_state*>(result.get())
-            ->attach(std::forward<Future>(future));
+            ->attach(HPX_FWD(future));
         return result;
     }
 
@@ -827,7 +827,7 @@ namespace hpx { namespace lcos { namespace detail {
     unwrap_impl(Future&& future, error_code& ec)
     {
         return unwrap_impl_alloc(
-            util::internal_allocator<>{}, std::forward<Future>(future), ec);
+            util::internal_allocator<>{}, HPX_FWD(future), ec);
     }
 
     template <typename Allocator, typename Future>
@@ -835,7 +835,7 @@ namespace hpx { namespace lcos { namespace detail {
         typename future_unwrap_result<Future>::result_type>::type
     unwrap_alloc(Allocator const& a, Future&& future, error_code& ec)
     {
-        return unwrap_impl_alloc(a, std::forward<Future>(future), ec);
+        return unwrap_impl_alloc(a, HPX_FWD(future), ec);
     }
 
     template <typename Future>
@@ -843,6 +843,6 @@ namespace hpx { namespace lcos { namespace detail {
         typename future_unwrap_result<Future>::result_type>::type
     unwrap(Future&& future, error_code& ec)
     {
-        return unwrap_impl(std::forward<Future>(future), ec);
+        return unwrap_impl(HPX_FWD(future), ec);
     }
 }}}    // namespace hpx::lcos::detail

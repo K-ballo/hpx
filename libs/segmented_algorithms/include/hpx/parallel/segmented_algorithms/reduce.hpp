@@ -202,12 +202,12 @@ namespace hpx { namespace parallel { inline namespace v1 {
             if (first == last)
             {
                 return util::detail::algorithm_result<ExPolicy, init_type>::get(
-                    std::forward<T>(init));
+                    HPX_FWD(init));
             }
 
             return segmented_reduce(seg_reduce<init_type>(),
-                std::forward<ExPolicy>(policy), first, last,
-                std::forward<T>(init), std::forward<F>(f), is_seq());
+                HPX_FWD(policy), first, last,
+                HPX_FWD(init), HPX_FWD(f), is_seq());
         }
 
         // forward declare the non-segmented version of this algorithm

@@ -54,7 +54,7 @@ namespace hpx { namespace components
             static void call_new(Component*& component, Managed* this_, Ts&&... vs)
             {
                 typedef typename Managed::wrapped_type wrapped_type;
-                component = new wrapped_type(this_, std::forward<Ts>(vs)...);
+                component = new wrapped_type(this_, HPX_FWD(vs)...);
             }
         };
 
@@ -71,7 +71,7 @@ namespace hpx { namespace components
             static void call_new(Component*& component, Managed* this_, Ts&&... vs)
             {
                 typedef typename Managed::wrapped_type wrapped_type;
-                component = new wrapped_type(std::forward<Ts>(vs)...);
+                component = new wrapped_type(HPX_FWD(vs)...);
                 component->set_back_ptr(this_);
             }
         };
@@ -354,7 +354,7 @@ namespace hpx { namespace components
         {
             detail_adl_barrier::init<
                 typename traits::managed_component_ctor_policy<Component>::type
-            >::call_new(component_, this, std::forward<Ts>(vs)...);
+            >::call_new(component_, this, HPX_FWD(vs)...);
             intrusive_ptr_add_ref(this);
         }
 

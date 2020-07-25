@@ -58,12 +58,12 @@ namespace hpx { namespace applier { namespace detail {
         if (traits::action_decorate_continuation<Action>::call(cont))    //-V614
         {
             data.func = Action::construct_thread_function(target,
-                std::move(cont), lva, comptype, std::forward<Ts>(vs)...);
+                std::move(cont), lva, comptype, HPX_FWD(vs)...);
         }
         else
         {
             data.func = Action::construct_thread_function(
-                target, lva, comptype, std::forward<Ts>(vs)...);
+                target, lva, comptype, HPX_FWD(vs)...);
         }
 
 #if defined(HPX_HAVE_THREAD_DESCRIPTION)
@@ -98,8 +98,8 @@ namespace hpx { namespace applier { namespace detail {
 
         // now, schedule the thread
         data.func = Action::construct_thread_function(target,
-            std::forward<Continuation>(cont), lva, comptype,
-            std::forward<Ts>(vs)...);
+            HPX_FWD(cont), lva, comptype,
+            HPX_FWD(vs)...);
 
 #if defined(HPX_HAVE_THREAD_DESCRIPTION)
 #if HPX_HAVE_ITTNOTIFY != 0 && !defined(HPX_HAVE_APEX)
@@ -127,7 +127,7 @@ namespace hpx { namespace applier { namespace detail {
     HPX_FORCEINLINE void call_sync(naming::address::address_type lva,
         naming::address::component_type comptype, Ts&&... vs)
     {
-        Action::execute_function(lva, comptype, std::forward<Ts>(vs)...);
+        Action::execute_function(lva, comptype, HPX_FWD(vs)...);
     }
 
     template <typename Action, typename Continuation, typename... Ts>
@@ -138,7 +138,7 @@ namespace hpx { namespace applier { namespace detail {
         try
         {
             cont.trigger_value(Action::execute_function(
-                lva, comptype, std::forward<Ts>(vs)...));
+                lva, comptype, HPX_FWD(vs)...));
         }
         catch (...)
         {
@@ -170,11 +170,11 @@ namespace hpx { namespace applier { namespace detail {
             if (policy == launch::async)
             {
                 call_async<Action>(std::move(data), target, lva, comptype,
-                    priority, std::forward<Ts>(vs)...);
+                    priority, HPX_FWD(vs)...);
             }
             else
             {
-                call_sync<Action>(lva, comptype, std::forward<Ts>(vs)...);
+                call_sync<Action>(lva, comptype, HPX_FWD(vs)...);
             }
         }
 
@@ -192,13 +192,13 @@ namespace hpx { namespace applier { namespace detail {
             if (policy == launch::async)
             {
                 call_async<Action>(std::move(data),
-                    std::forward<Continuation>(cont), target, lva, comptype,
-                    priority, std::forward<Ts>(vs)...);
+                    HPX_FWD(cont), target, lva, comptype,
+                    priority, HPX_FWD(vs)...);
             }
             else
             {
-                call_sync<Action>(std::forward<Continuation>(cont), lva,
-                    comptype, std::forward<Ts>(vs)...);
+                call_sync<Action>(HPX_FWD(cont), lva,
+                    comptype, HPX_FWD(vs)...);
             }
         }
     };
@@ -219,12 +219,12 @@ namespace hpx { namespace applier { namespace detail {
             if (this_thread::has_sufficient_stack_space() ||
                 !threads::threadmanager_is_at_least(state_running))
             {
-                call_sync<Action>(lva, comptype, std::forward<Ts>(vs)...);
+                call_sync<Action>(lva, comptype, HPX_FWD(vs)...);
             }
             else
             {
                 call_async<Action>(std::move(data), target, lva, comptype,
-                    priority, std::forward<Ts>(vs)...);
+                    priority, HPX_FWD(vs)...);
             }
         }
 
@@ -240,14 +240,14 @@ namespace hpx { namespace applier { namespace detail {
             if (this_thread::has_sufficient_stack_space() ||
                 !threads::threadmanager_is_at_least(state_running))
             {
-                call_sync<Action>(std::forward<Continuation>(cont), lva,
-                    comptype, std::forward<Ts>(vs)...);
+                call_sync<Action>(HPX_FWD(cont), lva,
+                    comptype, HPX_FWD(vs)...);
             }
             else
             {
                 call_async<Action>(std::move(data),
-                    std::forward<Continuation>(cont), target, lva, comptype,
-                    priority, std::forward<Ts>(vs)...);
+                    HPX_FWD(cont), target, lva, comptype,
+                    priority, HPX_FWD(vs)...);
             }
         }
     };

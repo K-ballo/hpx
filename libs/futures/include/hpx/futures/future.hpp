@@ -321,7 +321,7 @@ namespace hpx { namespace lcos { namespace detail {
         template <typename U>
         HPX_FORCEINLINE static U get(U&& u)
         {
-            return std::forward<U>(u);
+            return HPX_FWD(u);
         }
 
         static T get_default()
@@ -627,11 +627,11 @@ namespace hpx { namespace lcos { namespace detail {
         static auto then(Derived&& fut, F&& f, error_code& ec = throws)
             -> decltype(
                 future_then_dispatch<typename std::decay<F>::type>::call(
-                    std::move(fut), std::forward<F>(f)))
+                    std::move(fut), HPX_FWD(f)))
         {
             using result_type = decltype(
                 future_then_dispatch<typename std::decay<F>::type>::call(
-                    std::move(fut), std::forward<F>(f)));
+                    std::move(fut), HPX_FWD(f)));
 
             if (!fut.shared_state_)
             {
@@ -641,18 +641,18 @@ namespace hpx { namespace lcos { namespace detail {
             }
 
             return future_then_dispatch<typename std::decay<F>::type>::call(
-                std::move(fut), std::forward<F>(f));
+                std::move(fut), HPX_FWD(f));
         }
 
         template <typename F, typename T0>
         static auto then(Derived&& fut, T0&& t0, F&& f, error_code& ec = throws)
             -> decltype(
                 future_then_dispatch<typename std::decay<T0>::type>::call(
-                    std::move(fut), std::forward<T0>(t0), std::forward<F>(f)))
+                    std::move(fut), HPX_FWD(t0), HPX_FWD(f)))
         {
             using result_type = decltype(
                 future_then_dispatch<typename std::decay<T0>::type>::call(
-                    std::move(fut), std::forward<T0>(t0), std::forward<F>(f)));
+                    std::move(fut), HPX_FWD(t0), HPX_FWD(f)));
 
             if (!fut.shared_state_)
             {
@@ -662,7 +662,7 @@ namespace hpx { namespace lcos { namespace detail {
             }
 
             return future_then_dispatch<typename std::decay<T0>::type>::call(
-                std::move(fut), std::forward<T0>(t0), std::forward<F>(f));
+                std::move(fut), HPX_FWD(t0), HPX_FWD(f));
         }
 
         template <typename Allocator, typename F>
@@ -670,11 +670,11 @@ namespace hpx { namespace lcos { namespace detail {
             error_code& ec = throws)
             -> decltype(
                 future_then_dispatch<typename std::decay<F>::type>::call_alloc(
-                    alloc, std::move(fut), std::forward<F>(f)))
+                    alloc, std::move(fut), HPX_FWD(f)))
         {
             using result_type = decltype(
                 future_then_dispatch<typename std::decay<F>::type>::call_alloc(
-                    alloc, std::move(fut), std::forward<F>(f)));
+                    alloc, std::move(fut), HPX_FWD(f)));
 
             if (!fut.shared_state_)
             {
@@ -685,7 +685,7 @@ namespace hpx { namespace lcos { namespace detail {
 
             return future_then_dispatch<
                 typename std::decay<F>::type>::call_alloc(alloc, std::move(fut),
-                std::forward<F>(f));
+                HPX_FWD(f));
         }
 
         // Effects: blocks until the shared state is ready.
@@ -962,7 +962,7 @@ namespace hpx { namespace lcos {
         decltype(auto) then(F&& f, error_code& ec = throws)
         {
             invalidate on_exit(*this);
-            return base_type::then(std::move(*this), std::forward<F>(f), ec);
+            return base_type::then(std::move(*this), HPX_FWD(f), ec);
         }
 
         template <typename T0, typename F>
@@ -970,17 +970,17 @@ namespace hpx { namespace lcos {
         {
             invalidate on_exit(*this);
             return base_type::then(
-                std::move(*this), std::forward<T0>(t0), std::forward<F>(f), ec);
+                std::move(*this), HPX_FWD(t0), HPX_FWD(f), ec);
         }
 
         template <typename Allocator, typename F>
         auto then_alloc(Allocator const& alloc, F&& f, error_code& ec = throws)
             -> decltype(base_type::then_alloc(
-                alloc, std::move(*this), std::forward<F>(f), ec))
+                alloc, std::move(*this), HPX_FWD(f), ec))
         {
             invalidate on_exit(*this);
             return base_type::then_alloc(
-                alloc, std::move(*this), std::forward<F>(f), ec);
+                alloc, std::move(*this), HPX_FWD(f), ec);
         }
 
         using base_type::wait;
@@ -996,7 +996,7 @@ namespace hpx { namespace lcos {
             hpx::lcos::future<T>>::type
         make_future_helper(Future&& f)
         {
-            return std::forward<Future>(f);
+            return HPX_FWD(f);
         }
 
         template <typename T, typename Future>
@@ -1030,7 +1030,7 @@ namespace hpx { namespace lcos {
             hpx::lcos::future<T>>::type
         convert_future_helper(Future&& f, Conv&& conv)
         {
-            return std::forward<Future>(f);
+            return HPX_FWD(f);
         }
 
         template <typename T, typename Future, typename Conv>
@@ -1040,7 +1040,7 @@ namespace hpx { namespace lcos {
         convert_future_helper(Future&& f, Conv&& conv)    //-V659
         {
             return f.then(hpx::launch::sync,
-                [conv = std::forward<Conv>(conv)](Future&& f) -> T {
+                [conv = HPX_FWD(conv)](Future&& f) -> T {
                     return hpx::util::invoke(conv, f.get());
                 });
         }
@@ -1052,7 +1052,7 @@ namespace hpx { namespace lcos {
     hpx::lcos::future<R> make_future(hpx::lcos::future<U>&& f, Conv&& conv)
     {
         return detail::convert_future_helper<R>(
-            std::move(f), std::forward<Conv>(conv));
+            std::move(f), HPX_FWD(conv));
     }
 }}    // namespace hpx::lcos
 
@@ -1243,23 +1243,23 @@ namespace hpx { namespace lcos {
         decltype(auto) then(F&& f, error_code& ec = throws) const
         {
             return base_type::then(
-                shared_future(*this), std::forward<F>(f), ec);
+                shared_future(*this), HPX_FWD(f), ec);
         }
 
         template <typename T0, typename F>
         decltype(auto) then(T0&& t0, F&& f, error_code& ec = throws) const
         {
-            return base_type::then(shared_future(*this), std::forward<T0>(t0),
-                std::forward<F>(f), ec);
+            return base_type::then(shared_future(*this), HPX_FWD(t0),
+                HPX_FWD(f), ec);
         }
 
         template <typename Allocator, typename F>
         auto then_alloc(Allocator const& alloc, F&& f, error_code& ec = throws)
             -> decltype(base_type::then_alloc(
-                alloc, std::move(*this), std::forward<F>(f), ec))
+                alloc, std::move(*this), HPX_FWD(f), ec))
         {
             return base_type::then_alloc(
-                alloc, shared_future(*this), std::forward<F>(f), ec);
+                alloc, shared_future(*this), HPX_FWD(f), ec);
         }
 
         using base_type::wait;
@@ -1292,7 +1292,7 @@ namespace hpx { namespace lcos {
             "result type by using the supplied conversion function");
 
         return f.then(hpx::launch::sync,
-            [conv = std::forward<Conv>(conv)](
+            [conv = HPX_FWD(conv)](
                 hpx::lcos::shared_future<U> const& f) {
                 return hpx::util::invoke(conv, f.get());
             });
@@ -1358,7 +1358,7 @@ namespace hpx { namespace lcos {
         unique_ptr p(traits::allocate(alloc, 1),
             util::allocator_deleter<other_allocator>{alloc});
         traits::construct(alloc, p.get(), init_no_addref{}, in_place{}, alloc,
-            std::forward<Ts>(ts)...);
+            HPX_FWD(ts)...);
 
         return hpx::traits::future_access<future<result_type>>::create(
             p.release(), false);
@@ -1373,7 +1373,7 @@ namespace hpx { namespace lcos {
         make_ready_future(Ts&&... ts)
     {
         return make_ready_future_alloc<T>(
-            hpx::util::internal_allocator<>{}, std::forward<Ts>(ts)...);
+            hpx::util::internal_allocator<>{}, HPX_FWD(ts)...);
     }
     ///////////////////////////////////////////////////////////////////////////
     // extension: create a pre-initialized future object, with allocator
@@ -1382,7 +1382,7 @@ namespace hpx { namespace lcos {
         Allocator const& a, T&& init)
     {
         using result_type = typename hpx::util::decay_unwrap<T>::type;
-        return make_ready_future_alloc<result_type>(a, std::forward<T>(init));
+        return make_ready_future_alloc<result_type>(a, HPX_FWD(init));
     }
 
     // extension: create a pre-initialized future object
@@ -1392,7 +1392,7 @@ namespace hpx { namespace lcos {
     {
         using result_type = typename hpx::util::decay_unwrap<T>::type;
         return make_ready_future_alloc<result_type>(
-            hpx::util::internal_allocator<>{}, std::forward<T>(init));
+            hpx::util::internal_allocator<>{}, HPX_FWD(init));
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -1436,7 +1436,7 @@ namespace hpx { namespace lcos {
         typedef lcos::detail::timed_future_data<result_type> shared_state;
 
         hpx::intrusive_ptr<shared_state> p(
-            new shared_state(abs_time.value(), std::forward<T>(init)));
+            new shared_state(abs_time.value(), HPX_FWD(init)));
 
         return hpx::traits::future_access<future<result_type>>::create(
             std::move(p));
@@ -1446,7 +1446,7 @@ namespace hpx { namespace lcos {
     future<typename hpx::util::decay_unwrap<T>::type> make_ready_future_after(
         hpx::util::steady_duration const& rel_time, T&& init)
     {
-        return make_ready_future_at(rel_time.from_now(), std::forward<T>(init));
+        return make_ready_future_at(rel_time.from_now(), HPX_FWD(init));
     }
 
     ///////////////////////////////////////////////////////////////////////////

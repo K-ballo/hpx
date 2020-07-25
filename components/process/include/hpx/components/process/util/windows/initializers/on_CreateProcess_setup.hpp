@@ -54,7 +54,7 @@ private:
 template <class Handler>
 on_CreateProcess_setup_<Handler> on_CreateProcess_setup(Handler && handler)
 {
-    return on_CreateProcess_setup_<Handler>(std::forward<Handler>(handler));
+    return on_CreateProcess_setup_<Handler>(HPX_FWD(handler));
 }
 
 }

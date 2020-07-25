@@ -89,10 +89,10 @@ namespace hpx { namespace parallel { namespace execution {
         void post(F&& f, Ts&&... ts)
         {
             count_up();
-            auto&& args = hpx::util::make_tuple(std::forward<Ts>(ts)...);
+            auto&& args = hpx::util::make_tuple(HPX_FWD(ts)...);
             parallel::execution::post(executor_,
-                [this, f = std::forward<F>(f),
-                    args = std::forward<decltype(args)>(args)]() mutable {
+                [this, f = HPX_FWD(f),
+                    args = HPX_FWD(args)]() mutable {
                     hpx::util::invoke_fused(std::move(f), std::move(args));
                     count_down();
                 });
@@ -110,10 +110,10 @@ namespace hpx { namespace parallel { namespace execution {
                 Ts...>::type result_type;
 
             count_up();
-            auto&& args = hpx::util::make_tuple(std::forward<Ts>(ts)...);
+            auto&& args = hpx::util::make_tuple(HPX_FWD(ts)...);
             lcos::local::futures_factory<result_type()> p(executor_,
-                [this, f = std::forward<F>(f),
-                    args = std::forward<decltype(args)>(args)]() mutable {
+                [this, f = HPX_FWD(f),
+                    args = HPX_FWD(args)]() mutable {
                     hpx::util::invoke_fused(std::move(f), std::move(args));
                     count_down();
                 });
@@ -140,10 +140,10 @@ namespace hpx { namespace parallel { namespace execution {
 
             count_up();
 
-            auto&& args = hpx::util::make_tuple(std::forward<Ts>(ts)...);
+            auto&& args = hpx::util::make_tuple(HPX_FWD(ts)...);
             lcos::local::futures_factory<result_type()> p(executor_,
-                [this, f = std::forward<F>(f),
-                    args = std::forward<decltype(args)>(args)]() mutable {
+                [this, f = HPX_FWD(f),
+                    args = HPX_FWD(args)]() mutable {
                     hpx::util::invoke_fused(std::move(f), std::move(args));
                     count_down();
                 });

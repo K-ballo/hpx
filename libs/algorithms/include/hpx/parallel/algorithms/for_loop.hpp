@@ -62,7 +62,7 @@ namespace hpx { namespace parallel { inline namespace v2 {
             hpx::util::tuple<Ts...>& args, hpx::util::index_pack<Is...>, F&& f,
             B part_begin)
         {
-            hpx::util::invoke(std::forward<F>(f), part_begin,
+            hpx::util::invoke(HPX_FWD(f), part_begin,
                 hpx::util::get<Is>(args).iteration_value()...);
         }
 
@@ -101,9 +101,9 @@ namespace hpx { namespace parallel { inline namespace v2 {
 
             template <typename F_, typename S_, typename Args>
             part_iterations(F_&& f, S_&& stride, Args&& args)
-              : f_(std::forward<F_>(f))
-              , stride_(std::forward<S_>(stride))
-              , args_(std::forward<Args>(args))
+              : f_(HPX_FWD(f))
+              , stride_(HPX_FWD(stride))
+              , args_(HPX_FWD(args))
             {
             }
 
@@ -202,12 +202,12 @@ namespace hpx { namespace parallel { inline namespace v2 {
                     args_type;
 
                 args_type args =
-                    hpx::util::forward_as_tuple(std::forward<Ts>(ts)...);
+                    hpx::util::forward_as_tuple(HPX_FWD(ts)...);
 
                 return util::partitioner<ExPolicy>::call_with_index(policy,
                     first, size, stride,
                     part_iterations<F, S, args_type>{
-                        std::forward<F>(f), stride, args},
+                        HPX_FWD(f), stride, args},
                     [=](std::vector<hpx::future<void>>&&) mutable -> void {
                         auto pack =
                             typename hpx::util::make_index_pack<sizeof...(
@@ -248,9 +248,9 @@ namespace hpx { namespace parallel { inline namespace v2 {
             typedef execution::is_sequenced_execution_policy<ExPolicy> is_seq;
 
             std::size_t size = parallel::v1::detail::distance(first, last);
-            auto&& t = hpx::util::forward_as_tuple(std::forward<Args>(args)...);
+            auto&& t = hpx::util::forward_as_tuple(HPX_FWD(args)...);
 
-            return for_loop_algo().call(std::forward<ExPolicy>(policy),
+            return for_loop_algo().call(HPX_FWD(policy),
                 is_seq(), first, size, stride,
                 hpx::util::get<sizeof...(Args) - 1>(t),
                 hpx::util::get<Is>(t)...);
@@ -284,9 +284,9 @@ namespace hpx { namespace parallel { inline namespace v2 {
 
             typedef execution::is_sequenced_execution_policy<ExPolicy> is_seq;
 
-            auto&& t = hpx::util::forward_as_tuple(std::forward<Args>(args)...);
+            auto&& t = hpx::util::forward_as_tuple(HPX_FWD(args)...);
 
-            return for_loop_algo().call(std::forward<ExPolicy>(policy),
+            return for_loop_algo().call(HPX_FWD(policy),
                 is_seq(), first, size, stride,
                 hpx::util::get<sizeof...(Args) - 1>(t),
                 hpx::util::get<Is>(t)...);
@@ -391,9 +391,9 @@ namespace hpx { namespace parallel { inline namespace v2 {
             "for_loop must be called with at least a function object");
 
         using hpx::util::make_index_pack;
-        return detail::for_loop(std::forward<ExPolicy>(policy), first, last, 1,
+        return detail::for_loop(HPX_FWD(policy), first, last, 1,
             typename make_index_pack<sizeof...(Args) - 1>::type(),
-            std::forward<Args>(args)...);
+            HPX_FWD(args)...);
     }
 
     /// The for_loop implements loop functionality over a range specified by
@@ -482,7 +482,7 @@ namespace hpx { namespace parallel { inline namespace v2 {
             "for_loop must be called with at least a function object");
 
         return for_loop(
-            parallel::execution::seq, first, last, std::forward<Args>(args)...);
+            parallel::execution::seq, first, last, HPX_FWD(args)...);
     }
 
     /// The for_loop_strided implements loop functionality over a range
@@ -589,9 +589,9 @@ namespace hpx { namespace parallel { inline namespace v2 {
             "for_loop_strided must be called with at least a function object");
 
         using hpx::util::make_index_pack;
-        return detail::for_loop(std::forward<ExPolicy>(policy), first, last,
+        return detail::for_loop(HPX_FWD(policy), first, last,
             stride, typename make_index_pack<sizeof...(Args) - 1>::type(),
-            std::forward<Args>(args)...);
+            HPX_FWD(args)...);
     }
 
     /// The for_loop_strided implements loop functionality over a range
@@ -687,7 +687,7 @@ namespace hpx { namespace parallel { inline namespace v2 {
             "for_loop_strided must be called with at least a function object");
 
         return for_loop_strided(parallel::execution::seq, first, last, stride,
-            std::forward<Args>(args)...);
+            HPX_FWD(args)...);
     }
 
     /// The for_loop_n implements loop functionality over a range specified by
@@ -789,9 +789,9 @@ namespace hpx { namespace parallel { inline namespace v2 {
             "for_loop_n must be called with at least a function object");
 
         using hpx::util::make_index_pack;
-        return detail::for_loop_n(std::forward<ExPolicy>(policy), first, size,
+        return detail::for_loop_n(HPX_FWD(policy), first, size,
             1, typename make_index_pack<sizeof...(Args) - 1>::type(),
-            std::forward<Args>(args)...);
+            HPX_FWD(args)...);
     }
 
     /// The for_loop implements loop functionality over a range specified by
@@ -882,7 +882,7 @@ namespace hpx { namespace parallel { inline namespace v2 {
             "for_loop_n must be called with at least a function object");
 
         return for_loop_n(
-            parallel::execution::seq, first, size, std::forward<Args>(args)...);
+            parallel::execution::seq, first, size, HPX_FWD(args)...);
     }
 
     /// The for_loop_n_strided implements loop functionality over a range
@@ -993,9 +993,9 @@ namespace hpx { namespace parallel { inline namespace v2 {
             "object");
 
         using hpx::util::make_index_pack;
-        return detail::for_loop_n(std::forward<ExPolicy>(policy), first, size,
+        return detail::for_loop_n(HPX_FWD(policy), first, size,
             stride, typename make_index_pack<sizeof...(Args) - 1>::type(),
-            std::forward<Args>(args)...);
+            HPX_FWD(args)...);
     }
 
     /// The for_loop_n_strided implements loop functionality over a range
@@ -1093,7 +1093,7 @@ namespace hpx { namespace parallel { inline namespace v2 {
             "for_loop_n_strided must be called with at least a function "
             "object");
         return for_loop_strided_n(parallel::execution::seq, first, size, stride,
-            std::forward<Args>(args)...);
+            HPX_FWD(args)...);
     }
 }}}    // namespace hpx::parallel::v2
 

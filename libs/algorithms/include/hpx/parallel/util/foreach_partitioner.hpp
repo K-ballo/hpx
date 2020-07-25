@@ -53,12 +53,12 @@ namespace hpx { namespace parallel { namespace util {
 
             std::vector<hpx::future<Result>> inititems;
             auto shape = detail::get_bulk_iteration_shape_idx(
-                has_variable_chunk_size{}, std::forward<ExPolicy>(policy),
+                has_variable_chunk_size{}, HPX_FWD(policy),
                 inititems, f, first, count, 1);
 
             std::vector<hpx::future<Result>> workitems =
                 execution::bulk_async_execute(policy.executor(),
-                    partitioner_iteration<Result, F>{std::forward<F>(f)},
+                    partitioner_iteration<Result, F>{HPX_FWD(f)},
                     std::move(shape));
             return std::make_pair(std::move(inititems), std::move(workitems));
         }
@@ -96,8 +96,8 @@ namespace hpx { namespace parallel { namespace util {
                 {
                     std::tie(inititems, workitems) =
                         detail::foreach_partition<Result>(
-                            std::forward<ExPolicy_>(policy), first, count,
-                            std::forward<F1>(f1));
+                            HPX_FWD(policy), first, count,
+                            HPX_FWD(f1));
 
                     scoped_params.mark_end_of_scheduling();
                 }
@@ -107,7 +107,7 @@ namespace hpx { namespace parallel { namespace util {
                         std::current_exception(), errors);
                 }
                 return reduce(std::move(inititems), std::move(workitems),
-                    std::move(errors), std::forward<F2>(f2), std::move(last));
+                    std::move(errors), HPX_FWD(f2), std::move(last));
             }
 
         private:
@@ -171,8 +171,8 @@ namespace hpx { namespace parallel { namespace util {
                 {
                     std::tie(inititems, workitems) =
                         detail::foreach_partition<Result>(
-                            std::forward<ExPolicy_>(policy), first, count,
-                            std::forward<F1>(f1));
+                            HPX_FWD(policy), first, count,
+                            HPX_FWD(f1));
 
                     scoped_params->mark_end_of_scheduling();
                 }
@@ -188,7 +188,7 @@ namespace hpx { namespace parallel { namespace util {
                 }
                 return reduce(std::move(scoped_params), std::move(inititems),
                     std::move(workitems), std::move(errors),
-                    std::forward<F2>(f2), std::move(last));
+                    HPX_FWD(f2), std::move(last));
             }
 
         private:
@@ -207,7 +207,7 @@ namespace hpx { namespace parallel { namespace util {
                 return hpx::dataflow(
                     [last, errors = std::move(errors),
                         scoped_params = std::move(scoped_params),
-                        f = std::forward<F>(f)](
+                        f = HPX_FWD(f)](
                         std::vector<hpx::future<Result>>&& r1,
                         std::vector<hpx::future<Result>>&& r2) mutable
                     -> FwdIter {

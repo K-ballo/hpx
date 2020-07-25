@@ -577,7 +577,7 @@ namespace hpx
         template <typename T_>
         void set_value(launch::sync_policy, Key const& pos, T_ && val)
         {
-            set_value(pos, std::forward<T_>(val)).get();
+            set_value(pos, HPX_FWD(val)).get();
         }
 
         /// Copy the value of \a val in the element at position
@@ -593,7 +593,7 @@ namespace hpx
         {
             HPX_ASSERT(this->get_id());
             return hpx::async<typename server_type::set_value_action>(
-                this->get_id(), pos, std::forward<T_>(val));
+                this->get_id(), pos, HPX_FWD(val));
         }
 
         /// Copy the value of \a val in the element at position

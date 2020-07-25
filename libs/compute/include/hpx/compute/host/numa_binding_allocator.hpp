@@ -354,7 +354,7 @@ namespace hpx { namespace compute { namespace host {
         template <class U, class... A>
         void construct(U* const p, A&&... args)
         {
-            new (p) U(std::forward<A>(args)...);
+            new (p) U(HPX_FWD(args)...);
         }
 
         template <class U>

@@ -59,7 +59,7 @@ namespace hpx { namespace parallel { namespace execution { namespace detail {
 
             hpx::util::unique_function_nonser<result_type()> f_wrapper =
                 hpx::util::deferred_call(
-                    std::forward<F>(f), std::forward<Ts>(ts)...);
+                    HPX_FWD(f), HPX_FWD(ts)...);
             auto t = std::make_shared<post_wrapper_helper<decltype(f_wrapper)>>(
                 std::move(f_wrapper));
             pool_->get_io_service().post(hpx::util::bind_front(
@@ -77,7 +77,7 @@ namespace hpx { namespace parallel { namespace execution { namespace detail {
 
             hpx::util::unique_function_nonser<result_type()> f_wrapper =
                 hpx::util::deferred_call(
-                    std::forward<F>(f), std::forward<Ts>(ts)...);
+                    HPX_FWD(f), HPX_FWD(ts)...);
             auto t = std::make_shared<
                 async_execute_wrapper_helper<decltype(f_wrapper), result_type>>(
                 std::move(f_wrapper));
@@ -102,7 +102,7 @@ namespace hpx { namespace parallel { namespace execution { namespace detail {
             for (auto const& elem : shape)
             {
                 results.push_back(
-                    async_execute(std::forward<F>(f), elem, ts...));
+                    async_execute(HPX_FWD(f), elem, ts...));
             }
 
             return results;
@@ -128,8 +128,8 @@ namespace hpx { namespace parallel { namespace execution { namespace detail {
 
             auto func = parallel::execution::detail::
                 make_fused_bulk_async_execute_helper<result_type>(*this,
-                    std::forward<F>(f), shape,
-                    hpx::util::make_tuple(std::forward<Ts>(ts)...));
+                    HPX_FWD(f), shape,
+                    hpx::util::make_tuple(HPX_FWD(ts)...));
             using vector_result_type =
                 typename parallel::execution::detail::bulk_then_execute_result<
                     F, Shape, Future, Ts...>::type;
@@ -142,7 +142,7 @@ namespace hpx { namespace parallel { namespace execution { namespace detail {
             current_executor exec_current = hpx::this_thread::get_executor();
             shared_state_type p =
                 lcos::detail::make_continuation_exec<vector_result_type>(
-                    std::forward<Future>(predecessor), exec_current,
+                    HPX_FWD(predecessor), exec_current,
                     [func = std::move(func)](future_type&& predecessor) mutable
                     -> vector_result_type {
                         return hpx::util::unwrap(func(std::move(predecessor)));

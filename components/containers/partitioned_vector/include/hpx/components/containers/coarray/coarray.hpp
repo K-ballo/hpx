@@ -164,8 +164,8 @@ namespace hpx
             Iterator&& last) const
         {
             return base_type(block,
-                std::forward<Iterator>(begin),
-                std::forward<Iterator>(last),
+                HPX_FWD(begin),
+                HPX_FWD(last),
                 {(cosizes.begin()[I] != std::size_t(-1) ? cosizes.begin()[I] :
                                                           num_images)...});
         }

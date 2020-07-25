@@ -143,7 +143,7 @@ namespace hpx { namespace compute { namespace host {
                     parallel::util::detail::no_data>;
 
                 auto&& arguments =
-                    hpx::util::forward_as_tuple(std::forward<Args>(args)...);
+                    hpx::util::forward_as_tuple(HPX_FWD(args)...);
 
                 cancellation_token tok;
                 partitioner::call(
@@ -188,7 +188,7 @@ namespace hpx { namespace compute { namespace host {
             {
                 hpx::parallel::execution::sync_execute(
                     hpx::util::functional::placement_new<U>(), p,
-                    std::forward<Args>(args)...);
+                    HPX_FWD(args)...);
             }
 
             // Calls the destructor of count objects pointed to by p

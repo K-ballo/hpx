@@ -99,7 +99,7 @@ namespace hpx { namespace parallel { namespace execution { inline namespace v1 {
 
             typedef typename rebind_executor<dataseq_task_policy, Executor,
                 executor_parameters_type>::type rebound_type;
-            return rebound_type(std::forward<Executor>(exec), parameters());
+            return rebound_type(HPX_FWD(exec), parameters());
         }
 
         /// Create a new dataseq_task_policy from the given
@@ -127,7 +127,7 @@ namespace hpx { namespace parallel { namespace execution { inline namespace v1 {
             typedef typename rebind_executor<dataseq_task_policy, executor_type,
                 ParametersType>::type rebound_type;
             return rebound_type(executor(),
-                join_executor_parameters(std::forward<Parameters>(params)...));
+                join_executor_parameters(HPX_FWD(params)...));
         }
 
     public:
@@ -240,7 +240,7 @@ namespace hpx { namespace parallel { namespace execution { inline namespace v1 {
 
             typedef typename rebind_executor<dataseq_task_policy_shim,
                 Executor_, executor_parameters_type>::type rebound_type;
-            return rebound_type(std::forward<Executor_>(exec), params_);
+            return rebound_type(HPX_FWD(exec), params_);
         }
 
         /// Create a new dataseq_task_policy_shim from the given
@@ -268,7 +268,7 @@ namespace hpx { namespace parallel { namespace execution { inline namespace v1 {
             typedef typename rebind_executor<dataseq_task_policy_shim,
                 executor_type, ParametersType>::type rebound_type;
             return rebound_type(exec_,
-                join_executor_parameters(std::forward<Parameters_>(params)...));
+                join_executor_parameters(HPX_FWD(params)...));
         }
 
         /// Return the associated executor object.
@@ -299,8 +299,8 @@ namespace hpx { namespace parallel { namespace execution { inline namespace v1 {
         template <typename Executor_, typename Parameters_>
         constexpr dataseq_task_policy_shim(
             Executor_&& exec, Parameters_&& params)
-          : exec_(std::forward<Executor_>(exec))
-          , params_(std::forward<Parameters_>(params))
+          : exec_(HPX_FWD(exec))
+          , params_(HPX_FWD(params))
         {
         }
 
@@ -393,7 +393,7 @@ namespace hpx { namespace parallel { namespace execution { inline namespace v1 {
 
             typedef typename rebind_executor<dataseq_policy, Executor,
                 executor_parameters_type>::type rebound_type;
-            return rebound_type(std::forward<Executor>(exec), parameters());
+            return rebound_type(HPX_FWD(exec), parameters());
         }
 
         /// Create a new dataseq_policy from the given
@@ -421,7 +421,7 @@ namespace hpx { namespace parallel { namespace execution { inline namespace v1 {
             typedef typename rebind_executor<dataseq_policy, executor_type,
                 ParametersType>::type rebound_type;
             return rebound_type(executor(),
-                join_executor_parameters(std::forward<Parameters>(params)...));
+                join_executor_parameters(HPX_FWD(params)...));
         }
 
     public:
@@ -532,7 +532,7 @@ namespace hpx { namespace parallel { namespace execution { inline namespace v1 {
 
             typedef typename rebind_executor<dataseq_policy_shim, Executor_,
                 executor_parameters_type>::type rebound_type;
-            return rebound_type(std::forward<Executor_>(exec), params_);
+            return rebound_type(HPX_FWD(exec), params_);
         }
 
         /// Create a new dataseq_policy_shim from the given
@@ -560,7 +560,7 @@ namespace hpx { namespace parallel { namespace execution { inline namespace v1 {
             typedef typename rebind_executor<dataseq_policy_shim, executor_type,
                 ParametersType>::type rebound_type;
             return rebound_type(exec_,
-                join_executor_parameters(std::forward<Parameters_>(params)...));
+                join_executor_parameters(HPX_FWD(params)...));
         }
 
         /// Return the associated executor object.
@@ -590,8 +590,8 @@ namespace hpx { namespace parallel { namespace execution { inline namespace v1 {
 
         template <typename Executor_, typename Parameters_>
         constexpr dataseq_policy_shim(Executor_&& exec, Parameters_&& params)
-          : exec_(std::forward<Executor_>(exec))
-          , params_(std::forward<Parameters_>(params))
+          : exec_(HPX_FWD(exec))
+          , params_(HPX_FWD(params))
         {
         }
 
@@ -683,7 +683,7 @@ namespace hpx { namespace parallel { namespace execution { inline namespace v1 {
 
             typedef typename rebind_executor<datapar_task_policy, Executor,
                 executor_parameters_type>::type rebound_type;
-            return rebound_type(std::forward<Executor>(exec), parameters());
+            return rebound_type(HPX_FWD(exec), parameters());
         }
 
         /// Create a new datapar_task_policy_shim from the given
@@ -711,7 +711,7 @@ namespace hpx { namespace parallel { namespace execution { inline namespace v1 {
             typedef typename rebind_executor<datapar_task_policy, executor_type,
                 ParametersType>::type rebound_type;
             return rebound_type(executor(),
-                join_executor_parameters(std::forward<Parameters>(params)...));
+                join_executor_parameters(HPX_FWD(params)...));
         }
 
     public:
@@ -819,7 +819,7 @@ namespace hpx { namespace parallel { namespace execution { inline namespace v1 {
 
             typedef typename rebind_executor<datapar_policy, Executor,
                 executor_parameters_type>::type rebound_type;
-            return rebound_type(std::forward<Executor>(exec), parameters());
+            return rebound_type(HPX_FWD(exec), parameters());
         }
 
         /// Create a new datapar_policy from the given
@@ -846,7 +846,7 @@ namespace hpx { namespace parallel { namespace execution { inline namespace v1 {
             typedef typename rebind_executor<datapar_policy, executor_type,
                 ParametersType>::type rebound_type;
             return rebound_type(executor(),
-                join_executor_parameters(std::forward<Parameters>(params)...));
+                join_executor_parameters(HPX_FWD(params)...));
         }
 
     public:
@@ -956,7 +956,7 @@ namespace hpx { namespace parallel { namespace execution { inline namespace v1 {
 
             typedef typename rebind_executor<datapar_policy_shim, Executor_,
                 executor_parameters_type>::type rebound_type;
-            return rebound_type(std::forward<Executor_>(exec), params_);
+            return rebound_type(HPX_FWD(exec), params_);
         }
 
         /// Create a new datapar_policy_shim from the given
@@ -983,7 +983,7 @@ namespace hpx { namespace parallel { namespace execution { inline namespace v1 {
             typedef typename rebind_executor<datapar_policy_shim, executor_type,
                 ParametersType>::type rebound_type;
             return rebound_type(exec_,
-                join_executor_parameters(std::forward<Parameters_>(params)...));
+                join_executor_parameters(HPX_FWD(params)...));
         }
 
         /// Return the associated executor object.
@@ -1013,8 +1013,8 @@ namespace hpx { namespace parallel { namespace execution { inline namespace v1 {
 
         template <typename Executor_, typename Parameters_>
         constexpr datapar_policy_shim(Executor_&& exec, Parameters_&& params)
-          : exec_(std::forward<Executor_>(exec))
-          , params_(std::forward<Parameters_>(params))
+          : exec_(HPX_FWD(exec))
+          , params_(HPX_FWD(params))
         {
         }
 
@@ -1101,7 +1101,7 @@ namespace hpx { namespace parallel { namespace execution { inline namespace v1 {
 
             typedef typename rebind_executor<datapar_task_policy_shim,
                 Executor_, executor_parameters_type>::type rebound_type;
-            return rebound_type(std::forward<Executor_>(exec), params_);
+            return rebound_type(HPX_FWD(exec), params_);
         }
 
         /// Create a new parallel_policy_shim from the given
@@ -1129,7 +1129,7 @@ namespace hpx { namespace parallel { namespace execution { inline namespace v1 {
             typedef typename rebind_executor<datapar_task_policy_shim,
                 executor_type, ParametersType>::type rebound_type;
             return rebound_type(exec_,
-                join_executor_parameters(std::forward<Parameters_>(params)...));
+                join_executor_parameters(HPX_FWD(params)...));
         }
 
         /// Return the associated executor object.
@@ -1160,8 +1160,8 @@ namespace hpx { namespace parallel { namespace execution { inline namespace v1 {
         template <typename Executor_, typename Parameters_>
         constexpr datapar_task_policy_shim(
             Executor_&& exec, Parameters_&& params)
-          : exec_(std::forward<Executor_>(exec))
-          , params_(std::forward<Parameters_>(params))
+          : exec_(HPX_FWD(exec))
+          , params_(HPX_FWD(params))
         {
         }
 

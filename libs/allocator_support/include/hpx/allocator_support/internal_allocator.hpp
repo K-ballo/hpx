@@ -83,7 +83,7 @@ namespace hpx { namespace util {
         template <typename U, typename... Args>
         void construct(U* p, Args&&... args)
         {
-            ::new ((void*) p) U(std::forward<Args>(args)...);
+            ::new ((void*) p) U(HPX_FWD(args)...);
         }
 
         template <typename U>

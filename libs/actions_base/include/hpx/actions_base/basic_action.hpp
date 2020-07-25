@@ -75,7 +75,7 @@ namespace hpx { namespace actions {
             HPX_FORCEINLINE typename Action::internal_result_type operator()(
                 Ts&&... vs) const
             {
-                return Action::invoke(lva, comptype, std::forward<Ts>(vs)...);
+                return Action::invoke(lva, comptype, HPX_FWD(vs)...);
             }
         };
 
@@ -94,7 +94,7 @@ namespace hpx { namespace actions {
               : target_(std::move(target))
               , lva_(lva)
               , comptype_(comptype)
-              , args_(std::forward<Ts>(vs)...)
+              , args_(HPX_FWD(vs)...)
             {
             }
 
@@ -163,7 +163,7 @@ namespace hpx { namespace actions {
               , cont_(std::move(cont))
               , lva_(lva)
               , comptype_(comptype)
-              , args_(std::forward<Ts>(vs)...)
+              , args_(HPX_FWD(vs)...)
             {
             }
 
@@ -270,7 +270,7 @@ namespace hpx { namespace actions {
         {
             using is_void = typename std::is_void<R>::type;
             return invoker_impl(
-                is_void{}, lva, comptype, std::forward<Ts>(vs)...);
+                is_void{}, lva, comptype, HPX_FWD(vs)...);
         }
 
     protected:
@@ -279,7 +279,7 @@ namespace hpx { namespace actions {
             naming::address_type lva, naming::component_type comptype,
             Ts&&... vs)
         {
-            Derived::invoke(lva, comptype, std::forward<Ts>(vs)...);
+            Derived::invoke(lva, comptype, HPX_FWD(vs)...);
             return util::unused;
         }
 
@@ -288,7 +288,7 @@ namespace hpx { namespace actions {
             naming::address_type lva, naming::component_type comptype,
             Ts&&... vs)
         {
-            return Derived::invoke(lva, comptype, std::forward<Ts>(vs)...);
+            return Derived::invoke(lva, comptype, HPX_FWD(vs)...);
         }
 
     public:
@@ -308,7 +308,7 @@ namespace hpx { namespace actions {
             using thread_function = detail::thread_function<Derived>;
             return traits::action_decorate_function<Derived>::call(lva,
                 thread_function(
-                    std::move(target), lva, comptype, std::forward<Ts>(vs)...));
+                    std::move(target), lva, comptype, HPX_FWD(vs)...));
         }
 
         // This static construct_thread_function allows to construct
@@ -329,7 +329,7 @@ namespace hpx { namespace actions {
                 detail::continuation_thread_function<Derived>;
             return traits::action_decorate_function<Derived>::call(lva,
                 thread_function(std::move(target), std::move(cont), lva,
-                    comptype, std::forward<Ts>(vs)...));
+                    comptype, HPX_FWD(vs)...));
         }
 
         // direct execution
@@ -341,7 +341,7 @@ namespace hpx { namespace actions {
             LTM_(debug) << "basic_action::execute_function"
                         << Derived::get_action_name(lva);
 
-            return invoker(lva, comptype, std::forward<Ts>(vs)...);
+            return invoker(lva, comptype, HPX_FWD(vs)...);
         }
 
     private:
@@ -351,7 +351,7 @@ namespace hpx { namespace actions {
             IdOrPolicy const& id_or_policy, error_code& ec, Ts&&... vs)
         {
             return hpx::sync<basic_action>(
-                policy, id_or_policy, std::forward<Ts>(vs)...);
+                policy, id_or_policy, HPX_FWD(vs)...);
         }
 
     public:
@@ -360,21 +360,21 @@ namespace hpx { namespace actions {
         HPX_FORCEINLINE result_type operator()(launch policy,
             naming::id_type const& id, error_code& ec, Ts&&... vs) const
         {
-            return sync_invoke(policy, id, ec, std::forward<Ts>(vs)...);
+            return sync_invoke(policy, id, ec, HPX_FWD(vs)...);
         }
 
         template <typename... Ts>
         HPX_FORCEINLINE result_type operator()(
             naming::id_type const& id, error_code& ec, Ts&&... vs) const
         {
-            return sync_invoke(launch::sync, id, ec, std::forward<Ts>(vs)...);
+            return sync_invoke(launch::sync, id, ec, HPX_FWD(vs)...);
         }
 
         template <typename... Ts>
         HPX_FORCEINLINE result_type operator()(
             launch policy, naming::id_type const& id, Ts&&... vs) const
         {
-            return sync_invoke(policy, id, throws, std::forward<Ts>(vs)...);
+            return sync_invoke(policy, id, throws, HPX_FWD(vs)...);
         }
 
         template <typename... Ts>
@@ -382,7 +382,7 @@ namespace hpx { namespace actions {
             naming::id_type const& id, Ts&&... vs) const
         {
             return sync_invoke(
-                launch::sync, id, throws, std::forward<Ts>(vs)...);
+                launch::sync, id, throws, HPX_FWD(vs)...);
         }
 
         ///////////////////////////////////////////////////////////////////////
@@ -394,7 +394,7 @@ namespace hpx { namespace actions {
             Ts&&... vs) const
         {
             return sync_invoke(
-                policy, dist_policy, ec, std::forward<Ts>(vs)...);
+                policy, dist_policy, ec, HPX_FWD(vs)...);
         }
 
         template <typename DistPolicy, typename... Ts>
@@ -405,7 +405,7 @@ namespace hpx { namespace actions {
             DistPolicy const& dist_policy, error_code& ec, Ts&&... vs) const
         {
             return sync_invoke(
-                launch::sync, dist_policy, ec, std::forward<Ts>(vs)...);
+                launch::sync, dist_policy, ec, HPX_FWD(vs)...);
         }
 
         template <typename DistPolicy, typename... Ts>
@@ -416,7 +416,7 @@ namespace hpx { namespace actions {
             launch policy, DistPolicy const& dist_policy, Ts&&... vs) const
         {
             return sync_invoke(
-                policy, dist_policy, throws, std::forward<Ts>(vs)...);
+                policy, dist_policy, throws, HPX_FWD(vs)...);
         }
 
         template <typename DistPolicy, typename... Ts>
@@ -426,7 +426,7 @@ namespace hpx { namespace actions {
         operator()(DistPolicy const& dist_policy, Ts&&... vs) const
         {
             return sync_invoke(
-                launch::sync, dist_policy, throws, std::forward<Ts>(vs)...);
+                launch::sync, dist_policy, throws, HPX_FWD(vs)...);
         }
 
         ///////////////////////////////////////////////////////////////////////

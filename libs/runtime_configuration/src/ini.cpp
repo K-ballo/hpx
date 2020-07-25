@@ -530,8 +530,8 @@ namespace hpx { namespace util {
     public:
         template <typename A1, typename A2>
         compose_callback_impl(A1&& f1, A2&& f2)
-          : f1_(std::forward<A1>(f1))
-          , f2_(std::forward<A2>(f2))
+          : f1_(HPX_FWD(f1))
+          , f2_(HPX_FWD(f2))
         {
         }
 
@@ -552,15 +552,15 @@ namespace hpx { namespace util {
         compose_callback(F1&& f1, F2&& f2)
     {
         if (!f1)
-            return std::forward<F2>(f2);
+            return HPX_FWD(f2);
         else if (!f2)
-            return std::forward<F1>(f1);
+            return HPX_FWD(f1);
 
         // otherwise create a combined callback
         typedef compose_callback_impl<typename util::decay<F1>::type,
             typename util::decay<F2>::type>
             result_type;
-        return result_type(std::forward<F1>(f1), std::forward<F2>(f2));
+        return result_type(HPX_FWD(f1), HPX_FWD(f2));
     }
 
     void section::add_notification_callback(std::unique_lock<mutex_type>& l,

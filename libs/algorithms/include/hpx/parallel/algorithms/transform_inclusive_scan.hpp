@@ -64,8 +64,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
                 *dest++ = init;
                 return sequential_transform_inclusive_scan(++first, last, dest,
-                    std::forward<Conv>(conv), std::move(init),
-                    std::forward<Op>(op));
+                    HPX_FWD(conv), std::move(init),
+                    HPX_FWD(op));
             }
             return dest;
         }
@@ -101,8 +101,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 OutIter dest, Conv&& conv, T&& init, Op&& op)
             {
                 return sequential_transform_inclusive_scan(first, last, dest,
-                    std::forward<Conv>(conv), std::forward<T>(init),
-                    std::forward<Op>(op));
+                    HPX_FWD(conv), HPX_FWD(init),
+                    HPX_FWD(op));
             }
 
             template <typename ExPolicy, typename InIter, typename OutIter,
@@ -111,7 +111,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 InIter last, OutIter dest, Conv&& conv, Op&& op)
             {
                 return sequential_transform_inclusive_scan_noinit(first, last,
-                    dest, std::forward<Conv>(conv), std::forward<Op>(op));
+                    dest, HPX_FWD(conv), HPX_FWD(op));
             }
 
             template <typename ExPolicy, typename FwdIter1, typename Conv,
@@ -159,7 +159,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 };
 
                 return util::scan_partitioner<ExPolicy, FwdIter2, T>::call(
-                    std::forward<ExPolicy>(policy),
+                    HPX_FWD(policy),
                     make_zip_iterator(first, dest), count, init,
                     // step 1 performs first part of scan algorithm
                     [op, conv](
@@ -197,9 +197,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
                     auto init = hpx::util::invoke(conv, *first);
 
                     *dest++ = init;
-                    return parallel(std::forward<ExPolicy>(policy), ++first,
-                        last, dest, std::forward<Conv>(conv), std::move(init),
-                        std::forward<Op>(op));
+                    return parallel(HPX_FWD(policy), ++first,
+                        last, dest, HPX_FWD(conv), std::move(init),
+                        HPX_FWD(op));
                 }
 
                 typedef util::detail::algorithm_result<ExPolicy, FwdIter2>
@@ -223,9 +223,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
             typedef execution::is_sequenced_execution_policy<ExPolicy> is_seq;
 
             return detail::transform_inclusive_scan<FwdIter2>().call(
-                std::forward<ExPolicy>(policy), is_seq(), first, last, dest,
-                std::forward<Conv>(conv), std::forward<T>(init),
-                std::forward<Op>(op));
+                HPX_FWD(policy), is_seq(), first, last, dest,
+                HPX_FWD(conv), HPX_FWD(init),
+                HPX_FWD(op));
         }
 
         template <typename ExPolicy, typename FwdIter1, typename FwdIter2,
@@ -242,8 +242,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
             typedef execution::is_sequenced_execution_policy<ExPolicy> is_seq;
 
             return detail::transform_inclusive_scan<FwdIter2>().call(
-                std::forward<ExPolicy>(policy), is_seq(), first, last, dest,
-                std::forward<Conv>(conv), std::forward<Op>(op));
+                HPX_FWD(policy), is_seq(), first, last, dest,
+                HPX_FWD(conv), HPX_FWD(op));
         }
 
         template <typename ExPolicy, typename FwdIter1, typename FwdIter2,
@@ -385,9 +385,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
         FwdIter2 dest, Op&& op, Conv&& conv, T init)
     {
         typedef hpx::traits::is_segmented_iterator<FwdIter1> is_segmented;
-        return detail::transform_inclusive_scan_(std::forward<ExPolicy>(policy),
-            first, last, dest, std::forward<Conv>(conv), std::move(init),
-            std::forward<Op>(op), is_segmented());
+        return detail::transform_inclusive_scan_(HPX_FWD(policy),
+            first, last, dest, HPX_FWD(conv), std::move(init),
+            HPX_FWD(op), is_segmented());
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -513,8 +513,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
         typedef typename std::iterator_traits<FwdIter1>::value_type value_type;
 
         typedef hpx::traits::is_segmented_iterator<FwdIter1> is_segmented;
-        return detail::transform_inclusive_scan_(std::forward<ExPolicy>(policy),
-            first, last, dest, std::forward<Conv>(conv), std::forward<Op>(op),
+        return detail::transform_inclusive_scan_(HPX_FWD(policy),
+            first, last, dest, HPX_FWD(conv), HPX_FWD(op),
             is_segmented());
     }
 }}}    // namespace hpx::parallel::v1

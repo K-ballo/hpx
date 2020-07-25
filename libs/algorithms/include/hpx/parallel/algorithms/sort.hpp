@@ -247,7 +247,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
             return execution::async_execute(policy.executor(),
                 &sort_thread<typename std::decay<ExPolicy>::type, RandomIt,
                     Compare>,
-                std::forward<ExPolicy>(policy), first, last, comp, chunk_size);
+                HPX_FWD(policy), first, last, comp, chunk_size);
         }
 
         ///////////////////////////////////////////////////////////////////////
@@ -266,7 +266,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
             {
                 std::sort(first, last,
                     util::compare_projected<Compare, Proj>(
-                        std::forward<Compare>(comp), std::forward<Proj>(proj)));
+                        HPX_FWD(comp), HPX_FWD(proj)));
                 return last;
             }
 
@@ -284,10 +284,10 @@ namespace hpx { namespace parallel { inline namespace v1 {
                     // call the sort routine and return the right type,
                     // depending on execution policy
                     return algorithm_result::get(parallel_sort_async(
-                        std::forward<ExPolicy>(policy), first, last,
+                        HPX_FWD(policy), first, last,
                         util::compare_projected<Compare, Proj>(
-                            std::forward<Compare>(comp),
-                            std::forward<Proj>(proj))));
+                            HPX_FWD(comp),
+                            HPX_FWD(proj))));
                 }
                 catch (...)
                 {
@@ -389,8 +389,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
         typedef execution::is_sequenced_execution_policy<ExPolicy> is_seq;
 
-        return detail::sort<RandomIt>().call(std::forward<ExPolicy>(policy),
-            is_seq(), first, last, std::forward<Compare>(comp),
-            std::forward<Proj>(proj));
+        return detail::sort<RandomIt>().call(HPX_FWD(policy),
+            is_seq(), first, last, HPX_FWD(comp),
+            HPX_FWD(proj));
     }
 }}}    // namespace hpx::parallel::v1

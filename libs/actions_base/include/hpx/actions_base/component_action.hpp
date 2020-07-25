@@ -51,7 +51,7 @@ namespace hpx { namespace actions {
             naming::component_type /*comptype*/, F Component::*f, Ts&&... vs)
         {
             Component* component = get_lva<Component>::call(lva);
-            return (component->*f)(std::forward<Ts>(vs)...);
+            return (component->*f)(HPX_FWD(vs)...);
         }
 
         template <typename Component, typename R, typename F, typename... Ts>
@@ -64,7 +64,7 @@ namespace hpx { namespace actions {
                 components::pinned_ptr::create<Component>(lva);
 
             Component* component = get_lva<Component>::call(lva);
-            R result = (component->*f)(std::forward<Ts>(vs)...);
+            R result = (component->*f)(HPX_FWD(vs)...);
 
             traits::detail::get_shared_state(result)->set_on_completed(
                 [p = std::move(p)]() {});
@@ -104,7 +104,7 @@ namespace hpx { namespace actions {
 
             using is_future = typename traits::is_future<R>::type;
             return detail::component_invoke<Component, R>(
-                is_future{}, lva, comptype, F, std::forward<Ts>(vs)...);
+                is_future{}, lva, comptype, F, HPX_FWD(vs)...);
         }
     };
 
@@ -144,7 +144,7 @@ namespace hpx { namespace actions {
 
             return detail::component_invoke<Component const, R>(
                 is_future_or_client{}, lva, comptype, F,
-                std::forward<Ts>(vs)...);
+                HPX_FWD(vs)...);
         }
     };
 
@@ -181,7 +181,7 @@ namespace hpx { namespace actions {
 
             using is_future = typename traits::is_future<R>::type;
             return detail::component_invoke<Component, R>(
-                is_future{}, lva, comptype, F, std::forward<Ts>(vs)...);
+                is_future{}, lva, comptype, F, HPX_FWD(vs)...);
         }
     };
 
@@ -221,7 +221,7 @@ namespace hpx { namespace actions {
 
             return detail::component_invoke<Component const, R>(
                 is_future_or_client{}, lva, comptype, F,
-                std::forward<Ts>(vs)...);
+                HPX_FWD(vs)...);
         }
     };
 #endif

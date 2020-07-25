@@ -46,7 +46,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
             static bool sequential(
                 ExPolicy, FwdIter first, FwdIter last, Pred&& pred)
             {
-                return std::is_sorted(first, last, std::forward<Pred>(pred));
+                return std::is_sorted(first, last, HPX_FWD(pred));
             }
 
             template <typename ExPolicy, typename Pred>
@@ -64,7 +64,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                     return result::get(true);
 
                 util::cancellation_token<> tok;
-                auto f1 = [tok, last, pred = std::forward<Pred>(pred)](
+                auto f1 = [tok, last, pred = HPX_FWD(pred)](
                               FwdIter part_begin,
                               std::size_t part_size) mutable -> bool {
                     FwdIter trail = part_begin++;
@@ -96,7 +96,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 };
 
                 return util::partitioner<ExPolicy, bool>::call(
-                    std::forward<ExPolicy>(policy), first, count, std::move(f1),
+                    HPX_FWD(policy), first, count, std::move(f1),
                     std::move(f2));
             }
         };
@@ -172,8 +172,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
         typedef execution::is_sequenced_execution_policy<ExPolicy> is_seq;
 
-        return detail::is_sorted<FwdIter>().call(std::forward<ExPolicy>(policy),
-            is_seq(), first, last, std::forward<Pred>(pred));
+        return detail::is_sorted<FwdIter>().call(HPX_FWD(policy),
+            is_seq(), first, last, HPX_FWD(pred));
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -194,7 +194,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 ExPolicy, FwdIter first, FwdIter last, Pred&& pred)
             {
                 return std::is_sorted_until(
-                    first, last, std::forward<Pred>(pred));
+                    first, last, HPX_FWD(pred));
             }
 
             template <typename ExPolicy, typename Pred>
@@ -216,7 +216,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                     return result::get(std::move(last));
 
                 util::cancellation_token<difference_type> tok(count);
-                auto f1 = [tok, last, pred = std::forward<Pred>(pred)](
+                auto f1 = [tok, last, pred = HPX_FWD(pred)](
                               FwdIter part_begin, std::size_t part_size,
                               std::size_t base_idx) mutable -> void {
                     FwdIter trail = part_begin++;
@@ -250,7 +250,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                     return std::move(first);
                 };
                 return util::partitioner<ExPolicy, FwdIter,
-                    void>::call_with_index(std::forward<ExPolicy>(policy),
+                    void>::call_with_index(HPX_FWD(policy),
                     first, count, 1, std::move(f1), std::move(f2));
             }
         };
@@ -327,7 +327,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
         typedef execution::is_sequenced_execution_policy<ExPolicy> is_seq;
 
         return detail::is_sorted_until<FwdIter>().call(
-            std::forward<ExPolicy>(policy), is_seq(), first, last,
-            std::forward<Pred>(pred));
+            HPX_FWD(policy), is_seq(), first, last,
+            HPX_FWD(pred));
     }
 }}}    // namespace hpx::parallel::v1

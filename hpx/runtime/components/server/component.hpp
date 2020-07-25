@@ -70,7 +70,7 @@ namespace hpx { namespace components
         ///        instance
         template <typename... Ts>
         component(Ts&&... vs)
-          : Component(std::forward<Ts>(vs)...)
+          : Component(HPX_FWD(vs)...)
         {}
     };
 }}

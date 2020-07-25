@@ -79,8 +79,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 --count;
                 util::cancellation_token<std::size_t> tok(count);
 
-                auto f1 = [tok, first, comp = std::forward<Comp>(comp),
-                              proj = std::forward<Proj>(proj)](RandIter it,
+                auto f1 = [tok, first, comp = HPX_FWD(comp),
+                              proj = HPX_FWD(proj)](RandIter it,
                               std::size_t part_size,
                               std::size_t base_idx) mutable -> void {
                     util::loop_idx_n(base_idx, it, part_size, tok,
@@ -103,7 +103,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 };
 
                 return util::partitioner<ExPolicy, bool, void>::call_with_index(
-                    std::forward<ExPolicy>(policy), second, count, 1,
+                    HPX_FWD(policy), second, count, 1,
                     std::move(f1), std::move(f2));
             }
         };
@@ -120,8 +120,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
             static bool sequential(ExPolicy&& policy, RandIter first,
                 RandIter last, Comp&& comp, Proj&& proj)
             {
-                return sequential_is_heap(first, last, std::forward<Comp>(comp),
-                    std::forward<Proj>(proj));
+                return sequential_is_heap(first, last, HPX_FWD(comp),
+                    HPX_FWD(proj));
             }
 
             template <typename ExPolicy, typename Comp, typename Proj>
@@ -129,8 +129,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
             parallel(ExPolicy&& policy, RandIter first, RandIter last,
                 Comp&& comp, Proj&& proj)
             {
-                return is_heap_helper()(std::forward<ExPolicy>(policy), first,
-                    last, std::forward<Comp>(comp), std::forward<Proj>(proj));
+                return is_heap_helper()(HPX_FWD(policy), first,
+                    last, HPX_FWD(comp), HPX_FWD(proj));
             }
         };
         /// \endcond
@@ -211,9 +211,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
         typedef execution::is_sequenced_execution_policy<ExPolicy> is_seq;
 
-        return detail::is_heap<RandIter>().call(std::forward<ExPolicy>(policy),
-            is_seq(), first, last, std::forward<Comp>(comp),
-            std::forward<Proj>(proj));
+        return detail::is_heap<RandIter>().call(HPX_FWD(policy),
+            is_seq(), first, last, HPX_FWD(comp),
+            HPX_FWD(proj));
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -264,8 +264,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 --count;
                 util::cancellation_token<std::size_t> tok(count);
 
-                auto f1 = [tok, first, comp = std::forward<Comp>(comp),
-                              proj = std::forward<Proj>(proj)](RandIter it,
+                auto f1 = [tok, first, comp = HPX_FWD(comp),
+                              proj = HPX_FWD(proj)](RandIter it,
                               std::size_t part_size,
                               std::size_t base_idx) mutable {
                     util::loop_idx_n(base_idx, it, part_size, tok,
@@ -291,7 +291,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 };
 
                 return util::partitioner<ExPolicy, RandIter,
-                    void>::call_with_index(std::forward<ExPolicy>(policy),
+                    void>::call_with_index(HPX_FWD(policy),
                     second, count, 1, std::move(f1), std::move(f2));
             }
         };
@@ -310,7 +310,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 RandIter last, Comp&& comp, Proj&& proj)
             {
                 return sequential_is_heap_until(first, last,
-                    std::forward<Comp>(comp), std::forward<Proj>(proj));
+                    HPX_FWD(comp), HPX_FWD(proj));
             }
 
             template <typename ExPolicy, typename Comp, typename Proj>
@@ -319,9 +319,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
             parallel(ExPolicy&& policy, RandIter first, RandIter last,
                 Comp&& comp, Proj&& proj)
             {
-                return is_heap_until_helper()(std::forward<ExPolicy>(policy),
-                    first, last, std::forward<Comp>(comp),
-                    std::forward<Proj>(proj));
+                return is_heap_until_helper()(HPX_FWD(policy),
+                    first, last, HPX_FWD(comp),
+                    HPX_FWD(proj));
             }
         };
         /// \endcond
@@ -406,7 +406,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
         typedef execution::is_sequenced_execution_policy<ExPolicy> is_seq;
 
         return detail::is_heap_until<RandIter>().call(
-            std::forward<ExPolicy>(policy), is_seq(), first, last,
-            std::forward<Comp>(comp), std::forward<Proj>(proj));
+            HPX_FWD(policy), is_seq(), first, last,
+            HPX_FWD(comp), HPX_FWD(proj));
     }
 }}}    // namespace hpx::parallel::v1

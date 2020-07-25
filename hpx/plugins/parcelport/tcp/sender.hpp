@@ -118,8 +118,8 @@ namespace hpx { namespace parcelset { namespace policies { namespace tcp
             HPX_ASSERT(!handler_);
             HPX_ASSERT(!postprocess_handler_);
 
-            handler_ = std::forward<Handler>(handler);
-            postprocess_handler_ = std::forward<ParcelPostprocess>(parcel_postprocess);
+            handler_ = HPX_FWD(handler);
+            postprocess_handler_ = HPX_FWD(parcel_postprocess);
             HPX_ASSERT(handler_);
             HPX_ASSERT(postprocess_handler_);
 

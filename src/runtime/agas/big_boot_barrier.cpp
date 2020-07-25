@@ -242,7 +242,7 @@ namespace hpx { namespace agas
         parcelset::parcel p(
             parcelset::detail::create_parcel::call(
                 naming::get_gid_from_locality_id(target_locality_id),
-                std::move(addr), act, std::forward<Args>(args)...));
+                std::move(addr), act, HPX_FWD(args)...));
 #if defined(HPX_HAVE_PARCEL_PROFILING)
         if (!p.parcel_id())
         {
@@ -272,7 +272,7 @@ namespace hpx { namespace agas
             naming::id_type(
                 naming::get_gid_from_locality_id(target_locality_id),
                 naming::id_type::unmanaged),
-            std::move(addr), act, std::forward<Args>(args)...);
+            std::move(addr), act, HPX_FWD(args)...);
     } // }}}
 
 //typedef components::detail::heap_factory<

@@ -75,7 +75,7 @@ namespace hpx { namespace parcelset
                 !traits::is_iterator<Impl>::value>::type>
         explicit locality(Impl&& i)
           : impl_(new impl<typename util::decay<Impl>::type>(
-                std::forward<Impl>(i)))
+                HPX_FWD(i)))
         {}
 
         locality(locality const & other)

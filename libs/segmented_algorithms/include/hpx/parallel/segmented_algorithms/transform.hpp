@@ -242,8 +242,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 tag::out>(segmented_transform(
                 transform<std::pair<typename iterator_traits1::local_iterator,
                     typename iterator_traits2::local_iterator>>(),
-                std::forward<ExPolicy>(policy), first, last, dest,
-                std::forward<F>(f), std::forward<Proj>(proj), is_seq()));
+                HPX_FWD(policy), first, last, dest,
+                HPX_FWD(f), HPX_FWD(proj), is_seq()));
         }
 
         // forward declare the non-segmented version of this algorithm
@@ -518,9 +518,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
                     hpx::util::tuple<typename iterator1_traits::local_iterator,
                         typename iterator2_traits::local_iterator,
                         typename iterator3_traits::local_iterator>>(),
-                std::forward<ExPolicy>(policy), first1, last1, first2, dest,
-                std::forward<F>(f), std::forward<Proj1>(proj1),
-                std::forward<Proj2>(proj2), is_seq()));
+                HPX_FWD(policy), first1, last1, first2, dest,
+                HPX_FWD(f), HPX_FWD(proj1),
+                HPX_FWD(proj2), is_seq()));
         }
 
         // forward declare the non-segmented version of this algorithm
@@ -798,9 +798,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
                     hpx::util::tuple<typename iterator1_traits::local_iterator,
                         typename iterator2_traits::local_iterator,
                         typename iterator3_traits::local_iterator>>(),
-                std::forward<ExPolicy>(policy), first1, last1, first2, last2,
-                dest, std::forward<F>(f), std::forward<Proj1>(proj1),
-                std::forward<Proj2>(proj2), is_seq()));
+                HPX_FWD(policy), first1, last1, first2, last2,
+                dest, HPX_FWD(f), HPX_FWD(proj1),
+                HPX_FWD(proj2), is_seq()));
         }
 
         // forward declare the non-segmented version of this algorithm

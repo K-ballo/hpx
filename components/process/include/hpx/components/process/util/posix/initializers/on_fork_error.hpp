@@ -53,7 +53,7 @@ private:
 template <class Handler>
 on_fork_error_<Handler> on_fork_error(Handler && handler)
 {
-    return on_fork_error_<Handler>(std::forward<Handler>(handler));
+    return on_fork_error_<Handler>(HPX_FWD(handler));
 }
 
 }

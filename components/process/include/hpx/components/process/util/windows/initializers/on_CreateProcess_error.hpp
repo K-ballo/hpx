@@ -54,7 +54,7 @@ private:
 template <class Handler>
 on_CreateProcess_error_<Handler> on_CreateProcess_error(Handler && handler)
 {
-    return on_CreateProcess_error_<Handler>(std::forward<Handler>(handler));
+    return on_CreateProcess_error_<Handler>(HPX_FWD(handler));
 }
 
 }

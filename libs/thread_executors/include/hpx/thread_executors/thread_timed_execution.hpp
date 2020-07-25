@@ -28,7 +28,7 @@ namespace hpx { namespace threads {
     {
         exec.add_at(abs_time,
             hpx::util::deferred_call(
-                std::forward<F>(f), std::forward<Ts>(ts)...),
+                HPX_FWD(f), HPX_FWD(ts)...),
             "post_at");
     }
 
@@ -40,7 +40,7 @@ namespace hpx { namespace threads {
     {
         exec.add_after(rel_time,
             hpx::util::deferred_call(
-                std::forward<F>(f), std::forward<Ts>(ts)...),
+                HPX_FWD(f), HPX_FWD(ts)...),
             "post_after");
     }
 
@@ -58,12 +58,12 @@ namespace hpx { namespace threads {
 
         lcos::local::packaged_task<result_type(
             typename std::decay<Ts>::type...)>
-            task(std::forward<F>(f));
+            task(HPX_FWD(f));
 
         hpx::future<result_type> result = task.get_future();
 
         exec.add_at(abs_time,
-            hpx::util::deferred_call(std::move(task), std::forward<Ts>(ts)...),
+            hpx::util::deferred_call(std::move(task), HPX_FWD(ts)...),
             "async_execute_at");
 
         return result;
@@ -80,12 +80,12 @@ namespace hpx { namespace threads {
             typename hpx::util::detail::invoke_deferred_result<F, Ts...>::type
                 result_type;
 
-        lcos::local::packaged_task<result_type(Ts...)> task(std::forward<F>(f));
+        lcos::local::packaged_task<result_type(Ts...)> task(HPX_FWD(f));
 
         hpx::future<result_type> result = task.get_future();
 
         exec.add_after(rel_time,
-            hpx::util::deferred_call(std::move(task), std::forward<Ts>(ts)...),
+            hpx::util::deferred_call(std::move(task), HPX_FWD(ts)...),
             "async_execute_after");
 
         return result;
@@ -99,8 +99,8 @@ namespace hpx { namespace threads {
     sync_execute_at(Executor&& exec,
         hpx::util::steady_time_point const& abs_time, F&& f, Ts&&... ts)
     {
-        return async_execute_at(std::forward<Executor>(exec), abs_time,
-            std::forward<F>(f), std::forward<Ts>(ts)...)
+        return async_execute_at(HPX_FWD(exec), abs_time,
+            HPX_FWD(f), HPX_FWD(ts)...)
             .get();
     }
 
@@ -111,8 +111,8 @@ namespace hpx { namespace threads {
     sync_execute_after(Executor&& exec,
         hpx::util::steady_duration const& rel_time, F&& f, Ts&&... ts)
     {
-        return async_execute_after(std::forward<Executor>(exec), rel_time,
-            std::forward<F>(f), std::forward<Ts>(ts)...)
+        return async_execute_after(HPX_FWD(exec), rel_time,
+            HPX_FWD(f), HPX_FWD(ts)...)
             .get();
     }
 }}    // namespace hpx::threads

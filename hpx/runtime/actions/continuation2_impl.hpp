@@ -31,9 +31,9 @@ namespace hpx { namespace actions {
         template <typename Cont_, typename F_>
         continuation2_impl(Cont_ && cont, hpx::naming::id_type const& target,
                 F_ && f)
-          : cont_(std::forward<Cont_>(cont)),
+          : cont_(HPX_FWD(cont)),
             target_(target),
-            f_(std::forward<F_>(f))
+            f_(HPX_FWD(f))
         {}
 
         virtual ~continuation2_impl() {}
@@ -48,7 +48,7 @@ namespace hpx { namespace actions {
         {
             using hpx::util::placeholders::_2;
             hpx::apply_continue(cont_, hpx::util::bind(f_, lco, _2),
-                target_, std::forward<T>(t));
+                target_, HPX_FWD(t));
 
             // Unfortunately we need to default construct the return value,
             // this possibly imposes an additional restriction of return types.

@@ -25,7 +25,7 @@ namespace hpx { namespace parallel { namespace util {
     template <typename Value, typename... Args>
     inline void construct_object(Value* ptr, Args&&... args)
     {
-        (::new (static_cast<void*>(ptr)) Value(std::forward<Args>(args)...));
+        (::new (static_cast<void*>(ptr)) Value(HPX_FWD(args)...));
     }
 
     /// \brief destroy an object in the memory specified by ptr
@@ -70,7 +70,7 @@ namespace hpx { namespace parallel { namespace util {
     template <typename Value, typename... Args>
     inline void construct(Value* ptr, Args&&... args)
     {
-        (::new (static_cast<void*>(ptr)) Value(std::forward<Args>(args)...));
+        (::new (static_cast<void*>(ptr)) Value(HPX_FWD(args)...));
     }
 
     /// \brief Move objets

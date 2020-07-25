@@ -76,7 +76,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 Op&& op, Conv&& conv)
             {
                 return sequential_segmented_scan_T<T>(first, last,
-                    std::forward<Op>(op), std::forward<Conv>(conv));
+                    HPX_FWD(op), HPX_FWD(conv));
             }
 
             template <typename ExPolicy, typename FwdIter, typename Op,
@@ -86,7 +86,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 Conv&& conv)
             {
                 return util::partitioner<ExPolicy, T>::call(
-                    std::forward<ExPolicy>(policy), first,
+                    HPX_FWD(policy), first,
                     std::distance(first, last),
                     [op, policy, conv](
                         FwdIter part_begin, std::size_t part_size) -> T {
@@ -143,9 +143,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 InIter first, InIter last, OutIter dest, T&& init, Op&& op,
                 Conv&& conv)
             {
-                Algo().sequential(std::forward<ExPolicy>(policy), first, last,
-                    dest, std::forward<T>(init), std::forward<Op>(op),
-                    std::forward<Conv>(conv));
+                Algo().sequential(HPX_FWD(policy), first, last,
+                    dest, HPX_FWD(init), HPX_FWD(op),
+                    HPX_FWD(conv));
 
                 return hpx::util::unused;
             }
@@ -163,9 +163,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
                     return util::detail::algorithm_result<ExPolicy>::get();
 
                 return hpx::util::void_guard<result_type>(),
-                       Algo().parallel(std::forward<ExPolicy>(policy), first,
-                           last, dest, std::forward<T>(init),
-                           std::forward<Op>(op), std::forward<Conv>(conv));
+                       Algo().parallel(HPX_FWD(policy), first,
+                           last, dest, HPX_FWD(init),
+                           HPX_FWD(op), HPX_FWD(conv));
             }
         };
 
@@ -411,7 +411,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 dispatch(traits_out::get_id(out_iters[i]),
                     segmented_scan_void<Algo>(), policy, std::true_type(),
                     get<0>(in_iters[i]), get<1>(in_iters[i]), out,
-                    std::forward<Conv>(conv), last_value, std::forward<Op>(op));
+                    HPX_FWD(conv), last_value, HPX_FWD(op));
 
                 // 3. Step: compute new init values for the next segment
                 last_value = op(results[i], last_value);

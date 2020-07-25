@@ -33,8 +33,8 @@ namespace hpx { namespace resiliency {
     {
         return hpx::dataflow(
             hpx::resiliency::functional::async_replay_validate{}, n,
-            std::forward<Pred>(pred), std::forward<F>(f),
-            std::forward<Ts>(ts)...);
+            HPX_FWD(pred), HPX_FWD(f),
+            HPX_FWD(ts)...);
     }
 
     /// Asynchronously launch given function \a f. Repeat launching on error
@@ -48,6 +48,6 @@ namespace hpx { namespace resiliency {
     dataflow_replay(std::size_t n, F&& f, Ts&&... ts)
     {
         return hpx::dataflow(hpx::resiliency::functional::async_replay{}, n,
-            std::forward<F>(f), std::forward<Ts>(ts)...);
+            HPX_FWD(f), HPX_FWD(ts)...);
     }
 }}    // namespace hpx::resiliency

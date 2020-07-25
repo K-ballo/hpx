@@ -37,7 +37,7 @@ namespace hpx { namespace components { namespace server
         {
             std::lock_guard<mutex_type> l(mtx_);
             sink_type old_sink = std::move(sink_);
-            sink_ = std::forward<F>(sink);
+            sink_ = HPX_FWD(sink);
             return old_sink;
         }
 

@@ -60,7 +60,7 @@ namespace hpx { namespace util {
                 T&& /*t*/, Us&&... vs)
             {
                 return util::member_pack_for<Us&&...>(
-                    std::piecewise_construct, std::forward<Us>(vs)...)
+                    std::piecewise_construct, HPX_FWD(vs)...)
                     .template get<I>();
             }
         };
@@ -72,7 +72,7 @@ namespace hpx { namespace util {
             template <typename... Us>
             static constexpr HPX_HOST_DEVICE T&& call(T&& t, Us&&... /*vs*/)
             {
-                return std::forward<T>(t);
+                return HPX_FWD(t);
             }
         };
 
@@ -95,7 +95,7 @@ namespace hpx { namespace util {
                 typename util::invoke_result<T, Us...>::type
                 call(T&& t, Us&&... vs)
             {
-                return HPX_INVOKE(std::forward<T>(t), std::forward<Us>(vs)...);
+                return HPX_INVOKE(HPX_FWD(t), HPX_FWD(vs)...);
             }
         };
 
@@ -125,8 +125,8 @@ namespace hpx { namespace util {
                 typename = typename std::enable_if<
                     std::is_constructible<F, F_>::value>::type>
             constexpr explicit bound(F_&& f, Ts_&&... vs)
-              : _f(std::forward<F_>(f))
-              , _args(std::piecewise_construct, std::forward<Ts_>(vs)...)
+              : _f(HPX_FWD(f))
+              , _args(std::piecewise_construct, HPX_FWD(vs)...)
             {
             }
 
@@ -156,7 +156,7 @@ namespace hpx { namespace util {
             {
                 return HPX_INVOKE(_f,
                     detail::bind_eval<Ts&>::call(
-                        _args.template get<Is>(), std::forward<Us>(vs)...)...);
+                        _args.template get<Is>(), HPX_FWD(vs)...)...);
             }
 
             template <typename... Us>
@@ -166,7 +166,7 @@ namespace hpx { namespace util {
             {
                 return HPX_INVOKE(_f,
                     detail::bind_eval<Ts const&>::call(
-                        _args.template get<Is>(), std::forward<Us>(vs)...)...);
+                        _args.template get<Is>(), HPX_FWD(vs)...)...);
             }
 
             template <typename... Us>
@@ -177,7 +177,7 @@ namespace hpx { namespace util {
                 return HPX_INVOKE(std::move(_f),
                     detail::bind_eval<Ts>::call(
                         std::move(_args).template get<Is>(),
-                        std::forward<Us>(vs)...)...);
+                        HPX_FWD(vs)...)...);
             }
 
             template <typename... Us>
@@ -188,7 +188,7 @@ namespace hpx { namespace util {
                 return HPX_INVOKE(std::move(_f),
                     detail::bind_eval<Ts const>::call(
                         std::move(_args).template get<Is>(),
-                        std::forward<Us>(vs)...)...);
+                        HPX_FWD(vs)...)...);
             }
 
             template <typename Archive>
@@ -244,7 +244,7 @@ namespace hpx { namespace util {
             typename util::decay_unwrap<Ts>::type...>
             result_type;
 
-        return result_type(std::forward<F>(f), std::forward<Ts>(vs)...);
+        return result_type(HPX_FWD(f), HPX_FWD(vs)...);
     }
 }}    // namespace hpx::util
 

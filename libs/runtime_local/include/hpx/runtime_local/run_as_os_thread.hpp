@@ -26,7 +26,7 @@ namespace hpx { namespace threads {
 
         parallel::execution::io_pool_executor executor;
         auto result = parallel::execution::async_execute(
-            executor, std::forward<F>(f), std::forward<Ts>(vs)...);
+            executor, HPX_FWD(f), HPX_FWD(vs)...);
         return result;
     }
 }}    // namespace hpx::threads

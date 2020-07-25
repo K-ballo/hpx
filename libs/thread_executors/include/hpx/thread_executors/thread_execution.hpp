@@ -52,8 +52,8 @@ namespace hpx { namespace threads {
         char const* annotation = hpx::traits::get_function_annotation<
             typename hpx::util::decay<F>::type>::call(f);
         lcos::local::futures_factory<result_type()> p(
-            std::forward<Executor>(exec),
-            util::deferred_call(std::forward<F>(f), std::forward<Ts>(ts)...));
+            HPX_FWD(exec),
+            util::deferred_call(HPX_FWD(f), HPX_FWD(ts)...));
         p.apply(annotation);
         return p.get_future();
     }
@@ -67,8 +67,8 @@ namespace hpx { namespace threads {
             Ts...>::type>::type
     sync_execute(Executor&& exec, F&& f, Ts&&... ts)
     {
-        return async_execute(std::forward<Executor>(exec), std::forward<F>(f),
-            std::forward<Ts>(ts)...)
+        return async_execute(HPX_FWD(exec), HPX_FWD(f),
+            HPX_FWD(ts)...)
             .get();
     }
 
@@ -85,11 +85,11 @@ namespace hpx { namespace threads {
             Ts...>::type result_type;
 
         auto func = hpx::util::one_shot(
-            hpx::util::bind_back(std::forward<F>(f), std::forward<Ts>(ts)...));
+            hpx::util::bind_back(HPX_FWD(f), HPX_FWD(ts)...));
 
         typename hpx::traits::detail::shared_state_ptr<result_type>::type p =
             hpx::lcos::detail::make_continuation_exec<result_type>(
-                std::forward<Future>(predecessor), std::forward<Executor>(exec),
+                HPX_FWD(predecessor), HPX_FWD(exec),
                 std::move(func));
 
         return hpx::traits::future_access<
@@ -106,7 +106,7 @@ namespace hpx { namespace threads {
         char const* annotation = hpx::traits::get_function_annotation<
             typename hpx::util::decay<F>::type>::call(f);
         exec.add(
-            util::deferred_call(std::forward<F>(f), std::forward<Ts>(ts)...),
+            util::deferred_call(HPX_FWD(f), HPX_FWD(ts)...),
             annotation, threads::pending, true, exec.get_stacksize(),
             threads::thread_schedule_hint(), throws);
     }
@@ -121,9 +121,9 @@ namespace hpx { namespace threads {
         Executor&& exec, F&& f, Hint&& hint, const char* annotation, Ts&&... ts)
     {
         exec.add(
-            util::deferred_call(std::forward<F>(f), std::forward<Ts>(ts)...),
+            util::deferred_call(HPX_FWD(f), HPX_FWD(ts)...),
             annotation, threads::pending, true, exec.get_stacksize(),
-            std::forward<Hint>(hint), throws);
+            HPX_FWD(hint), throws);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -142,7 +142,7 @@ namespace hpx { namespace threads {
         for (auto const& elem : shape)
         {
             results.push_back(
-                async_execute(exec, std::forward<F>(f), elem, ts...));
+                async_execute(exec, HPX_FWD(f), elem, ts...));
         }
 
         return results;
@@ -164,7 +164,7 @@ namespace hpx { namespace threads {
         for (auto const& elem : shape)
         {
             results.push_back(
-                async_execute(exec, std::forward<F>(f), elem, ts...));
+                async_execute(exec, HPX_FWD(f), elem, ts...));
         }
 
         return hpx::util::unwrap(results);
@@ -193,8 +193,8 @@ namespace hpx { namespace threads {
 
         auto func =
             parallel::execution::detail::make_fused_bulk_async_execute_helper<
-                result_type>(exec, std::forward<F>(f), shape,
-                hpx::util::make_tuple(std::forward<Ts>(ts)...));
+                result_type>(exec, HPX_FWD(f), shape,
+                hpx::util::make_tuple(HPX_FWD(ts)...));
 
         // void or std::vector<func_result_type>
         typedef
@@ -214,7 +214,7 @@ namespace hpx { namespace threads {
 
         shared_state_type p =
             lcos::detail::make_continuation_exec<result_future_type>(
-                std::forward<Future>(predecessor), std::forward<Executor>(exec),
+                HPX_FWD(predecessor), HPX_FWD(exec),
                 [func = std::move(func),
                     exec_current = std::move(exec_current)](
                     future_type&& predecessor) mutable -> result_future_type {

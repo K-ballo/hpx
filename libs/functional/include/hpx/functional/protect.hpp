@@ -59,7 +59,7 @@ namespace hpx { namespace util {
     protect(T&& f)
     {
         return detail::protected_bind<typename std::decay<T>::type>(
-            std::forward<T>(f));
+            HPX_FWD(f));
     }
 
     // leave everything that is not a bind expression as is
@@ -69,6 +69,6 @@ namespace hpx { namespace util {
         T>::type
     protect(T&& v)    //-V659
     {
-        return std::forward<T>(v);
+        return HPX_FWD(v);
     }
 }}    // namespace hpx::util

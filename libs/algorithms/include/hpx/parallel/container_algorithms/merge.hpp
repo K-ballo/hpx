@@ -134,10 +134,10 @@ namespace hpx { namespace parallel { inline namespace v1 {
     merge(ExPolicy&& policy, Rng1&& rng1, Rng2&& rng2, RandIter3 dest,
         Comp&& comp = Comp(), Proj1&& proj1 = Proj1(), Proj2&& proj2 = Proj2())
     {
-        return merge(std::forward<ExPolicy>(policy), hpx::util::begin(rng1),
+        return merge(HPX_FWD(policy), hpx::util::begin(rng1),
             hpx::util::end(rng1), hpx::util::begin(rng2), hpx::util::end(rng2),
-            dest, std::forward<Comp>(comp), std::forward<Proj1>(proj1),
-            std::forward<Proj2>(proj2));
+            dest, HPX_FWD(comp), HPX_FWD(proj1),
+            HPX_FWD(proj2));
     }
 
     // TODO: Support bidirectional iterator. (#2826)
@@ -224,8 +224,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
     inplace_merge(ExPolicy&& policy, Rng&& rng, RandIter middle,
         Comp&& comp = Comp(), Proj&& proj = Proj())
     {
-        return inplace_merge(std::forward<ExPolicy>(policy),
+        return inplace_merge(HPX_FWD(policy),
             hpx::util::begin(rng), middle, hpx::util::end(rng),
-            std::forward<Comp>(comp), std::forward<Proj>(proj));
+            HPX_FWD(comp), HPX_FWD(proj));
     }
 }}}    // namespace hpx::parallel::v1

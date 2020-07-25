@@ -76,7 +76,7 @@ namespace hpx { namespace util {
         invoke_fused_impl(index_pack<Is...>, F&& f, Tuple&& t)
         {
             return HPX_INVOKE(
-                std::forward<F>(f), util::get<Is>(std::forward<Tuple>(t))...);
+                HPX_FWD(f), util::get<Is>(HPX_FWD(t))...);
         }
     }    // namespace detail
 
@@ -104,7 +104,7 @@ namespace hpx { namespace util {
     {
         using index_pack = typename detail::fused_index_pack<Tuple>::type;
         return detail::invoke_fused_impl(
-            index_pack{}, std::forward<F>(f), std::forward<Tuple>(t));
+            index_pack{}, HPX_FWD(f), HPX_FWD(t));
     }
 
     /// \copydoc invoke_fused
@@ -117,7 +117,7 @@ namespace hpx { namespace util {
         using index_pack = typename detail::fused_index_pack<Tuple>::type;
         return util::void_guard<R>(),
                detail::invoke_fused_impl(
-                   index_pack{}, std::forward<F>(f), std::forward<Tuple>(t));
+                   index_pack{}, HPX_FWD(f), HPX_FWD(t));
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -133,7 +133,7 @@ namespace hpx { namespace util {
                 using index_pack =
                     typename util::detail::fused_index_pack<Tuple>::type;
                 return util::detail::invoke_fused_impl(
-                    index_pack{}, std::forward<F>(f), std::forward<Tuple>(t));
+                    index_pack{}, HPX_FWD(f), HPX_FWD(t));
             }
         };
 
@@ -147,7 +147,7 @@ namespace hpx { namespace util {
                     typename util::detail::fused_index_pack<Tuple>::type;
                 return util::void_guard<R>(),
                        util::detail::invoke_fused_impl(index_pack{},
-                           std::forward<F>(f), std::forward<Tuple>(t));
+                           HPX_FWD(f), HPX_FWD(t));
             }
         };
     }    // namespace functional

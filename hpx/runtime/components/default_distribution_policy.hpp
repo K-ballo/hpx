@@ -115,7 +115,7 @@ namespace hpx { namespace components
                     if (get_num_items(1, loc) != 0)
                     {
                         return stub_base<Component>::create_async(
-                            loc, std::forward<Ts>(vs)...);
+                            loc, HPX_FWD(vs)...);
                     }
                 }
             }
@@ -123,7 +123,7 @@ namespace hpx { namespace components
             // by default the object will be created on the current
             // locality
             return stub_base<Component>::create_async(
-                hpx::find_here(), std::forward<Ts>(vs)...);
+                hpx::find_here(), HPX_FWD(vs)...);
         }
 
         /// \cond NOINTERNAL
@@ -187,7 +187,7 @@ namespace hpx { namespace components
 
             hpx::future<std::vector<hpx::id_type> > f =
                 stub_base<Component>::bulk_create_async(
-                    id, count, std::forward<Ts>(vs)...);
+                    id, count, HPX_FWD(vs)...);
 
             return f.then(hpx::launch::sync,
                 [id = std::move(id)](
@@ -216,7 +216,7 @@ namespace hpx { namespace components
         async(launch policy, Ts&&... vs) const
         {
             return hpx::detail::async_impl<Action>(policy,
-                get_next_target(), std::forward<Ts>(vs)...);
+                get_next_target(), HPX_FWD(vs)...);
         }
 
         /// \note This function is part of the invocation policy implemented by
@@ -227,8 +227,8 @@ namespace hpx { namespace components
         async_cb(launch policy, Callback&& cb, Ts&&... vs) const
         {
             return hpx::detail::async_cb_impl<Action>(policy,
-                get_next_target(), std::forward<Callback>(cb),
-                std::forward<Ts>(vs)...);
+                get_next_target(), HPX_FWD(cb),
+                HPX_FWD(vs)...);
         }
 
         /// \note This function is part of the invocation policy implemented by
@@ -238,8 +238,8 @@ namespace hpx { namespace components
         bool apply(Continuation && c,
             threads::thread_priority priority, Ts&&... vs) const
         {
-            return hpx::detail::apply_impl<Action>(std::forward<Continuation>(c),
-                get_next_target(), priority, std::forward<Ts>(vs)...);
+            return hpx::detail::apply_impl<Action>(HPX_FWD(c),
+                get_next_target(), priority, HPX_FWD(vs)...);
         }
 
         template <typename Action, typename ...Ts>
@@ -247,7 +247,7 @@ namespace hpx { namespace components
             threads::thread_priority priority, Ts&&... vs) const
         {
             return hpx::detail::apply_impl<Action>(
-                get_next_target(), priority, std::forward<Ts>(vs)...);
+                get_next_target(), priority, HPX_FWD(vs)...);
         }
 
         /// \note This function is part of the invocation policy implemented by
@@ -258,9 +258,9 @@ namespace hpx { namespace components
         bool apply_cb(Continuation && c,
             threads::thread_priority priority, Callback&& cb, Ts&&... vs) const
         {
-            return hpx::detail::apply_cb_impl<Action>(std::forward<Continuation>(c),
-                get_next_target(), priority, std::forward<Callback>(cb),
-                std::forward<Ts>(vs)...);
+            return hpx::detail::apply_cb_impl<Action>(HPX_FWD(c),
+                get_next_target(), priority, HPX_FWD(cb),
+                HPX_FWD(vs)...);
         }
 
         template <typename Action, typename Callback, typename ...Ts>
@@ -268,8 +268,8 @@ namespace hpx { namespace components
             threads::thread_priority priority, Callback&& cb, Ts&&... vs) const
         {
             return hpx::detail::apply_cb_impl<Action>(
-                get_next_target(), priority, std::forward<Callback>(cb),
-                std::forward<Ts>(vs)...);
+                get_next_target(), priority, HPX_FWD(cb),
+                HPX_FWD(vs)...);
         }
 
         /// Returns the number of associated localities for this distribution

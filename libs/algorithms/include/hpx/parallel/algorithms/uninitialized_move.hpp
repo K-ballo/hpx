@@ -105,7 +105,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
             return util::partitioner_with_cleanup<ExPolicy,
                 std::pair<Iter, FwdIter2>, partition_result_type>::
                 call(
-                    std::forward<ExPolicy>(policy),
+                    HPX_FWD(policy),
                     hpx::util::make_zip_iterator(first, dest), count,
                     [tok](zip_iterator t, std::size_t part_size) mutable
                     -> partition_result_type {
@@ -159,7 +159,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
             {
                 return util::detail::convert_to_result(
                     parallel_sequential_uninitialized_move_n(
-                        std::forward<ExPolicy>(policy), first,
+                        HPX_FWD(policy), first,
                         std::distance(first, last), dest),
                     [](std::pair<Iter, FwdIter2> const& p) -> FwdIter2 {
                         return p.second;
@@ -231,7 +231,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
         typedef execution::is_sequenced_execution_policy<ExPolicy> is_seq;
 
         return detail::uninitialized_move<FwdIter2>().call(
-            std::forward<ExPolicy>(policy), is_seq(), first, last, dest);
+            HPX_FWD(policy), is_seq(), first, last, dest);
     }
 
     /////////////////////////////////////////////////////////////////////////////
@@ -291,7 +291,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 ExPolicy&& policy, Iter first, std::size_t count, FwdIter2 dest)
             {
                 return parallel_sequential_uninitialized_move_n(
-                    std::forward<ExPolicy>(policy), first, count, dest);
+                    HPX_FWD(policy), first, count, dest);
             }
         };
         /// \endcond
@@ -378,7 +378,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
         return hpx::util::make_tagged_pair<tag::in, tag::out>(
             detail::uninitialized_move_n<std::pair<FwdIter1, FwdIter2>>().call(
-                std::forward<ExPolicy>(policy), is_seq(), first,
+                HPX_FWD(policy), is_seq(), first,
                 std::size_t(count), dest));
     }
 }}}    // namespace hpx::parallel::v1

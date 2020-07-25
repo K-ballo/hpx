@@ -81,8 +81,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
             Rng>::iterator_type>::difference_type>::type
     count(ExPolicy&& policy, Rng&& rng, T const& value, Proj&& proj = Proj())
     {
-        return count(std::forward<ExPolicy>(policy), hpx::util::begin(rng),
-            hpx::util::end(rng), value, std::forward<Proj>(proj));
+        return count(HPX_FWD(policy), hpx::util::begin(rng),
+            hpx::util::end(rng), value, HPX_FWD(proj));
     }
 
     /// Returns the number of elements in the range [first, last) satisfying
@@ -160,6 +160,6 @@ namespace hpx { namespace parallel { inline namespace v1 {
     count_if(ExPolicy&& policy, Rng&& rng, F&& f, Proj&& proj = Proj())
     {
         return count_if(policy, hpx::util::begin(rng), hpx::util::end(rng),
-            std::forward<F>(f), std::forward<Proj>(proj));
+            HPX_FWD(f), HPX_FWD(proj));
     }
 }}}    // namespace hpx::parallel::v1

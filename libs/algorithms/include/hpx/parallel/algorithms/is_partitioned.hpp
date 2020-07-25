@@ -71,7 +71,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 ExPolicy, InIter first, InIter last, Pred&& pred)
             {
                 return std::is_partitioned(
-                    first, last, std::forward<Pred>(pred));
+                    first, last, HPX_FWD(pred));
             }
 
             template <typename ExPolicy, typename Pred>
@@ -88,7 +88,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                     return result::get(true);
 
                 util::cancellation_token<> tok;
-                auto f1 = [tok, pred = std::forward<Pred>(pred)](
+                auto f1 = [tok, pred = HPX_FWD(pred)](
                               Iter part_begin,
                               std::size_t part_count) mutable -> bool {
                     bool fst_bool = hpx::util::invoke(pred, *part_begin);
@@ -117,7 +117,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 };
 
                 return util::partitioner<ExPolicy, bool>::call(
-                    std::forward<ExPolicy>(policy), first, count, std::move(f1),
+                    HPX_FWD(policy), first, count, std::move(f1),
                     std::move(f2));
             }
         };
@@ -187,7 +187,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
         typedef execution::is_sequenced_execution_policy<ExPolicy> is_seq;
 
         return detail::is_partitioned<FwdIter>().call(
-            std::forward<ExPolicy>(policy), is_seq(), first, last,
-            std::forward<Pred>(pred));
+            HPX_FWD(policy), is_seq(), first, last,
+            HPX_FWD(pred));
     }
 }}}    // namespace hpx::parallel::v1

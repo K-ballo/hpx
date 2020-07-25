@@ -251,7 +251,7 @@ namespace hpx { namespace parallel { namespace util { namespace detail {
             std::advance(it1, traits::vector_pack_size<V1>::value);
             std::advance(it2, traits::vector_pack_size<V2>::value);
 
-            return hpx::util::invoke(std::forward<F>(f), &tmp1, &tmp2);
+            return hpx::util::invoke(HPX_FWD(f), &tmp1, &tmp2);
         }
 
         template <typename F, typename Iter1, typename Iter2>
@@ -273,7 +273,7 @@ namespace hpx { namespace parallel { namespace util { namespace detail {
             std::advance(it1, traits::vector_pack_size<V1>::value);
             std::advance(it2, traits::vector_pack_size<V2>::value);
 
-            return hpx::util::invoke(std::forward<F>(f), &tmp1, &tmp2);
+            return hpx::util::invoke(HPX_FWD(f), &tmp1, &tmp2);
         }
     };
 
@@ -295,7 +295,7 @@ namespace hpx { namespace parallel { namespace util { namespace detail {
             call1(F&& f, Iter1& it1, Iter2& it2)
         {
             return invoke_vectorized_in2<V11, V12>::call_aligned(
-                std::forward<F>(f), it1, it2);
+                HPX_FWD(f), it1, it2);
         }
 
         template <typename F>
@@ -306,11 +306,11 @@ namespace hpx { namespace parallel { namespace util { namespace detail {
             if (is_data_aligned(it1) || is_data_aligned(it2))
             {
                 return invoke_vectorized_in2<V1, V2>::call_unaligned(
-                    std::forward<F>(f), it1, it2);
+                    HPX_FWD(f), it1, it2);
             }
 
             return invoke_vectorized_in2<V1, V2>::call_aligned(
-                std::forward<F>(f), it1, it2);
+                HPX_FWD(f), it1, it2);
         }
     };
 
@@ -421,7 +421,7 @@ namespace hpx { namespace parallel { namespace util { namespace detail {
             typedef typename traits::vector_pack_type<value_type, 1>::type V1;
 
             invoke_vectorized_inout1<V1>::call_aligned(
-                std::forward<F>(f), it, dest);
+                HPX_FWD(f), it, dest);
         }
 
         template <typename F, typename InIter1, typename InIter2,
@@ -438,7 +438,7 @@ namespace hpx { namespace parallel { namespace util { namespace detail {
             typedef typename traits::vector_pack_type<value_type2, 1>::type V2;
 
             invoke_vectorized_inout2<V1, V2>::call_aligned(
-                std::forward<F>(f), it1, it2, dest);
+                HPX_FWD(f), it1, it2, dest);
         }
 
         ///////////////////////////////////////////////////////////////////
@@ -454,12 +454,12 @@ namespace hpx { namespace parallel { namespace util { namespace detail {
             if (is_data_aligned(it) || is_data_aligned(dest))
             {
                 invoke_vectorized_inout1<V>::call_unaligned(
-                    std::forward<F>(f), it, dest);
+                    HPX_FWD(f), it, dest);
             }
             else
             {
                 invoke_vectorized_inout1<V>::call_aligned(
-                    std::forward<F>(f), it, dest);
+                    HPX_FWD(f), it, dest);
             }
         }
 
@@ -480,12 +480,12 @@ namespace hpx { namespace parallel { namespace util { namespace detail {
                 is_data_aligned(dest))
             {
                 invoke_vectorized_inout2<V1, V2>::call_unaligned(
-                    std::forward<F>(f), it1, it2, dest);
+                    HPX_FWD(f), it1, it2, dest);
             }
             else
             {
                 invoke_vectorized_inout2<V1, V2>::call_aligned(
-                    std::forward<F>(f), it1, it2, dest);
+                    HPX_FWD(f), it1, it2, dest);
             }
         }
     };

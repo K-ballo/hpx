@@ -168,7 +168,7 @@ namespace hpx { namespace util {
             using value_type = typename util::decay<T>::type;
             new_object<T>(object,
                 typename detail::any::get_table<value_type>::is_small(),
-                std::forward<T>(x));
+                HPX_FWD(x));
         }
 
 #if defined(HPX_HAVE_CXX17_STD_IN_PLACE_TYPE_T)
@@ -186,7 +186,7 @@ namespace hpx { namespace util {
             using value_type = typename std::decay<T>::type;
             new_object<T>(object,
                 typename detail::any::get_table<value_type>::is_small(),
-                std::forward<Ts>(ts)...);
+                HPX_FWD(ts)...);
         }
 
         template <typename T, typename U, typename... Ts,
@@ -204,7 +204,7 @@ namespace hpx { namespace util {
             using value_type = typename std::decay<T>::type;
             new_object<T>(object,
                 typename detail::any::get_table<value_type>::is_small(), il,
-                std::forward<Ts>(ts)...);
+                HPX_FWD(ts)...);
         }
 #endif
 
@@ -239,14 +239,14 @@ namespace hpx { namespace util {
         static void new_object(void*& object, std::true_type, Ts&&... ts)
         {
             using value_type = typename std::decay<T>::type;
-            new (&object) value_type(std::forward<Ts>(ts)...);
+            new (&object) value_type(HPX_FWD(ts)...);
         }
 
         template <typename T, typename... Ts>
         static void new_object(void*& object, std::false_type, Ts&&... ts)
         {
             using value_type = typename std::decay<T>::type;
-            object = new value_type(std::forward<Ts>(ts)...);
+            object = new value_type(HPX_FWD(ts)...);
         }
 
     public:
@@ -275,7 +275,7 @@ namespace hpx { namespace util {
                     typename std::decay<T>::type>::value>::type>
         basic_any& operator=(T&& rhs)
         {
-            basic_any(std::forward<T>(rhs)).swap(*this);
+            basic_any(HPX_FWD(rhs)).swap(*this);
             return *this;
         }
 
@@ -389,7 +389,7 @@ namespace hpx { namespace util {
     {
         return basic_any<serialization::input_archive,
             serialization::output_archive, Char, std::true_type>(
-            std::in_place_type<T>, std::forward<Ts>(ts)...);
+            std::in_place_type<T>, HPX_FWD(ts)...);
     }
 
     template <typename T, typename Char, typename U, typename... Ts>
@@ -398,7 +398,7 @@ namespace hpx { namespace util {
     {
         return basic_any<serialization::input_archive,
             serialization::output_archive, Char, std::true_type>(
-            std::in_place_type<T>, il, std::forward<Ts>(ts)...);
+            std::in_place_type<T>, il, HPX_FWD(ts)...);
     }
 #endif
 
@@ -408,7 +408,7 @@ namespace hpx { namespace util {
     {
         return basic_any<serialization::input_archive,
             serialization::output_archive, Char, std::true_type>(
-            std::forward<T>(t));
+            HPX_FWD(t));
     }
 
     ////////////////////////////////////////////////////////////////////////////

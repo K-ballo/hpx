@@ -57,7 +57,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
         {
             return std::remove_if(first, last,
                 util::invoke_projected<Pred, Proj>(
-                    std::forward<Pred>(pred), std::forward<Proj>(proj)));
+                    HPX_FWD(pred), HPX_FWD(proj)));
         }
 
         template <typename FwdIter>
@@ -73,7 +73,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 ExPolicy, FwdIter first, FwdIter last, Pred&& pred, Proj&& proj)
             {
                 return sequential_remove_if(first, last,
-                    std::forward<Pred>(pred), std::forward<Proj>(proj));
+                    HPX_FWD(pred), HPX_FWD(proj));
             }
 
             template <typename ExPolicy, typename Pred, typename Proj>
@@ -106,8 +106,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                     void, util::scan_partitioner_sequential_f3_tag>
                     scan_partitioner_type;
 
-                auto f1 = [pred = std::forward<Pred>(pred),
-                              proj = std::forward<Proj>(proj)](
+                auto f1 = [pred = HPX_FWD(pred),
+                              proj = HPX_FWD(proj)](
                               zip_iterator part_begin,
                               std::size_t part_size) -> std::size_t {
                     // MSVC complains if pred or proj is captured by ref below
@@ -182,7 +182,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 };
 
                 return scan_partitioner_type::call(
-                    std::forward<ExPolicy>(policy),
+                    HPX_FWD(policy),
                     make_zip_iterator(first, flags.get()), count, init,
                     // step 1 performs first part of scan algorithm
                     std::move(f1),
@@ -279,9 +279,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
         typedef execution::is_sequenced_execution_policy<ExPolicy> is_seq;
 
-        return detail::remove_if<FwdIter>().call(std::forward<ExPolicy>(policy),
-            is_seq(), first, last, std::forward<Pred>(pred),
-            std::forward<Proj>(proj));
+        return detail::remove_if<FwdIter>().call(HPX_FWD(policy),
+            is_seq(), first, last, HPX_FWD(pred),
+            HPX_FWD(proj));
     }
 
     /////////////////////////////////////////////////////////////////////////////
@@ -350,8 +350,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
         // Just utilize existing parallel remove_if.
         return remove_if(
-            std::forward<ExPolicy>(policy), first, last,
+            HPX_FWD(policy), first, last,
             [value](Type const& a) -> bool { return value == a; },
-            std::forward<Proj>(proj));
+            HPX_FWD(proj));
     }
 }}}    // namespace hpx::parallel::v1

@@ -224,8 +224,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
             return segmented_minormax(
                 min_element<typename iterator_traits::local_iterator>(),
-                std::forward<ExPolicy>(policy), first, last, std::forward<F>(f),
-                std::forward<Proj>(proj), is_seq());
+                HPX_FWD(policy), first, last, HPX_FWD(f),
+                HPX_FWD(proj), is_seq());
         }
 
         template <typename ExPolicy, typename SegIter, typename F,
@@ -249,8 +249,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
             return segmented_minormax(
                 max_element<typename iterator_traits::local_iterator>(),
-                std::forward<ExPolicy>(policy), first, last, std::forward<F>(f),
-                std::forward<Proj>(proj), is_seq());
+                HPX_FWD(policy), first, last, HPX_FWD(f),
+                HPX_FWD(proj), is_seq());
         }
 
         // forward declare the non-segmented version of those algorithm
@@ -502,8 +502,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
             return segmented_minmax(
                 minmax_element<typename iterator_traits::local_iterator>(),
-                std::forward<ExPolicy>(policy), first, last, std::forward<F>(f),
-                std::forward<Proj>(proj), is_seq());
+                HPX_FWD(policy), first, last, HPX_FWD(f),
+                HPX_FWD(proj), is_seq());
         }
 
         // forward declare the non-segmented version of this algorithm

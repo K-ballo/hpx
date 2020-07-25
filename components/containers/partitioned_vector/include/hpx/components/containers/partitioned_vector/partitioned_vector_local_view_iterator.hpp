@@ -39,8 +39,8 @@ namespace hpx {
 
         explicit partitioned_vector_local_view_iterator(
             BaseIter && it, BaseIter && end)
-        : base_type( std::forward<BaseIter>(it) ),
-          end_( std::forward<BaseIter>(end) )
+        : base_type( HPX_FWD(it) ),
+          end_( HPX_FWD(end) )
         {
             satisfy_predicate();
         }
@@ -112,8 +112,8 @@ namespace hpx {
 
         explicit const_partitioned_vector_local_view_iterator(
             BaseIter && it, BaseIter && end)
-            : base_type( std::forward<BaseIter>(it) ),
-                end_( std::forward<BaseIter>(end) )
+            : base_type( HPX_FWD(it) ),
+                end_( HPX_FWD(end) )
         {
             satisfy_predicate();
         }

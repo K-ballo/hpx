@@ -82,7 +82,7 @@ namespace hpx { namespace lcos { namespace detail {
         template <typename Futures>
         void operator()(Futures&& futures) const
         {
-            return this_->execute(is_void{}, std::forward<Futures>(futures));
+            return this_->execute(is_void{}, HPX_FWD(futures));
         }
 
         // keep the dataflow frame alive with this pointer reference
@@ -300,7 +300,7 @@ namespace hpx { namespace lcos { namespace detail {
         {
             detail::dataflow_finalization<dataflow_type> this_f_(this);
 
-            parallel::execution::post(std::forward<Executor>(exec),
+            parallel::execution::post(HPX_FWD(exec),
                 std::move(this_f_), std::move(futures));
         }
 
@@ -308,9 +308,9 @@ namespace hpx { namespace lcos { namespace detail {
         /// Check whether the current future is ready
         template <typename T>
         auto operator()(util::async_traverse_visit_tag, T&& current)
-            -> decltype(async_visit_future(std::forward<T>(current)))
+            -> decltype(async_visit_future(HPX_FWD(current)))
         {
-            return async_visit_future(std::forward<T>(current));
+            return async_visit_future(HPX_FWD(current));
         }
 
         /// Detach the current execution context and continue when the
@@ -318,10 +318,10 @@ namespace hpx { namespace lcos { namespace detail {
         template <typename T, typename N>
         auto operator()(util::async_traverse_detach_tag, T&& current, N&& next)
             -> decltype(async_detach_future(
-                std::forward<T>(current), std::forward<N>(next)))
+                HPX_FWD(current), HPX_FWD(next)))
         {
             return async_detach_future(
-                std::forward<T>(current), std::forward<N>(next));
+                HPX_FWD(current), HPX_FWD(next));
         }
 
         /// Finish the dataflow when the traversal has finished
@@ -346,13 +346,13 @@ namespace hpx { namespace lcos { namespace detail {
     {
         // Create the data which is used to construct the dataflow_frame
         auto data = Frame::construct_from(
-            std::forward<Policy>(policy), std::forward<Func>(func));
+            HPX_FWD(policy), HPX_FWD(func));
 
         // Construct the dataflow_frame and traverse
         // the arguments asynchronously
         hpx::intrusive_ptr<Frame> p = util::traverse_pack_async(
             util::async_traverse_in_place_tag<Frame>{}, std::move(data),
-            std::forward<Ts>(ts)...);
+            HPX_FWD(ts)...);
 
         using traits::future_access;
         return future_access<typename Frame::type>::create(std::move(p));
@@ -369,13 +369,13 @@ namespace hpx { namespace lcos { namespace detail {
     {
         // Create the data which is used to construct the dataflow_frame
         auto data = Frame::construct_from(
-            std::forward<Policy>(policy), std::forward<Func>(func));
+            HPX_FWD(policy), HPX_FWD(func));
 
         // Construct the dataflow_frame and traverse
         // the arguments asynchronously
         hpx::intrusive_ptr<Frame> p = util::traverse_pack_async_allocator(alloc,
             util::async_traverse_in_place_tag<Frame>{}, std::move(data),
-            std::forward<Ts>(ts)...);
+            HPX_FWD(ts)...);
 
         using traits::future_access;
         return future_access<typename Frame::type>::create(std::move(p));
@@ -401,8 +401,8 @@ namespace hpx { namespace lcos { namespace detail {
         call(Allocator const& alloc, Policy_&& policy, F&& f, Ts&&... ts)
         {
             return detail::create_dataflow_alloc(alloc,
-                std::forward<Policy_>(policy), std::forward<F>(f),
-                traits::acquire_future_disp()(std::forward<Ts>(ts))...);
+                HPX_FWD(policy), HPX_FWD(f),
+                traits::acquire_future_disp()(HPX_FWD(ts))...);
         }
     };
 
@@ -414,10 +414,10 @@ namespace hpx { namespace lcos { namespace detail {
         HPX_FORCEINLINE static auto call(
             Allocator const& alloc, F&& f, Ts&&... ts)
             -> decltype(dataflow_dispatch_impl<false, Policy>::call(
-                alloc, std::forward<F>(f), std::forward<Ts>(ts)...))
+                alloc, HPX_FWD(f), HPX_FWD(ts)...))
         {
             return dataflow_dispatch_impl<false, Policy>::call(
-                alloc, std::forward<F>(f), std::forward<Ts>(ts)...);
+                alloc, HPX_FWD(f), HPX_FWD(ts)...);
         }
 
         template <typename Allocator, typename P, typename F, typename... Ts>
@@ -428,13 +428,13 @@ namespace hpx { namespace lcos { namespace detail {
             Ts&&... ts)
             -> decltype(dataflow_dispatch_impl<
                 traits::is_action<typename std::decay<F>::type>::value,
-                Policy>::call(alloc, std::forward<P>(p), std::forward<F>(f), id,
-                std::forward<Ts>(ts)...))
+                Policy>::call(alloc, HPX_FWD(p), HPX_FWD(f), id,
+                HPX_FWD(ts)...))
         {
             return dataflow_dispatch_impl<
                 traits::is_action<typename std::decay<F>::type>::value,
-                Policy>::call(alloc, std::forward<P>(p), std::forward<F>(f), id,
-                std::forward<Ts>(ts)...);
+                Policy>::call(alloc, HPX_FWD(p), HPX_FWD(f), id,
+                HPX_FWD(ts)...);
         }
     };
 
@@ -456,8 +456,8 @@ namespace hpx { namespace lcos { namespace detail {
         call(Allocator const& alloc, Executor_&& exec, F&& f, Ts&&... ts)
         {
             return detail::create_dataflow_alloc(alloc,
-                std::forward<Executor_>(exec), std::forward<F>(f),
-                traits::acquire_future_disp()(std::forward<Ts>(ts))...);
+                HPX_FWD(exec), HPX_FWD(f),
+                traits::acquire_future_disp()(HPX_FWD(ts))...);
         }
     };
 
@@ -474,10 +474,10 @@ namespace hpx { namespace lcos { namespace detail {
                 !traits::is_action<typename std::decay<F>::type>::value>::type>
         HPX_FORCEINLINE static auto call(Allocator const& alloc, F&& f,
             Ts&&... ts) -> decltype(dataflow_dispatch<launch>::call(alloc,
-            launch::async, std::forward<F>(f), std::forward<Ts>(ts)...))
+            launch::async, HPX_FWD(f), HPX_FWD(ts)...))
         {
             return dataflow_dispatch<launch>::call(alloc, launch::async,
-                std::forward<F>(f), std::forward<Ts>(ts)...);
+                HPX_FWD(f), HPX_FWD(ts)...);
         }
     };
 
@@ -493,13 +493,13 @@ namespace hpx { namespace lcos { namespace detail {
             Allocator const& alloc, F&& f, Ts&&... ts)
             -> decltype(dataflow_dispatch_impl<
                 traits::is_action<typename std::decay<F>::type>::value,
-                launch>::call(alloc, launch::async, std::forward<F>(f),
-                std::forward<Ts>(ts)...))
+                launch>::call(alloc, launch::async, HPX_FWD(f),
+                HPX_FWD(ts)...))
         {
             return dataflow_dispatch_impl<
                 traits::is_action<typename std::decay<F>::type>::value,
-                launch>::call(alloc, launch::async, std::forward<F>(f),
-                std::forward<Ts>(ts)...);
+                launch>::call(alloc, launch::async, HPX_FWD(f),
+                HPX_FWD(ts)...);
         }
     };
 }}}    // namespace hpx::lcos::detail

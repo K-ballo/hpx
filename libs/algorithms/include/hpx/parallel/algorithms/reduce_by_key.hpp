@@ -431,10 +431,10 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 RanIter2 values_first, FwdIter1 keys_output,
                 FwdIter2 values_output, Compare&& comp, Func&& func)
             {
-                return reduce_by_key_impl(std::forward<ExPolicy>(policy),
+                return reduce_by_key_impl(HPX_FWD(policy),
                     key_first, key_last, values_first, keys_output,
-                    values_output, std::forward<Compare>(comp),
-                    std::forward<Func>(func));
+                    values_output, HPX_FWD(comp),
+                    HPX_FWD(func));
             }
 
             template <typename ExPolicy, typename RanIter, typename RanIter2,
@@ -454,8 +454,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
                                 FwdIter2, Compare&&, Func&&>,
                             policy, key_first, key_last, values_first,
                             keys_output, values_output,
-                            std::forward<Compare>(comp),
-                            std::forward<Func>(func))));
+                            HPX_FWD(comp),
+                            HPX_FWD(func))));
             }
         };
         /// \endcond
@@ -602,8 +602,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
         typedef execution::is_sequenced_execution_policy<ExPolicy> is_seq;
 
         return detail::reduce_by_key<FwdIter1, FwdIter2>().call(
-            std::forward<ExPolicy>(policy), is_seq(), key_first, key_last,
+            HPX_FWD(policy), is_seq(), key_first, key_last,
             values_first, keys_output, values_output,
-            std::forward<Compare>(comp), std::forward<Func>(func));
+            HPX_FWD(comp), HPX_FWD(func));
     }
 }}}    // namespace hpx::parallel::v1

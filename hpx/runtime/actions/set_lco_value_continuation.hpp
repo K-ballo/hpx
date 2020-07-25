@@ -21,11 +21,11 @@ namespace hpx { namespace actions
         template <typename T>
         HPX_FORCEINLINE T operator()(naming::id_type const& lco, T && t) const
         {
-            hpx::set_lco_value(lco, std::forward<T>(t));
+            hpx::set_lco_value(lco, HPX_FWD(t));
 
             // Yep, 't' is a zombie, however we don't use the returned value
             // anyways. We need it for result type calculation, though.
-            return std::forward<T>(t);
+            return HPX_FWD(t);
         }
     };
 
@@ -35,11 +35,11 @@ namespace hpx { namespace actions
         template <typename T>
         HPX_FORCEINLINE T operator()(naming::id_type const& lco, T && t) const
         {
-            hpx::set_lco_value_unmanaged(lco, std::forward<T>(t));
+            hpx::set_lco_value_unmanaged(lco, HPX_FWD(t));
 
             // Yep, 't' is a zombie, however we don't use the returned value
             // anyways. We need it for result type calculation, though.
-            return std::forward<T>(t);
+            return HPX_FWD(t);
         }
     };
 }}

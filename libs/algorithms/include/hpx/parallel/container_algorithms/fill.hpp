@@ -61,7 +61,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
     typename util::detail::algorithm_result<ExPolicy>::type fill(
         ExPolicy&& policy, Rng&& rng, T value)
     {
-        return fill(std::forward<ExPolicy>(policy), hpx::util::begin(rng),
+        return fill(HPX_FWD(policy), hpx::util::begin(rng),
             hpx::util::end(rng), value);
     }
 
@@ -114,7 +114,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
         typename hpx::traits::range_traits<Rng>::iterator_type>::type
     fill_n(ExPolicy&& policy, Rng& rng, Size count, T value)
     {
-        return fill_n(std::forward<ExPolicy>(policy), hpx::util::begin(rng),
+        return fill_n(HPX_FWD(policy), hpx::util::begin(rng),
             count, value);
     }
 

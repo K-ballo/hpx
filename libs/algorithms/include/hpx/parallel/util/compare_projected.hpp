@@ -22,8 +22,8 @@ namespace hpx { namespace parallel { namespace util {
     {
         template <typename Compare_, typename Proj_>
         compare_projected(Compare_&& comp, Proj_&& proj)
-          : comp_(std::forward<Compare_>(comp))
-          , proj_(std::forward<Proj_>(proj))
+          : comp_(HPX_FWD(comp))
+          , proj_(HPX_FWD(proj))
         {
         }
 
@@ -31,8 +31,8 @@ namespace hpx { namespace parallel { namespace util {
         inline bool operator()(T1&& t1, T2&& t2) const
         {
             return hpx::util::invoke(comp_,
-                hpx::util::invoke(proj_, std::forward<T1>(t1)),
-                hpx::util::invoke(proj_, std::forward<T2>(t2)));
+                hpx::util::invoke(proj_, HPX_FWD(t1)),
+                hpx::util::invoke(proj_, HPX_FWD(t2)));
         }
 
         Compare comp_;
@@ -44,9 +44,9 @@ namespace hpx { namespace parallel { namespace util {
     {
         template <typename Compare_, typename Proj1_, typename Proj2_>
         compare_projected(Compare_&& comp, Proj1_&& proj1, Proj2_&& proj2)
-          : comp_(std::forward<Compare_>(comp))
-          , proj1_(std::forward<Proj1_>(proj1))
-          , proj2_(std::forward<Proj2_>(proj2))
+          : comp_(HPX_FWD(comp))
+          , proj1_(HPX_FWD(proj1))
+          , proj2_(HPX_FWD(proj2))
         {
         }
 
@@ -54,8 +54,8 @@ namespace hpx { namespace parallel { namespace util {
         inline bool operator()(T1&& t1, T2&& t2) const
         {
             return hpx::util::invoke(comp_,
-                hpx::util::invoke(proj1_, std::forward<T1>(t1)),
-                hpx::util::invoke(proj2_, std::forward<T2>(t2)));
+                hpx::util::invoke(proj1_, HPX_FWD(t1)),
+                hpx::util::invoke(proj2_, HPX_FWD(t2)));
         }
 
         Compare comp_;

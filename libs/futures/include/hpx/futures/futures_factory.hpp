@@ -466,7 +466,7 @@ namespace hpx { namespace lcos { namespace local {
             static return_type call(F&& f)
             {
                 return return_type(new task_object<Result, F, void>(
-                                       init_no_addref{}, std::forward<F>(f)),
+                                       init_no_addref{}, HPX_FWD(f)),
                     false);
             }
 
@@ -499,7 +499,7 @@ namespace hpx { namespace lcos { namespace local {
                 unique_ptr p(traits::allocate(alloc, 1),
                     util::allocator_deleter<other_allocator>{alloc});
                 traits::construct(alloc, p.get(), init_no_addref{}, alloc,
-                    std::forward<F>(f));
+                    HPX_FWD(f));
 
                 return return_type(p.release(), false);
             }
@@ -545,7 +545,7 @@ namespace hpx { namespace lcos { namespace local {
             static return_type call(Executor& exec, F&& f)
             {
                 return return_type(new task_object<Result, F, Executor>(exec,
-                                       init_no_addref{}, std::forward<F>(f)),
+                                       init_no_addref{}, HPX_FWD(f)),
                     false);
             }
 
@@ -573,7 +573,7 @@ namespace hpx { namespace lcos { namespace local {
             static return_type call(F&& f)
             {
                 return return_type(new cancelable_task_object<Result, F, void>(
-                                       init_no_addref{}, std::forward<F>(f)),
+                                       init_no_addref{}, HPX_FWD(f)),
                     false);
             }
 
@@ -608,7 +608,7 @@ namespace hpx { namespace lcos { namespace local {
                 unique_ptr p(traits::allocate(alloc, 1),
                     util::allocator_deleter<other_allocator>{alloc});
                 traits::construct(alloc, p.get(), init_no_addref{}, alloc,
-                    std::forward<F>(f));
+                    HPX_FWD(f));
 
                 return return_type(p.release(), false);
             }
@@ -655,7 +655,7 @@ namespace hpx { namespace lcos { namespace local {
             {
                 return return_type(
                     new cancelable_task_object<Result, F, Executor>(
-                        exec, init_no_addref{}, std::forward<F>(f)),
+                        exec, init_no_addref{}, HPX_FWD(f)),
                     false);
             }
 
@@ -687,7 +687,7 @@ namespace hpx { namespace lcos { namespace local {
         explicit futures_factory(Executor& exec, F&& f)
           : task_(
                 detail::create_task_object<Result, Cancelable, Executor>::call(
-                    exec, std::forward<F>(f)))
+                    exec, HPX_FWD(f)))
           , future_obtained_(false)
         {
         }
@@ -707,7 +707,7 @@ namespace hpx { namespace lcos { namespace local {
                     futures_factory>::value>::type>
         explicit futures_factory(F&& f)
           : task_(detail::create_task_object<Result, Cancelable>::call(
-                hpx::util::internal_allocator<>{}, std::forward<F>(f)))
+                hpx::util::internal_allocator<>{}, HPX_FWD(f)))
           , future_obtained_(false)
         {
         }

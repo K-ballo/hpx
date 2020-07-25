@@ -22,18 +22,18 @@ namespace hpx { namespace parallel { namespace util {
 
         template <typename Pred_, typename Proj_>
         invoke_projected(Pred_&& pred, Proj_&& proj)
-          : pred_(std::forward<Pred_>(pred))
-          , proj_(std::forward<Proj_>(proj))
+          : pred_(HPX_FWD(pred))
+          , proj_(HPX_FWD(proj))
         {
         }
 
         template <typename T>
         auto operator()(
             T&& t) -> decltype(hpx::util::invoke(std::declval<pred_type>(),
-            hpx::util::invoke(std::declval<proj_type>(), std::forward<T>(t))))
+            hpx::util::invoke(std::declval<proj_type>(), HPX_FWD(t))))
         {
             return hpx::util::invoke(
-                pred_, hpx::util::invoke(proj_, std::forward<T>(t)));
+                pred_, hpx::util::invoke(proj_, HPX_FWD(t)));
         }
 
         pred_type pred_;

@@ -67,7 +67,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
         typename hpx::traits::range_iterator<Rng>::type>::type
     reverse(ExPolicy&& policy, Rng&& rng)
     {
-        return reverse(std::forward<ExPolicy>(policy), hpx::util::begin(rng),
+        return reverse(HPX_FWD(policy), hpx::util::begin(rng),
             hpx::util::end(rng));
     }
 
@@ -134,7 +134,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
             OutIter>>::type
     reverse_copy(ExPolicy&& policy, Rng&& rng, OutIter dest_first)
     {
-        return reverse_copy(std::forward<ExPolicy>(policy),
+        return reverse_copy(HPX_FWD(policy),
             hpx::util::begin(rng), hpx::util::end(rng), dest_first);
     }
 }}}    // namespace hpx::parallel::v1

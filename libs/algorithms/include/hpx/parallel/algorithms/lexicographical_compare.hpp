@@ -112,7 +112,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
                 using hpx::util::make_zip_iterator;
                 return util::partitioner<ExPolicy, bool, void>::call_with_index(
-                    std::forward<ExPolicy>(policy),
+                    HPX_FWD(policy),
                     make_zip_iterator(first1, first2), count, 1, std::move(f1),
                     std::move(f2));
             }
@@ -212,7 +212,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
         typedef execution::is_sequenced_execution_policy<ExPolicy> is_seq;
 
         return detail::lexicographical_compare().call(
-            std::forward<ExPolicy>(policy), is_seq(), first1, last1, first2,
-            last2, std::forward<Pred>(pred));
+            HPX_FWD(policy), is_seq(), first1, last1, first2,
+            last2, HPX_FWD(pred));
     }
 }}}    // namespace hpx::parallel::v1

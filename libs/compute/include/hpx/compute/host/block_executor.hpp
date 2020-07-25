@@ -121,8 +121,8 @@ namespace hpx { namespace compute { namespace host {
         template <typename F, typename... Ts>
         void post(F&& f, Ts&&... ts)
         {
-            parallel::execution::post(executors_[current_], std::forward<F>(f),
-                std::forward<Ts>(ts)...);
+            parallel::execution::post(executors_[current_], HPX_FWD(f),
+                HPX_FWD(ts)...);
         }
 
         template <typename F, typename... Ts>
@@ -132,7 +132,7 @@ namespace hpx { namespace compute { namespace host {
         {
             std::size_t current = ++current_ % executors_.size();
             return parallel::execution::async_execute(executors_[current],
-                std::forward<F>(f), std::forward<Ts>(ts)...);
+                HPX_FWD(f), HPX_FWD(ts)...);
         }
 
         template <typename F, typename... Ts>
@@ -141,7 +141,7 @@ namespace hpx { namespace compute { namespace host {
         {
             std::size_t current = ++current_ % executors_.size();
             return parallel::execution::sync_execute(executors_[current],
-                std::forward<F>(f), std::forward<Ts>(ts)...);
+                HPX_FWD(f), HPX_FWD(ts)...);
         }
 
         template <typename F, typename Shape, typename... Ts>
@@ -170,9 +170,9 @@ namespace hpx { namespace compute { namespace host {
                     std::advance(part_begin, part_begin_offset);
                     std::advance(part_end, part_end_offset);
                     auto futures = parallel::execution::bulk_async_execute(
-                        executors_[i], std::forward<F>(f),
+                        executors_[i], HPX_FWD(f),
                         util::make_iterator_range(part_begin, part_end),
-                        std::forward<Ts>(ts)...);
+                        HPX_FWD(ts)...);
                     results.insert(results.end(),
                         std::make_move_iterator(futures.begin()),
                         std::make_move_iterator(futures.end()));
@@ -214,9 +214,9 @@ namespace hpx { namespace compute { namespace host {
                     std::advance(part_begin, part_begin_offset);
                     std::advance(part_end, part_end_offset);
                     auto part_results = parallel::execution::bulk_sync_execute(
-                        executors_[i], std::forward<F>(f),
+                        executors_[i], HPX_FWD(f),
                         util::make_iterator_range(begin, part_end),
-                        std::forward<Ts>(ts)...);
+                        HPX_FWD(ts)...);
                     results.insert(results.end(),
                         std::make_move_iterator(part_results.begin()),
                         std::make_move_iterator(part_results.end()));

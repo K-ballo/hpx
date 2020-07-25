@@ -127,7 +127,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 InIter2 first2, InIter2 last2, F&& f)
             {
                 return std::includes(
-                    first1, last1, first2, last2, std::forward<F>(f));
+                    first1, last1, first2, last2, HPX_FWD(f));
             }
 
             template <typename ExPolicy, typename FwdIter1, typename FwdIter2,
@@ -150,9 +150,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
                 util::cancellation_token<> tok;
                 return util::partitioner<ExPolicy, bool>::call(
-                    std::forward<ExPolicy>(policy), first2,
+                    HPX_FWD(policy), first2,
                     std::distance(first2, last2),
-                    [first1, last1, first2, last2, tok, f = std::forward<F>(f)](
+                    [first1, last1, first2, last2, tok, f = HPX_FWD(f)](
                         FwdIter2 part_begin,
                         std::size_t part_count) mutable -> bool {
                         FwdIter2 part_end =
@@ -290,7 +290,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
         typedef execution::is_sequenced_execution_policy<ExPolicy> is_seq;
 
-        return detail::includes().call(std::forward<ExPolicy>(policy), is_seq(),
-            first1, last1, first2, last2, std::forward<Pred>(op));
+        return detail::includes().call(HPX_FWD(policy), is_seq(),
+            first1, last1, first2, last2, HPX_FWD(op));
     }
 }}}    // namespace hpx::parallel::v1

@@ -56,7 +56,7 @@ namespace hpx { namespace parallel { namespace execution {
         {
             return hpx::detail::async_launch_policy_dispatch<decltype(
                 policy)>::call(policy, pool, priority, stacksize, schedulehint,
-                std::forward<F>(f), std::forward<Ts>(ts)...);
+                HPX_FWD(f), HPX_FWD(ts)...);
         }
 
         template <typename Executor, typename F, typename Future,
@@ -72,11 +72,11 @@ namespace hpx { namespace parallel { namespace execution {
                     Ts...>::type;
 
             auto&& func = hpx::util::one_shot(hpx::util::bind_back(
-                std::forward<F>(f), std::forward<Ts>(ts)...));
+                HPX_FWD(f), HPX_FWD(ts)...));
 
             typename hpx::traits::detail::shared_state_ptr<result_type>::type
                 p = hpx::lcos::detail::make_continuation_exec<result_type>(
-                    std::forward<Future>(predecessor), executor,
+                    HPX_FWD(predecessor), executor,
                     std::move(func));
 
             return hpx::traits::future_access<
@@ -95,8 +95,8 @@ namespace hpx { namespace parallel { namespace execution {
             hpx::util::thread_description desc(f, annotation);
 
             detail::post_policy_dispatch<decltype(policy)>::call(policy, desc,
-                pool, priority, stacksize, schedulehint, std::forward<F>(f),
-                std::forward<Ts>(ts)...);
+                pool, priority, stacksize, schedulehint, HPX_FWD(f),
+                HPX_FWD(ts)...);
         }
 
         template <typename F, typename S, typename... Ts>
@@ -194,8 +194,8 @@ namespace hpx { namespace parallel { namespace execution {
 
             auto&& func =
                 detail::make_fused_bulk_async_execute_helper<result_type>(
-                    executor, std::forward<F>(f), shape,
-                    hpx::util::make_tuple(std::forward<Ts>(ts)...));
+                    executor, HPX_FWD(f), shape,
+                    hpx::util::make_tuple(HPX_FWD(ts)...));
 
             // void or std::vector<func_result_type>
             using vector_result_type =
@@ -214,7 +214,7 @@ namespace hpx { namespace parallel { namespace execution {
             // vector<future<func_result_type>> -> vector<func_result_type>
             shared_state_type p =
                 hpx::lcos::detail::make_continuation_exec<vector_result_type>(
-                    std::forward<Future>(predecessor), executor,
+                    HPX_FWD(predecessor), executor,
                     [func = std::move(func)](future_type&& predecessor) mutable
                     -> vector_result_type {
                         // use unwrap directly (instead of lazily) to avoid
@@ -325,8 +325,8 @@ namespace hpx { namespace parallel { namespace execution {
         async_execute(F&& f, Ts&&... ts) const
         {
             return detail::thread_pool_async_execute_helper(pool_, priority_,
-                stacksize_, schedulehint_, launch::async, std::forward<F>(f),
-                std::forward<Ts>(ts)...);
+                stacksize_, schedulehint_, launch::async, HPX_FWD(f),
+                HPX_FWD(ts)...);
         }
 
         template <typename F, typename Future, typename... Ts>
@@ -335,16 +335,16 @@ namespace hpx { namespace parallel { namespace execution {
         then_execute(F&& f, Future&& predecessor, Ts&&... ts)
         {
             return detail::thread_pool_then_execute_helper(*this, launch::async,
-                std::forward<F>(f), std::forward<Future>(predecessor),
-                std::forward<Ts>(ts)...);
+                HPX_FWD(f), HPX_FWD(predecessor),
+                HPX_FWD(ts)...);
         }
 
         template <typename F, typename... Ts>
         void post(F&& f, Ts&&... ts) const
         {
             return detail::thread_pool_post_helper(pool_, priority_, stacksize_,
-                schedulehint_, launch::async, std::forward<F>(f),
-                std::forward<Ts>(ts)...);
+                schedulehint_, launch::async, HPX_FWD(f),
+                HPX_FWD(ts)...);
         }
 
         template <typename F, typename S, typename... Ts>
@@ -355,8 +355,8 @@ namespace hpx { namespace parallel { namespace execution {
             return detail::thread_pool_bulk_async_execute_helper(pool_,
                 priority_, stacksize_, schedulehint_, 0,
                 pool_->get_os_thread_count(), hierarchical_threshold_,
-                launch::async, std::forward<F>(f), shape,
-                std::forward<Ts>(ts)...);
+                launch::async, HPX_FWD(f), shape,
+                HPX_FWD(ts)...);
         }
 
         template <typename F, typename S, typename Future, typename... Ts>
@@ -366,8 +366,8 @@ namespace hpx { namespace parallel { namespace execution {
             F&& f, S const& shape, Future&& predecessor, Ts&&... ts)
         {
             return detail::thread_pool_bulk_then_execute_helper(*this,
-                launch::async, std::forward<F>(f), shape,
-                std::forward<Future>(predecessor), std::forward<Ts>(ts)...);
+                launch::async, HPX_FWD(f), shape,
+                HPX_FWD(predecessor), HPX_FWD(ts)...);
         }
         /// \endcond
 

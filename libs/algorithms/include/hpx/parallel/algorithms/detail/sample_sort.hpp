@@ -387,8 +387,8 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
         using sample_sort_helper_t =
             sample_sort_helper<Iter, Sent, typename std::decay<Compare>::type>;
 
-        sample_sort_helper_t sorter(std::forward<Compare>(comp), num_threads);
-        sorter(std::forward<Exec>(exec), first, last, paux, naux, chunk_size);
+        sample_sort_helper_t sorter(HPX_FWD(comp), num_threads);
+        sorter(HPX_FWD(exec), first, last, paux, naux, chunk_size);
     }
 
     template <typename Exec, typename Iter, typename Sent, typename Compare>
@@ -397,8 +397,8 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
     {
         using value_type = typename std::iterator_traits<Iter>::value_type;
 
-        return sample_sort(std::forward<Exec>(exec), first, last,
-            std::forward<Compare>(comp), num_threads, (value_type*) nullptr,
+        return sample_sort(HPX_FWD(exec), first, last,
+            HPX_FWD(comp), num_threads, (value_type*) nullptr,
             std::size_t(0), std::size_t(sample_sort_limit_per_task));
     }
 
@@ -414,8 +414,8 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
             chunk_size = sample_sort_limit_per_task;
         }
 
-        return sample_sort(std::forward<Exec>(exec), first, last,
-            std::forward<Compare>(comp), num_threads, range_buf_initial.begin(),
+        return sample_sort(HPX_FWD(exec), first, last,
+            HPX_FWD(comp), num_threads, range_buf_initial.begin(),
             range_buf_initial.size(), chunk_size);
     }
 
@@ -426,7 +426,7 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
         using value_type = typename std::iterator_traits<Iter>::value_type;
         using compare = std::less<value_type>;
 
-        return sample_sort(std::forward<Exec>(exec), first, last, compare{},
+        return sample_sort(HPX_FWD(exec), first, last, compare{},
             num_threads, (value_type*) nullptr, std::size_t(0),
             std::size_t(sample_sort_limit_per_task));
     }
@@ -437,7 +437,7 @@ namespace hpx { namespace parallel { inline namespace v1 { namespace detail {
         using value_type = typename std::iterator_traits<Iter>::value_type;
         using compare = std::less<value_type>;
 
-        return sample_sort(std::forward<Exec>(exec), first, last, compare{},
+        return sample_sort(HPX_FWD(exec), first, last, compare{},
             (std::uint32_t) hpx::threads::hardware_concurrency(),
             (value_type*) nullptr, std::size_t(0),
             std::size_t(sample_sort_limit_per_task));

@@ -198,7 +198,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
             return segmented_generate(
                 generate<typename iterator_traits::local_iterator>(),
-                std::forward<ExPolicy>(policy), first, last, std::forward<F>(f),
+                HPX_FWD(policy), first, last, HPX_FWD(f),
                 is_seq());
         }
 

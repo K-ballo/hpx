@@ -73,8 +73,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
             template <typename F_, typename Proj_>
             HPX_HOST_DEVICE transform_iteration(F_&& f, Proj_&& proj)
-              : f_(std::forward<F_>(f))
-              , proj_(std::forward<Proj_>(proj))
+              : f_(HPX_FWD(f))
+              , proj_(HPX_FWD(proj))
             {
             }
 
@@ -143,7 +143,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 ExPolicy&& policy, InIter first, InIter last, OutIter dest,
                 F&& f, Proj&& proj)
             {
-                return util::transform_loop(std::forward<ExPolicy>(policy),
+                return util::transform_loop(HPX_FWD(policy),
                     first, last, dest, transform_projected<F, Proj>{f, proj});
             }
 
@@ -157,11 +157,11 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 if (first != last)
                 {
                     auto f1 = transform_iteration<ExPolicy, F, Proj>(
-                        std::forward<F>(f), std::forward<Proj>(proj));
+                        HPX_FWD(f), HPX_FWD(proj));
 
                     return get_iter_pair(
                         util::foreach_partitioner<ExPolicy>::call(
-                            std::forward<ExPolicy>(policy),
+                            HPX_FWD(policy),
                             hpx::util::make_zip_iterator(first, dest),
                             std::distance(first, last), std::move(f1),
                             util::projection_identity()));
@@ -190,8 +190,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
             return hpx::util::make_tagged_pair<tag::in, tag::out>(
                 detail::transform<std::pair<FwdIter1, FwdIter2>>().call(
-                    std::forward<ExPolicy>(policy), is_seq(), first, last, dest,
-                    std::forward<F>(f), std::forward<Proj>(proj)));
+                    HPX_FWD(policy), is_seq(), first, last, dest,
+                    HPX_FWD(f), HPX_FWD(proj)));
         }
 
         /// forward declare the segmented version
@@ -289,8 +289,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
         F&& f, Proj&& proj = Proj())
     {
         typedef hpx::traits::is_segmented_iterator<FwdIter1> is_segmented;
-        return detail::transform_(std::forward<ExPolicy>(policy), first, last,
-            dest, std::forward<F>(f), std::forward<Proj>(proj), is_segmented());
+        return detail::transform_(HPX_FWD(policy), first, last,
+            dest, HPX_FWD(f), HPX_FWD(proj), is_segmented());
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -331,9 +331,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
             template <typename F_, typename Proj1_, typename Proj2_>
             HPX_HOST_DEVICE transform_binary_iteration(
                 F_&& f, Proj1_&& proj1, Proj2_&& proj2)
-              : f_(std::forward<F_>(f))
-              , proj1_(std::forward<Proj1_>(proj1))
-              , proj2_(std::forward<Proj2_>(proj2))
+              : f_(HPX_FWD(f))
+              , proj1_(HPX_FWD(proj1))
+              , proj2_(HPX_FWD(proj2))
             {
             }
 
@@ -419,12 +419,12 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 {
                     auto f1 =
                         transform_binary_iteration<ExPolicy, F, Proj1, Proj2>(
-                            std::forward<F>(f), std::forward<Proj1>(proj1),
-                            std::forward<Proj2>(proj2));
+                            HPX_FWD(f), HPX_FWD(proj1),
+                            HPX_FWD(proj2));
 
                     return get_iter_tuple(
                         util::foreach_partitioner<ExPolicy>::call(
-                            std::forward<ExPolicy>(policy),
+                            HPX_FWD(policy),
                             hpx::util::make_zip_iterator(first1, first2, dest),
                             std::distance(first1, last1), std::move(f1),
                             util::projection_identity()));
@@ -458,9 +458,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
             return hpx::util::make_tagged_tuple<tag::in1, tag::in2, tag::out>(
                 detail::transform_binary<result_type>().call(
-                    std::forward<ExPolicy>(policy), is_seq(), first1, last1,
-                    first2, dest, std::forward<F>(f),
-                    std::forward<Proj1>(proj1), std::forward<Proj2>(proj2)));
+                    HPX_FWD(policy), is_seq(), first1, last1,
+                    first2, dest, HPX_FWD(f),
+                    HPX_FWD(proj1), HPX_FWD(proj2)));
         }
 
         template <typename ExPolicy, typename FwdIter1, typename FwdIter2,
@@ -586,9 +586,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
     {
         typedef hpx::traits::is_segmented_iterator<FwdIter1> is_segmented;
 
-        return detail::transform_(std::forward<ExPolicy>(policy), first1, last1,
-            first2, dest, std::forward<F>(f), std::forward<Proj1>(proj1),
-            std::forward<Proj2>(proj2), is_segmented());
+        return detail::transform_(HPX_FWD(policy), first1, last1,
+            first2, dest, HPX_FWD(f), HPX_FWD(proj1),
+            HPX_FWD(proj2), is_segmented());
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -629,12 +629,12 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 {
                     auto f1 =
                         transform_binary_iteration<ExPolicy, F, Proj1, Proj2>(
-                            std::forward<F>(f), std::forward<Proj1>(proj1),
-                            std::forward<Proj2>(proj2));
+                            HPX_FWD(f), HPX_FWD(proj1),
+                            HPX_FWD(proj2));
 
                     return get_iter_tuple(
                         util::foreach_partitioner<ExPolicy>::call(
-                            std::forward<ExPolicy>(policy),
+                            HPX_FWD(policy),
                             hpx::util::make_zip_iterator(first1, first2, dest),
                             (std::min)(std::distance(first1, last1),
                                 std::distance(first2, last2)),
@@ -669,9 +669,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
             return hpx::util::make_tagged_tuple<tag::in1, tag::in2, tag::out>(
                 detail::transform_binary2<result_type>().call(
-                    std::forward<ExPolicy>(policy), is_seq(), first1, last1,
-                    first2, last2, dest, std::forward<F>(f),
-                    std::forward<Proj1>(proj1), std::forward<Proj2>(proj2)));
+                    HPX_FWD(policy), is_seq(), first1, last1,
+                    first2, last2, dest, HPX_FWD(f),
+                    HPX_FWD(proj1), HPX_FWD(proj2)));
         }
         template <typename ExPolicy, typename FwdIter1, typename FwdIter2,
             typename FwdIter3, typename F, typename Proj1, typename Proj2>
@@ -802,9 +802,9 @@ namespace hpx { namespace parallel { inline namespace v1 {
     {
         typedef hpx::traits::is_segmented_iterator<FwdIter1> is_segmented;
 
-        return detail::transform_(std::forward<ExPolicy>(policy), first1, last1,
-            first2, last2, dest, std::forward<F>(f), std::forward<Proj1>(proj1),
-            std::forward<Proj2>(proj2), is_segmented());
+        return detail::transform_(HPX_FWD(policy), first1, last1,
+            first2, last2, dest, HPX_FWD(f), HPX_FWD(proj1),
+            HPX_FWD(proj2), is_segmented());
     }
 }}}    // namespace hpx::parallel::v1
 

@@ -47,7 +47,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 ExPolicy, InIter first, InIter last, OutIter dest, Op&& op)
             {
                 return std::adjacent_difference(
-                    first, last, dest, std::forward<Op>(op));
+                    first, last, dest, HPX_FWD(op));
             }
 
             template <typename ExPolicy, typename FwdIter1, typename FwdIter2,
@@ -77,7 +77,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                     return result::get(std::move(dest));
                 }
 
-                auto f1 = [op = std::forward<Op>(op)](zip_iterator part_begin,
+                auto f1 = [op = HPX_FWD(op)](zip_iterator part_begin,
                               std::size_t part_size) mutable {
                     // VS2015RC bails out when op is captured by ref
                     using hpx::util::get;
@@ -97,7 +97,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
 
                 using hpx::util::make_zip_iterator;
                 return util::partitioner<ExPolicy, FwdIter2, void>::call(
-                    std::forward<ExPolicy>(policy),
+                    HPX_FWD(policy),
                     make_zip_iterator(first, prev, dest), count, std::move(f1),
                     std::move(f2));
             }
@@ -116,8 +116,8 @@ namespace hpx { namespace parallel { inline namespace v1 {
             typedef execution::is_sequenced_execution_policy<ExPolicy> is_seq;
 
             return detail::adjacent_difference<FwdIter2>().call(
-                std::forward<ExPolicy>(policy), is_seq(), first, last, dest,
-                std::forward<Op>(op));
+                HPX_FWD(policy), is_seq(), first, last, dest,
+                HPX_FWD(op));
         }
 
         template <typename ExPolicy, typename FwdIter1, typename FwdIter2,
@@ -189,7 +189,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
     {
         typedef typename std::iterator_traits<FwdIter1>::value_type value_type;
         typedef hpx::traits::is_segmented_iterator<FwdIter1> is_segmented;
-        return detail::adjacent_difference_(std::forward<ExPolicy>(policy),
+        return detail::adjacent_difference_(HPX_FWD(policy),
             first, last, dest, std::minus<value_type>(), is_segmented());
     }
 
@@ -267,7 +267,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
         FwdIter2 dest, Op&& op)
     {
         typedef hpx::traits::is_segmented_iterator<FwdIter1> is_segmented;
-        return detail::adjacent_difference_(std::forward<ExPolicy>(policy),
-            first, last, dest, std::forward<Op>(op), is_segmented());
+        return detail::adjacent_difference_(HPX_FWD(policy),
+            first, last, dest, HPX_FWD(op), is_segmented());
     }
 }}}    // namespace hpx::parallel::v1

@@ -63,7 +63,7 @@ namespace hpx { namespace parallel { inline namespace v1 {
                 typename std::iterator_traits<InIter>::value_type value_type;
 
             return hpx::util::void_guard<result_type>(),
-                   hpx::parallel::for_each(std::forward<ExPolicy>(policy),
+                   hpx::parallel::for_each(HPX_FWD(policy),
                        first, last, fill_function<value_type>(value));
         }
 

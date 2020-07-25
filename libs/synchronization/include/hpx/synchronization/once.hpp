@@ -61,7 +61,7 @@ namespace hpx { namespace lcos { namespace local {
                     flag.event_.reset();
 
                     util::invoke(
-                        std::forward<F>(f), std::forward<Args>(args)...);
+                        HPX_FWD(f), HPX_FWD(args)...);
 
                     // set status to done, release waiting threads
                     flag.status_.store(function_complete_flag_value);
