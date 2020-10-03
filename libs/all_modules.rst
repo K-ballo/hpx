@@ -36,7 +36,6 @@ All modules
    /libs/components_base/docs/index.rst
    /libs/compute/docs/index.rst
    /libs/compute_cuda/docs/index.rst
-   /libs/concepts/docs/index.rst
    /libs/concurrency/docs/index.rst
    /libs/config/docs/index.rst
    /libs/config_registry/docs/index.rst
@@ -51,6 +50,7 @@ All modules
    /libs/filesystem/docs/index.rst
    /libs/format/docs/index.rst
    /libs/functional/docs/index.rst
+   /libs/fundamentals/docs/index.rst
    /libs/futures/docs/index.rst
    /libs/hardware/docs/index.rst
    /libs/hashing/docs/index.rst

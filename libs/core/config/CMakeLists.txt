@@ -21,10 +21,8 @@ set(config_headers
     hpx/config/constexpr.hpp
     hpx/config/debug.hpp
     hpx/config/deprecation.hpp
-    hpx/config/emulate_deleted.hpp
     hpx/config/export_definitions.hpp
     hpx/config/forceinline.hpp
-    hpx/config/lambda_capture.hpp
     hpx/config/manual_profiling.hpp
     hpx/config/threads_stack.hpp
     hpx/config/warnings_prefix.hpp

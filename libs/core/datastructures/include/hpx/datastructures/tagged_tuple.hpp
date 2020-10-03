@@ -12,7 +12,6 @@
 #include <hpx/config.hpp>
 #include <hpx/datastructures/tagged.hpp>
 #include <hpx/datastructures/tuple.hpp>
-#include <hpx/type_support/identity.hpp>
 
 #include <cstddef>
 #include <type_traits>
@@ -41,8 +40,8 @@ namespace hpx { namespace util {
         template <typename Tag, typename T>
         struct tagged_type
         {
-            typedef typename std::decay<T>::type decayed_type;
-            typedef typename hpx::util::identity<Tag(decayed_type)>::type type;
+            using decayed_type = typename std::decay<T>::type;
+            using type = Tag(decayed_type);
         };
     }    // namespace detail
 
@@ -77,8 +76,8 @@ namespace hpx { namespace util {
         template <typename Tag, std::size_t I, typename Tuple>
         struct tagged_element_type
         {
-            typedef typename hpx::tuple_element<I, Tuple>::type element_type;
-            typedef typename hpx::util::identity<Tag(element_type)>::type type;
+            using element_type = typename hpx::tuple_element<I, Tuple>::type;
+            using type = Tag(element_type);
         };
 
         template <typename Tuple, typename Indices, typename... Tags>

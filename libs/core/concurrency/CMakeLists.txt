@@ -47,10 +47,10 @@ add_hpx_module(
   COMPAT_HEADERS ${concurrency_compat_headers}
   MODULE_DEPENDENCIES
     hpx_assertion
-    hpx_concepts
     hpx_config
     hpx_execution_base
     hpx_errors
+    hpx_fundamentals
     hpx_hashing
     hpx_itt_notify
     hpx_thread_support

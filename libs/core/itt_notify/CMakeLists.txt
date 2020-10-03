@@ -31,6 +31,6 @@ add_hpx_module(
   SOURCES ${itt_notify_sources}
   HEADERS ${itt_notify_headers}
   COMPAT_HEADERS ${itt_notify_compat_headers}
-  MODULE_DEPENDENCIES hpx_config
+  MODULE_DEPENDENCIES hpx_config hpx_fundamentals
   CMAKE_SUBDIRS examples tests
 )
