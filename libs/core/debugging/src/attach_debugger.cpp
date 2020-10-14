@@ -8,8 +8,6 @@
 #include <hpx/config.hpp>
 #include <hpx/debugging/attach_debugger.hpp>
 
-#include <iostream>
-
 #if defined(HPX_HAVE_UNISTD_H)
 #include <unistd.h>
 #endif
@@ -20,6 +18,9 @@
 
 #if defined(_POSIX_VERSION)
 #include <boost/asio/ip/host_name.hpp>
+
+#include <iostream>
+#include <string>
 #endif
 
 namespace hpx { namespace util {

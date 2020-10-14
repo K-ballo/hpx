@@ -11,7 +11,6 @@
 
 #include <exception>
 #include <mutex>
-#include <set>
 #include <string>
 #include <system_error>
 #include <utility>

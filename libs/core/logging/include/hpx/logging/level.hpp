@@ -20,6 +20,8 @@
 
 #include <boost/utility/string_ref.hpp>
 
+#include <iosfwd>
+
 namespace hpx { namespace util { namespace logging {
 
     /**

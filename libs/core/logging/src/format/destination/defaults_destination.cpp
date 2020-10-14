@@ -21,6 +21,7 @@
 
 #include <iostream>
 #include <memory>
+#include <string>
 
 #ifdef HPX_WINDOWS
 #include <windows.h>

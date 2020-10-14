@@ -18,7 +18,6 @@
 
 #include <hpx/config.hpp>
 #include <hpx/logging/message.hpp>
-#include <hpx/modules/format.hpp>
 
 #include <boost/utility/string_ref.hpp>
 

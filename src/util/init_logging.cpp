@@ -22,9 +22,6 @@
 #include <hpx/util/get_entry_as.hpp>
 #include <hpx/util/init_logging.hpp>
 
-#include <boost/config.hpp>
-#include <boost/version.hpp>
-
 #include <cstddef>
 #include <cstdint>
 #include <cstdlib>

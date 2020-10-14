@@ -19,6 +19,8 @@
 
 #include <hpx/plugins/parcel/message_buffer.hpp>
 
+#include <boost/accumulators/framework/accumulator_set.hpp>
+
 #include <cstddef>
 #include <cstdint>
 #include <memory>

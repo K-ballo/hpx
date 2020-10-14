@@ -17,27 +17,13 @@
 #include <hpx/modules/format.hpp>
 #include <hpx/modules/logging.hpp>
 
-#if defined(HPX_WINDOWS)
-#include <process.h>
-#elif defined(HPX_HAVE_UNISTD_H)
-#include <unistd.h>
-#endif
-
 #include <boost/system/system_error.hpp>
 
-#include <algorithm>
-#include <atomic>
-#include <cstddef>
-#include <cstdint>
 #include <exception>
-#include <iostream>
-#include <memory>
-#include <sstream>
 #include <stdexcept>
 #include <string>
 #include <system_error>
 #include <utility>
-#include <vector>
 
 namespace hpx {
     ///////////////////////////////////////////////////////////////////////////

@@ -8,7 +8,6 @@
 #include <hpx/debugging/print.hpp>
 
 #include <algorithm>
-#include <array>
 #include <atomic>
 #include <bitset>
 #include <chrono>
@@ -21,15 +20,11 @@
 #include <iomanip>
 #include <iostream>
 #include <iterator>
-#include <sstream>
 #include <string>
 #include <thread>
-#include <type_traits>
-#include <utility>
 #include <vector>
 
 #if defined(__linux) || defined(linux) || defined(__linux__)
-#include <sys/mman.h>
 #include <unistd.h>
 #elif defined(__APPLE__)
 #include <crt_externs.h>

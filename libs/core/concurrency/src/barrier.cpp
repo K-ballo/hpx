@@ -8,6 +8,7 @@
 #include <hpx/concurrency/barrier.hpp>
 
 #include <cstddef>
+#include <mutex>
 
 namespace hpx { namespace util {
     barrier::barrier(std::size_t number_of_threads)

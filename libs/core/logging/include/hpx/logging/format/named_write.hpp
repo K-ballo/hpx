@@ -19,6 +19,8 @@
 #include <hpx/config.hpp>
 #include <hpx/logging/format/destinations.hpp>
 #include <hpx/logging/format/formatters.hpp>
+#include <hpx/logging/manipulator.hpp>
+#include <hpx/logging/message.hpp>
 
 #include <cstddef>
 #include <memory>
