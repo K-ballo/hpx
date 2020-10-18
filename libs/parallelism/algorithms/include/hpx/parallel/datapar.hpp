@@ -8,12 +8,12 @@
 
 #include <hpx/config.hpp>
 
+// IWYU pragma: begin_exports
 #if defined(HPX_HAVE_DATAPAR)
-
 #include <hpx/executors/datapar/execution_policy.hpp>
 #include <hpx/parallel/datapar/iterator_helpers.hpp>
 #include <hpx/parallel/datapar/loop.hpp>
 #include <hpx/parallel/datapar/transform_loop.hpp>
 #include <hpx/parallel/datapar/zip_iterator.hpp>
-
 #endif
+// IWYU pragma: end_exports

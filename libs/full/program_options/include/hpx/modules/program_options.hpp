@@ -8,10 +8,7 @@
 
 #pragma once
 
-#if defined(_MSC_VER)
-#pragma once
-#endif
-
+// IWYU pragma: begin_exports
 #include <hpx/program_options/config.hpp>
 #include <hpx/program_options/cmdline.hpp>
 #include <hpx/program_options/detail/config_file.hpp>
@@ -24,3 +21,4 @@
 #include <hpx/program_options/value_semantic.hpp>
 #include <hpx/program_options/variables_map.hpp>
 #include <hpx/program_options/version.hpp>
+// IWYU pragma: end_exports

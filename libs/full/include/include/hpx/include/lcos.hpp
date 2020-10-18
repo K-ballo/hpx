@@ -8,6 +8,8 @@
 #pragma once
 
 #include <hpx/config.hpp>
+
+// IWYU pragma: begin_exports
 #include <hpx/include/async.hpp>
 #include <hpx/include/dataflow.hpp>
 #include <hpx/include/lcos_local.hpp>
@@ -24,3 +26,4 @@
 #include <hpx/lcos/packaged_action.hpp>
 #include <hpx/lcos_distributed/channel.hpp>
 #endif
+// IWYU pragma: end_exports

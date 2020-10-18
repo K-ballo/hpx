@@ -7,8 +7,11 @@
 #pragma once
 
 #include <hpx/config.hpp>
+
+// IWYU pragma: begin_exports
 #include <hpx/functional/bind.hpp>
 
 #if defined(HPX_HAVE_DISTRIBUTED_RUNTIME)
 #include <hpx/util/bind_action.hpp>
 #endif
+// IWYU pragma: end_exports

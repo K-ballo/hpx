@@ -6,6 +6,8 @@
 
 #pragma once
 
+// IWYU pragma: begin_exports
 #include <hpx/timing/high_resolution_clock.hpp>
 #include <hpx/timing/high_resolution_timer.hpp>
 #include <hpx/timing/steady_clock.hpp>
+// IWYU pragma: end_exports

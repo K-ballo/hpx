@@ -8,6 +8,7 @@
 
 #pragma once
 
+// IWYU pragma: begin_exports
 #include <hpx/compute/host/block_allocator.hpp>
 #include <hpx/compute/host/block_executor.hpp>
 #include <hpx/compute/host/get_targets.hpp>
@@ -15,3 +16,4 @@
 #include <hpx/compute/host/target.hpp>
 #include <hpx/compute/host/target_distribution_policy.hpp>
 #include <hpx/compute/host/traits/access_target.hpp>
+// IWYU pragma: end_exports

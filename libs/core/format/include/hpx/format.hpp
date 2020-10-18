@@ -6,4 +6,4 @@
 
 #pragma once
 
-#include <hpx/modules/format.hpp>
+#include <hpx/modules/format.hpp> // IWYU pragma: export

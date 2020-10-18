@@ -8,8 +8,10 @@
 
 #include <hpx/config.hpp>
 
+// IWYU pragma: begin_exports
 #include <hpx/execution/executors/auto_chunk_size.hpp>
 #include <hpx/execution/executors/dynamic_chunk_size.hpp>
 #include <hpx/execution/executors/guided_chunk_size.hpp>
 #include <hpx/execution/executors/persistent_auto_chunk_size.hpp>
 #include <hpx/execution/executors/static_chunk_size.hpp>
+// IWYU pragma: end_exports

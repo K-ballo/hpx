@@ -8,6 +8,7 @@
 
 #include <hpx/config.hpp>
 
+// IWYU pragma: begin_exports
 #if defined(HPX_HAVE_LOCAL_SCHEDULER)
 #include <hpx/schedulers/local_queue_scheduler.hpp>
 #endif
@@ -21,3 +22,4 @@
 #if defined(HPX_HAVE_SHARED_PRIORITY_SCHEDULER)
 #include <hpx/schedulers/shared_priority_queue_scheduler.hpp>
 #endif
+// IWYU pragma: end_exports

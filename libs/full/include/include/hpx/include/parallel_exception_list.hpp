@@ -7,4 +7,7 @@
 #pragma once
 
 #include <hpx/config.hpp>
+
+// IWYU pragma: begin_exports
 #include <hpx/executors/exception_list.hpp>
+// IWYU pragma: end_exports

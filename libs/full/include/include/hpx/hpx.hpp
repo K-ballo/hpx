@@ -6,6 +6,7 @@
 
 #pragma once
 
+// IWYU pragma: begin_exports
 #include <hpx/config.hpp>
 #include <hpx/algorithm.hpp>
 #include <hpx/any.hpp>
@@ -31,3 +32,4 @@
 #include <hpx/include/performance_counters.hpp>
 #include <hpx/modules/async_distributed.hpp>
 #endif
+// IWYU pragma: end_exports

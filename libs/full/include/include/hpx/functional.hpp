@@ -6,6 +6,7 @@
 
 #pragma once
 
+// IWYU pragma: begin_exports
 #include <hpx/functional/bind.hpp>
 #include <hpx/functional/bind_back.hpp>
 #include <hpx/functional/bind_front.hpp>
@@ -16,6 +17,7 @@
 #include <hpx/functional/traits/is_bind_expression.hpp>
 #include <hpx/functional/traits/is_placeholder.hpp>
 #include <hpx/functional/unique_function.hpp>
+// IWYU pragma: end_exports
 
 namespace hpx {
     using hpx::traits::is_bind_expression;

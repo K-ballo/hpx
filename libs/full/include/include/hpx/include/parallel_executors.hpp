@@ -6,9 +6,11 @@
 
 #pragma once
 
+// IWYU pragma: begin_exports
 #include <hpx/modules/execution.hpp>
 #include <hpx/modules/executors.hpp>
 #include <hpx/modules/thread_executors.hpp>
 #include <hpx/modules/timed_execution.hpp>
 #include <hpx/runtime_local/pool_executor.hpp>
 #include <hpx/runtime_local/service_executors.hpp>
+// IWYU pragma: end_exports

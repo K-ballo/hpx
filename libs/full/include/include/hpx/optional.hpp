@@ -6,7 +6,9 @@
 
 #pragma once
 
+// IWYU pragma: begin_exports
 #include <hpx/datastructures/optional.hpp>
+// IWYU pragma: end_exports
 
 namespace hpx {
     using hpx::util::bad_optional_access;

@@ -6,6 +6,7 @@
 
 #pragma once
 
+// IWYU pragma: begin_exports
 #include <hpx/modules/thread_executors.hpp>
 #include <hpx/modules/thread_pools.hpp>
 #include <hpx/modules/threading.hpp>
@@ -16,3 +17,4 @@
 #include <hpx/threading_base/thread_data.hpp>
 #include <hpx/threading_base/thread_specific_ptr.hpp>
 #include <hpx/topology/topology.hpp>
+// IWYU pragma: end_exports

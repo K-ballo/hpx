@@ -7,6 +7,8 @@
 #pragma once
 
 #include <hpx/config.hpp>
+
+// IWYU pragma: begin_exports
 #include <hpx/parallel/algorithms/transform_exclusive_scan.hpp>
 #include <hpx/parallel/algorithms/transform_inclusive_scan.hpp>
 
@@ -14,3 +16,4 @@
 #include <hpx/parallel/segmented_algorithms/transform_exclusive_scan.hpp>
 #include <hpx/parallel/segmented_algorithms/transform_inclusive_scan.hpp>
 #endif
+// IWYU pragma: end_exports

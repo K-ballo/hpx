@@ -6,5 +6,7 @@
 
 #pragma once
 
+// IWYU pragma: begin_exports
 #include <hpx/parallel/algorithms/remove_copy.hpp>
 #include <hpx/parallel/container_algorithms/remove_copy.hpp>
+// IWYU pragma: end_exports

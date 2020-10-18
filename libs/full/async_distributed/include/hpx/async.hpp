@@ -6,4 +6,4 @@
 
 #pragma once
 
-#include <hpx/modules/async_distributed.hpp>
+#include <hpx/modules/async_distributed.hpp> // IWYU pragma: export

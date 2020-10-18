@@ -6,5 +6,7 @@
 
 #pragma once
 
+// IWYU pragma: begin_exports
 #include <hpx/parallel/algorithms/merge.hpp>
 #include <hpx/parallel/container_algorithms/merge.hpp>
+// IWYU pragma: end_exports

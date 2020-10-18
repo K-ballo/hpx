@@ -7,11 +7,14 @@
 #pragma once
 
 #include <hpx/config.hpp>
+
+// IWYU pragma: begin_exports
 #include <hpx/parallel/algorithm.hpp>
 #include <hpx/parallel/container_algorithms.hpp>
 #if defined(HPX_HAVE_DISTRIBUTED_RUNTIME)
 #include <hpx/parallel/segmented_algorithm.hpp>
 #endif
+// IWYU pragma: end_exports
 
 namespace hpx {
     using hpx::parallel::lexicographical_compare;

@@ -11,9 +11,11 @@
 /// See N4071: 1.3/3
 #include <memory>
 
+// IWYU pragma: begin_exports
 #include <hpx/parallel/algorithms/destroy.hpp>
 #include <hpx/parallel/algorithms/uninitialized_copy.hpp>
 #include <hpx/parallel/algorithms/uninitialized_default_construct.hpp>
 #include <hpx/parallel/algorithms/uninitialized_fill.hpp>
 #include <hpx/parallel/algorithms/uninitialized_move.hpp>
 #include <hpx/parallel/algorithms/uninitialized_value_construct.hpp>
+// IWYU pragma: end_exports

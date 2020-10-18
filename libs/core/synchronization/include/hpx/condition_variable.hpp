@@ -7,7 +7,10 @@
 #pragma once
 
 #include <hpx/config.hpp>
+
+// IWYU pragma: begin_exports
 #include <hpx/synchronization/condition_variable.hpp>
+// IWYU pragma: end_exports
 
 ///////////////////////////////////////////////////////////////////////////////
 // C++20 condition_variable

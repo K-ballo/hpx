@@ -6,5 +6,7 @@
 
 #pragma once
 
+// IWYU pragma: begin_exports
 #include <hpx/parallel/algorithm.hpp>
 #include <hpx/parallel/container_algorithms.hpp>
+// IWYU pragma: end_exports

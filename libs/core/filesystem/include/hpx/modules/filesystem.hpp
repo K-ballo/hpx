@@ -19,7 +19,7 @@
 #include <hpx/filesystem/config/defines.hpp>
 
 #if !defined(HPX_FILESYSTEM_HAVE_BOOST_FILESYSTEM_COMPATIBILITY)
-#include <filesystem>
+#include <filesystem> // IWYU pragma: export
 #include <string>
 #include <system_error>
 
@@ -66,7 +66,7 @@ namespace hpx { namespace filesystem {
 #else
 #include <hpx/config/detail/compat_error_code.hpp>
 
-#include <boost/filesystem.hpp>
+#include <boost/filesystem.hpp>// IWYU pragma: export
 
 #include <system_error>
 

@@ -12,6 +12,7 @@
 /// See N4310: 1.3/3
 #include <numeric>
 
+// IWYU pragma: begin_exports
 #include <hpx/parallel/algorithms/adjacent_difference.hpp>
 #include <hpx/parallel/algorithms/exclusive_scan.hpp>
 #include <hpx/parallel/algorithms/inclusive_scan.hpp>
@@ -19,3 +20,4 @@
 #include <hpx/parallel/algorithms/transform_exclusive_scan.hpp>
 #include <hpx/parallel/algorithms/transform_inclusive_scan.hpp>
 #include <hpx/parallel/algorithms/transform_reduce.hpp>
+// IWYU pragma: end_exports

@@ -7,9 +7,11 @@
 
 #pragma once
 
+// IWYU pragma: begin_exports
 #include <hpx/parallel/algorithms/for_each.hpp>
 #include <hpx/parallel/container_algorithms/for_each.hpp>
 
 #if defined(HPX_HAVE_DISTRIBUTED_RUNTIME)
 #include <hpx/parallel/segmented_algorithms/for_each.hpp>
 #endif
+// IWYU pragma: end_exports

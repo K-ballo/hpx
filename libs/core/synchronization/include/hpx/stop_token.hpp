@@ -7,6 +7,9 @@
 #pragma once
 
 #include <hpx/config.hpp>
+
+// IWYU pragma: begin_exports
 #include <hpx/synchronization/stop_token.hpp>
+// IWYU pragma: end_exports
 
 // C++20 stop_token

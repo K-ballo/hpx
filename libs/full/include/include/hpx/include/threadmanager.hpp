@@ -9,6 +9,8 @@
 #pragma once
 
 #include <hpx/config.hpp>
+
+// IWYU pragma: begin_exports
 #include <hpx/modules/threading.hpp>
 #include <hpx/modules/threadmanager.hpp>
 #include <hpx/runtime_local/thread_pool_helpers.hpp>
@@ -19,3 +21,4 @@
 #if defined(HPX_HAVE_DISTRIBUTED_RUNTIME)
 #include <hpx/runtime/threads/threadmanager_counters.hpp>
 #endif
+// IWYU pragma: end_exports

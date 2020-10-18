@@ -6,5 +6,7 @@
 
 #pragma once
 
+// IWYU pragma: begin_exports
 #include <hpx/runtime_local/run_as_hpx_thread.hpp>
 #include <hpx/runtime_local/run_as_os_thread.hpp>
+// IWYU pragma: end_exports

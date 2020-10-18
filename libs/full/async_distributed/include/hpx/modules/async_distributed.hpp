@@ -6,6 +6,7 @@
 
 #pragma once
 
+// IWYU pragma: begin_exports
 #include <hpx/async_distributed/apply.hpp>
 #include <hpx/async_distributed/async.hpp>
 #include <hpx/async_distributed/async_callback.hpp>
@@ -13,3 +14,4 @@
 #include <hpx/async_distributed/async_continue_callback.hpp>
 #include <hpx/async_distributed/dataflow.hpp>
 #include <hpx/async_distributed/sync.hpp>
+// IWYU pragma: end_exports

@@ -7,6 +7,8 @@
 #pragma once
 
 #include <hpx/config.hpp>
+
+// IWYU pragma: begin_exports
 #include <hpx/assert.hpp>
 #include <hpx/command_line_handling/parse_command_line.hpp>
 #include <hpx/execution_base/this_thread.hpp>
@@ -44,3 +46,4 @@
 #if defined(HPX_HAVE_MODULE_STRING_UTIL)
 #include <hpx/modules/string_util.hpp>
 #endif
+// IWYU pragma: end_exports

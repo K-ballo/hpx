@@ -6,4 +6,4 @@
 
 #pragma once
 
-#include <hpx/modules/serialization.hpp>
+#include <hpx/modules/serialization.hpp> // IWYU pragma: export

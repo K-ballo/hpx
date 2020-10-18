@@ -7,5 +7,7 @@
 
 #pragma once
 
+// IWYU pragma: begin_exports
 #include <hpx/parallel/algorithms/reverse.hpp>
 #include <hpx/parallel/container_algorithms/reverse.hpp>
+// IWYU pragma: end_exports

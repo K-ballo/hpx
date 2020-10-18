@@ -7,8 +7,10 @@
 
 #pragma once
 
+// IWYU pragma: begin_exports
 #include <hpx/plugin/config.hpp>
 #include <hpx/plugin/concrete_factory.hpp>
 #include <hpx/plugin/dll.hpp>
 #include <hpx/plugin/export_plugin.hpp>
 #include <hpx/plugin/plugin_factory.hpp>
+// IWYU pragma: end_exports

@@ -6,9 +6,9 @@
 
 #pragma once
 
-#include <hpx/parallel/memory.hpp>
+#include <hpx/parallel/memory.hpp> // IWYU pragma: export
 
-#include <hpx/parallel/container_memory.hpp>
+#include <hpx/parallel/container_memory.hpp> // IWYU pragma: export
 
 namespace hpx {
     using hpx::parallel::uninitialized_copy;

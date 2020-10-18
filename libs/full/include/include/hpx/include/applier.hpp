@@ -9,6 +9,7 @@
 
 #include <hpx/config.hpp>
 
+// IWYU pragma: begin_exports
 #if defined(HPX_HAVE_DISTRIBUTED_RUNTIME)
 #include <hpx/async_colocated/apply_colocated.hpp>
 #include <hpx/async_colocated/apply_colocated_callback.hpp>
@@ -17,3 +18,4 @@
 #include <hpx/async_distributed/applier/bind_naming_wrappers.hpp>
 #include <hpx/async_distributed/applier/trigger.hpp>
 #endif
+// IWYU pragma: end_exports

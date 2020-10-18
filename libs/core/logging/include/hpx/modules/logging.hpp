@@ -10,9 +10,12 @@
 
 #if defined(HPX_HAVE_LOGGING)
 
-#include <hpx/assertion/current_function.hpp>
+// IWYU pragma: begin_exports
 #include <hpx/logging/level.hpp>
 #include <hpx/logging/logging.hpp>
+// IWYU pragma: end_exports
+
+#include <hpx/assertion/current_function.hpp>
 #include <hpx/modules/format.hpp>
 
 #include <string>

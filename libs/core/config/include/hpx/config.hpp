@@ -14,6 +14,7 @@
 #error Boost.Config was included before the hpx config header. This might lead to subtle failures and compile errors. Please include <hpx/config.hpp> before any other boost header
 #endif
 
+// IWYU pragma: begin_exports
 #include <hpx/config/attributes.hpp>
 #include <hpx/config/branch_hints.hpp>
 #include <hpx/config/compiler_fence.hpp>
@@ -32,6 +33,7 @@
 #include <hpx/config/threads_stack.hpp>
 #include <hpx/config/version.hpp>
 #include <hpx/config/weak_symbol.hpp>
+// IWYU pragma: end_exports
 
 #include <boost/version.hpp>
 

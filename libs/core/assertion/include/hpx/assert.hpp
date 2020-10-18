@@ -6,4 +6,4 @@
 
 #pragma once
 
-#include <hpx/modules/assertion.hpp>
+#include <hpx/modules/assertion.hpp> // IWYU pragma: export

@@ -8,5 +8,7 @@
 
 #include <hpx/config.hpp>
 
+// IWYU pragma: begin_exports
 #include <hpx/execution/executors/execution_information.hpp>
 #include <hpx/thread_executors/thread_execution_information.hpp>
+// IWYU pragma: end_exports

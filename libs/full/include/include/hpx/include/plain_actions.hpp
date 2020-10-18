@@ -8,7 +8,9 @@
 
 #include <hpx/config.hpp>
 
+// IWYU pragma: begin_exports
 #if defined(HPX_HAVE_DISTRIBUTED_RUNTIME)
 #include <hpx/actions_base/plain_action.hpp>
 #include <hpx/runtime/actions/continuation.hpp>
 #endif
+// IWYU pragma: end_exports

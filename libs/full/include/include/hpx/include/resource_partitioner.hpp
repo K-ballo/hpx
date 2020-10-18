@@ -7,5 +7,8 @@
 #pragma once
 
 #include <hpx/config.hpp>
+
+// IWYU pragma: begin_exports
 #include <hpx/modules/resource_partitioner.hpp>
 #include <hpx/runtime_local/thread_pool_helpers.hpp>
+// IWYU pragma: end_exports

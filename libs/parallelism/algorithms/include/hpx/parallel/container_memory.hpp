@@ -6,6 +6,8 @@
 
 #pragma once
 
+// IWYU pragma: begin_exports
 #include <hpx/parallel/memory.hpp>
 
 #include <hpx/parallel/container_algorithms/destroy.hpp>
+// IWYU pragma: end_exports

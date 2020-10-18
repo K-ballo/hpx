@@ -9,6 +9,7 @@
 
 #include <hpx/config.hpp>
 
+// IWYU pragma: begin_exports
 #if defined(HPX_HAVE_DISTRIBUTED_RUNTIME)
 #include <hpx/actions/base_action.hpp>
 #include <hpx/actions/transfer_action.hpp>
@@ -20,3 +21,4 @@
 #include <hpx/runtime/actions/lambda_to_action.hpp>
 #include <hpx/runtime/actions/make_continuation.hpp>
 #endif
+// IWYU pragma: end_exports

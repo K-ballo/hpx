@@ -6,5 +6,7 @@
 
 #pragma once
 
+// IWYU pragma: begin_exports
 #include <hpx/parallel/algorithms/rotate.hpp>
 #include <hpx/parallel/container_algorithms/rotate.hpp>
+// IWYU pragma: end_exports

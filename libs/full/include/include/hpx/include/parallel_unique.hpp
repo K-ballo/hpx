@@ -6,5 +6,7 @@
 
 #pragma once
 
+// IWYU pragma: begin_exports
 #include <hpx/parallel/algorithms/unique.hpp>
 #include <hpx/parallel/container_algorithms/unique.hpp>
+// IWYU pragma: end_exports

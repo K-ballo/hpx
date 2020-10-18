@@ -6,5 +6,7 @@
 
 #pragma once
 
+// IWYU pragma: begin_exports
 #include <hpx/parallel/algorithms/is_sorted.hpp>
 #include <hpx/parallel/container_algorithms/is_sorted.hpp>
+// IWYU pragma: end_exports

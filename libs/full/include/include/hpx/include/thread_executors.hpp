@@ -8,6 +8,7 @@
 
 #include <hpx/config.hpp>
 
+// IWYU pragma: begin_exports
 #if defined(HPX_HAVE_THREAD_EXECUTORS_COMPATIBILITY)
 #include <hpx/runtime_local/pool_executor.hpp>
 #include <hpx/runtime_local/service_executors.hpp>
@@ -18,3 +19,4 @@
 #include <hpx/thread_executors/thread_pool_os_executors.hpp>
 #include <hpx/thread_executors/thread_timed_execution.hpp>
 #endif
+// IWYU pragma: end_exports

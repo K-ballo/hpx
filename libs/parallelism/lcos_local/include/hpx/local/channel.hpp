@@ -7,7 +7,10 @@
 #pragma once
 
 #include <hpx/config.hpp>
+
+// IWYU pragma: begin_exports
 #include <hpx/lcos_local/channel.hpp>
+// IWYU pragma: end_exports
 
 namespace hpx {
     using hpx::lcos::local::channel;

@@ -8,6 +8,7 @@
 
 #pragma once
 
+// IWYU pragma: begin_exports
 #include <hpx/async_cuda/get_targets.hpp>
 #include <hpx/async_cuda/target.hpp>
 #include <hpx/compute/cuda/allocator.hpp>
@@ -19,3 +20,4 @@
 #include <hpx/compute/cuda/traits/access_target.hpp>
 #include <hpx/compute/cuda/transfer.hpp>
 #include <hpx/compute/cuda/value_proxy.hpp>
+// IWYU pragma: end_exports

@@ -8,6 +8,8 @@
 #pragma once
 
 #include <hpx/config.hpp>
+
+// IWYU pragma: begin_exports
 #include <hpx/util/get_and_reset_value.hpp>
 
 #if defined(HPX_HAVE_DISTRIBUTED_RUNTIME)
@@ -19,3 +21,4 @@
 #include <hpx/performance_counters/performance_counter.hpp>
 #include <hpx/performance_counters/performance_counter_set.hpp>
 #endif
+// IWYU pragma: end_exports

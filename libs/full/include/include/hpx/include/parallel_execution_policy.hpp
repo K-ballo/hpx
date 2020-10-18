@@ -7,4 +7,7 @@
 #pragma once
 
 #include <hpx/config.hpp>
+
+// IWYU pragma: begin_exports
 #include <hpx/executors/execution_policy.hpp>
+// IWYU pragma: end_exports

@@ -11,4 +11,7 @@
 #include <hpx/config.hpp>
 
 #if defined(HPX_HAVE_MODULE_@modulename_upper@)
-@module_headers@#endif
+// IWYU pragma: begin_exports
+@module_headers@
+// IWYU pragma: end_exports
+#endif

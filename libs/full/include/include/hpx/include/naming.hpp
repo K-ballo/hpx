@@ -9,9 +9,11 @@
 
 #include <hpx/config.hpp>
 
+// IWYU pragma: begin_exports
 #if defined(HPX_HAVE_DISTRIBUTED_RUNTIME)
 #include <hpx/naming_base/address.hpp>
 #include <hpx/naming_base/id_type.hpp>
 #include <hpx/naming_base/unmanaged.hpp>
 #include <hpx/runtime/naming/resolver_client.hpp>
 #endif
+// IWYU pragma: end_exports

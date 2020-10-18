@@ -8,9 +8,12 @@
 #pragma once
 
 #include <hpx/config.hpp>
+
+// IWYU pragma: begin_exports
 #include <hpx/parallel/algorithms/fill.hpp>
 #include <hpx/parallel/container_algorithms/fill.hpp>
 
 #if defined(HPX_HAVE_DISTRIBUTED_RUNTIME)
 #include <hpx/parallel/segmented_algorithms/fill.hpp>
 #endif
+// IWYU pragma: end_exports

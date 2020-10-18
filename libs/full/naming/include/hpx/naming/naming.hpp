@@ -7,4 +7,7 @@
 #pragma once
 
 #include <hpx/config.hpp>
+
+// IWYU pragma: begin_exports
 #include <hpx/modules/naming_base.hpp>
+// IWYU pragma: end_exports

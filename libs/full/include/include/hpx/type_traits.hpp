@@ -8,7 +8,9 @@
 
 #pragma once
 
+// IWYU pragma: begin_exports
 #include <hpx/functional/invoke_result.hpp>
+// IWYU pragma: end_exports
 
 namespace hpx {
     using hpx::util::invoke_result;

@@ -6,9 +6,11 @@
 
 #pragma once
 
+// IWYU pragma: begin_exports
 #include <hpx/parallel/numeric.hpp>
 
 #include <hpx/parallel/container_numeric.hpp>
+// IWYU pragma: end_exports
 
 namespace hpx {
     using hpx::parallel::adjacent_difference;

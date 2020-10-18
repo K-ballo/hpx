@@ -6,5 +6,7 @@
 
 #pragma once
 
+// IWYU pragma: begin_exports
 #include <hpx/modules/execution.hpp>
 #include <hpx/modules/futures.hpp>
+// IWYU pragma: end_exports

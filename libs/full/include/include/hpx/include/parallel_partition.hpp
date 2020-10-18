@@ -7,5 +7,7 @@
 
 #pragma once
 
+// IWYU pragma: begin_exports
 #include <hpx/parallel/algorithms/partition.hpp>
 #include <hpx/parallel/container_algorithms/partition.hpp>
+// IWYU pragma: end_exports

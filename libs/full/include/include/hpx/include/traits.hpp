@@ -7,6 +7,8 @@
 #pragma once
 
 #include <hpx/config.hpp>
+
+// IWYU pragma: begin_exports
 #include <hpx/algorithms/traits/segmented_iterator_traits.hpp>
 #include <hpx/async_base/traits/is_launch_policy.hpp>
 #include <hpx/concepts/concepts.hpp>
@@ -71,3 +73,4 @@
 #include <hpx/traits/is_valid_action.hpp>
 #include <hpx/traits/managed_component_policies.hpp>
 #endif
+// IWYU pragma: end_exports

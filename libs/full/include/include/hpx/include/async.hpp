@@ -7,6 +7,8 @@
 #pragma once
 
 #include <hpx/config.hpp>
+
+// IWYU pragma: begin_exports
 #include <hpx/async_local/async.hpp>
 
 #if defined(HPX_HAVE_DISTRIBUTED_RUNTIME)
@@ -16,3 +18,4 @@
 #include <hpx/async_distributed/async_callback.hpp>
 #include <hpx/async_distributed/async_continue_callback.hpp>
 #endif
+// IWYU pragma: end_exports

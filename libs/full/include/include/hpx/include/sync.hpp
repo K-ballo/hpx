@@ -7,8 +7,11 @@
 #pragma once
 
 #include <hpx/config.hpp>
+
+// IWYU pragma: begin_exports
 #include <hpx/async_local/sync.hpp>
 
 #if defined(HPX_HAVE_DISTRIBUTED_RUNTIME)
 #include <hpx/async_distributed/sync.hpp>
 #endif
+// IWYU pragma: end_exports

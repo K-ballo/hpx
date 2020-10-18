@@ -6,9 +6,11 @@
 
 #pragma once
 
+// IWYU pragma: begin_exports
 #if defined(__CUDACC__) || defined(HPX_HAVE_MODULE_CUDA_COMPUTE)
 #include <hpx/compute/cuda.hpp>
 #endif
 #include <hpx/compute/host.hpp>
 #include <hpx/compute/serialization/vector.hpp>
 #include <hpx/compute/vector.hpp>
+// IWYU pragma: end_exports

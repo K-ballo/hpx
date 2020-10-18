@@ -6,4 +6,6 @@
 
 #pragma once
 
+// IWYU pragma: begin_exports
 #include <hpx/parallel/algorithms/uninitialized_value_construct.hpp>
+// IWYU pragma: end_exports

@@ -6,8 +6,10 @@
 
 #pragma once
 
+// IWYU pragma: begin_exports
 #include <hpx/hpx_finalize.hpp>
 #include <hpx/hpx_init.hpp>
 #include <hpx/hpx_init_params.hpp>
 #include <hpx/hpx_start.hpp>
 #include <hpx/hpx_suspend.hpp>
+// IWYU pragma: end_exports

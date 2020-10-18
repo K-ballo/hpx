@@ -7,8 +7,11 @@
 #pragma once
 
 #include <hpx/config.hpp>
+
+// IWYU pragma: begin_exports
 #include <hpx/parallel/algorithms/adjacent_difference.hpp>
 
 #if defined(HPX_HAVE_DISTRIBUTED_RUNTIME)
 #include <hpx/parallel/segmented_algorithms/adjacent_difference.hpp>
 #endif
+// IWYU pragma: end_exports

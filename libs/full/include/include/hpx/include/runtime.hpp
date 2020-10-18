@@ -8,6 +8,8 @@
 #pragma once
 
 #include <hpx/config.hpp>
+
+// IWYU pragma: begin_exports
 #include <hpx/include/resource_partitioner.hpp>
 #include <hpx/include/threadmanager.hpp>
 #include <hpx/runtime_local/runtime_local.hpp>
@@ -20,3 +22,4 @@
 #include <hpx/include/parcelset.hpp>
 #include <hpx/runtime_distributed.hpp>
 #endif
+// IWYU pragma: end_exports

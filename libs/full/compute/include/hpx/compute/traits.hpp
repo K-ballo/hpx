@@ -8,5 +8,7 @@
 
 #pragma once
 
+// IWYU pragma: begin_exports
 #include <hpx/compute/traits/access_target.hpp>
 #include <hpx/compute/traits/allocator_traits.hpp>
+// IWYU pragma: end_exports

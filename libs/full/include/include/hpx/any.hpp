@@ -6,5 +6,7 @@
 
 #pragma once
 
+// IWYU pragma: begin_exports
 #include <hpx/datastructures/any.hpp>
 #include <hpx/serialization/serializable_any.hpp>
+// IWYU pragma: end_exports

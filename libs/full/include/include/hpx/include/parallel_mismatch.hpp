@@ -7,5 +7,7 @@
 
 #pragma once
 
+// IWYU pragma: begin_exports
 #include <hpx/parallel/algorithms/mismatch.hpp>
 #include <hpx/parallel/container_algorithms/mismatch.hpp>
+// IWYU pragma: end_exports

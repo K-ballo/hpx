@@ -8,9 +8,12 @@
 #pragma once
 
 #include <hpx/config.hpp>
+
+// IWYU pragma: begin_exports
 #include <hpx/parallel/algorithms/minmax.hpp>
 #include <hpx/parallel/container_algorithms/minmax.hpp>
 
 #if defined(HPX_HAVE_DISTRIBUTED_RUNTIME)
 #include <hpx/parallel/segmented_algorithms/minmax.hpp>
 #endif
+// IWYU pragma: end_exports

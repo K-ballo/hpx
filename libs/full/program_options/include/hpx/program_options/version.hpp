@@ -10,7 +10,7 @@
 
 #if defined(HPX_PROGRAM_OPTIONS_HAVE_BOOST_PROGRAM_OPTIONS_COMPATIBILITY)
 // hpxinspect:nodeprecatedinclude:boost/program_options/version.hpp
-#include <boost/program_options/version.hpp>
+#include <boost/program_options/version.hpp> // IWYU pragma: export
 #else
 
 /** The version of the source interface.

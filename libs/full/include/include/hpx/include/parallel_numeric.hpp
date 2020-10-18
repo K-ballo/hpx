@@ -6,4 +6,4 @@
 
 #pragma once
 
-#include <hpx/parallel/numeric.hpp>
+#include <hpx/parallel/numeric.hpp> // IWYU pragma: export

@@ -10,5 +10,8 @@
 #pragma once
 
 #include <hpx/config.hpp>
+
+// IWYU pragma: begin_exports
 #include <hpx/functional/serialization/detail/serializable_basic_function.hpp>
 #include <hpx/functional/unique_function.hpp>
+// IWYU pragma: end_exports

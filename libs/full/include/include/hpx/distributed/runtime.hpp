@@ -6,5 +6,7 @@
 
 #pragma once
 
+// IWYU pragma: begin_exports
 #include <hpx/runtime/runtime_fwd.hpp>
 #include <hpx/runtime_fwd.hpp>
+// IWYU pragma: end_exports

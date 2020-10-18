@@ -9,6 +9,7 @@
 
 #include <hpx/config.hpp>
 
+// IWYU pragma: begin_exports
 #if defined(HPX_HAVE_DISTRIBUTED_RUNTIME)
 #include <hpx/include/actions.hpp>
 
@@ -58,3 +59,4 @@
 
 #include <hpx/runtime/get_ptr.hpp>
 #endif
+// IWYU pragma: end_exports

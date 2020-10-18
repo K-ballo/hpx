@@ -7,7 +7,9 @@
 
 #pragma once
 
+// IWYU pragma: begin_exports
 #include <hpx/parallel/numeric.hpp>
 
 #include <hpx/parallel/container_algorithms/reduce.hpp>
 #include <hpx/parallel/container_algorithms/transform_reduce.hpp>
+// IWYU pragma: end_exports

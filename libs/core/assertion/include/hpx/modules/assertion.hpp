@@ -12,9 +12,13 @@
 #pragma once
 
 #include <hpx/config.hpp>
+
+// IWYU pragma: begin_exports
 #include <hpx/assertion/current_function.hpp>
 #include <hpx/assertion/evaluate_assert.hpp>
 #include <hpx/assertion/source_location.hpp>
+// IWYU pragma: end_exports
+
 #include <hpx/preprocessor/stringize.hpp>
 
 #if defined(HPX_COMPUTE_DEVICE_CODE)

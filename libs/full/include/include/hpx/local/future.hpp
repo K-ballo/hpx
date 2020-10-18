@@ -6,12 +6,14 @@
 
 #pragma once
 
+// IWYU pragma: begin_exports
 #include <hpx/modules/async_base.hpp>
 #include <hpx/modules/async_combinators.hpp>
 #include <hpx/modules/async_local.hpp>
 #include <hpx/modules/execution.hpp>
 #include <hpx/modules/futures.hpp>
 #include <hpx/modules/lcos_local.hpp>
+// IWYU pragma: end_exports
 
 namespace hpx {
     using hpx::lcos::local::packaged_task;

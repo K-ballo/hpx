@@ -7,7 +7,10 @@
 #pragma once
 
 #include <hpx/config.hpp>
+
+// IWYU pragma: begin_exports
 #include <hpx/local/channel.hpp>
 #if defined(HPX_HAVE_DISTRIBUTED_RUNTIME)
 #include <hpx/distributed/channel.hpp>
 #endif
+// IWYU pragma: end_exports

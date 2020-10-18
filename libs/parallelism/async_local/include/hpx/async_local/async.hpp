@@ -7,6 +7,9 @@
 #pragma once
 
 #include <hpx/config.hpp>
+
+// IWYU pragma: begin_exports
 #include <hpx/async_base/async.hpp>
 #include <hpx/async_local/async_fwd.hpp>
 #include <hpx/executors/async.hpp>
+// IWYU pragma: end_exports
