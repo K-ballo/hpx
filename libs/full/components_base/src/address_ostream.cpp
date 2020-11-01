@@ -7,9 +7,9 @@
 #include <hpx/components_base/component_type.hpp>
 #include <hpx/naming_base/address.hpp>
 #include <hpx/util/ios_flags_saver.hpp>
-
-#include <iomanip>
+#include <hpx/naming_base/gid_type.hpp>
 #include <iostream>
+#include <string>
 
 namespace hpx { namespace naming {
 

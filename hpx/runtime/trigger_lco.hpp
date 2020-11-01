@@ -9,7 +9,6 @@
 #pragma once
 
 #include <hpx/config.hpp>
-#include <hpx/actions/actions_fwd.hpp>
 #include <hpx/actions_base/action_priority.hpp>
 #include <hpx/actions_base/continuation_fwd.hpp>
 #include <hpx/assert.hpp>
@@ -18,7 +17,9 @@
 #include <hpx/lcos_fwd.hpp>
 #include <hpx/naming_base/address.hpp>
 #include <hpx/naming_base/id_type.hpp>
-
+#include <hpx/actions_base/actions_base_fwd.hpp>
+#include <hpx/components_base/traits/is_component.hpp>
+#include <hpx/futures/traits/promise_local_result.hpp>
 #include <exception>
 #include <type_traits>
 #include <utility>

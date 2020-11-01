@@ -29,13 +29,13 @@
 //  http://www.boost.org/LICENSE_1_0.txt)
 
 #include <hpx/config.hpp>
-
 #include <hpx/assert.hpp>
-#include <hpx/coroutines/coroutine.hpp>
 #include <hpx/coroutines/detail/coroutine_impl.hpp>
 #include <hpx/coroutines/detail/coroutine_stackful_self.hpp>
-
-#include <cstddef>
+#include <hpx/coroutines/detail/coroutine_self.hpp>
+#include <hpx/coroutines/thread_enums.hpp>
+#include <hpx/coroutines/thread_id_type.hpp>
+#include <hpx/functional/detail/basic_function.hpp>
 #include <exception>
 #include <utility>
 

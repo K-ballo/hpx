@@ -5,6 +5,7 @@
 //  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 #include <hpx/config.hpp>
+#include <hpx/config/defines.hpp>
 
 #if defined(HPX_HAVE_PARCELPORT_ACTION_COUNTERS) && defined(HPX_HAVE_NETWORKING)
 #include <hpx/actions_base/detail/invocation_count_registry.hpp>
@@ -15,7 +16,6 @@
 #include <hpx/performance_counters/per_action_data_counter_discoverer.hpp>
 #include <hpx/performance_counters/registry.hpp>
 #include <hpx/util/regex_from_pattern.hpp>
-
 #include <regex>
 #include <string>
 #include <utility>

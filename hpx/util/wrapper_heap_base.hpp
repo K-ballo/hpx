@@ -7,9 +7,9 @@
 #pragma once
 
 #include <hpx/config.hpp>
-#include <hpx/components_base/component_type.hpp>
 #include <hpx/util/generate_unique_ids.hpp>
-
+#include <hpx/components_base/traits/component_type_database.hpp>
+#include <hpx/naming_base/gid_type.hpp>
 #include <cstddef>
 
 namespace hpx { namespace util

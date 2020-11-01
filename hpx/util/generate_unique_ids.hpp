@@ -9,8 +9,7 @@
 
 #include <hpx/config.hpp>
 #include <hpx/concurrency/spinlock.hpp>
-#include <hpx/naming_base/id_type.hpp>
-
+#include <hpx/naming_base/gid_type.hpp>
 #include <cstddef>
 #include <mutex>
 

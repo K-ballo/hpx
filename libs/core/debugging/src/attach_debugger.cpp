@@ -7,6 +7,8 @@
 
 #include <hpx/config.hpp>
 #include <hpx/debugging/attach_debugger.hpp>
+#include <boost/asio/ip/impl/host_name.ipp>
+#include <hpx/config/defines.hpp>
 
 #if defined(HPX_HAVE_UNISTD_H)
 #include <unistd.h>
@@ -17,8 +19,6 @@
 #endif    // HPX_WINDOWS
 
 #if defined(_POSIX_VERSION)
-#include <boost/asio/ip/host_name.hpp>
-
 #include <iostream>
 #include <string>
 #endif

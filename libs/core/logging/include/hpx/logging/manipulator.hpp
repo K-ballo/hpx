@@ -18,9 +18,7 @@
 
 #include <hpx/config.hpp>
 #include <hpx/logging/message.hpp>
-
-#include <boost/utility/string_ref.hpp>
-
+#include <boost/utility/string_ref_fwd.hpp>
 #include <iosfwd>
 #include <string>
 

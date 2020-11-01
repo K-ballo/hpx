@@ -17,9 +17,7 @@
 #pragma once
 
 #include <hpx/config.hpp>
-
-#include <boost/utility/string_ref.hpp>
-
+#include <boost/utility/string_ref_fwd.hpp>
 #include <iosfwd>
 
 namespace hpx { namespace util { namespace logging {

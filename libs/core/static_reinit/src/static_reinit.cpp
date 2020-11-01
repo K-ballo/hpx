@@ -6,10 +6,9 @@
 
 #include <hpx/concurrency/spinlock.hpp>
 #include <hpx/functional/function.hpp>
-#include <hpx/static_reinit/reinitializable_static.hpp>
 #include <hpx/static_reinit/static_reinit.hpp>
 #include <hpx/type_support/static.hpp>
-
+#include <hpx/functional/detail/basic_function.hpp>
 #include <mutex>
 #include <utility>
 #include <vector>

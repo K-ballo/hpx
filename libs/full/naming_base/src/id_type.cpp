@@ -8,8 +8,8 @@
 #include <hpx/assert.hpp>
 #include <hpx/modules/memory.hpp>
 #include <hpx/naming_base/id_type.hpp>
-
-#include <iomanip>
+#include <hpx/naming_base/gid_type.hpp>
+#include <hpx/thread_support/atomic_count.hpp>
 #include <iostream>
 #include <vector>
 

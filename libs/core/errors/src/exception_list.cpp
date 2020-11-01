@@ -8,12 +8,16 @@
 #include <hpx/errors/exception.hpp>
 #include <hpx/errors/exception_list.hpp>
 #include <hpx/thread_support/unlock_guard.hpp>
-
+#include <hpx/errors/error.hpp>
+#include <hpx/errors/error_code.hpp>
+#include <hpx/errors/exception_info.hpp>
 #include <exception>
 #include <mutex>
 #include <string>
 #include <system_error>
 #include <utility>
+#include <list>
+#include <memory>
 
 namespace hpx {
     namespace detail {

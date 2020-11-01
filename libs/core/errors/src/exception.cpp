@@ -14,16 +14,16 @@
 #include <hpx/errors/error_code.hpp>
 #include <hpx/errors/exception.hpp>
 #include <hpx/errors/exception_info.hpp>
-#include <hpx/modules/format.hpp>
 #include <hpx/modules/logging.hpp>
-
-#include <boost/system/system_error.hpp>
-
+#include <hpx/errors/exception_fwd.hpp>
+#include <hpx/errors/throw_exception.hpp>
+#include <hpx/logging/detail/logger.hpp>
+#include <hpx/logging/message.hpp>
 #include <exception>
-#include <stdexcept>
 #include <string>
 #include <system_error>
 #include <utility>
+#include <functional>
 
 namespace hpx {
     ///////////////////////////////////////////////////////////////////////////

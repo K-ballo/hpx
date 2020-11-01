@@ -8,7 +8,6 @@
 #include <hpx/config.hpp>
 #if defined(__linux) || defined(linux) || defined(__linux__) ||                \
     defined(__FreeBSD__) || defined(__APPLE__)
-#include <hpx/coroutines/detail/posix_utility.hpp>
 
 namespace hpx { namespace threads { namespace coroutines { namespace detail {
     namespace posix {

@@ -11,14 +11,11 @@
 #pragma once
 
 #include <hpx/config.hpp>
+#include <hpx/serialization/serialization_fwd.hpp>
 
 #if !defined(HPX_WINDOWS)
 #include <hpx/components/process/util/posix/initializers/initializer_base.hpp>
 #include <hpx/modules/filesystem.hpp>
-#include <hpx/serialization/string.hpp>
-
-#include <boost/shared_array.hpp>
-
 #include <string>
 
 namespace hpx { namespace components { namespace process { namespace posix {

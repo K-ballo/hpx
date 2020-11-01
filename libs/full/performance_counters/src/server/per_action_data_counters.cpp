@@ -5,6 +5,7 @@
 //  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 #include <hpx/config.hpp>
+#include <hpx/config/defines.hpp>
 
 #if defined(HPX_HAVE_PARCELPORT_ACTION_COUNTERS) && defined(HPX_HAVE_NETWORKING)
 #include <hpx/functional/bind_front.hpp>
@@ -12,7 +13,6 @@
 #include <hpx/performance_counters/counter_creators.hpp>
 #include <hpx/performance_counters/counters.hpp>
 #include <hpx/performance_counters/per_action_data_counter_discoverer.hpp>
-
 #include <cstdint>
 #include <string>
 #include <utility>

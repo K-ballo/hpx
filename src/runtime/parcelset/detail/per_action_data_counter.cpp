@@ -5,11 +5,11 @@
 //  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 #include <hpx/config.hpp>
+#include <hpx/config/defines.hpp>
 
 #if defined(HPX_HAVE_PARCELPORT_ACTION_COUNTERS) && defined(HPX_HAVE_NETWORKING)
 
 #include <hpx/runtime/parcelset/detail/per_action_data_counter.hpp>
-
 #include <cstdint>
 #include <map>
 #include <mutex>

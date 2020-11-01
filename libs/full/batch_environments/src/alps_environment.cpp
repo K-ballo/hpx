@@ -7,10 +7,10 @@
 
 #include <hpx/batch_environments/alps_environment.hpp>
 #include <hpx/util/from_string.hpp>
-
 #include <cstddef>
 #include <string>
 #include <vector>
+#include <cstdlib>
 
 namespace hpx { namespace util { namespace batch_environments {
     alps_environment::alps_environment(

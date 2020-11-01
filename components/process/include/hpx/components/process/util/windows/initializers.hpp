@@ -11,23 +11,3 @@
 
 #pragma once
 
-// #include <hpx/components/process/util/windows/initializers/bind_stderr.hpp>
-// #include <hpx/components/process/util/windows/initializers/bind_stdin.hpp>
-// #include <hpx/components/process/util/windows/initializers/bind_stdout.hpp>
-#include <hpx/components/process/util/windows/initializers/close_stderr.hpp>
-#include <hpx/components/process/util/windows/initializers/close_stdin.hpp>
-#include <hpx/components/process/util/windows/initializers/close_stdout.hpp>
-#include <hpx/components/process/util/windows/initializers/hide_console.hpp>
-#include <hpx/components/process/util/windows/initializers/inherit_env.hpp>
-#include <hpx/components/process/util/windows/initializers/on_CreateProcess_error.hpp>
-#include <hpx/components/process/util/windows/initializers/on_CreateProcess_setup.hpp>
-#include <hpx/components/process/util/windows/initializers/on_CreateProcess_success.hpp>
-#include <hpx/components/process/util/windows/initializers/run_exe.hpp>
-#include <hpx/components/process/util/windows/initializers/set_args.hpp>
-#include <hpx/components/process/util/windows/initializers/set_cmd_line.hpp>
-#include <hpx/components/process/util/windows/initializers/set_env.hpp>
-#include <hpx/components/process/util/windows/initializers/show_window.hpp>
-#include <hpx/components/process/util/windows/initializers/start_in_dir.hpp>
-#include <hpx/components/process/util/windows/initializers/throw_on_error.hpp>
-#include <hpx/components/process/util/windows/initializers/wait_on_latch.hpp>
-

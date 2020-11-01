@@ -11,11 +11,11 @@
 #pragma once
 
 #include <hpx/config.hpp>
+#include <hpx/serialization/serialization_fwd.hpp>
+#include <memory>
 
 #if !defined(HPX_WINDOWS)
 #include <hpx/components/process/util/posix/initializers/initializer_base.hpp>
-#include <hpx/serialization/string.hpp>
-
 #include <cstddef>
 #include <string>
 #include <vector>

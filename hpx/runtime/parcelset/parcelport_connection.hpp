@@ -8,20 +8,17 @@
 #pragma once
 
 #include <hpx/config.hpp>
+#include <hpx/config/defines.hpp>
+#include <hpx/serialization/serialization_chunk.hpp>
 
 #if defined(HPX_HAVE_NETWORKING)
-#include <hpx/assert.hpp>
 #include <hpx/runtime/parcelset/parcel_buffer.hpp>
-
 #include <cstdint>
 #include <memory>
-#include <utility>
 
 namespace hpx { namespace parcelset {
 
     class parcelport;
-    template <typename ConnectionHandler>
-    class parcelport_impl;
 
     std::int64_t HPX_EXPORT get_max_inbound_size(parcelport&);
 

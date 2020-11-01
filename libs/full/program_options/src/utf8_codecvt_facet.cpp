@@ -12,11 +12,9 @@
 // Please see the comments in <boost/detail/utf8_codecvt_facet.hpp> to
 // learn how this file should be used.
 
-#include <hpx/program_options/config.hpp>
-
+#include <hpx/program_options/config/defines.hpp>
 #if !defined(HPX_PROGRAM_OPTIONS_HAVE_BOOST_PROGRAM_OPTIONS_COMPATIBILITY)
 #include <hpx/program_options/detail/utf8_codecvt_facet.hpp>
-
 #include <cstddef>
 #include <cstdlib>    // for multi-byte conversion routines
 #include <limits>

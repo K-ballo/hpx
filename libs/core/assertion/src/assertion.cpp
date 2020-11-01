@@ -5,10 +5,7 @@
 //  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 #include <hpx/config.hpp>
-#include <hpx/assertion/evaluate_assert.hpp>
-#include <hpx/assertion/source_location.hpp>
 #include <hpx/modules/assertion.hpp>
-
 #include <cstdlib>
 #include <iostream>
 #include <string>

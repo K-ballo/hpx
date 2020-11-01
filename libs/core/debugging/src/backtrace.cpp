@@ -10,6 +10,7 @@
 //
 
 #include <hpx/config.hpp>
+#include <hpx/config/defines.hpp>
 
 #if defined(HPX_HAVE_STACKTRACES)
 
@@ -43,21 +44,14 @@
 #include <unwind.h>
 #endif
 
-#include <cstddef>
-#include <cstdint>
 #include <cstdlib>
-#include <cstring>
 #include <iomanip>
 #include <locale>
-#include <ostream>
 #include <sstream>
 #include <string>
-#include <utility>
-#include <vector>
 
 #if defined(HPX_MSVC)
 #include <windows.h>
-
 #include <dbghelp.h>
 #include <stdlib.h>
 #include <winbase.h>

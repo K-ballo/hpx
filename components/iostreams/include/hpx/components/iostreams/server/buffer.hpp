@@ -9,15 +9,15 @@
 #include <hpx/config.hpp>
 #include <hpx/synchronization/recursive_mutex.hpp>
 #include <hpx/serialization/serialization_fwd.hpp>
-
 #include <hpx/components/iostreams/export_definitions.hpp>
 #include <hpx/components/iostreams/write_functions.hpp>
-
+#include <hpx/functional/detail/basic_function.hpp>
 #include <iosfwd>
 #include <memory>
 #include <mutex>
 #include <utility>
 #include <vector>
+#include <iterator>
 
 namespace hpx { namespace iostreams { namespace detail
 {

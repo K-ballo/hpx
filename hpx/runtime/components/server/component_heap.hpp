@@ -7,7 +7,6 @@
 #pragma once
 
 #include <hpx/config.hpp>
-#include <hpx/static_reinit/reinitializable_static.hpp>
 
 namespace hpx { namespace components {
     // This is a utility to ensure that there exists exactly one heap
@@ -15,8 +14,6 @@ namespace hpx { namespace components {
     // This is the customization point and will be defined by the registration
     // macros
     namespace detail {
-        template <typename Component>
-        struct component_heap_impl;
 
         template <typename Component>
         typename Component::heap_type&

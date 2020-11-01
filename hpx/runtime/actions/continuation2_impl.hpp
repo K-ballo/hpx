@@ -7,12 +7,11 @@
 #pragma once
 
 #include <hpx/async_distributed/applier/apply_continue_fwd.hpp>
-#include <hpx/async_distributed/applier/detail/apply_implementations_fwd.hpp>
 #include <hpx/functional/bind.hpp>
 #include <hpx/functional/invoke_result.hpp>
 #include <hpx/naming_base/id_type.hpp>
 #include <hpx/serialization/access.hpp>
-
+#include <hpx/config/forceinline.hpp>
 #include <type_traits>
 #include <utility>
 

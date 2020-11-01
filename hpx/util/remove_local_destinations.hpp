@@ -9,9 +9,7 @@
 #include <hpx/assert.hpp>
 #include <hpx/naming_base/address.hpp>
 #include <hpx/naming_base/gid_type.hpp>
-
-#include <boost/dynamic_bitset.hpp>
-
+#include <boost/dynamic_bitset/dynamic_bitset.hpp>
 #include <cstddef>
 #include <utility>
 #include <vector>

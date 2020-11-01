@@ -10,9 +10,7 @@
 
 #include <hpx/config.hpp>
 #include <hpx/naming_base/gid_type.hpp>
-
 #include <cstddef>
-#include <cstdint>
 #include <utility>
 #include <vector>
 

@@ -13,7 +13,7 @@
 #include <hpx/config.hpp>
 #include <hpx/assert.hpp>
 #include <hpx/type_support/unused.hpp>
-
+#include <hpx/config/defines.hpp>
 #include <climits>
 #include <cstddef>
 #include <cstdint>

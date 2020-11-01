@@ -10,7 +10,7 @@
 #include <hpx/config.hpp>
 #include <hpx/functional/function.hpp>
 #include <hpx/concurrency/spinlock.hpp>
-
+#include <hpx/functional/detail/basic_function.hpp>
 #include <mutex>
 #include <string>
 #include <utility>

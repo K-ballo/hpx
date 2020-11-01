@@ -6,9 +6,9 @@
 
 #include <hpx/config.hpp>
 #include <hpx/concurrency/barrier.hpp>
-
 #include <cstddef>
 #include <mutex>
+#include <condition_variable>
 
 namespace hpx { namespace util {
     barrier::barrier(std::size_t number_of_threads)

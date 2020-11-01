@@ -9,6 +9,7 @@
 
 #include <hpx/config.hpp>
 #include <hpx/components_base/component_type.hpp>
+#include <hpx/components_base/traits/component_type_database.hpp>
 
 ///////////////////////////////////////////////////////////////////////////////
 namespace hpx { namespace components {

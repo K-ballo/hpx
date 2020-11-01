@@ -9,9 +9,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <hpx/config.hpp>
-#include <hpx/execution_base/detail/spinlock_deadlock_detection.hpp>
-
-#include <cstddef>
 
 #ifdef HPX_HAVE_SPINLOCK_DEADLOCK_DETECTION
 namespace hpx { namespace util { namespace detail {

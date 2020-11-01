@@ -6,9 +6,7 @@
 
 #include <hpx/config.hpp>
 #include <hpx/debugging/print.hpp>
-
 #include <algorithm>
-#include <atomic>
 #include <bitset>
 #include <chrono>
 #include <climits>
@@ -21,7 +19,6 @@
 #include <iostream>
 #include <iterator>
 #include <string>
-#include <thread>
 #include <vector>
 
 #if defined(__linux) || defined(linux) || defined(__linux__)
@@ -29,9 +26,11 @@
 #elif defined(__APPLE__)
 #include <crt_externs.h>
 #include <unistd.h>
+
 #define environ (*_NSGetEnviron())
 #elif defined(HPX_WINDOWS)
 #include <winsock2.h>
+
 #define environ _environ
 #else
 extern char** environ;

@@ -7,6 +7,7 @@
 #pragma once
 
 #include <hpx/config.hpp>
+#include <hpx/config/defines.hpp>
 
 #if defined(HPX_HAVE_NETWORKING) && defined(HPX_HAVE_PARCELPORT_MPI)
 
@@ -19,7 +20,6 @@
 #include <hpx/runtime/parcelset/parcelport_connection.hpp>
 #include <hpx/runtime/parcelset_fwd.hpp>
 #include <hpx/timing/high_resolution_clock.hpp>
-
 #include <cstddef>
 #include <memory>
 #include <system_error>

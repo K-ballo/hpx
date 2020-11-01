@@ -6,10 +6,7 @@
 //  http://www.boost.org/LICENSE_1_0.txt)
 
 #include <hpx/config.hpp>
-#include <hpx/assert.hpp>
 #include <hpx/coroutines/detail/coroutine_self.hpp>
-
-#include <cstddef>
 
 namespace hpx { namespace threads { namespace coroutines { namespace detail {
     coroutine_self*& coroutine_self::local_self()

@@ -8,13 +8,13 @@
 #pragma once
 
 #include <hpx/config.hpp>
+#include <hpx/config/defines.hpp>
 
 #if defined(HPX_HAVE_NETWORKING) && defined(HPX_HAVE_PARCELPORT_MPI)
 
 #include <hpx/assert.hpp>
 #include <hpx/modules/mpi_base.hpp>
 #include <hpx/runtime/parcelset/parcel_buffer.hpp>
-
 #include <array>
 #include <cstddef>
 #include <cstdint>

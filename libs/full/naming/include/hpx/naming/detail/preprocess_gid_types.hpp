@@ -8,19 +8,17 @@
 #pragma once
 
 #include <hpx/assert.hpp>
-#include <hpx/modules/datastructures.hpp>
 #include <hpx/modules/naming_base.hpp>
 #include <hpx/modules/thread_support.hpp>
 #include <hpx/naming/credit_handling.hpp>
 #include <hpx/serialization/detail/extra_archive_data.hpp>
 #include <hpx/synchronization/spinlock.hpp>
-
-#include <cstddef>
+#include <hpx/config/export_definitions.hpp>
 #include <map>
 #include <mutex>
-#include <type_traits>
 #include <utility>
 #include <vector>
+#include <algorithm>
 
 ///////////////////////////////////////////////////////////////////////////////
 namespace hpx { namespace serialization { namespace detail {

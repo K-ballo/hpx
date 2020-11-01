@@ -11,10 +11,7 @@
 #include <hpx/config.hpp>
 #include <hpx/assert.hpp>
 #include <hpx/allocator_support/internal_allocator.hpp>
-#include <hpx/components_base/traits/component_heap_type.hpp>
-
 #include <cstddef>
-#include <new>
 #include <utility>
 
 namespace hpx { namespace components

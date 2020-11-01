@@ -15,12 +15,9 @@
 // See http://www.torjo.com/log2/ for more details
 
 #include <hpx/logging/format/formatters.hpp>
-
 #include <hpx/config.hpp>
 #include <hpx/modules/format.hpp>
-
 #include <chrono>
-#include <cstdint>
 #include <cstring>
 #include <ctime>
 #include <memory>

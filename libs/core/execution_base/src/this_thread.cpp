@@ -14,10 +14,11 @@
 #include <hpx/execution_base/this_thread.hpp>
 #include <hpx/modules/format.hpp>
 #include <hpx/timing/steady_clock.hpp>
-
+#include <hpx/errors/error.hpp>
+#include <hpx/execution_base/agent_ref.hpp>
+#include <hpx/execution_base/resource_base.hpp>
 #include <condition_variable>
 #include <cstddef>
-#include <cstdint>
 #include <mutex>
 #include <string>
 #include <thread>

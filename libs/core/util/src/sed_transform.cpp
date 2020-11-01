@@ -7,10 +7,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <hpx/util/sed_transform.hpp>
-
 #include <memory>
 #include <regex>
 #include <string>
+#include <map>
+#include <sstream>
+#include <vector>
 
 namespace hpx { namespace util {
 

@@ -6,14 +6,16 @@
 //  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 #include <hpx/config.hpp>
+#include <hpx/config/defines.hpp>
+#include <hpx/logging/detail/macros.hpp>
+#include <hpx/logging/format/named_write.hpp>
+#include <hpx/logging/message.hpp>
+#include <hpx/util/bad_lexical_cast.hpp>
 
 #if defined(HPX_HAVE_LOGGING)
-#include <hpx/modules/filesystem.hpp>
 #include <hpx/modules/logging.hpp>
 #include <hpx/util/from_string.hpp>
-
 #include <string>
-#include <utility>
 #include <vector>
 
 ///////////////////////////////////////////////////////////////////////////////

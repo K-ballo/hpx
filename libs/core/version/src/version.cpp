@@ -9,15 +9,16 @@
 
 #include <hpx/config.hpp>
 #include <hpx/config/config_strings.hpp>
-#include <hpx/config/version.hpp>
 #include <hpx/modules/config_registry.hpp>
 #include <hpx/modules/format.hpp>
 #include <hpx/prefix/find_prefix.hpp>
 #include <hpx/preprocessor/stringize.hpp>
 #include <hpx/version.hpp>
-
-#include <boost/config.hpp>
 #include <boost/version.hpp>
+#include <boost/config/compiler/clang.hpp>
+#include <boost/config/platform/linux.hpp>
+#include <boost/config/stdlib/libstdcpp3.hpp>
+#include <hpx/config/defines.hpp>
 
 #if (defined(HPX_HAVE_NETWORKING) && defined(HPX_HAVE_PARCELPORT_MPI)) ||      \
     defined(HPX_HAVE_MODULE_MPI_BASE)
@@ -42,10 +43,10 @@
 #endif
 
 #include <hwloc.h>
-
 #include <cstdint>
 #include <sstream>
 #include <string>
+#include <vector>
 
 ///////////////////////////////////////////////////////////////////////////////
 namespace hpx {

@@ -12,14 +12,11 @@
 #pragma once
 
 #include <hpx/config.hpp>
+#include <hpx/components/process/util/posix/child.hpp>
 
 #if !defined(HPX_WINDOWS)
-#include <hpx/components/process/util/child.hpp>
-
-#include <cstdlib>
-
-#include <sys/types.h>
 #include <unistd.h>
+#include <cstdlib>
 
 namespace hpx { namespace components { namespace process { namespace posix {
 

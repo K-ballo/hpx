@@ -15,13 +15,10 @@
 // See http://www.torjo.com/log2/ for more details
 
 #include <hpx/logging/format/named_write.hpp>
-
 #include <hpx/config.hpp>
 #include <hpx/assert.hpp>
 #include <hpx/logging/format/destinations.hpp>
 #include <hpx/logging/format/formatters.hpp>
-
-#include <cstddef>
 #include <memory>
 #include <sstream>
 #include <string>

@@ -6,7 +6,6 @@
 //  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 #include <hpx/naming/detail/preprocess_gid_types.hpp>
-#include <hpx/serialization/detail/extra_archive_data.hpp>
 
 namespace hpx { namespace serialization { namespace detail {
 

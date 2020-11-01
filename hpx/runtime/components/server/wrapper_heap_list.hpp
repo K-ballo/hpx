@@ -7,13 +7,15 @@
 #pragma once
 
 #include <hpx/components_base/component_type.hpp>
-#include <hpx/naming_base/id_type.hpp>
 #include <hpx/thread_support/unlock_guard.hpp>
 #include <hpx/util/generate_unique_ids.hpp>
 #include <hpx/util/one_size_heap_list.hpp>
-
-#include <iostream>
+#include <hpx/components_base/traits/component_type_database.hpp>
+#include <hpx/naming_base/gid_type.hpp>
+#include <hpx/util/wrapper_heap_base.hpp>
 #include <type_traits>
+#include <list>
+#include <memory>
 
 ///////////////////////////////////////////////////////////////////////////////
 namespace hpx { namespace components { namespace detail

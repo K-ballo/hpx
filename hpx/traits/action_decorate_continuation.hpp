@@ -6,7 +6,6 @@
 
 #pragma once
 
-#include <hpx/actions_base/continuation_fwd.hpp>
 #include <hpx/actions_base/traits/action_continuation.hpp>
 
 namespace hpx { namespace traits

@@ -9,7 +9,8 @@
 #include <hpx/errors/error.hpp>
 #include <hpx/errors/error_code.hpp>
 #include <hpx/errors/exception.hpp>
-
+#include <hpx/errors/exception_fwd.hpp>
+#include <hpx/errors/throw_exception.hpp>
 #include <exception>
 #include <string>
 #include <system_error>

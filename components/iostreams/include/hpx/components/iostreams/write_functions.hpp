@@ -11,9 +11,7 @@
 #include <hpx/config.hpp>
 #include <hpx/functional/bind_back.hpp>
 #include <hpx/functional/function.hpp>
-
 #include <algorithm>
-#include <deque>
 #include <functional>
 #include <iterator>
 #include <ostream>

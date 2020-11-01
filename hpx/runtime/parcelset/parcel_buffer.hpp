@@ -8,11 +8,11 @@
 #pragma once
 
 #include <hpx/config.hpp>
+#include <hpx/config/defines.hpp>
 
 #if defined(HPX_HAVE_NETWORKING)
 #include <hpx/runtime/parcelset/detail/data_point.hpp>
 #include <hpx/serialization/serialization_chunk.hpp>
-
 #include <cstdint>
 #include <utility>
 #include <vector>

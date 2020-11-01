@@ -7,15 +7,12 @@
 
 #include <hpx/assert.hpp>
 #include <hpx/modules/format.hpp>
-
 #include <boost/utility/string_ref.hpp>
-
+#include <boost/utility/string_ref_fwd.hpp>
 #include <algorithm>
-#include <cstddef>
 #include <cstdlib>
 #include <cstring>
 #include <limits>
-#include <ostream>
 #include <sstream>
 #include <string>
 

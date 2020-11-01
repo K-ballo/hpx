@@ -9,11 +9,9 @@
 
 #include <hpx/config.hpp>
 #include <hpx/components_base/traits/is_component.hpp>
-#include <hpx/futures/future_fwd.hpp>
 #include <hpx/futures/traits/promise_local_result.hpp>
 #include <hpx/futures/traits/promise_remote_result.hpp>
-
-#include <vector>
+#include <hpx/config/defines.hpp>
 
 namespace hpx
 {
@@ -21,43 +19,11 @@ namespace hpx
     namespace lcos
     {
 #if defined(HPX_HAVE_DISTRIBUTED_RUNTIME)
-        class HPX_EXPORT base_lco;
-
         template <typename Result, typename RemoteResult =
             typename traits::promise_remote_result<Result>::type,
             typename ComponentType = traits::detail::managed_component_tag>
         class base_lco_with_value;
-
-        template <typename ComponentType>
-        class base_lco_with_value<void, void, ComponentType>;
-
-        template <typename Result, typename RemoteResult =
-            typename traits::promise_remote_result<Result>::type>
-        class promise;
-
-        template <typename Action,
-            typename Result = typename traits::promise_local_result<
-                typename Action::remote_result_type>::type,
-            bool DirectExecute = Action::direct_execution::value>
-        class packaged_action;
-
-        template <typename ValueType>
-        struct object_semaphore;
-
-        namespace server
-        {
-            template <typename ValueType>
-            struct object_semaphore;
-        }
 #endif
-
-        namespace local
-        {
-            class barrier;
-
-            template <typename R>
-            class promise;
-        }
     }
 
 #if defined(HPX_HAVE_DISTRIBUTED_RUNTIME) &&                                   \

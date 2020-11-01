@@ -9,7 +9,6 @@
 #pragma once
 
 #include <hpx/config.hpp>
-#include <hpx/runtime_local/detail/runtime_local_fwd.hpp>
 
 namespace hpx
 {

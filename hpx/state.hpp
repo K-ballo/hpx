@@ -9,7 +9,6 @@
 #pragma once
 
 #include <hpx/config.hpp>
-#include <hpx/runtime_local/state.hpp>
 #include <hpx/threading_base/scheduler_state.hpp>
 
 namespace hpx

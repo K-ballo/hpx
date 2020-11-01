@@ -11,14 +11,11 @@
 #include <hpx/assert.hpp>
 #include <hpx/synchronization/spinlock.hpp>
 #include <hpx/util/wrapper_heap_base.hpp>
-
 #include <cstddef>
 #include <list>
 #include <memory>
 #include <mutex>
 #include <string>
-
-#include <hpx/config/warnings_prefix.hpp>
 
 ///////////////////////////////////////////////////////////////////////////////
 namespace hpx { namespace util
@@ -127,5 +124,4 @@ namespace hpx { namespace util
     };
 }}
 
-#include <hpx/config/warnings_suffix.hpp>
 
